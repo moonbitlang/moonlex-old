@@ -1,0 +1,6 @@
+{
+  "is-main": true,
+  "import": [
+    "jian/moonlex_bootstrap/lib"
+  ]
+}
