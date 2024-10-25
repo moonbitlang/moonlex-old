@@ -107,15 +107,15 @@ fn skip_ws(self: ParserBuf) -> ParserBuf {
 }
 
 // parser
-pub fn char(self: ParserBuf) -> (ParserBuf, Char)? {
-  let re = Concat(ReChar('\''), 
+let char_re: Regex = 
+  Concat(ReChar('\''), 
     Alter(
       Concat(Underscore, ReChar('\'')),
       Concat(Concat(ReChar('\\'), Underscore), ReChar('\''))
     )
   )
-
-  self.match_re(re).map(fn { (p, str) => {
+pub fn char(self: ParserBuf) -> (ParserBuf, Char)? {
+  self.match_re(char_re).map(fn { (p, str) => {
     let ch = if str.length() == 3 {
         str.get(1)
       } else {
@@ -131,12 +131,15 @@ pub fn char(self: ParserBuf) -> (ParserBuf, Char)? {
   }})
 }
 
-fn string(self: ParserBuf) -> (ParserBuf, String)? {
-  let re = Concat(ReChar('"'), Concat(
+let string_re: Regex = 
+  Concat(ReChar('"'), 
+    Concat(
       Repetition(Alter(ReStr("\\\""), RevCharSet(['"'])))
-    , ReChar('"')))
-
-  self.match_re(re).map(fn { (p, s) => (p, s.substring(start=1, end=s.length()-1)) })
+    , ReChar('"')
+    )
+  )
+fn string(self: ParserBuf) -> (ParserBuf, String)? {
+  self.match_re(string_re).map(fn { (p, s) => (p, s.substring(start=1, end=s.length()-1)) })
 }
 
 fn charset_inside(self: ParserBuf) -> (ParserBuf, Array[Char]) {
@@ -258,6 +261,39 @@ pub fn var_definition(self: ParserBuf) -> (ParserBuf, VarDefinition)? {
       }
     })
   }})
+}
+
+pub fn code_block(self: ParserBuf) -> (ParserBuf, String)? {
+  let re = Repetition(Alter(
+    RevCharSet(['{', '}', '\'', '\"']),
+    Alter(char_re, string_re)
+  ))
+
+  self.skip_ws().match_str("{").bind(fn (p) {
+    let strbuf: Array[String] = ["{"]
+    for p = p, count = 1; count >= 1; {
+      match p.match_re(re) {
+        None => return None
+        Some((p, str)) => {
+          strbuf.push(str)
+          match p.peek() {
+            Some('{') => {
+              strbuf.push("{")
+              continue p.step(), count + 1
+            }
+            Some('}') => {
+              strbuf.push("}")
+              continue p.step(), count - 1
+            }
+            _ => abort("unreachable")
+          }
+        }
+      }
+    }
+    
+
+    Some((p, strbuf.fold(init="", fn (a, b) { a + b })))
+  })
 }
 
 // utils funcs
