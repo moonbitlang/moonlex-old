@@ -132,6 +132,27 @@ fn string(self: ParserBuf) -> (ParserBuf, String)? {
   self.match_re(re).map(fn (p) { (p.0, p.1.substring(start=1, end=p.1.length()-1)) })
 }
 
+fn charset_inside(self: ParserBuf) -> (ParserBuf, Array[Char]) {
+  let (p, arr) = self.repeat_match(fn (p) {
+    let c = p.skip_ws().char()
+    c.bind(fn (pair) {
+      let p = pair.0.skip_ws()
+      if p.peek() == Some('-') {
+        let ch_end = p.step().skip_ws().char()
+        ch_end.map(fn (p) {
+          let ch_begin = pair.1.to_int()
+          let ch_end = p.1.to_int()
+          (p.0, Array::makei(ch_end - ch_begin + 1, fn (i) { Char::from_int(i + ch_begin) }))
+        })
+      } else {
+        Some((p, [pair.1]))
+      }
+    })
+  })
+
+  (p, arr.flatten())
+}
+
 pub fn regex_nonleftrec(self: ParserBuf) -> (ParserBuf, Regex)? {
   let p = self.skip_ws()
   match (p.peek(), p.peek(i=1)) {
@@ -140,16 +161,12 @@ pub fn regex_nonleftrec(self: ParserBuf) -> (ParserBuf, Regex)? {
     (Some('"'), _) => p.string().map(fn (p) { (p.0, ReStr(p.1)) })
 
     (Some('['), Some('^')) => {
-      let (p, arr) = p.step(i=2).repeat_match(fn (p) {
-          p.skip_ws().char()
-        })
+      let (p, arr) = p.step(i=2).charset_inside()
       p.match_str("]").map(fn (p) { (p, RevCharSet(arr)) })
     }
 
     (Some('['), _) => {
-      let (p, arr) = p.step().repeat_match(fn (p) {
-          p.skip_ws().char()
-        })
+      let (p, arr) = p.step().charset_inside()
       p.match_str("]").map(fn (p) { (p, CharSet(arr)) })
     }
 
