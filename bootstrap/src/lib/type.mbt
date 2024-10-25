@@ -10,12 +10,12 @@ enum Regex {
   Alter(Regex, Regex)
   Concat(Regex, Regex)
   Capture(Regex, String)
-} derive(Show)
+} derive(Show, Eq)
 
 struct VarDefinition {
   identifier: String
   ty: String
-} derive(Show)
+} derive(Show, Eq)
 
 struct Rule {
   re: Regex

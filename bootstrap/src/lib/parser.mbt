@@ -88,7 +88,6 @@ fn repeat_match[T](self: ParserBuf, match_fn: (ParserBuf) -> (ParserBuf, T)?) ->
     match match_fn(p) {
       None => break (p, arr)
       Some((p, t)) => {
-        println(p)
         arr.push(t)
         continue p, arr
       }
@@ -98,10 +97,9 @@ fn repeat_match[T](self: ParserBuf, match_fn: (ParserBuf) -> (ParserBuf, T)?) ->
 
 fn skip_ws(self: ParserBuf) -> ParserBuf {
   for p = self {
-    if p.peek() == Some(' ') {
-      continue p.step()
-    } else {
-      break p
+    match p.peek() {
+      Some(' ') | Some('\n') => continue p.step()
+      _ => break p
     }
   }
 }
@@ -118,13 +116,15 @@ pub fn char(self: ParserBuf) -> (ParserBuf, Char)? {
   self.match_re(char_re).map(fn { (p, str) => {
     let ch = if str.length() == 3 {
         str.get(1)
-      } else {
+      } else if str.length() == 4 {
         match str.get(2) {
           't' => '\t'
           'n' => '\n'
           '\\' => '\\'
           _ => abort("unsupported escaped char")
         }
+      } else {
+        abort("illegal char")
       }
     
     (p, ch)
@@ -204,7 +204,7 @@ pub fn regex_leftrec(self: ParserBuf, re: Regex) -> (ParserBuf, Regex)? {
   }
 }
 
-pub fn regex(self: ParserBuf) -> (ParserBuf, Regex)? {
+fn regex(self: ParserBuf) -> (ParserBuf, Regex)? {
   let (p, arr) = self.repeat_match(fn (p) {
     p.regex_nonleftrec().bind(fn { (p, re) =>
       p.regex_leftrec(re)
@@ -230,7 +230,7 @@ fn identifier(self: ParserBuf) -> (ParserBuf, String)? {
   self.match_re(re)
 }
 
-pub fn var_definition(self: ParserBuf) -> (ParserBuf, VarDefinition)? {
+fn var_definition(self: ParserBuf) -> (ParserBuf, VarDefinition)? {
   self.skip_ws().identifier().bind(fn { (p, id) => {
     p.skip_ws().match_str(":").bind(fn (p) {
       // read until ',' or ')' and the parentheses matched
@@ -263,7 +263,7 @@ pub fn var_definition(self: ParserBuf) -> (ParserBuf, VarDefinition)? {
   }})
 }
 
-pub fn code_block(self: ParserBuf) -> (ParserBuf, String)? {
+fn code_block(self: ParserBuf) -> (ParserBuf, String)? {
   let re = Repetition(Alter(
     RevCharSet(['{', '}', '\'', '\"']),
     Alter(char_re, string_re)
