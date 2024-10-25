@@ -8,11 +8,11 @@ pub fn ParserBuf::from_string(content: String) -> ParserBuf {
   { ptr: 0, content }
 }
 
-pub fn step(self: ParserBuf, ~i: Int = 1) -> ParserBuf {
+fn step(self: ParserBuf, ~i: Int = 1) -> ParserBuf {
   { ptr: self.ptr + i, content: self.content }
 }
 
-pub fn peek(self: ParserBuf, ~i: Int = 0) -> Char? {
+fn peek(self: ParserBuf, ~i: Int = 0) -> Char? {
   if self.ptr + i >= self.content.length() {
     None
   } else {
@@ -95,7 +95,7 @@ fn match_re(self: ParserBuf, re: Regex) -> (ParserBuf, String)? {
   }
 }
 
-pub fn repeat_match[T](self: ParserBuf, match_fn: (ParserBuf) -> (ParserBuf, T)?) -> (ParserBuf, Array[T]) {
+fn repeat_match[T](self: ParserBuf, match_fn: (ParserBuf) -> (ParserBuf, T)?) -> (ParserBuf, Array[T]) {
   for p = self, arr = [] {
     match match_fn(p) {
       None => break (p, arr)
@@ -124,7 +124,7 @@ let char_re: Regex =
       Concat(Concat(ReChar('\\'), Underscore), ReChar('\''))
     )
   )
-pub fn char(self: ParserBuf) -> (ParserBuf, Char)? {
+fn char(self: ParserBuf) -> (ParserBuf, Char)? {
   self.match_re(char_re).map(fn { (p, str) => {
     let ch = if str.length() == 3 {
         str.get(1)
@@ -173,7 +173,7 @@ fn charset_inside(self: ParserBuf) -> (ParserBuf, Array[Char]) {
   (p, arr.flatten())
 }
 
-pub fn regex_nonleftrec(self: ParserBuf) -> (ParserBuf, Regex)? {
+fn regex_nonleftrec(self: ParserBuf) -> (ParserBuf, Regex)? {
   let p = self.skip_ws()
   match (p.peek(), p.peek(i=1)) {
     (Some('\''), _) => p.char().map(fn { (p, ch) => (p, ReChar(ch)) })
@@ -210,7 +210,7 @@ pub fn regex_nonleftrec(self: ParserBuf) -> (ParserBuf, Regex)? {
   }
 }
 
-pub fn regex_leftrec(self: ParserBuf, re: Regex) -> (ParserBuf, Regex)? {
+fn regex_leftrec(self: ParserBuf, re: Regex) -> (ParserBuf, Regex)? {
   let p = self.skip_ws()
   match p.peek() {
     Some('|') => 
@@ -258,7 +258,7 @@ fn identifier(self: ParserBuf) -> (ParserBuf, String)? {
   self.match_re(re)
 }
 
-pub fn var_definition(self: ParserBuf) -> (ParserBuf, VarDefinition)? {
+fn var_definition(self: ParserBuf) -> (ParserBuf, VarDefinition)? {
   self.skip_ws().identifier().bind(fn { (p, id) => {
     p.skip_ws().match_str(":").bind(fn (p) {
       // read until ',' or ')' and the parentheses matched
