@@ -1,5 +1,5 @@
 fn main {
-  let parser_buf = @lib.ParserBuf::from_string("[^ 'a' 'b'-'z' 'X']* | (['a' 'b'] \"asd\"?)| \"asd\"")
+  let parser_buf = @lib.ParserBuf::from_string("jian__ : Array[(Int, Int)])")
 
-  println(parser_buf.regex())
+  println(parser_buf.var_definition())
 }

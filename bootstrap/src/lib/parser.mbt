@@ -12,11 +12,19 @@ pub fn step(self: ParserBuf, ~i: Int = 1) -> ParserBuf {
   { ptr: self.ptr + i, content: self.content }
 }
 
-pub fn peek(self : ParserBuf, ~i: Int = 0) -> Char? {
+pub fn peek(self: ParserBuf, ~i: Int = 0) -> Char? {
   if self.ptr + i >= self.content.length() {
     None
   } else {
     Some(self.content.get(self.ptr + i))
+  }
+}
+
+fn get_str(self: ParserBuf, i: Int) -> String? {
+  if self.ptr + i > self.content.length() {
+    None
+  } else {
+    Some(self.content.substring(start=self.ptr, end=self.ptr + i))
   }
 }
 
@@ -139,9 +147,7 @@ fn charset_inside(self: ParserBuf) -> (ParserBuf, Array[Char]) {
       if p.peek() == Some('-') {
         let ch_end = p.step().skip_ws().char()
         ch_end.map(fn { (p, ch_end) => {
-          let ch_begin = ch.to_int()
-          let ch_end = ch_end.to_int()
-          (p, Array::makei(ch_end - ch_begin + 1, fn (i) { Char::from_int(i + ch_begin) }))
+          (p, ch_range(ch, ch_end))
         }})
       } else {
         Some((p, [ch]))
@@ -210,10 +216,61 @@ pub fn regex(self: ParserBuf) -> (ParserBuf, Regex)? {
   }
 }
 
+fn identifier(self: ParserBuf) -> (ParserBuf, String)? {
+  let re = Concat(
+    CharSet(ch_range('a', 'z')),
+    Repetition(CharSet(
+      [ch_range('a', 'z'), ch_range('A', 'Z'), ch_range('0', '9'), ['_']].flatten()
+    ))
+  )
+
+  self.match_re(re)
+}
+
+pub fn var_definition(self: ParserBuf) -> (ParserBuf, VarDefinition)? {
+  self.skip_ws().identifier().bind(fn { (p, id) => {
+    p.skip_ws().match_str(":").bind(fn (p) {
+      // read until ',' or ')' and the parentheses matched
+      let stack: Array[Char] = []
+      for i = 0; ; i = i + 1 {
+        match p.peek(i=i) {
+          None => break None // in lex, var_definition're unpossiable to appear on the end
+          Some('[' as c) | Some('(' as c) => stack.push(c)
+          Some(',') => {
+            if stack.is_empty() {
+              break Some((p.step(i=i), { identifier: id, ty: p.get_str(i).unwrap() }))
+            }
+          }
+          Some(')') => {
+            if stack.is_empty() {
+              break Some((p.step(i=i), { identifier: id, ty: p.get_str(i).unwrap() }))
+            } else if stack.pop() != Some('(') {
+              break None
+            }
+          }
+          Some(']') => {
+            if stack.pop() != Some('[') {
+              break None
+            }
+          }
+          Some(_) => continue
+        }
+      }
+    })
+  }})
+}
+
 // utils funcs
 fn bind_none[T](opt: T?, f: () -> T?) -> T? {
   match opt {
     None => f()
     Some(_) => opt
   }
+}
+
+// include end
+fn ch_range(ch_begin: Char, ch_end: Char) -> Array[Char] {
+  let ch_begin = ch_begin.to_int()
+  let ch_end = ch_end.to_int()
+  Array::makei(ch_end - ch_begin + 1, fn (i) { Char::from_int(i + ch_begin) })
 }

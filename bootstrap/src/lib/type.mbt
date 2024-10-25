@@ -11,3 +11,18 @@ enum Regex {
   Concat(Regex, Regex)
   Capture(Regex, String)
 } derive(Show)
+
+struct VarDefinition {
+  identifier: String
+  ty: String
+} derive(Show)
+
+struct Rule {
+  re: Regex
+  code_block: String
+}
+
+struct Lex {
+  vars: Array[VarDefinition]
+  rules: Array[Rule]
+}
