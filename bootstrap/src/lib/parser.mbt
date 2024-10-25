@@ -28,7 +28,7 @@ fn get_str(self: ParserBuf, i: Int) -> String? {
   }
 }
 
-fn match_str(self : ParserBuf, pattern : String) -> ParserBuf? {
+fn match_str(self: ParserBuf, pattern: String) -> ParserBuf? {
   for i = 0; i < pattern.length(); i = i + 1 {
     if self.peek(i=i) != Some(pattern.get(i)) {
       break None
@@ -36,6 +36,18 @@ fn match_str(self : ParserBuf, pattern : String) -> ParserBuf? {
   } else {
     Some(self.step(i=pattern.length()))
   }
+}
+
+// ignore ws
+fn match_str_array(self: ParserBuf, patterns: Array[String]) -> ParserBuf? {
+  let mut p = self
+  for pattern in patterns {
+    match p.skip_ws().match_str(pattern) {
+      None => return None
+      Some(np) => p = np
+    }
+  }
+  Some(p)
 }
 
 fn match_re(self: ParserBuf, re: Regex) -> (ParserBuf, String)? {
@@ -83,7 +95,7 @@ fn match_re(self: ParserBuf, re: Regex) -> (ParserBuf, String)? {
   }
 }
 
-fn repeat_match[T](self: ParserBuf, match_fn: (ParserBuf) -> (ParserBuf, T)?) -> (ParserBuf, Array[T]) {
+pub fn repeat_match[T](self: ParserBuf, match_fn: (ParserBuf) -> (ParserBuf, T)?) -> (ParserBuf, Array[T]) {
   for p = self, arr = [] {
     match match_fn(p) {
       None => break (p, arr)
@@ -184,6 +196,16 @@ pub fn regex_nonleftrec(self: ParserBuf) -> (ParserBuf, Regex)? {
       })
     }
 
+    (Some('e'), _) => {
+      p.match_str("eof").map(fn (p) {
+        (p, EOF)
+      })
+    }
+
+    (Some('_'), _) => {
+      Some((p.step(), Underscore))
+    }
+
     _ => None
   }
 }
@@ -199,6 +221,12 @@ pub fn regex_leftrec(self: ParserBuf, re: Regex) -> (ParserBuf, Regex)? {
     Some('+') => p.step().regex_leftrec(Concat(re, Repetition(re)))
 
     Some('?') => p.step().regex_leftrec(Option(re))
+
+    Some('a') => p.match_str("as").bind(fn (p) {
+      p.skip_ws().identifier().map(fn { (p, name) => {
+        (p, Capture(re, name))
+      }})
+    })
 
     _ => Some((p, re))
   }
@@ -230,7 +258,7 @@ fn identifier(self: ParserBuf) -> (ParserBuf, String)? {
   self.match_re(re)
 }
 
-fn var_definition(self: ParserBuf) -> (ParserBuf, VarDefinition)? {
+pub fn var_definition(self: ParserBuf) -> (ParserBuf, VarDefinition)? {
   self.skip_ws().identifier().bind(fn { (p, id) => {
     p.skip_ws().match_str(":").bind(fn (p) {
       // read until ',' or ')' and the parentheses matched
@@ -263,7 +291,7 @@ fn var_definition(self: ParserBuf) -> (ParserBuf, VarDefinition)? {
   }})
 }
 
-fn code_block(self: ParserBuf) -> (ParserBuf, String)? {
+fn code_block(self: ParserBuf) -> (ParserBuf, CodeBlock)? {
   let re = Repetition(Alter(
     RevCharSet(['{', '}', '\'', '\"']),
     Alter(char_re, string_re)
@@ -271,19 +299,22 @@ fn code_block(self: ParserBuf) -> (ParserBuf, String)? {
 
   self.skip_ws().match_str("{").bind(fn (p) {
     let strbuf: Array[String] = ["{"]
-    for p = p, count = 1; count >= 1; {
-      match p.match_re(re) {
+    let mut mut_p = p
+    for count = 1; count >= 1; {
+      match mut_p.match_re(re) {
         None => return None
         Some((p, str)) => {
           strbuf.push(str)
           match p.peek() {
             Some('{') => {
               strbuf.push("{")
-              continue p.step(), count + 1
+              mut_p = p.step()
+              continue count + 1
             }
             Some('}') => {
               strbuf.push("}")
-              continue p.step(), count - 1
+              mut_p = p.step()
+              continue count - 1
             }
             _ => abort("unreachable")
           }
@@ -292,8 +323,40 @@ fn code_block(self: ParserBuf) -> (ParserBuf, String)? {
     }
     
 
-    Some((p, strbuf.fold(init="", fn (a, b) { a + b })))
+    Some((mut_p, strbuf.fold(init="", fn (a, b) { a + b })))
   })
+}
+
+fn rule(self: ParserBuf) -> (ParserBuf, Rule)? {
+  guard let Some(p) = self.skip_ws().match_str("rule") else { _ => None }
+  guard let Some((p, name)) = p.skip_ws().identifier() else { _ => None }
+  guard let Some(p) = p.skip_ws().match_str("(") else { _ => None }
+  let (p, vars) = p.repeat_match(fn (p) {
+    guard let Some((p, var)) = p.var_definition() else { _ => None }
+    guard let Some((p, _)) = p.skip_ws().match_re(Option(ReStr(","))) else { _ => None }
+
+    Some((p, var))
+  })
+  guard let Some(p) = p.match_str_array([")", "{", "parse", "{"]) else { _ => None }
+  let (p, patterns) = p.repeat_match(fn (p) {
+    let p = p.skip_ws()
+    guard let Some((p, re)) = p.regex() else { _ => None }
+    guard let Some(p) = p.skip_ws().match_str("=>") else { _ => None }
+    guard let Some((p, code_block)) = p.code_block() else { _ => None }
+
+    Some((p, (re, code_block)))
+  })
+  guard let Some(p) = p.match_str_array(["}", "}"]) else { _ => None }
+
+  Some((p, { name, vars, patterns }))
+}
+
+pub fn lex(self: ParserBuf) -> (ParserBuf, Lex)? {
+  guard let Some((p, header)) = self.code_block() else { _ => None }
+  let (p, rules) = p.repeat_match(rule)
+  guard let Some((p, trailer)) = p.code_block() else { _ => None }
+
+  Some((p, { header, rules, trailer}))
 }
 
 // utils funcs

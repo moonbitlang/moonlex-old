@@ -4,13 +4,13 @@
 
 rule count(lines : Int, words : Int, chars : Int) {
   parse {
-    '\n' => count(lines + 1, words, chars + 1, lexbuf)
-    [^ ' ', '\t', '\n' ]+ as word => {
+    '\n' => { count(lines + 1, words, chars + 1, lexbuf) }
+    [^ ' ' '\t' '\n' ]+ as word => {
       let new_chars = chars + word.length
       count(lines, words + 1, new_chars, lexbuf)
     }
-    _ => count(lines, words, chars + 1, lexbuf)
-    eof => (lines, words, chars)
+    _ => { count(lines, words, chars + 1, lexbuf) }
+    eof => { (lines, words, chars) }
   }
 }
 

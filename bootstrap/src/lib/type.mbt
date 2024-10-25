@@ -17,12 +17,16 @@ struct VarDefinition {
   ty: String
 } derive(Show, Eq)
 
+typealias CodeBlock = String
+
 struct Rule {
-  re: Regex
-  code_block: String
-}
+  name: String
+  vars: Array[VarDefinition]
+  patterns: Array[(Regex, CodeBlock)]
+} derive(Show)
 
 struct Lex {
-  vars: Array[VarDefinition]
+  header: CodeBlock
   rules: Array[Rule]
-}
+  trailer: CodeBlock
+} derive(Show)
