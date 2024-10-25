@@ -56,7 +56,7 @@ fn match_re(self: ParserBuf, re: Regex) -> (ParserBuf, String)? {
         None => Some((self, ""))
         Some((p, s)) => 
           p.match_re(Repetition(re))
-           .map(fn (pair){ (pair.0, s + pair.1) })
+           .map(fn { (p, rest) => (p, s + rest) })
       }
     }
 
@@ -67,8 +67,8 @@ fn match_re(self: ParserBuf, re: Regex) -> (ParserBuf, String)? {
       bind_none(self.match_re(re1), fn () { self.match_re(re2) })
 
     Concat(re1, re2) =>
-      self.match_re(re1).bind(fn (p0) { 
-        p0.0.match_re(re2).map(fn (p1) { (p1.0, p0.1 + p1.1) }) 
+      self.match_re(re1).bind(fn { (p, s1) =>
+        p.match_re(re2).map(fn { (p, s2) => (p, s1 + s2) }) 
       })
     
     Capture(_, _) => abort("Capture is not allowed in ParserBuf")
@@ -107,8 +107,7 @@ pub fn char(self: ParserBuf) -> (ParserBuf, Char)? {
     )
   )
 
-  self.match_re(re).map(fn (p) {
-    let str = p.1
+  self.match_re(re).map(fn { (p, str) => {
     let ch = if str.length() == 3 {
         str.get(1)
       } else {
@@ -120,8 +119,8 @@ pub fn char(self: ParserBuf) -> (ParserBuf, Char)? {
         }
       }
     
-    (p.0, ch)
-  })
+    (p, ch)
+  }})
 }
 
 fn string(self: ParserBuf) -> (ParserBuf, String)? {
@@ -129,25 +128,25 @@ fn string(self: ParserBuf) -> (ParserBuf, String)? {
       Repetition(Alter(ReStr("\\\""), RevCharSet(['"'])))
     , ReChar('"')))
 
-  self.match_re(re).map(fn (p) { (p.0, p.1.substring(start=1, end=p.1.length()-1)) })
+  self.match_re(re).map(fn { (p, s) => (p, s.substring(start=1, end=s.length()-1)) })
 }
 
 fn charset_inside(self: ParserBuf) -> (ParserBuf, Array[Char]) {
   let (p, arr) = self.repeat_match(fn (p) {
     let c = p.skip_ws().char()
-    c.bind(fn (pair) {
-      let p = pair.0.skip_ws()
+    c.bind(fn { (p, ch) => {
+      let p = p.skip_ws()
       if p.peek() == Some('-') {
         let ch_end = p.step().skip_ws().char()
-        ch_end.map(fn (p) {
-          let ch_begin = pair.1.to_int()
-          let ch_end = p.1.to_int()
-          (p.0, Array::makei(ch_end - ch_begin + 1, fn (i) { Char::from_int(i + ch_begin) }))
-        })
+        ch_end.map(fn { (p, ch_end) => {
+          let ch_begin = ch.to_int()
+          let ch_end = ch_end.to_int()
+          (p, Array::makei(ch_end - ch_begin + 1, fn (i) { Char::from_int(i + ch_begin) }))
+        }})
       } else {
-        Some((p, [pair.1]))
+        Some((p, [ch]))
       }
-    })
+    }})
   })
 
   (p, arr.flatten())
@@ -156,9 +155,9 @@ fn charset_inside(self: ParserBuf) -> (ParserBuf, Array[Char]) {
 pub fn regex_nonleftrec(self: ParserBuf) -> (ParserBuf, Regex)? {
   let p = self.skip_ws()
   match (p.peek(), p.peek(i=1)) {
-    (Some('\''), _) => p.char().map(fn (p) { (p.0, ReChar(p.1)) })
+    (Some('\''), _) => p.char().map(fn { (p, ch) => (p, ReChar(ch)) })
 
-    (Some('"'), _) => p.string().map(fn (p) { (p.0, ReStr(p.1)) })
+    (Some('"'), _) => p.string().map(fn { (p, str) => (p, ReStr(str)) })
 
     (Some('['), Some('^')) => {
       let (p, arr) = p.step(i=2).charset_inside()
@@ -171,8 +170,8 @@ pub fn regex_nonleftrec(self: ParserBuf) -> (ParserBuf, Regex)? {
     }
 
     (Some('('), _) => {
-      p.step().regex().bind(fn (r) {
-        r.0.match_str(")").map(fn (p) { (p, r.1) })
+      p.step().regex().bind(fn { (p, re) =>
+        p.match_str(")").map(fn (p) { (p, re) })
       })
     }
 
@@ -184,7 +183,7 @@ pub fn regex_leftrec(self: ParserBuf, re: Regex) -> (ParserBuf, Regex)? {
   let p = self.skip_ws()
   match p.peek() {
     Some('|') => 
-      p.step().regex().map(fn (p) { (p.0, Alter(re, p.1)) })
+      p.step().regex().map(fn { (p, re2) => (p, Alter(re, re2)) })
 
     Some('*') => p.step().regex_leftrec(Repetition(re))
     
@@ -198,8 +197,8 @@ pub fn regex_leftrec(self: ParserBuf, re: Regex) -> (ParserBuf, Regex)? {
 
 pub fn regex(self: ParserBuf) -> (ParserBuf, Regex)? {
   let (p, arr) = self.repeat_match(fn (p) {
-    p.regex_nonleftrec().bind(fn (p) {
-      p.0.regex_leftrec(p.1)
+    p.regex_nonleftrec().bind(fn { (p, re) =>
+      p.regex_leftrec(re)
     })
   })
 
