@@ -24,7 +24,7 @@ let lex_code =
   #| }
 
 fn main {
-  let parser_buf = @lib.ParserBuf::from_string(lex_code)
+  let parser_buf = @parser.ParserBuf::from_string(lex_code)
 
   println(parser_buf.lex())
 }

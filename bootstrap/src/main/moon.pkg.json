@@ -1,6 +1,6 @@
 {
   "is-main": true,
   "import": [
-    "jian/moonlex_bootstrap/lib"
+    "jian/moonlex_bootstrap/lib/parser"
   ]
 }
