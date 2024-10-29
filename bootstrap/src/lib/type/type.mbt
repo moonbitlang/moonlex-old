@@ -1,4 +1,4 @@
-enum Regex {
+pub enum Regex {
   Underscore
   EOF
   ReStr(String)
@@ -12,20 +12,20 @@ enum Regex {
   Capture(Regex, String)
 } derive(Show, Eq)
 
-struct VarDefinition {
+pub struct VarDefinition {
   identifier: String
   ty: String
 } derive(Show, Eq)
 
-typealias CodeBlock = String
+pub typealias CodeBlock = String
 
-struct Rule {
+pub struct Rule {
   name: String
   vars: Array[VarDefinition]
   patterns: Array[(Regex, CodeBlock)]
 } derive(Show)
 
-struct Lex {
+pub struct Lex {
   header: CodeBlock
   rules: Array[Rule]
   trailer: CodeBlock

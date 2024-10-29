@@ -248,7 +248,7 @@ fn regex(self: ParserBuf) -> (ParserBuf, Regex)? {
 }
 
 fn identifier(self: ParserBuf) -> (ParserBuf, String)? {
-  let re = Concat(
+  let re: Regex = Concat(
     CharSet(ch_range('a', 'z')),
     Repetition(CharSet(
       [ch_range('a', 'z'), ch_range('A', 'Z'), ch_range('0', '9'), ['_']].flatten()
@@ -292,7 +292,7 @@ fn var_definition(self: ParserBuf) -> (ParserBuf, VarDefinition)? {
 }
 
 fn code_block(self: ParserBuf) -> (ParserBuf, CodeBlock)? {
-  let re = Repetition(Alter(
+  let re: Regex = Repetition(Alter(
     RevCharSet(['{', '}', '\'', '\"']),
     Alter(char_re, string_re)
   ))
