@@ -5,15 +5,16 @@ enum Edge {
 
 pub struct NFA {
   graph: Array[Map[Edge, Array[Int]]] // indexed by node * char
-  code_blocks: Map[Int, CodeBlock]
+  actions: Map[Int, Int]
+  code_blocks: Array[CodeBlock]
   mut node_count: Int
 } derive(Show)
 
-pub fn NFA::new_nfa() -> NFA {
-  { graph: [Map::new()], code_blocks: Map::new(), node_count: 0 }
+fn NFA::new_nfa() -> NFA {
+  { graph: [Map::new()], code_blocks: [], actions: Map::new(), node_count: 0 }
 }
 
-pub fn NFA::from_rule(rule: Rule) -> NFA {
+fn NFA::from_rule(rule: Rule) -> NFA {
   let nfa = NFA::new_nfa()
   let node = nfa.new_node() // match starting from 1
   for pattern in rule.patterns {
@@ -35,14 +36,23 @@ fn add_edge(self: NFA, from: Int, e: Edge, to: Int) -> Unit {
   self.graph[from].get_or_init(e, fn () { [] }).push(to)
 }
 
-pub fn register_regex(self: NFA, node: Int, re: Regex, code_block: CodeBlock) -> Unit {
+fn register_regex(self: NFA, node: Int, re: Regex, code_block: CodeBlock) -> Unit {
   let final = self.register_regex_rec(node, re)
-  self.code_blocks.set(final, code_block)
+  let id = self.code_blocks.length()
+  self.code_blocks.push(code_block)
+  self.actions.set(final, id)
 }
 
 fn register_regex_rec(self: NFA, node: Int, re: Regex) -> Int { 
   // return the final point of re for convience in building
   match re {
+    Underscore => {
+      let next_node = self.new_node()
+      for c = 0; c < 128; c = c + 1 {
+        self.add_edge(node, EChar(Char::from_int(c)), next_node)
+      }
+      next_node
+    }
     ReChar(c) => {
       let next_node = self.new_node()
       self.add_edge(node, EChar(c), next_node)

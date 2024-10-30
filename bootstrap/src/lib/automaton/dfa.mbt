@@ -1,11 +1,12 @@
 pub struct DFA {
   graph: Array[Map[Char, Int]]
-  code_block: Map[Int, CodeBlock]
+  actions: Map[Int, Int]
+  code_blocks: Array[CodeBlock]
   mut node_count: Int
 } derive(Show)
 
-fn DFA::new() -> DFA {
-  { graph: [], code_block: Map::new(), node_count: 0 }
+fn DFA::new(~code_blocks: Array[CodeBlock] = []) -> DFA {
+  { graph: [Map::new()], code_blocks, actions: Map::new(), node_count: 0 }
 }
 
 fn DFA::new_node(self: DFA) -> Int {
@@ -19,19 +20,15 @@ fn DFA::add_edge(self: DFA, from: Int, e: Char, to: Int) -> Unit {
 }
 
 fn register_codeblock(self: DFA, nfa: NFA, node: Int, os: @immut/sorted_set.T[Int]) -> Unit {
-  for o in os {
-    match nfa.code_blocks.get(o) {
-      Some(code_block) => {
-        self.code_block.set(node, code_block)
-        break
-      }
-      _ => ()
-    }
+  let actions = os.iter().map_option(fn (x) { nfa.actions.get(x) }).collect()
+  
+  if actions.length() > 0 {
+    self.actions.set(node, actions.fold(init=actions[0], @math.minimum))
   }
 }
 
-pub fn DFA::from_nfa(nfa: NFA) -> DFA {
-  let dfa = DFA::new()
+fn DFA::from_nfa(nfa: NFA) -> DFA {
+  let dfa = DFA::new(code_blocks=nfa.code_blocks)
   let eps_closure = nfa.get_eps_closure()
   let set2int = Map::new()
   let initial = eps_closure[1]
@@ -70,4 +67,8 @@ pub fn DFA::from_nfa(nfa: NFA) -> DFA {
   }
 
   dfa
+}
+
+pub fn DFA::from_rule(rule: Rule) -> DFA {
+  DFA::from_nfa(NFA::from_rule(rule))
 }

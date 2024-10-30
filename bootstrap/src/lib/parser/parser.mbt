@@ -258,35 +258,49 @@ fn identifier(self: ParserBuf) -> (ParserBuf, String)? {
   self.match_re(re)
 }
 
-fn var_definition(self: ParserBuf) -> (ParserBuf, VarDefinition)? {
-  self.skip_ws().identifier().bind(fn { (p, id) => {
-    p.skip_ws().match_str(":").bind(fn (p) {
-      // read until ',' or ')' and the parentheses matched
-      let stack: Array[Char] = []
-      for i = 0; ; i = i + 1 {
-        match p.peek(i=i) {
-          None => break None // in lex, var_definition're unpossiable to appear on the end
-          Some('[' as c) | Some('(' as c) => stack.push(c)
-          Some(',') => {
-            if stack.is_empty() {
-              break Some((p.step(i=i), { identifier: id, ty: p.get_str(i).unwrap() }))
-            }
-          }
-          Some(')') => {
-            if stack.is_empty() {
-              break Some((p.step(i=i), { identifier: id, ty: p.get_str(i).unwrap() }))
-            } else if stack.pop() != Some('(') {
-              break None
-            }
-          }
-          Some(']') => {
-            if stack.pop() != Some('[') {
-              break None
-            }
-          }
-          Some(_) => continue
+fn ty(self: ParserBuf) -> (ParserBuf, String)? {
+  // read until ','  ')' or '{' and the parentheses matched
+  let p = self
+  let stack: Array[Char] = []
+  for i = 0; ; i = i + 1 {
+    match p.peek(i=i) {
+      None => break None // in lex, var_definition're unpossiable to appear on the end
+      Some('[' as c) | Some('(' as c) => stack.push(c)
+      Some(',') => {
+        if stack.is_empty() {
+          break Some((p.step(i=i), p.get_str(i).unwrap()))
         }
       }
+      Some('{') => {
+        if stack.is_empty() {
+          break Some((p.step(i=i), p.get_str(i).unwrap()))
+        } else {
+          break None
+        }
+      }
+      Some(')') => {
+        if stack.is_empty() {
+          break Some((p.step(i=i), p.get_str(i).unwrap()))
+        } else if stack.pop() != Some('(') {
+          break None
+        }
+      }
+      Some(']') => {
+        if stack.pop() != Some('[') {
+          break None
+        }
+      }
+      Some(_) => continue
+    }
+  }
+}
+
+fn var_definition(self: ParserBuf) -> (ParserBuf, VarDefinition)? {
+  self.skip_ws().identifier().bind(fn { (p, identifier) => {
+    p.skip_ws().match_str(":").bind(fn (p) {
+      guard let Some((p, ty)) = p.ty() else { _ => return None }
+
+      Some((p, { identifier, ty }))
     })
   }})
 }
@@ -298,9 +312,9 @@ fn code_block(self: ParserBuf) -> (ParserBuf, CodeBlock)? {
   ))
 
   self.skip_ws().match_str("{").bind(fn (p) {
-    let strbuf: Array[String] = ["{"]
+    let strbuf: Array[String] = []
     let mut mut_p = p
-    for count = 1; count >= 1; {
+    for count = 1; ; {
       match mut_p.match_re(re) {
         None => return None
         Some((p, str)) => {
@@ -312,9 +326,14 @@ fn code_block(self: ParserBuf) -> (ParserBuf, CodeBlock)? {
               continue count + 1
             }
             Some('}') => {
-              strbuf.push("}")
               mut_p = p.step()
-              continue count - 1
+              if count == 1 {
+                break
+              } else {
+                strbuf.push("}")
+                continue count - 1
+                
+              }
             }
             _ => abort("unreachable")
           }
@@ -337,7 +356,9 @@ fn rule(self: ParserBuf) -> (ParserBuf, Rule)? {
 
     Some((p, var))
   })
-  guard let Some(p) = p.match_str_array([")", "{", "parse", "{"]) else { _ => None }
+  guard let Some(p) = p.match_str_array([")", "->"]) else { _ => None }
+  guard let Some((p, return_type)) = p.ty() else { _ => None }
+  guard let Some(p) = p.match_str_array(["{", "parse", "{"]) else { _ => None }
   let (p, patterns) = p.repeat_match(fn (p) {
     let p = p.skip_ws()
     guard let Some((p, re)) = p.regex() else { _ => None }
@@ -348,7 +369,7 @@ fn rule(self: ParserBuf) -> (ParserBuf, Rule)? {
   })
   guard let Some(p) = p.match_str_array(["}", "}"]) else { _ => None }
 
-  Some((p, { name, vars, patterns }))
+  Some((p, { name, vars, return_type, patterns }))
 }
 
 pub fn lex(self: ParserBuf) -> (ParserBuf, Lex)? {

@@ -21,6 +21,7 @@ pub typealias CodeBlock = String
 
 pub struct Rule {
   name: String
+  return_type: String
   vars: Array[VarDefinition]
   patterns: Array[(Regex, CodeBlock)]
 } derive(Show)
