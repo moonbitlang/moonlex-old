@@ -1,0 +1,6 @@
+{
+  "import": [
+    "jian/mbtlex/lib/type",
+    "jian/mbtlex/lib/automaton"
+  ]
+}

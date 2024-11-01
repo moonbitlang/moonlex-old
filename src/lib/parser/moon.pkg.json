@@ -1,0 +1,5 @@
+{
+  "import": [
+    "jian/mbtlex/lib/type"
+  ]
+}

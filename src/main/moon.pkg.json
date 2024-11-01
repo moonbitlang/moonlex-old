@@ -1,0 +1,9 @@
+{
+  "is-main": true,
+  "import": [
+    "jian/mbtlex/lib/type",
+    "jian/mbtlex/lib/parser",
+    "jian/mbtlex/lib/automaton",
+    "jian/mbtlex/lib/codegen"
+  ]
+}
