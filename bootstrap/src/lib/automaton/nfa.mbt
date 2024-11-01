@@ -48,11 +48,19 @@ fn register_regex_rec(self: NFA, node: Int, re: Regex) -> Int {
   match re {
     Underscore => {
       let next_node = self.new_node()
-      for c = 0; c < 128; c = c + 1 {
+      for c = 1; c < 128; c = c + 1 {
         self.add_edge(node, EChar(Char::from_int(c)), next_node)
       }
       next_node
     }
+
+    EOF => {
+      let next_node = self.new_node()
+      // eof is treated as \0 currently
+      self.add_edge(node, EChar('\x00'), next_node)
+      next_node
+    }
+
     ReChar(c) => {
       let next_node = self.new_node()
       self.add_edge(node, EChar(c), next_node)
