@@ -1,68 +1,238 @@
-pub struct DFA {
-  graph: Array[Map[Char, Int]]
-  actions: Map[Int, Int]
-  code_blocks: Array[CodeBlock]
-  mut node_count: Int
-} derive(Show)
+// paper: NFAs with Tagged Transitions, their Conversion to Deterministic 
+//        Automata and Application to Regular Expressions
 
-fn DFA::new(~code_blocks: Array[CodeBlock] = []) -> DFA {
-  { graph: [Map::new()], code_blocks, actions: Map::new(), node_count: 0 }
+type TagAction Array[Array[Int]] derive(Show)
+// tag_i <- tag_{mat[tag][i]}, tag_{-1} = cur_pos
+
+type TagState Array[Option[Int]] derive(Eq, Show)
+
+impl Hash for TagState with hash_combine(self, hasher) {
+  self._.each(fn (x) {
+    hasher.combine(x)
+  })
 }
 
-fn DFA::new_node(self: DFA) -> Int {
-  self.node_count += 1
-  self.graph.push(Map::new())
-  self.node_count
+fn TagState::new(size: Int) -> TagState {
+  Array::make(size, None)
 }
 
-fn DFA::add_edge(self: DFA, from: Int, e: Char, to: Int) -> Unit {
-  self.graph[from].set(e, to)
+fn copy(self: TagState) -> TagState {
+  self._.copy()
 }
 
-fn register_codeblock(self: DFA, nfa: NFA, node: Int, os: @immut/sorted_set.T[Int]) -> Unit {
-  let actions = os.iter().map_option(fn (x) { nfa.actions.get(x) }).collect()
-  
-  if actions.length() > 0 {
-    self.actions.set(node, actions.fold(init=actions[0], @math.minimum))
+fn update_by_tag(self: TagState, tag: Tag, rank: Int) -> TagState {
+  let r = self._[tag]
+  if r.is_empty() || r.unwrap() > rank {
+    self._[tag] = Some(rank)
+  }
+  self
+}
+
+fn update_by_tags(self: TagState, tags: @type.Bitset) -> TagState {
+  for i = 0; i < self._.length(); i = i + 1 {
+    if tags.get(i) {
+      let _ = self.update_by_tag(i, -1)
+    }
+  }
+  self
+}
+
+fn tagState_min(self: TagState, other: TagState) -> TagState {
+  for i = 0; i < self._.length(); i = i + 1 {
+    match (self._[i], other._[i]) {
+      (None, _) => break other
+      (_, None) => break self
+      (Some(r1), Some(r2)) => {
+        if r1 != r2 {
+          break (if r1 < r2 { self } else { other })
+        }
+      }
+    }
+  } else {
+    self
   }
 }
 
+pub struct DFA {
+  graph: Array[Map[Char, (Int, TagAction)]]
+  end_nodes: Map[Int, (Int, Array[(String, (Tag, Int), (Tag, Int))])]
+  // (id in code_blocks, [(capture_name, (begin_tag, rank), ...)])
+  code_blocks: Array[CodeBlock]
+  start_action: TagAction
+  mut node_count: Int
+} derive(Show)
+
+fn DFA::new(code_blocks: Array[CodeBlock], start_action: TagAction) -> DFA {
+  { 
+    graph: [Map::new()], 
+    code_blocks, 
+    start_action, 
+    end_nodes: Map::new(), 
+    node_count: 1
+  }
+}
+
+fn DFA::new_node(self: DFA) -> Int {
+  let id = self.node_count
+  self.node_count += 1
+  self.graph.push(Map::new())
+  id
+}
+
+fn DFA::add_edge(self: DFA, from: Int, e: Char, action: TagAction, to: Int) -> Unit {
+  self.graph[from].set(e, (to, action))
+}
+
+typealias State = @immut/hashmap.T[Int, TagState]
+fn state_canonicalize(state: State, tag_count: Int) -> (State, TagAction) {
+  let mat = Array::makei(tag_count, fn (_i) { [] })
+
+  for pair in state.iter() {
+    let tags = pair.1
+    for tag, rank in tags._ {
+      if not(rank.is_empty()) {
+        mat[tag].push(rank.unwrap())
+      }
+    }
+  }
+
+  mat.map_inplace(fn (x) {
+    @sorted_set.T::from_iter(x.iter()).to_array()
+  })
+
+  let new_state = 
+    state.iter()
+        .map(fn (pair) {
+          let tags = pair.1
+          tags._.mapi_inplace(fn (tag, op) {
+            op.map(fn (x) {
+              for index, y in mat[tag] {
+                if x == y {
+                  break index
+                }
+              } else {
+                abort("unreachable")
+              }
+            })
+          })
+          (pair.0, tags)
+        }) |> State::from_iter
+
+  (new_state, mat)
+}
+
+fn register_node(self: DFA, nfa: NFA, node: Int, os: State) -> Unit {
+  let code_blocks = os.iter().map_option(fn (x) { nfa.end_nodes.get(x.0) }).collect()
+  guard not(code_blocks.is_empty()) else { return () }
+
+  let min_code_block = code_blocks.fold(init=code_blocks[0], @math.minimum)
+  let end_nodes = 
+    os.iter()
+      .filter(fn (x) { nfa.end_nodes.get(x.0) == Some(min_code_block) })
+
+  let mut min_tags = None
+  for pair in end_nodes {
+    let (node, tagState) = pair
+    let tags = nfa.captures[min_code_block].map(
+      fn { (name, (begin, end)) => {
+        (name, (begin, tagState._[begin].unwrap()), (end, tagState._[end].unwrap()))
+      } }
+    )
+
+    if min_tags.is_empty() {
+      min_tags = Some(tags)
+    } else {
+      let min_tags_ = min_tags.unwrap()
+      for i = 0; i < tags.length(); i = i + 1 {
+        if min_tags_[i].1.1 != tags[i].1.1 {
+          if min_tags_[i].1.1 > tags[i].1.1 {
+            min_tags = Some(tags)
+          }
+          break
+        }
+
+        if min_tags_[i].2.1 != tags[i].2.1 {
+          if min_tags_[i].2.1 != tags[i].2.1 {
+            min_tags = Some(tags)
+          }
+          break
+        }
+      }
+    }
+  }
+
+  self.end_nodes.set(node, (min_code_block, min_tags.unwrap()))
+}
+
 fn DFA::from_nfa(nfa: NFA) -> DFA {
-  let dfa = DFA::new(code_blocks=nfa.code_blocks)
+  fn get_nodes(state: State) -> Iter[Int] {
+    state.iter().map(fn (p) { p.0 })
+  }
+
   let eps_closure = nfa.get_eps_closure()
-  let set2int = Map::new()
   let initial = eps_closure[1]
-  let queue = @queue.T::from_array([initial])
-  let node = dfa.new_node()
-  set2int.set(initial, node)
-  dfa.register_codeblock(nfa, node, initial)
+
+  let initial_state = initial.iter().map(fn { (x, y) => {
+    (x, TagState::new(nfa.tag_count).update_by_tags(y))
+  } }) |> @immut/hashmap.T::from_iter
+  let (initial_state, start_action) = state_canonicalize(initial_state, nfa.tag_count)
+  let dfa = DFA::new(nfa.code_blocks, start_action)
+
+  let node_map: Map[State, Int] = Map::new()
+  let queue = @queue.T::new()
+  fn get_id(state: State) -> Int {
+    node_map.get_or_init(state, fn () {
+      let node = dfa.new_node()
+      dfa.register_node(nfa, node, state)
+      queue.push(state)
+      node
+    })
+  }
+  let _ = get_id(initial_state)
 
   while not(queue.is_empty()) {
-    let o = queue.pop().unwrap()
-    let from_n = set2int.get(o).unwrap()
+    let cur_state = queue.pop().unwrap()
+    let from_n = node_map.get(cur_state).unwrap()
+    
+    let next_states: Map[Char, State] = Map::new()
 
-    let edges = @hashset.T::from_iter(o.iter().flat_map(fn (x) {
-      nfa.graph[x].keys()
-    }))
+    for node in get_nodes(cur_state) {
+      let node_tagState = cur_state[node].unwrap()
+      for edge, targets in nfa.graph[node] {
+        match edge {
+          EChar(c) => {
+            let mut state_map = next_states[c].or_else(fn () { @immut/hashmap.T::new() })
+            for pair in targets {
+              let (step_node, tag) = pair
+              let step_tagState = if tag.is_empty() {
+                node_tagState
+              } else {
+                node_tagState.copy().update_by_tag(tag.unwrap(), -1)
+              }
 
-    for e in edges {
-      match e {
-        EChar(c) => {
-          let next = @immut/sorted_set.T::from_iter(o.iter().flat_map(fn (x) {
-            nfa.graph[x].get_or_default(e, []).iter().flat_map(fn (y) {
-              eps_closure[y].iter()
-            })
-          }))
-          let to_n = set2int.get_or_init(next, fn () { 
-            let node = dfa.new_node() 
-            dfa.register_codeblock(nfa, node, next)
-            queue.push(next)
-            node
-          })
-          dfa.add_edge(from_n, c, to_n)
+              for pair in eps_closure[step_node] {
+                let (eps_node, bits) = pair
+                let upd_tagState = step_tagState.copy().update_by_tags(bits)
+                let old_tagState = state_map[eps_node]
+                let new_tagState = if old_tagState.is_empty() {
+                  upd_tagState
+                } else {
+                  tagState_min(upd_tagState, old_tagState.unwrap())
+                }
+                state_map = state_map.add(eps_node, new_tagState)
+              }
+            }
+            next_states.set(c, state_map)
+          }
+          Eps => ()
         }
-        Eps => ()
       }
+    }
+
+    for ch, state in next_states {
+      let (state, action) = state_canonicalize(state, nfa.tag_count)
+      let to_n = get_id(state)
+      dfa.add_edge(from_n, ch, action, to_n)
     }
   }
 
