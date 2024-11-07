@@ -1,10 +1,10 @@
 // paper: NFAs with Tagged Transitions, their Conversion to Deterministic 
 //        Automata and Application to Regular Expressions
 
-pub type TagAction Array[Array[Int]] derive(Show)
+pub type TagAction Array[Array[Int]] derive(Show) // indexed by tag_id, rank
 // tag_i <- tag_{mat[tag][i]}, tag_{-1} = cur_pos
 
-type TagState Array[Option[Int]] derive(Eq, Show)
+type TagState Array[Option[Int]] derive(Eq, Show) // indexed by tag_id
 
 impl Hash for TagState with hash_combine(self, hasher) {
   self._.each(fn (x) {
@@ -54,11 +54,11 @@ fn tagState_min(self: TagState, other: TagState) -> TagState {
 }
 
 pub struct DFA {
-  graph: Array[Map[Char, (Int, TagAction)]]
+  graph: Array[Map[Char, (Int, TagAction)]] // indexed by node_id
   end_nodes: Map[Int, (Int, Array[((Tag, Int), (Tag, Int))])]
-  // (id in code_blocks, [(begin_tag, rank), (end_tag, rank))])
-  code_blocks: Array[CodeBlock]
-  captures: Array[Array[String]]
+  // (pattern_id, [(begin_tag, rank), (end_tag, rank))])
+  code_blocks: Array[CodeBlock] // indexed by pattern_id
+  captures: Array[Array[String]] // indexed by pattern_id
   start_action: TagAction
   mut node_count: Int
 } derive(Show)
@@ -131,22 +131,21 @@ fn register_node(self: DFA, nfa: NFA, node: Int, os: State) -> Unit {
   let end_nodes = 
     os.iter()
       .filter(fn (x) { nfa.end_nodes.get(x.0) == Some(min_code_block) })
+      .to_array()
 
-  let mut min_tags = None
-  for pair in end_nodes {
-    let (node, tagState) = pair
-    let tags = nfa.captures[min_code_block].map(
-      fn { (_name, (begin, end)) => {
-        ((begin, tagState._[begin].unwrap()), (end, tagState._[end].unwrap()))
-      } }
-    )
-
-    if min_tags.is_empty() || tags < min_tags.unwrap() {
-      min_tags = Some(tags)
-    }
+  guard end_nodes.length() == 1 else {
+    // only one node to one exact code_block in nfa
+    abort("error")
   }
+  
+  let tagState = end_nodes[0].1
+  let min_tags = nfa.captures[min_code_block].map(
+    fn { (_name, (begin, end)) => {
+      ((begin, tagState._[begin].unwrap()), (end, tagState._[end].unwrap()))
+    }}
+  )
 
-  self.end_nodes.set(node, (min_code_block, min_tags.unwrap()))
+  self.end_nodes.set(node, (min_code_block, min_tags))
 }
 
 fn DFA::from_nfa(nfa: NFA) -> DFA {
@@ -193,12 +192,13 @@ fn DFA::from_nfa(nfa: NFA) -> DFA {
           EChar(c) => {
             let mut state_map = next_states[c].or_else(fn () { @immut/hashmap.T::new() })
             for pair in targets {
-              let (step_node, tag) = pair
-              let step_tagState = if tag.is_empty() {
-                node_tagState
-              } else {
-                node_tagState.copy().update_by_tag(tag.unwrap(), -1)
+              let (step_node, tag) = pair // tag == None
+              guard tag.is_empty() else {
+                // only eps-edge has tag
+                abort("error")
               }
+
+              let step_tagState = node_tagState
 
               for pair in eps_closure[step_node] {
                 let (eps_node, bits) = pair

@@ -6,10 +6,10 @@ enum Symbol {
 typealias Tag = Int
 
 pub struct NFA {
-  graph: Array[Map[Symbol, Array[(Int, Tag?)]]] // indexed by node * char
-  end_nodes: Map[Int, Int] // id in code_blocks
-  code_blocks: Array[CodeBlock]
-  captures: Array[Array[(String, (Tag, Tag))]]
+  graph: Array[Map[Symbol, Array[(Int, Tag?)]]] // indexed by node_id * char
+  end_nodes: Map[Int, Int] // from node_id to pattern_id
+  code_blocks: Array[CodeBlock] // indexed by pattern_id
+  captures: Array[Array[(String, (Tag, Tag))]] // indexed_by pattern_id
   mut node_count: Int
   mut tag_count: Int
 } derive(Show)
