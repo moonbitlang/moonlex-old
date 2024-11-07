@@ -2,22 +2,22 @@
   // translate from https://ohama.github.io/ocaml/ocamllex-tutorial/examples/wordcount/
 }
 
-rule count(lines : Int, words : Int, chars : Int) -> Int {
+rule count(lines : Int, words : Int, chars : Int) -> (Int, Int, Int) {
   parse {
     '\n' => { count(lines + 1, words, chars + 1, lexbuf) }
     [^ ' ' '\t' '\n' ]+ as word => {
-      let new_chars = chars + word.length
+      let new_chars = chars + word.length()
       count(lines, words + 1, new_chars, lexbuf)
     }
     _ => { count(lines, words, chars + 1, lexbuf) }
-    eof => { (lines, words, chars) }
+    "" => { (lines, words, chars) }
   }
 }
 
 {
   fn main {
-    let str = "Hi\nWelcome to MoonbitLex\n"
-    let lexbuf = Lexing.from_string(str)
-    println("Word count result: \{count(lexbuf)}")
+    let str = b"Hi\nWelcome to MoonbitLex\n"
+    let lexbuf = @x/lex/Lexbuf::from_bytes(str)
+    println("Word count result: \{count(0, 0, 0, lexbuf)}")
   }
 }

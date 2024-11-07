@@ -1,7 +1,7 @@
 // paper: NFAs with Tagged Transitions, their Conversion to Deterministic 
 //        Automata and Application to Regular Expressions
 
-type TagAction Array[Array[Int]] derive(Show)
+pub type TagAction Array[Array[Int]] derive(Show)
 // tag_i <- tag_{mat[tag][i]}, tag_{-1} = cur_pos
 
 type TagState Array[Option[Int]] derive(Eq, Show)
@@ -55,17 +55,19 @@ fn tagState_min(self: TagState, other: TagState) -> TagState {
 
 pub struct DFA {
   graph: Array[Map[Char, (Int, TagAction)]]
-  end_nodes: Map[Int, (Int, Array[(String, (Tag, Int), (Tag, Int))])]
-  // (id in code_blocks, [(capture_name, (begin_tag, rank), ...)])
+  end_nodes: Map[Int, (Int, Array[((Tag, Int), (Tag, Int))])]
+  // (id in code_blocks, [(begin_tag, rank), (end_tag, rank))])
   code_blocks: Array[CodeBlock]
+  captures: Array[Array[String]]
   start_action: TagAction
   mut node_count: Int
 } derive(Show)
 
-fn DFA::new(code_blocks: Array[CodeBlock], start_action: TagAction) -> DFA {
+fn DFA::new(code_blocks: Array[CodeBlock], captures: Array[Array[String]], start_action: TagAction) -> DFA {
   { 
     graph: [Map::new()], 
-    code_blocks, 
+    code_blocks,
+    captures,
     start_action, 
     end_nodes: Map::new(), 
     node_count: 1
@@ -134,30 +136,13 @@ fn register_node(self: DFA, nfa: NFA, node: Int, os: State) -> Unit {
   for pair in end_nodes {
     let (node, tagState) = pair
     let tags = nfa.captures[min_code_block].map(
-      fn { (name, (begin, end)) => {
-        (name, (begin, tagState._[begin].unwrap()), (end, tagState._[end].unwrap()))
+      fn { (_name, (begin, end)) => {
+        ((begin, tagState._[begin].unwrap()), (end, tagState._[end].unwrap()))
       } }
     )
 
-    if min_tags.is_empty() {
+    if min_tags.is_empty() || tags < min_tags.unwrap() {
       min_tags = Some(tags)
-    } else {
-      let min_tags_ = min_tags.unwrap()
-      for i = 0; i < tags.length(); i = i + 1 {
-        if min_tags_[i].1.1 != tags[i].1.1 {
-          if min_tags_[i].1.1 > tags[i].1.1 {
-            min_tags = Some(tags)
-          }
-          break
-        }
-
-        if min_tags_[i].2.1 != tags[i].2.1 {
-          if min_tags_[i].2.1 != tags[i].2.1 {
-            min_tags = Some(tags)
-          }
-          break
-        }
-      }
     }
   }
 
@@ -176,7 +161,12 @@ fn DFA::from_nfa(nfa: NFA) -> DFA {
     (x, TagState::new(nfa.tag_count).update_by_tags(y))
   } }) |> @immut/hashmap.T::from_iter
   let (initial_state, start_action) = state_canonicalize(initial_state, nfa.tag_count)
-  let dfa = DFA::new(nfa.code_blocks, start_action)
+  let captures = nfa.captures.map(fn (x) {
+    x.map(fn (y) {
+      y.0
+    })
+  })
+  let dfa = DFA::new(nfa.code_blocks, captures, start_action)
 
   let node_map: Map[State, Int] = Map::new()
   let queue = @queue.T::new()
