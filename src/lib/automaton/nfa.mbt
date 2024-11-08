@@ -1,4 +1,4 @@
-enum Symbol {
+pub enum Symbol {
   Eps
   EChar(Char)
 } derive(Eq, Hash, Show)
@@ -18,7 +18,7 @@ fn NFA::new_nfa() -> NFA {
   { graph: [Map::new()], code_blocks: [], end_nodes: Map::new(), captures: [], node_count: 1, tag_count: 0 }
 }
 
-fn NFA::from_rule(rule: Rule) -> NFA {
+pub fn NFA::from_rule(rule: Rule) -> NFA {
   let nfa = NFA::new_nfa()
   let node = nfa.new_node() // match starting from 1
   for pattern in rule.patterns {

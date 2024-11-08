@@ -232,7 +232,7 @@ fn regex_leftrec(self: ParserBuf, re: Regex) -> (ParserBuf, Regex)? {
   }
 }
 
-fn regex(self: ParserBuf) -> (ParserBuf, Regex)? {
+pub fn regex(self: ParserBuf) -> (ParserBuf, Regex)? {
   let (p, arr) = self.repeat_match(fn (p) {
     p.regex_nonleftrec().bind(fn { (p, re) =>
       p.regex_leftrec(re)
