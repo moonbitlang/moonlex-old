@@ -77,7 +77,7 @@ test "dfa simple_regex" (it: @test.T) {
   it.snapshot!(filename="dfa_simple_regex.dot")
 }
 
-test "nfa a_star_capture" (it: @test.T) {
+test "dfa a_star_capture" (it: @test.T) {
   let rule = simple_rule("'a'*('a'+ as cap)'a'")
   let dfa = @automaton.DFA::from_rule(rule)
   let dots = dfa2dots(dfa, name="a_star_capture")

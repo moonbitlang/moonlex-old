@@ -5,7 +5,7 @@ pub enum Regex {
   ReChar(Char)
   CharSet(Array[Char])
   RevCharSet(Array[Char])
-  Repetition(Regex)
+  Repetition(Regex) // repeat at least once
   Option(Regex)
   Alter(Regex, Regex)
   Concat(Regex, Regex)

@@ -121,7 +121,6 @@ fn register_regex_rec(self: NFA, node: Int, re: Regex, name2tag: ((String) -> (T
 
     Repetition(re) => {
       let final = self.register_regex_rec(node, re, name2tag)
-      self.add_edge(node, Eps, final)
       self.add_edge(final, Eps, node)
       final
     }

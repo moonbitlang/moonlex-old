@@ -73,9 +73,9 @@ fn match_re(self: ParserBuf, re: Regex) -> (ParserBuf, String)? {
 
     Repetition(re) => {
       match self.match_re(re) {
-        None => Some((self, ""))
+        None => None
         Some((p, s)) => 
-          p.match_re(Repetition(re))
+          p.match_re(Option(Repetition(re)))
            .map(fn { (p, rest) => (p, s + rest) })
       }
     }
@@ -146,7 +146,7 @@ fn char(self: ParserBuf) -> (ParserBuf, Char)? {
 let string_re: Regex = 
   Concat(ReChar('"'), 
     Concat(
-      Repetition(Alter(ReStr("\\\""), RevCharSet(['"'])))
+      Option(Repetition(Alter(ReStr("\\\""), RevCharSet(['"']))))
     , ReChar('"')
     )
   )
@@ -216,9 +216,9 @@ fn regex_leftrec(self: ParserBuf, re: Regex) -> (ParserBuf, Regex)? {
     Some('|') => 
       p.step().regex().map(fn { (p, re2) => (p, Alter(re, re2)) })
 
-    Some('*') => p.step().regex_leftrec(Repetition(re))
+    Some('*') => p.step().regex_leftrec(Option(Repetition(re)))
     
-    Some('+') => p.step().regex_leftrec(Concat(re, Repetition(re)))
+    Some('+') => p.step().regex_leftrec(Repetition(re))
 
     Some('?') => p.step().regex_leftrec(Option(re))
 
@@ -250,9 +250,9 @@ pub fn regex(self: ParserBuf) -> (ParserBuf, Regex)? {
 fn identifier(self: ParserBuf) -> (ParserBuf, String)? {
   let re: Regex = Concat(
     CharSet(ch_range('a', 'z')),
-    Repetition(CharSet(
+    Option(Repetition(CharSet(
       [ch_range('a', 'z'), ch_range('A', 'Z'), ch_range('0', '9'), ['_']].flatten()
-    ))
+    )))
   )
 
   self.match_re(re)
@@ -306,10 +306,10 @@ fn var_definition(self: ParserBuf) -> (ParserBuf, VarDefinition)? {
 }
 
 fn code_block(self: ParserBuf) -> (ParserBuf, CodeBlock)? {
-  let re: Regex = Repetition(Alter(
+  let re: Regex = Option(Repetition(Alter(
     RevCharSet(['{', '}', '\'', '\"']),
     Alter(char_re, string_re)
-  ))
+  )))
 
   self.skip_ws().match_str("{").bind(fn (p) {
     let strbuf: Array[String] = []

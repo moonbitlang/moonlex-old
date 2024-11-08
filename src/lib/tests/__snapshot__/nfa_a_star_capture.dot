@@ -1,0 +1,8 @@
+digraph a_star_capture {	1 -> 2[label="a"]
+	1 -> 2[label="ε"]
+	2 -> 1[label="ε"]
+	2 -> 3[label="ε/0"]
+	3 -> 5[label="a"]
+	4 -> 6[label="a"]
+	5 -> 3[label="ε"]
+	5 -> 4[label="ε/1"]6[shape=box, label="6(0)"]}
