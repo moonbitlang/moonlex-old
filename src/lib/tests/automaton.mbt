@@ -20,29 +20,50 @@ fn nfa2dots(nfa: @automaton.NFA, ~name: String="nfa") -> DotGraph {
         dots.add_edge(from=node, to=target.0, edge_info="\"\{edge_info}\"")
       }
     }
-  }
-  for end_node in nfa.end_nodes {
-    let (node, pattern) = end_node
-    dots.set_dot(dot=node, key="shape", value="box")
-    dots.set_dot(dot=node, key="label", value="\"\{node}(\{pattern})\"")
+
+    if node == 0 { continue }
+
+    let end_node = nfa.end_nodes.get(node)
+    if end_node.is_empty() {
+      dots.set_node(node=node, nodeType=Normal)
+    } else {
+      let pattern = end_node.unwrap()
+      dots.set_node(node=node, nodeType=Accepted, label="\"\{node}(\{pattern})\"")
+    }
   }
   dots
 }
 
-test "nfa simple_regex" (it: @test.T) {
+test "nfa simple_regex graphviz" (it: @test.T) {
   let rule = simple_rule("(('a' | 'b')*\"cd\"?)+")
   let nfa = @automaton.NFA::from_rule(rule)
   let dots = nfa2dots(nfa, name="simple_regex")
-  it.writeln(dots.to_dotfile())
+  it.writeln(dots.to_graphviz())
   it.snapshot!(filename="nfa_simple_regex.dot")
 }
 
-test "nfa a_star_capture" (it: @test.T) {
+test "nfa simple_regex mermaid" (it: @test.T) {
+  let rule = simple_rule("(('a' | 'b')*\"cd\"?)+")
+  let nfa = @automaton.NFA::from_rule(rule)
+  let dots = nfa2dots(nfa, name="simple_regex")
+  it.writeln(dots.to_mermaid())
+  it.snapshot!(filename="nfa_simple_regex.md")
+}
+
+test "nfa a_star_capture graphviz" (it: @test.T) {
   let rule = simple_rule("'a'*('a'+ as cap)'a'")
   let nfa = @automaton.NFA::from_rule(rule)
   let dots = nfa2dots(nfa, name="a_star_capture")
-  it.writeln(dots.to_dotfile())
+  it.writeln(dots.to_graphviz())
   it.snapshot!(filename="nfa_a_star_capture.dot")
+}
+
+test "nfa a_star_capture mermaid" (it: @test.T) {
+  let rule = simple_rule("'a'*('a'+ as cap)'a'")
+  let nfa = @automaton.NFA::from_rule(rule)
+  let dots = nfa2dots(nfa, name="a_star_capture")
+  it.writeln(dots.to_mermaid())
+  it.snapshot!(filename="nfa_a_star_capture.md")
 }
 
 fn dfa2dots(dfa: @automaton.DFA, ~name: String="dfa") -> DotGraph {
@@ -56,31 +77,52 @@ fn dfa2dots(dfa: @automaton.DFA, ~name: String="dfa") -> DotGraph {
       }
       dots.add_edge(from=node, to=target, edge_info="\"\{edge_info}\"")
     }
-  }
-  for end_node in dfa.end_nodes {
-    let (node, (pattern, tags)) = end_node
-    let mut label = "\{node}(\{pattern})"
-    if tags.length() != 0 {
-      label = label + "/\{tags}"
+
+    if node == 0 { continue }
+
+    let end_node = dfa.end_nodes.get(node)
+    if end_node.is_empty() {
+      dots.set_node(node=node, nodeType=Normal)
+    } else {
+      let (pattern, tags) = end_node.unwrap()
+      let mut label = "\{node}(\{pattern})"
+      if not(tags.is_empty()) {
+        label = label + "/\{tags}"
+      }
+      dots.set_node(node=node, nodeType=Accepted, label="\"\{label}\"")
     }
-    dots.set_dot(dot=node, key="shape", value="box")
-    dots.set_dot(dot=node, key="label", value="\"\{label}\"")
   }
   dots
 }
 
-test "dfa simple_regex" (it: @test.T) {
+test "dfa simple_regex graphviz" (it: @test.T) {
   let rule = simple_rule("(('a' | 'b')*\"cd\"?)+")
   let dfa = @automaton.DFA::from_rule(rule)
   let dots = dfa2dots(dfa, name="simple_regex")
-  it.writeln(dots.to_dotfile())
+  it.writeln(dots.to_graphviz())
   it.snapshot!(filename="dfa_simple_regex.dot")
 }
 
-test "dfa a_star_capture" (it: @test.T) {
+test "dfa simple_regex mermaid" (it: @test.T) {
+  let rule = simple_rule("(('a' | 'b')*\"cd\"?)+")
+  let dfa = @automaton.DFA::from_rule(rule)
+  let dots = dfa2dots(dfa, name="simple_regex")
+  it.writeln(dots.to_mermaid())
+  it.snapshot!(filename="dfa_simple_regex.md")
+}
+
+test "dfa a_star_capture graphviz" (it: @test.T) {
   let rule = simple_rule("'a'*('a'+ as cap)'a'")
   let dfa = @automaton.DFA::from_rule(rule)
   let dots = dfa2dots(dfa, name="a_star_capture")
-  it.writeln(dots.to_dotfile())
+  it.writeln(dots.to_graphviz())
   it.snapshot!(filename="dfa_a_star_capture.dot")
+}
+
+test "dfa a_star_capture mermaid" (it: @test.T) {
+  let rule = simple_rule("'a'*('a'+ as cap)'a'")
+  let dfa = @automaton.DFA::from_rule(rule)
+  let dots = dfa2dots(dfa, name="a_star_capture")
+  it.writeln(dots.to_mermaid())
+  it.snapshot!(filename="dfa_a_star_capture.md")
 }

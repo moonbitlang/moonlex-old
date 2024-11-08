@@ -5,4 +5,9 @@ digraph a_star_capture {	1 -> 2[label="a"]
 	3 -> 5[label="a"]
 	4 -> 6[label="a"]
 	5 -> 3[label="ε"]
-	5 -> 4[label="ε/1"]6[shape=box, label="6(0)"]}
+	5 -> 4[label="ε/1"]1[shape=circle,label=1]
+2[shape=circle,label=2]
+3[shape=circle,label=3]
+4[shape=circle,label=4]
+5[shape=circle,label=5]
+6[shape=box,label="6(0)"]}

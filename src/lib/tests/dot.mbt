@@ -1,37 +1,45 @@
-type Edge (Int, Int, String) // from, to, edge_info
+type Edge (Int, Int, String?) // from, to, edge_info
+
+enum NodeType {
+  Normal
+  Accepted
+}
 
 pub struct DotGraph {
   edges: Array[Edge]
-  dots: Map[Int, Array[(String, String)]]
+  nodes: Map[Int, (NodeType, String?)]
   name: String
 }
 
 pub fn DotGraph::new(~name: String="graph") -> DotGraph {
-  { edges: [], dots: Map::new(), name }
+  { edges: [], nodes: Map::new(), name }
 }
 
 pub fn add_edge(
   self: DotGraph, 
   ~from: Int, 
   ~to: Int, 
-  ~edge_info: String=""
+  ~edge_info?: String
 ) -> Unit {
   self.edges.push((from, to, edge_info))
 }
 
-fn to_dotfile(self: DotGraph) -> String {
+fn set_node(self: DotGraph, ~node: Int, ~nodeType: NodeType, ~label?: String) -> Unit {
+  self.nodes.set(node, (nodeType, label))
+}
+
+fn to_graphviz(self: DotGraph) -> String {
   [
     "digraph \{self.name} {",
     self.edges.map(fn (e) {
       let (from, to, info) = e._
-      "\t\{from} -> \{to}[label=\{info}]"
+      "\t\{from} -> \{to}" + info.map_or("", fn (t) { "[label=\{t}]" })
     }) |> String::concat(separator="\n"),
-    self.dots.iter().map(fn { (dot, key_values) => {
+    self.nodes.iter().map(fn { (node, (nodeType, label)) => {
       [
-        dot.to_string(), "[", 
-        key_values.map(fn { (key, value) => {
-          "\{key}=\{value}"
-        } }) |> String::concat(separator=", "),
+        node.to_string(), "[", 
+          "shape=", match nodeType { Normal => "circle"; Accepted => "box" }, ",",
+          "label=", label.or(node.to_string()),
         "]"
       ] |> String::concat()
     } }).collect() |> String::concat(separator="\n"),
@@ -39,6 +47,32 @@ fn to_dotfile(self: DotGraph) -> String {
   ] |> String::concat()
 }
 
-fn set_dot(self: DotGraph, ~dot: Int, ~key: String, ~value: String) -> Unit {
-  self.dots.get_or_init(dot, fn () { [] }).push((key, value))
+fn to_mermaid(self: DotGraph) -> String {
+  let styles =
+    #|---
+    #|  config:
+    #|    look: handDrawn
+    #|---
+  
+  [
+    "```mermaid",
+    styles,
+    "graph TD",
+    self.edges.map(fn (e) {
+      let (from, to, edge_info) = e._
+      from.to_string() + 
+        "-->" + 
+        edge_info.map_or("", fn (s) {"|"+s+"|"}) + 
+        to.to_string()
+    }) |> String::concat(separator="\n"),
+    self.nodes.iter().map(fn (n) {
+      let (node, (nodeType, label)) = n
+
+      match nodeType {
+        Normal => "\{node}((\{label.or(node.to_string())}))"
+        Accepted => "\{node}[\{label.or(node.to_string())}]"
+      }
+    }).collect() |> String::concat(separator="\n"),
+    "```"
+  ] |> String::concat(separator="\n")
 }
