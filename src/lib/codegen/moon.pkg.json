@@ -9,5 +9,8 @@
       "output": ["runtime.mbt"],
       "command": ":embed --name runtime -i $input -o $output"
     }
+  ],
+  "test-import": [
+    "jian/mbtlex/lib/parser"
   ]
 }

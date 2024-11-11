@@ -133,8 +133,8 @@ fn count( lines :  Int, words :  Int, chars :  Int , lexbuf : Lexbuf ) ->  (Int,
  }
 
 
-fn main {
+test {
     let str = b"Hi\nWelcome to MoonbitLex\n"
-    let lexbuf = @x/lex.Lexbuf::from(str)
-    println("Word count result: \{count(lexbuf)}")
+    let lexbuf = Lexbuf::from_bytes(str)
+    inspect!(count(0, 0, 0, lexbuf), content="(2, 4, 25)")
   }
