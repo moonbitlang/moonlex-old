@@ -10,7 +10,7 @@ pub enum Regex {
   Alter(Regex, Regex)
   Concat(Regex, Regex)
   Capture(Regex, String)
-} derive(Show, Eq)
+} derive(Show, Eq, ToJson)
 
 pub fn check_legal(self : Regex) -> Bool {
   // there're two special rules for our regex
