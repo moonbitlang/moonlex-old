@@ -2,7 +2,6 @@ let lex_code =
   #| {
   #| // translate from https://ohama.github.io/ocaml/ocamllex-tutorial/examples/wordcount/
   #| }
-
   #| rule count(lines : Int, words : Int, chars : Int) -> (Int, Int, Int) {
   #| parse {
   #|   '\n' => { count(lines + 1, words, chars + 1, lexbuf) }
@@ -14,7 +13,6 @@ let lex_code =
   #|   "" => { (lines, words, chars) }
   #| }
   #| }
-
   #| {
   #|   fn main {
   #|   let str = b"Hi\nWelcome to MoonbitLex\n"
