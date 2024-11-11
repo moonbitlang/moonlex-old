@@ -2,5 +2,12 @@
   "import": [
     "jian/mbtlex/lib/type",
     "jian/mbtlex/lib/automaton"
+  ],
+  "pre-build": [
+    {
+      "input": ["runtime.mbt.inc"],
+      "output": ["runtime.mbt"],
+      "command": ":embed --name runtime -i $input -o $output"
+    }
   ]
 }

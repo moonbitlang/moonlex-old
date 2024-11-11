@@ -16,8 +16,8 @@ let lex_code =
   #| {
   #|   fn main {
   #|   let str = b"Hi\nWelcome to MoonbitLex\n"
-  #|   let lexbuf = Lexbuf::from(str)
-  #|   println("Word count result: \{count(lexbuf)}")
+  #|   let lexbuf = Lexbuf::from_bytes(str)
+  #|   println("Word count result: \{count(0, 0, 0, lexbuf)}")
   #| }
   #| }
 
