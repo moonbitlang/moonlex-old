@@ -1,30 +1,26 @@
 
 struct Lexbuf {
-   content : Bytes
+   content : String
    mut pos : Int
  }
 
-pub fn Lexbuf::from_bytes(bytes : Bytes) -> Lexbuf {
-   { content: bytes, pos: 0 }
+pub fn Lexbuf::from_string(content : String) -> Lexbuf {
+   { content, pos: 0 }
  }
 
-// NOTE: MoonBit do have unboxed Option[Byte] optimization
-fn next(self : Lexbuf) -> Byte? {
+// NOTE: MoonBit do have unboxed Option[Char] optimization
+fn next(self : Lexbuf) -> Char? {
    if self.pos < self.content.length() {
-     let b = self.content[self.pos]
+     let ch = self.content[self.pos]
      self.pos += 1
-     Some(b)
+     Some(ch)
    } else {
      None
    }
  }
 
-fn subbytes(self : Lexbuf, head : Int, tail : Int) -> Bytes {
-   let bytes = Bytes::new(tail - head)
-   for p = head; p < tail; p = p + 1 {
-     bytes[p - head] = self.content[p]
-   }
-   bytes
+fn substring(self : Lexbuf, start : Int, end : Int) -> String {
+   self.content.substring(~start, ~end)
  }
 
 pub struct Engine {
@@ -34,7 +30,7 @@ pub struct Engine {
    code_blocks_n : Int
  }
 
-pub fn run(self : Engine, lexbuf : Lexbuf) -> (Int, Array[Bytes]) {
+pub fn run(self : Engine, lexbuf : Lexbuf) -> (Int, Array[String]) {
    let mut state = 1
    let mut tagState : Array[Array[Int]] = []
    let backtrace = Array::make(self.code_blocks_n, None)
@@ -73,7 +69,7 @@ pub fn run(self : Engine, lexbuf : Lexbuf) -> (Int, Array[Bytes]) {
          let captures = self.end_nodes[state].unwrap().1.map(
            fn {
              ((b_t, b_r), (e_t, e_r)) =>
-               lexbuf.subbytes(tagState[b_t][b_r], tagState[e_t][e_r])
+               lexbuf.substring(tagState[b_t][b_r], tagState[e_t][e_r])
            },
          )
          break (index, captures)
@@ -97,7 +93,7 @@ fn count( lines :  Int, words :  Int, chars :  Int, lexbuf : Lexbuf ) ->  (Int, 
   count(lines + 1, words, chars + 1, lexbuf) 
  }
  (1, __mbtlex_captures) => {
- let word: Bytes = __mbtlex_captures[0]
+ let word: String = __mbtlex_captures[0]
  
       let new_chars = chars + word.length()
       count(lines, words + 1, new_chars, lexbuf)
@@ -115,7 +111,7 @@ fn count( lines :  Int, words :  Int, chars :  Int, lexbuf : Lexbuf ) ->  (Int, 
 
 
 test {
-    let str = b"Hi\nWelcome to MoonbitLex\n"
-    let lexbuf = Lexbuf::from_bytes(str)
+    let str = "Hi\nWelcome to MoonbitLex\n"
+    let lexbuf = Lexbuf::from_string(str)
     inspect!(count(0, 0, 0, lexbuf), content="(2, 4, 25)")
   }

@@ -56,7 +56,7 @@ fn codegen_rule(rule : Rule) -> String {
           [
             ["(\{i}, __mbtlex_captures) => {"],
             dfa.captures[i].mapi(
-              fn(i, name) { "let \{name}: Bytes = __mbtlex_captures[\{i}]" },
+              fn(i, name) { "let \{name}: String = __mbtlex_captures[\{i}]" },
             ),
             [dfa.code_blocks[i]],
             ["}"],
