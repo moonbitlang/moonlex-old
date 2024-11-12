@@ -1,4 +1,4 @@
-let word_count_lex : String =
+let lex_code =
   #| {
   #| // translate from https://ohama.github.io/ocaml/ocamllex-tutorial/examples/wordcount/
   #| }
@@ -14,16 +14,16 @@ let word_count_lex : String =
   #| }
   #| }
   #| {
-  #|   fn main {
+  #| test {
   #|   let str = b"Hi\nWelcome to MoonbitLex\n"
-  #|   let lexbuf = @x/lex.Lexbuf::from(str)
-  #|   println("Word count result: \{count(lexbuf)}")
+  #|   let lexbuf = Lexbuf::from_bytes(str)
+  #|   inspect!(count(0, 0, 0, lexbuf), content="(2, 4, 25)")
   #| }
   #| }
 
-test "codegen word_count" (it : @test.T) {
-  let parser_buf = @parser.ParserBuf::from_string(word_count_lex)
+test (it : @test.T) {
+  let parser_buf = @parser.ParserBuf::from_string(lex_code)
   guard let Some((_, lex)) = parser_buf.lex() else { _ => abort("") }
   it.write(@codegen.codegen_lex(lex))
-  it.snapshot!(filename="word_count.mbt")
+  it.snapshot!(filename="lexer_test.mbt.inc")
 }

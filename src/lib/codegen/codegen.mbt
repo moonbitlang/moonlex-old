@@ -1,5 +1,6 @@
 pub fn codegen_lex(lex : Lex) -> String {
   [
+    runtime,
     lex.header,
     lex.rules.map(codegen_rule) |> String::concat(separator="\n"),
     lex.trailer,
@@ -34,12 +35,12 @@ fn codegen_rule(rule : Rule) -> String {
     }
   }
   [
-    "let \{engine}: @x/lex.Engine = { graph: \{graph}, end_nodes: \{end_nodes}, start_tags: \{start_tags}, code_blocks_n: \{dfa.code_blocks.length()} }",
+    "let \{engine}: Engine = { graph: \{graph}, end_nodes: \{end_nodes}, start_tags: \{start_tags}, code_blocks_n: \{dfa.code_blocks.length()} }",
     [
       "fn \{rule.name}(",
       rule.vars.map(fn(p) { "\{p.identifier} : \{p.ty}" })
       |> String::concat(separator=", "),
-      ", lexbuf : @x/lex.Lexbuf",
+      ", lexbuf : Lexbuf",
       ")",
       "->",
       rule.return_type,
