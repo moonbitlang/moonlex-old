@@ -1,4 +1,4 @@
-pub enum Regex {
+pub(all) enum Regex {
   Underscore
   EOF
   ReStr(String)
@@ -32,7 +32,7 @@ fn check_legal_rec(
       } else if names.contains(name) {
         false
       } else {
-        names.insert(name)
+        names.add(name)
         re.check_legal_rec(names, ban_capture)
       }
     ReChar(_) | ReStr(_) | CharSet(_) | RevCharSet(_) | EOF | Underscore => true
@@ -70,21 +70,21 @@ fn get_capture_names_rec(self : Regex) -> Iter[String] {
   }
 }
 
-pub struct VarDefinition {
+pub(all) struct VarDefinition {
   identifier : String
   ty : String
 } derive(Show, Eq)
 
 pub typealias CodeBlock = String
 
-pub struct Rule {
+pub(all) struct Rule {
   name : String
   return_type : String
   vars : Array[VarDefinition]
   patterns : Array[(Regex, CodeBlock)]
 } derive(Show)
 
-pub struct Lex {
+pub(all) struct Lex {
   header : CodeBlock
   rules : Array[Rule]
   trailer : CodeBlock
