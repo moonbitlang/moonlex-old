@@ -1,28 +1,43 @@
-let lex_code =
-  #| {
-  #| // translate from https://ohama.github.io/ocaml/ocamllex-tutorial/examples/wordcount/
-  #| }
-  #| rule count(lines : Int, words : Int, chars : Int) -> (Int, Int, Int) {
-  #| parse {
-  #|   '\n' => { count(lines + 1, words, chars + 1, lexbuf) }
-  #|   [^ ' ' '\t' '\n' ]+ as word => {
-  #|     let new_chars = chars + word.length()
-  #|     count(lines, words + 1, new_chars, lexbuf)
-  #|   }
-  #|   _ => { count(lines, words, chars + 1, lexbuf) }
-  #|   "" => { (lines, words, chars) }
-  #| }
-  #| }
-  #| {
-  #|   fn main {
-  #|   let str = b"Hi\nWelcome to MoonbitLex\n"
-  #|   let lexbuf = Lexbuf::from_bytes(str)
-  #|   println("Word count result: \{count(0, 0, 0, lexbuf)}")
-  #| }
-  #| }
-
 fn main {
-  let parser_buf = @parser.ParserBuf::from_string(lex_code)
+  let usage =
+    #|Usage: moonlex [options] <input-file>
+  let output_file = @ref.new("")
+  let input_file = @ref.new("")
+  let mut exit = false
+  @ArgParser.parse(
+    [
+      ("--output-file", "-o", Set_string(output_file), "Output file"),
+      (
+        "--version",
+        "-v",
+        Unit(
+          fn() {
+            exit = true
+            println("moonlex 0.1.0")
+          },
+        ),
+        "Show version",
+      ),
+    ],
+    fn(rest) { input_file.val = rest },
+    usage,
+    @sys.get_cli_args(),
+  )
+  if exit {
+    return
+  }
+  guard input_file.val != "" else { abort("Input file is required") }
+  let lexer_spec_src = try {
+    @fs.read_file_to_string!(path=input_file.val)
+  } catch {
+    err => abort(Show::to_string(err))
+  }
+  let parser_buf = @parser.ParserBuf::from_string(lexer_spec_src)
   guard let Some((_, lex)) = parser_buf.lex() else { _ => abort("") }
-  println(@codegen.codegen_lex(lex))
+  let output = @codegen.codegen_lex(lex)
+  if output_file.val == "" {
+    println(output)
+  } else {
+    @fs.write_string_to_file(path=output_file.val, content=output)
+  }
 }

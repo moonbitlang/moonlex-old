@@ -3,6 +3,9 @@
   "import": [
     "jian/mbtlex/lib/type",
     "jian/mbtlex/lib/parser",
-    "jian/mbtlex/lib/codegen"
+    "jian/mbtlex/lib/codegen",
+    "Yoorkin/ArgParser",
+    "moonbitlang/x/sys",
+    "moonbitlang/x/fs"
   ]
 }
