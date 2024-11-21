@@ -10,9 +10,9 @@ pub fn codegen_lex(lex : Lex) -> String {
 }
 
 fn rewrite_codeblock(
-  codeblock : String,
+  codeblock : @type.CodeBlock,
   subst : Array[@codeblock_parser.SubstItem]
-) -> String {
+) -> @type.CodeBlock {
   let buf = StringBuilder::new()
   let mut last_index = 0
   for item in subst {
