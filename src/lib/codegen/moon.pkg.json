@@ -1,7 +1,8 @@
 {
   "import": [
     "jian/mbtlex/lib/type",
-    "jian/mbtlex/lib/automaton"
+    "jian/mbtlex/lib/automaton",
+    "jian/mbtlex/lib/codegen/internal/codeblock_parser"
   ],
   "pre-build": [
     {

@@ -29,7 +29,7 @@ pub(all) struct Engine {
   code_blocks_n : Int
 }
 
-pub fn run(self : Engine, lexbuf : Lexbuf) -> (Int, Array[String]) {
+pub fn run(self : Engine, lexbuf : Lexbuf) -> (Int, Array[(Int, Int)]) {
   let mut state = 1
   let mut tagState : Array[Array[Int]] = []
   let backtrace = Array::make(self.code_blocks_n, None)
@@ -67,8 +67,7 @@ pub fn run(self : Engine, lexbuf : Lexbuf) -> (Int, Array[String]) {
         lexbuf.pos = p
         let captures = self.end_nodes[state].unwrap().1.map(
           fn {
-            ((b_t, b_r), (e_t, e_r)) =>
-              lexbuf.substring(tagState[b_t][b_r], tagState[e_t][e_r])
+            ((b_t, b_r), (e_t, e_r)) => (tagState[b_t][b_r], tagState[e_t][e_r])
           },
         )
         break (index, captures)
@@ -4568,11 +4567,13 @@ fn token(lexbuf : Lexbuf) -> Token!LexError {
   match __mbtlex_engine_token.run(lexbuf) {
     (0, __mbtlex_captures) => WHITESPACE
     (1, __mbtlex_captures) => {
-      let t : String = __mbtlex_captures[0]
+      let (_start_pos_of_t, _end_pos_of_t) = __mbtlex_captures[0]
+      let t : String = lexbuf.substring(_start_pos_of_t, _end_pos_of_t)
       NUMBER(t)
     }
     (2, __mbtlex_captures) => {
-      let t : String = __mbtlex_captures[0]
+      let (_start_pos_of_t, _end_pos_of_t) = __mbtlex_captures[0]
+      let t : String = lexbuf.substring(_start_pos_of_t, _end_pos_of_t)
       let buf = StringBuilder::new()
       buf.write_string(t)
       lex_string!(buf, lexbuf)
@@ -4588,7 +4589,8 @@ fn token(lexbuf : Lexbuf) -> Token!LexError {
     (10, __mbtlex_captures) => FALSE
     (11, __mbtlex_captures) => NULL
     (12, __mbtlex_captures) => {
-      let t : String = __mbtlex_captures[0]
+      let (_start_pos_of_t, _end_pos_of_t) = __mbtlex_captures[0]
+      let t : String = lexbuf.substring(_start_pos_of_t, _end_pos_of_t)
       raise Unrecognized(t)
     }
     (13, __mbtlex_captures) => raise EndOfFile
@@ -8014,21 +8016,25 @@ let __mbtlex_engine_lex_string : Engine = {
 fn lex_string(buf : StringBuilder, lexbuf : Lexbuf) -> Unit!LexError {
   match __mbtlex_engine_lex_string.run(lexbuf) {
     (0, __mbtlex_captures) => {
-      let t : String = __mbtlex_captures[0]
+      let (_start_pos_of_t, _end_pos_of_t) = __mbtlex_captures[0]
+      let t : String = lexbuf.substring(_start_pos_of_t, _end_pos_of_t)
       buf.write_string(t)
     }
     (1, __mbtlex_captures) => {
-      let t : String = __mbtlex_captures[0]
+      let (_start_pos_of_t, _end_pos_of_t) = __mbtlex_captures[0]
+      let t : String = lexbuf.substring(_start_pos_of_t, _end_pos_of_t)
       buf.write_string(t)
       lex_string!(buf, lexbuf)
     }
     (2, __mbtlex_captures) => {
-      let t : String = __mbtlex_captures[0]
+      let (_start_pos_of_t, _end_pos_of_t) = __mbtlex_captures[0]
+      let t : String = lexbuf.substring(_start_pos_of_t, _end_pos_of_t)
       buf.write_string(t)
       lex_string!(buf, lexbuf)
     }
     (3, __mbtlex_captures) => {
-      let t : String = __mbtlex_captures[0]
+      let (_start_pos_of_t, _end_pos_of_t) = __mbtlex_captures[0]
+      let t : String = lexbuf.substring(_start_pos_of_t, _end_pos_of_t)
       raise Unrecognized(t)
     }
     (4, __mbtlex_captures) => raise UnexpectedEndOfFile

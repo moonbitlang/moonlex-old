@@ -1,0 +1,48 @@
+{
+pub(all) enum SubstItemDesc {
+  StartPosOf(String)
+  EndPosOf(String)
+}
+
+pub(all) struct SubstItem {
+  start : Int
+  end : Int
+  desc : SubstItemDesc
+}
+}
+
+rule scan_codeblock_rbrace(subst : Array[SubstItem]) -> Unit {
+  parse {
+    "{" => {
+      scan_codeblock_rbrace(subst, lexbuf)
+      scan_codeblock_rbrace(subst, lexbuf)
+    }
+    "}" => { () }
+    ("$" (("startpos" | "endpos") as t1) "(" [' ' '\t']* ((['A'-'Z' 'a'-'z' '_'] ['A'-'Z' 'a'-'z' '0'-'9' '_']*) as t2) [' ' '\t']* ")") as t => {
+      subst.push({ 
+        start: $startpos(t), 
+        end: $endpos(t), 
+        desc: match t1 {
+          "startpos" => StartPosOf(t2)
+          "endpos" => EndPosOf(t2)
+          _ => panic()
+        }
+      })
+      scan_codeblock_rbrace(subst, lexbuf)
+    }
+    "$" ['A'-'Z' 'a'-'z' '_'] ['A'-'Z' 'a'-'z' '0'-'9' '_']* => {
+      scan_codeblock_rbrace(subst, lexbuf)
+    }
+    _ => { scan_codeblock_rbrace(subst, lexbuf) }
+    "" => { () }
+  }
+}
+
+{
+pub fn parse_codeblock(str : String) -> Array[SubstItem] {
+  let lexbuf = Lexbuf::from_string(str)
+  let subst = []
+  scan_codeblock_rbrace(subst, lexbuf)
+  subst
+}
+}

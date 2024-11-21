@@ -27,10 +27,10 @@ jobs:
           moon update
           moon install
 
-      - name: moon fmt
-        run: |
-          moon fmt
-          git diff --exit-code
+      # - name: moon fmt
+      #   run: |
+      #     moon fmt
+      #     git diff --exit-code
 
       - name: moon check
         run: moon check

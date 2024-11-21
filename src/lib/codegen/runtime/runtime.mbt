@@ -29,7 +29,7 @@ pub(all) struct Engine {
   code_blocks_n : Int
 }
 
-pub fn run(self : Engine, lexbuf : Lexbuf) -> (Int, Array[String]) {
+pub fn run(self : Engine, lexbuf : Lexbuf) -> (Int, Array[(Int, Int)]) {
   let mut state = 1
   let mut tagState : Array[Array[Int]] = []
   let backtrace = Array::make(self.code_blocks_n, None)
@@ -67,8 +67,7 @@ pub fn run(self : Engine, lexbuf : Lexbuf) -> (Int, Array[String]) {
         lexbuf.pos = p
         let captures = self.end_nodes[state].unwrap().1.map(
           fn {
-            ((b_t, b_r), (e_t, e_r)) =>
-              lexbuf.substring(tagState[b_t][b_r], tagState[e_t][e_r])
+            ((b_t, b_r), (e_t, e_r)) => (tagState[b_t][b_r], tagState[e_t][e_r])
           },
         )
         break (index, captures)

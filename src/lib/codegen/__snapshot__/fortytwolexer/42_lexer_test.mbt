@@ -29,7 +29,7 @@ pub(all) struct Engine {
   code_blocks_n : Int
 }
 
-pub fn run(self : Engine, lexbuf : Lexbuf) -> (Int, Array[String]) {
+pub fn run(self : Engine, lexbuf : Lexbuf) -> (Int, Array[(Int, Int)]) {
   let mut state = 1
   let mut tagState : Array[Array[Int]] = []
   let backtrace = Array::make(self.code_blocks_n, None)
@@ -67,8 +67,7 @@ pub fn run(self : Engine, lexbuf : Lexbuf) -> (Int, Array[String]) {
         lexbuf.pos = p
         let captures = self.end_nodes[state].unwrap().1.map(
           fn {
-            ((b_t, b_r), (e_t, e_r)) =>
-              lexbuf.substring(tagState[b_t][b_r], tagState[e_t][e_r])
+            ((b_t, b_r), (e_t, e_r)) => (tagState[b_t][b_r], tagState[e_t][e_r])
           },
         )
         break (index, captures)
@@ -886,7 +885,8 @@ fn count(
   match __mbtlex_engine_count.run(lexbuf) {
     (0, __mbtlex_captures) => count(lines + 1, words, chars + 1, lexbuf)
     (1, __mbtlex_captures) => {
-      let word : String = __mbtlex_captures[0]
+      let (_start_pos_of_word, _end_pos_of_word) = __mbtlex_captures[0]
+      let word : String = lexbuf.substring(_start_pos_of_word, _end_pos_of_word)
       let new_chars = chars + word.length()
       count(lines, words + 1, new_chars, lexbuf)
     }
