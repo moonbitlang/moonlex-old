@@ -11,35 +11,30 @@ pub(all) struct SubstItem {
 }
 }
 
-rule scan_codeblock_rbrace(base : Int, subst : Array[SubstItem]) -> Int {
+rule scan_codeblock_rbrace(subst : Array[SubstItem]) -> Unit {
   parse {
     "{" => {
-      let base2 = scan_codeblock_rbrace(base + 1, subst, lexbuf)
-      scan_codeblock_rbrace(base2, subst, lexbuf)
+      scan_codeblock_rbrace(subst, lexbuf)
+      scan_codeblock_rbrace(subst, lexbuf)
     }
-    "}" => {
-      base + 1
-    }
+    "}" => { () }
     ("$" (("startpos" | "endpos") as t1) "(" [' ' '\t']* ((['A'-'Z' 'a'-'z' '_'] ['A'-'Z' 'a'-'z' '0'-'9' '_']*) as t2) [' ' '\t']* ")") as t => {
-      let start = base
-      let end = base + t.length()
       subst.push({ 
-        start, 
-        end, 
+        start: $startpos(t), 
+        end: $endpos(t), 
         desc: match t1 {
           "startpos" => StartPosOf(t2)
           "endpos" => EndPosOf(t2)
           _ => panic()
         }
       })
-      scan_codeblock_rbrace(end, subst, lexbuf)
+      scan_codeblock_rbrace(subst, lexbuf)
     }
-    ("$" ['A'-'Z' 'a'-'z' '_'] ['A'-'Z' 'a'-'z' '0'-'9' '_']*) as t => {
-      let end = base + t.length()
-      scan_codeblock_rbrace(end, subst, lexbuf)
+    "$" ['A'-'Z' 'a'-'z' '_'] ['A'-'Z' 'a'-'z' '0'-'9' '_']* => {
+      scan_codeblock_rbrace(subst, lexbuf)
     }
-    _ => { scan_codeblock_rbrace(base + 1, subst, lexbuf) }
-    "" => { (); base }
+    _ => { scan_codeblock_rbrace(subst, lexbuf) }
+    "" => { () }
   }
 }
 
@@ -47,7 +42,7 @@ rule scan_codeblock_rbrace(base : Int, subst : Array[SubstItem]) -> Int {
 pub fn parse_codeblock(str : String) -> Array[SubstItem] {
   let lexbuf = Lexbuf::from_string(str)
   let subst = []
-  scan_codeblock_rbrace(0, subst, lexbuf) |> ignore
+  scan_codeblock_rbrace(subst, lexbuf)
   subst
 }
 }
