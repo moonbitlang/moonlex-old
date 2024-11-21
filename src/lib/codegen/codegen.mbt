@@ -16,6 +16,7 @@ fn rewrite_codeblock(
   let buf = StringBuilder::new()
   let mut last_index = 0
   for item in subst {
+    // replace `$startpos(t)`/`$endpos(t)` with `_start_pos_of_t`/`_end_pos_of_t`
     buf.write_substring(codeblock, last_index, item.start - last_index)
     match item.desc {
       StartPosOf(name) => buf.write_string("_start_pos_of_\{name}")
