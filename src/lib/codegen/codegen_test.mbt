@@ -31,6 +31,33 @@ test (it : @test.T) {
 test (it : @test.T) {
   let parser_buf = @parser.ParserBuf::from_string(
     #|{
+    #|}
+    #|rule scan_newline() -> Int {
+    #|  parse {
+    #|    ('\r'? '\n' | '\r') as t => {
+    #|      $startpos(t)
+    #|    }
+    #|    _ => { scan_newline(lexbuf) }
+    #|    "" => { -1 }
+    #|  }
+    #|}
+    #|{
+    #|test {
+    #|  let lexbuf = Lexbuf::from_string("Hello\nworld!")
+    #|  let pos = scan_newline(lexbuf)
+    #|  assert_eq!(pos, 5)
+    #|}
+    #|}
+    ,
+  )
+  guard let Some((_, lex)) = parser_buf.lex() else { _ => abort("") }
+  it.write(@codegen.codegen_lex(lex))
+  it.snapshot!(filename="newlinelexer/newlinelexer_test.mbt.inc")
+}
+
+test (it : @test.T) {
+  let parser_buf = @parser.ParserBuf::from_string(
+    #|{
     #|enum Token {
     #|  WHITESPACE
     #|  NUMBER(String)
