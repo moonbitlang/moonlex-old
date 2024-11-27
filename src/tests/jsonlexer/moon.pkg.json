@@ -2,8 +2,8 @@
     "pre-build": [
         {
             "command": "node boot/snapshot/moonlex.js $input -o $output",
-            "input": "json_test.mbtx",
-            "output": "json_test.mbt"
+            "input": "jsonlexer.mbtx",
+            "output": "jsonlexer.mbt"
         }
     ]
 }
