@@ -1,1 +1,9 @@
-{}
+{
+    "pre-build": [
+        {
+            "command": "node boot/snapshot/moonlex.js $input -o $output",
+            "input": "codeblock_parser.mbtx",
+            "output": "codeblock_parser.mbt"
+        }
+    ]
+}
