@@ -2,8 +2,8 @@
     "pre-build": [
         {
             "command": "node boot/snapshot/moonlex.js $input -o $output",
-            "input": "wordcount_test.mbtx",
-            "output": "wordcount_test.mbt"
+            "input": "wordcountlexer.mbtx",
+            "output": "wordcountlexer.mbt"
         }
     ]
 }
