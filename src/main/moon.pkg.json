@@ -7,5 +7,10 @@
     "Yoorkin/ArgParser",
     "moonbitlang/x/sys",
     "moonbitlang/x/fs"
-  ]
+  ],
+  "link": {
+    "js": {
+      "format": "iife"
+    }
+  }
 }

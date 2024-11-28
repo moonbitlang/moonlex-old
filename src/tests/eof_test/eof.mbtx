@@ -1,0 +1,17 @@
+{
+enum Token {
+  PERCENT
+  PERCENT_EOF
+  EOF
+} derive(ToJson)
+}
+
+rule token() -> Token {
+  parse {
+    "%" eof => { PERCENT_EOF }
+    "%" => { PERCENT }
+    eof => { EOF }
+  }
+}
+
+{}

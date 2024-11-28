@@ -44,7 +44,10 @@ pub fn run(self : Engine, lexbuf : Lexbuf) -> (Int, Array[(Int, Int)]) {
       Some(t) => backtrace[t.0] = Some((lexbuf.pos, state, tagState))
       _ => ()
     }
-    guard let Some(b) = lexbuf.next() else { None => break }
+    let b = match lexbuf.next() {
+      Some(b) => b
+      None => '\x00'
+    }
     let next = self.graph[state][b.to_int()]
     state = next.0
     let new_tagState : Array[Array[Int]] = []
