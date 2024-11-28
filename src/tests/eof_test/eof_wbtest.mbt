@@ -1,13 +1,21 @@
 test {
-  let lexbuf = Lexbuf::from_string("%%")
+  let lexbuf = Lexbuf::from_string("%a%")
   let tokens = []
   while true {
     let tok = token(lexbuf)
     tokens.push(tok)
     match tok {
-      EOF => { break }
+      EOF => break
       _ => ()
     }
   }
-  @json.inspect!(tokens)
+  @json.inspect!(
+    tokens,
+    content=[
+      { "$tag": "PERCENT" },
+      { "$tag": "NON_PERCENT" },
+      { "$tag": "PERCENT_EOF" },
+      { "$tag": "EOF" },
+    ],
+  )
 }

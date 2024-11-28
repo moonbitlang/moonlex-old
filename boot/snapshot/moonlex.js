@@ -6611,7 +6611,7 @@
           const _RevCharSet = re$2;
           const _x$4 = _RevCharSet._0;
           const next_node$6 = jian$mbtlex$lib$automaton$$NFA$new_node(self$2);
-          let _tmp$7 = 0;
+          let _tmp$7 = 1;
           while (true) {
             const c = _tmp$7;
             if (c < 128) {

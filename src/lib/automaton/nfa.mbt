@@ -124,7 +124,9 @@ fn register_regex_rec(
     }
     RevCharSet(arr) => {
       let next_node = self.new_node()
-      for c = 0; c < 128; c = c + 1 {
+      // c = 0 is used as eof
+      // TODO: Use -1 as eof
+      for c = 1; c < 128; c = c + 1 {
         let c = Char::from_int(c)
         if not(arr.contains(c)) {
           self.add_edge(node, EChar(c), next_node)
