@@ -213,7 +213,7 @@ const jian$mbtlex$lib$parser$$string_re = new $64$jian$47$mbtlex$47$lib$47$type$
 const jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_row_0 = [];
 const jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_row_2 = [-1];
 const jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_row_1 = [0];
-const jian$mbtlex$lib$codegen$$runtime = "///|\nstruct Lexbuf {\n  content : String\n  mut pos : Int\n}\n\n///|\npub fn Lexbuf::from_string(content : String) -> Lexbuf {\n  { content, pos: 0 }\n}\n\n// NOTE: MoonBit do have unboxed Option[Char] optimization\n///|\nfn next(self : Lexbuf) -> Char? {\n  if self.pos < self.content.length() {\n    let ch = self.content[self.pos]\n    self.pos += 1\n    Some(ch)\n  } else {\n    None\n  }\n}\n\n///|\nfn substring(self : Lexbuf, start : Int, end : Int) -> String {\n  self.content.substring(start~, end~)\n}\n\n///|\ntypealias TagAction = Array[Array[Int]]\n\n///|\ntypealias State = Int\n\n///|\ntypealias Input = Int\n\n///|\npub(all) struct Engine {\n  graph : Array[(State) -> (State, TagAction)]\n  end_nodes : Array[(Int, Array[((Int, Int), (Int, Int))])?]\n  start_tags : Array[Int]\n  code_blocks_n : Int\n}\n\n///|\npub fn run(self : Engine, lexbuf : Lexbuf) -> (Int, Array[(Int, Int)]) {\n  let mut state = 1\n  let mut tagState : Array[Array[Int]] = []\n  let backtrace = Array::make(self.code_blocks_n, None)\n  for tag in self.start_tags {\n    while tagState.length() <= tag {\n      tagState.push([])\n    }\n    tagState[tag].push(lexbuf.pos)\n  }\n  while state != 0 {\n    match self.end_nodes[state] {\n      Some(t) => backtrace[t.0] = Some((lexbuf.pos, state, tagState))\n      _ => ()\n    }\n    let b = match lexbuf.next() {\n      Some(b) => b\n      None => '\\x00'\n    }\n    let next = self.graph[state](b.to_int())\n    state = next.0\n    let new_tagState : Array[Array[Int]] = []\n    for i = 0; i < next.1.length(); i = i + 1 {\n      new_tagState.push([])\n      for j = 0; j < next.1[i].length(); j = j + 1 {\n        let t = next.1[i][j]\n        if t == -1 {\n          new_tagState[i].push(lexbuf.pos)\n        } else {\n          new_tagState[i].push(tagState[i][t])\n        }\n      }\n    }\n    tagState = new_tagState\n  }\n  for index, b in backtrace {\n    match b {\n      Some((p, state, tagState)) => {\n        lexbuf.pos = p\n        let captures = self.end_nodes[state].unwrap().1.map(\n          fn {\n            ((b_t, b_r), (e_t, e_r)) => (tagState[b_t][b_r], tagState[e_t][e_r])\n          },\n        )\n        break (index, captures)\n      }\n      None => ()\n    }\n  } else {\n    (self.code_blocks_n, [])\n  }\n}\n";
+const jian$mbtlex$lib$codegen$$runtime = "///|\nstruct Lexbuf {\n  content : String\n  mut pos : Int\n}\n\n///|\npub fn Lexbuf::from_string(content : String) -> Lexbuf {\n  { content, pos: 0 }\n}\n\n// NOTE: MoonBit do have unboxed Option[Char] optimization\n///|\nfn next(self : Lexbuf) -> Char? {\n  if self.pos < self.content.length() {\n    let ch = self.content[self.pos]\n    self.pos += 1\n    Some(ch)\n  } else {\n    None\n  }\n}\n\n///|\nfn substring(self : Lexbuf, start : Int, end : Int) -> String {\n  self.content.substring(start~, end~)\n}\n\n///|\ntypealias LexTagAction = Array[Array[Int]]\n\n///|\ntypealias LexState = Int\n\n///|\ntypealias LexInput = Int\n\n///|\npub(all) struct LexEngine {\n  graph : Array[(LexState) -> (LexState, LexTagAction)]\n  end_nodes : Array[(Int, Array[((Int, Int), (Int, Int))])?]\n  start_tags : Array[Int]\n  code_blocks_n : Int\n}\n\n///|\npub fn run(self : LexEngine, lexbuf : Lexbuf) -> (Int, Array[(Int, Int)]) {\n  let mut state = 1\n  let mut tagState : Array[Array[Int]] = []\n  let backtrace = Array::make(self.code_blocks_n, None)\n  for tag in self.start_tags {\n    while tagState.length() <= tag {\n      tagState.push([])\n    }\n    tagState[tag].push(lexbuf.pos)\n  }\n  while state != 0 {\n    match self.end_nodes[state] {\n      Some(t) => backtrace[t.0] = Some((lexbuf.pos, state, tagState))\n      _ => ()\n    }\n    let b = match lexbuf.next() {\n      Some(b) => b\n      None => '\\x00'\n    }\n    let next = self.graph[state](b.to_int())\n    state = next.0\n    let new_tagState : Array[Array[Int]] = []\n    for i = 0; i < next.1.length(); i = i + 1 {\n      new_tagState.push([])\n      for j = 0; j < next.1[i].length(); j = j + 1 {\n        let t = next.1[i][j]\n        if t == -1 {\n          new_tagState[i].push(lexbuf.pos)\n        } else {\n          new_tagState[i].push(tagState[i][t])\n        }\n      }\n    }\n    tagState = new_tagState\n  }\n  for index, b in backtrace {\n    match b {\n      Some((p, state, tagState)) => {\n        lexbuf.pos = p\n        let captures = self.end_nodes[state].unwrap().1.map(\n          fn {\n            ((b_t, b_r), (e_t, e_r)) => (tagState[b_t][b_r], tagState[e_t][e_r])\n          },\n        )\n        break (index, captures)\n      }\n      None => ()\n    }\n  } else {\n    (self.code_blocks_n, [])\n  }\n}\n";
 const jian$mbtlex$main$$_init$42$46$usage$1$ = "Usage: moonlex [options] <input-file>";
 const jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 = [jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_row_1, jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_row_0, jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_row_1, jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_row_1, jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_row_1, jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_row_2];
 const jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_7 = [jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_row_1, jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_row_2, jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_row_1, jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_row_1, jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_row_1, jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_row_1];
@@ -2567,15 +2567,15 @@ function moonbitlang$core$array$$Array$op_get$57$(self, index) {
   const len = self.length;
   return index >= 0 && index < len ? self[index] : $panic();
 }
+function moonbitlang$core$array$$Array$op_get$11$(self, index) {
+  const len = self.length;
+  return index >= 0 && index < len ? self[index] : $panic();
+}
 function moonbitlang$core$array$$Array$op_get$58$(self, index) {
   const len = self.length;
   return index >= 0 && index < len ? self[index] : $panic();
 }
 function moonbitlang$core$array$$Array$op_get$59$(self, index) {
-  const len = self.length;
-  return index >= 0 && index < len ? self[index] : $panic();
-}
-function moonbitlang$core$array$$Array$op_get$11$(self, index) {
   const len = self.length;
   return index >= 0 && index < len ? self[index] : $panic();
 }
@@ -3627,13 +3627,13 @@ function moonbitlang$core$array$$Array$each$16$(self, f) {
     }
   }
 }
-function moonbitlang$core$array$$Array$each$57$(self, f) {
+function moonbitlang$core$array$$Array$each$59$(self, f) {
   const _len = self.length;
   let _tmp = 0;
   while (true) {
     const _i = _tmp;
     if (_i < _len) {
-      const v = moonbitlang$core$array$$Array$op_get$57$(self, _i);
+      const v = moonbitlang$core$array$$Array$op_get$59$(self, _i);
       f(v);
       _tmp = _i + 1 | 0;
       continue;
@@ -3651,7 +3651,7 @@ function moonbitlang$core$builtin$$Map$from_array$14$(arr) {
 }
 function moonbitlang$core$builtin$$Map$from_array$84$(arr) {
   const m = moonbitlang$core$builtin$$Map$new$84$(arr.length);
-  moonbitlang$core$array$$Array$each$57$(arr, (e) => {
+  moonbitlang$core$array$$Array$each$59$(arr, (e) => {
     moonbitlang$core$builtin$$Map$set$84$(m, e._0, e._1);
   });
   return m;
@@ -4131,10 +4131,10 @@ function moonbitlang$core$array$$Array$push$71$(self, value) {
 function moonbitlang$core$array$$Array$push$63$(self, value) {
   moonbitlang$core$builtin$$JSArray$push(self, value);
 }
-function moonbitlang$core$array$$Array$push$61$(self, value) {
+function moonbitlang$core$array$$Array$push$10$(self, value) {
   moonbitlang$core$builtin$$JSArray$push(self, value);
 }
-function moonbitlang$core$array$$Array$push$10$(self, value) {
+function moonbitlang$core$array$$Array$push$61$(self, value) {
   moonbitlang$core$builtin$$JSArray$push(self, value);
 }
 function moonbitlang$core$array$$Array$push$62$(self, value) {
@@ -4143,7 +4143,7 @@ function moonbitlang$core$array$$Array$push$62$(self, value) {
 function moonbitlang$core$array$$Array$push$68$(self, value) {
   moonbitlang$core$builtin$$JSArray$push(self, value);
 }
-function moonbitlang$core$array$$Array$push$56$(self, value) {
+function moonbitlang$core$array$$Array$push$58$(self, value) {
   moonbitlang$core$builtin$$JSArray$push(self, value);
 }
 function moonbitlang$core$array$$Array$push$65$(self, value) {
@@ -4572,7 +4572,7 @@ function moonbitlang$core$array$$Array$map$94$(self, f) {
   while (true) {
     const _i = _tmp;
     if (_i < _len) {
-      const v = moonbitlang$core$array$$Array$op_get$57$(self, _i);
+      const v = moonbitlang$core$array$$Array$op_get$59$(self, _i);
       arr[_i] = f(v);
       _tmp = _i + 1 | 0;
       continue;
@@ -4612,7 +4612,7 @@ function moonbitlang$core$array$$Array$map$96$(self, f) {
   while (true) {
     const _i = _tmp;
     if (_i < _len) {
-      const v = moonbitlang$core$array$$Array$op_get$57$(self, _i);
+      const v = moonbitlang$core$array$$Array$op_get$59$(self, _i);
       arr[_i] = f(v);
       _tmp = _i + 1 | 0;
       continue;
@@ -4632,7 +4632,7 @@ function moonbitlang$core$array$$Array$map$97$(self, f) {
   while (true) {
     const _i = _tmp;
     if (_i < _len) {
-      const v = moonbitlang$core$array$$Array$op_get$56$(self, _i);
+      const v = moonbitlang$core$array$$Array$op_get$58$(self, _i);
       arr[_i] = f(v);
       _tmp = _i + 1 | 0;
       continue;
@@ -4732,7 +4732,7 @@ function moonbitlang$core$array$$Array$op_set$5$(self, index, value) {
     return;
   }
 }
-function moonbitlang$core$array$$Array$op_set$2$(self, index, value) {
+function moonbitlang$core$array$$Array$op_set$56$(self, index, value) {
   const len = self.length;
   if (index >= 0 && index < len) {
     self[index] = value;
@@ -4742,7 +4742,7 @@ function moonbitlang$core$array$$Array$op_set$2$(self, index, value) {
     return;
   }
 }
-function moonbitlang$core$array$$Array$op_set$58$(self, index, value) {
+function moonbitlang$core$array$$Array$op_set$2$(self, index, value) {
   const len = self.length;
   if (index >= 0 && index < len) {
     self[index] = value;
@@ -4802,7 +4802,7 @@ function moonbitlang$core$array$$Array$make$5$(len, elem) {
   }
   return arr;
 }
-function moonbitlang$core$array$$Array$make$2$(len, elem) {
+function moonbitlang$core$array$$Array$make$56$(len, elem) {
   const arr = new Array(len);
   let _tmp = 0;
   while (true) {
@@ -4817,7 +4817,7 @@ function moonbitlang$core$array$$Array$make$2$(len, elem) {
   }
   return arr;
 }
-function moonbitlang$core$array$$Array$make$58$(len, elem) {
+function moonbitlang$core$array$$Array$make$2$(len, elem) {
   const arr = new Array(len);
   let _tmp = 0;
   while (true) {
@@ -6649,7 +6649,7 @@ function jian$mbtlex$lib$automaton$$DFA$register_node(self, nfa, node, os) {
     const end_nodes = moonbitlang$core$builtin$$Iter$to_array$18$((_p) => _bind((_p$2) => moonbitlang$core$option$$Option$op_equal$7$(moonbitlang$core$builtin$$Map$get$33$(nfa.end_nodes, _p$2._0), min_code_block) ? _p(_p$2) : 1));
     if (end_nodes.length === 1) {
       const tagState = moonbitlang$core$array$$Array$op_get$18$(end_nodes, 0)._1;
-      const min_tags = moonbitlang$core$array$$Array$map$94$(moonbitlang$core$array$$Array$op_get$56$(nfa.captures, min_code_block), (_param1) => {
+      const min_tags = moonbitlang$core$array$$Array$map$94$(moonbitlang$core$array$$Array$op_get$58$(nfa.captures, min_code_block), (_param1) => {
         const _x = _param1._1;
         const _x$2 = _x._0;
         const _x$3 = _x._1;
@@ -7000,7 +7000,7 @@ function jian$mbtlex$lib$automaton$$NFA$from_rule(rule) {
       });
       const map = moonbitlang$core$builtin$$Map$from_array$84$(capture_names);
       jian$mbtlex$lib$automaton$$NFA$register_regex(nfa, node, _x, _x$2, (x) => moonbitlang$core$option$$Option$unwrap$64$(moonbitlang$core$builtin$$Map$get$84$(map, x)));
-      moonbitlang$core$array$$Array$push$56$(nfa.captures, capture_names);
+      moonbitlang$core$array$$Array$push$58$(nfa.captures, capture_names);
       _tmp = _i + 1 | 0;
       continue;
     } else {
@@ -7058,10 +7058,10 @@ function jian$mbtlex$lib$codegen$internal$codeblock_parser$$Lexbuf$next(self) {
 function jian$mbtlex$lib$codegen$internal$codeblock_parser$$Lexbuf$substring(self, start, end) {
   return moonbitlang$core$string$$String$substring(self.content, start, end);
 }
-function jian$mbtlex$lib$codegen$internal$codeblock_parser$$Engine$run(self, lexbuf) {
+function jian$mbtlex$lib$codegen$internal$codeblock_parser$$LexEngine$run(self, lexbuf) {
   let state = 1;
   let tagState = [];
-  const backtrace = moonbitlang$core$array$$Array$make$58$(self.code_blocks_n, undefined);
+  const backtrace = moonbitlang$core$array$$Array$make$56$(self.code_blocks_n, undefined);
   const _arr = self.start_tags;
   const _len = _arr.length;
   let _tmp = 0;
@@ -7091,7 +7091,7 @@ function jian$mbtlex$lib$codegen$internal$codeblock_parser$$Engine$run(self, lex
       } else {
         const _Some = _bind;
         const _x = _Some;
-        moonbitlang$core$array$$Array$op_set$58$(backtrace, _x._0, { _0: lexbuf.pos, _1: state, _2: tagState });
+        moonbitlang$core$array$$Array$op_set$56$(backtrace, _x._0, { _0: lexbuf.pos, _1: state, _2: tagState });
       }
       const _bind$2 = jian$mbtlex$lib$codegen$internal$codeblock_parser$$Lexbuf$next(lexbuf);
       let b;
@@ -7102,7 +7102,7 @@ function jian$mbtlex$lib$codegen$internal$codeblock_parser$$Engine$run(self, lex
         const _x = _Some;
         b = _x;
       }
-      const _func = moonbitlang$core$array$$Array$op_get$59$(self.graph, state);
+      const _func = moonbitlang$core$array$$Array$op_get$57$(self.graph, state);
       const next = _func(b);
       state = next._0;
       const new_tagState = [];
@@ -7144,7 +7144,7 @@ function jian$mbtlex$lib$codegen$internal$codeblock_parser$$Engine$run(self, lex
   while (true) {
     const _i = _tmp$2;
     if (_i < _len$2) {
-      const b = moonbitlang$core$array$$Array$op_get$58$(backtrace, _i);
+      const b = moonbitlang$core$array$$Array$op_get$56$(backtrace, _i);
       if (b === undefined) {
       } else {
         const _Some = b;
@@ -7703,7 +7703,7 @@ function jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrac
   _L: while (true) {
     const subst$2 = _tmp;
     const lexbuf$2 = _tmp$2;
-    const _bind = jian$mbtlex$lib$codegen$internal$codeblock_parser$$Engine$run(jian$mbtlex$lib$codegen$internal$codeblock_parser$$__mbtlex_engine_scan_codeblock_rbrace, lexbuf$2);
+    const _bind = jian$mbtlex$lib$codegen$internal$codeblock_parser$$LexEngine$run(jian$mbtlex$lib$codegen$internal$codeblock_parser$$__mbtlex_engine_scan_codeblock_rbrace, lexbuf$2);
     const _x = _bind._0;
     switch (_x) {
       case 0: {
@@ -7953,7 +7953,7 @@ function jian$mbtlex$lib$codegen$$codegen_rule(rule) {
     const _i = _tmp;
     if (_i < _len) {
       const trans = moonbitlang$core$array$$Array$op_get$71$(_arr, _i);
-      moonbitlang$core$builtin$$StringBuilder$write_string(states_code, `fn ${rule.name}_state_${moonbitlang$core$int$$Int$to_string(_i)}(input : Input) -> (State, TagAction) {\n  match input {\n`);
+      moonbitlang$core$builtin$$StringBuilder$write_string(states_code, `fn ${rule.name}_state_${moonbitlang$core$int$$Int$to_string(_i)}(input : LexInput) -> (LexState, LexTagAction) {\n  match input {\n`);
       const _arr$2 = jian$mbtlex$lib$codegen$$group_trans(trans);
       const _len$2 = _arr$2.length;
       let _tmp$2 = 0;
@@ -8057,7 +8057,7 @@ function jian$mbtlex$lib$codegen$$codegen_rule(rule) {
   const _tmp$3 = moonbitlang$core$builtin$$StringBuilder$to_string(shared_tag_action_rows_code);
   const _tmp$4 = moonbitlang$core$builtin$$StringBuilder$to_string(shared_tag_actions_code);
   const _tmp$5 = moonbitlang$core$builtin$$StringBuilder$to_string(states_code);
-  const _tmp$6 = `let ${engine}: Engine = { graph: ${moonbitlang$core$builtin$$StringBuilder$to_string(graph_code)}, end_nodes: ${moonbitlang$core$builtin$$Show$to_string$105$(end_nodes)}, start_tags: ${moonbitlang$core$builtin$$Show$to_string$106$(start_tags)}, code_blocks_n: ${moonbitlang$core$int$$Int$to_string(dfa.code_blocks.length)} }`;
+  const _tmp$6 = `let ${engine}: LexEngine = { graph: ${moonbitlang$core$builtin$$StringBuilder$to_string(graph_code)}, end_nodes: ${moonbitlang$core$builtin$$Show$to_string$105$(end_nodes)}, start_tags: ${moonbitlang$core$builtin$$Show$to_string$106$(start_tags)}, code_blocks_n: ${moonbitlang$core$int$$Int$to_string(dfa.code_blocks.length)} }`;
   const _tmp$7 = `fn ${rule.name}(`;
   const self = [];
   moonbitlang$core$array$$Array$push_iter$8$(self, moonbitlang$core$array$$Array$iter$8$(rule.vars));

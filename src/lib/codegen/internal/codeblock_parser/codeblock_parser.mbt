@@ -28,24 +28,24 @@ fn substring(self : Lexbuf, start : Int, end : Int) -> String {
  }
 
 ///|
-typealias TagAction = Array[Array[Int]]
+typealias LexTagAction = Array[Array[Int]]
 
 ///|
-typealias State = Int
+typealias LexState = Int
 
 ///|
-typealias Input = Int
+typealias LexInput = Int
 
 ///|
-pub(all) struct Engine {
-   graph : Array[(State) -> (State, TagAction)]
+pub(all) struct LexEngine {
+   graph : Array[(LexState) -> (LexState, LexTagAction)]
    end_nodes : Array[(Int, Array[((Int, Int), (Int, Int))])?]
    start_tags : Array[Int]
    code_blocks_n : Int
  }
 
 ///|
-pub fn run(self : Engine, lexbuf : Lexbuf) -> (Int, Array[(Int, Int)]) {
+pub fn run(self : LexEngine, lexbuf : Lexbuf) -> (Int, Array[(Int, Int)]) {
    let mut state = 1
    let mut tagState : Array[Array[Int]] = []
    let backtrace = Array::make(self.code_blocks_n, None)
@@ -125,12 +125,12 @@ let scan_codeblock_rbrace_tag_action_5 : Array[Array[Int]] = [scan_codeblock_rbr
 let scan_codeblock_rbrace_tag_action_6 : Array[Array[Int]] = [scan_codeblock_rbrace_tag_action_row_1, scan_codeblock_rbrace_tag_action_row_0, scan_codeblock_rbrace_tag_action_row_1, scan_codeblock_rbrace_tag_action_row_1, scan_codeblock_rbrace_tag_action_row_1, scan_codeblock_rbrace_tag_action_row_1]
 let scan_codeblock_rbrace_tag_action_7 : Array[Array[Int]] = [scan_codeblock_rbrace_tag_action_row_1, scan_codeblock_rbrace_tag_action_row_2, scan_codeblock_rbrace_tag_action_row_1, scan_codeblock_rbrace_tag_action_row_1, scan_codeblock_rbrace_tag_action_row_1, scan_codeblock_rbrace_tag_action_row_1]
 
-fn scan_codeblock_rbrace_state_0(input : Input) -> (State, TagAction) {
+fn scan_codeblock_rbrace_state_0(input : LexInput) -> (LexState, LexTagAction) {
    match input {
      _ => (0, [])
    }
  }
-fn scan_codeblock_rbrace_state_1(input : Input) -> (State, TagAction) {
+fn scan_codeblock_rbrace_state_1(input : LexInput) -> (LexState, LexTagAction) {
    match input {
      1..=35 => (5, scan_codeblock_rbrace_tag_action_0)
      36 => (2, scan_codeblock_rbrace_tag_action_1)
@@ -142,7 +142,7 @@ fn scan_codeblock_rbrace_state_1(input : Input) -> (State, TagAction) {
      _ => (0, [])
    }
  }
-fn scan_codeblock_rbrace_state_2(input : Input) -> (State, TagAction) {
+fn scan_codeblock_rbrace_state_2(input : LexInput) -> (LexState, LexTagAction) {
    match input {
      65..=90 => (6, scan_codeblock_rbrace_tag_action_0)
      95 => (6, scan_codeblock_rbrace_tag_action_0)
@@ -154,22 +154,22 @@ fn scan_codeblock_rbrace_state_2(input : Input) -> (State, TagAction) {
      _ => (0, [])
    }
  }
-fn scan_codeblock_rbrace_state_3(input : Input) -> (State, TagAction) {
+fn scan_codeblock_rbrace_state_3(input : LexInput) -> (LexState, LexTagAction) {
    match input {
      _ => (0, [])
    }
  }
-fn scan_codeblock_rbrace_state_4(input : Input) -> (State, TagAction) {
+fn scan_codeblock_rbrace_state_4(input : LexInput) -> (LexState, LexTagAction) {
    match input {
      _ => (0, [])
    }
  }
-fn scan_codeblock_rbrace_state_5(input : Input) -> (State, TagAction) {
+fn scan_codeblock_rbrace_state_5(input : LexInput) -> (LexState, LexTagAction) {
    match input {
      _ => (0, [])
    }
  }
-fn scan_codeblock_rbrace_state_6(input : Input) -> (State, TagAction) {
+fn scan_codeblock_rbrace_state_6(input : LexInput) -> (LexState, LexTagAction) {
    match input {
      48..=57 => (9, scan_codeblock_rbrace_tag_action_0)
      65..=90 => (9, scan_codeblock_rbrace_tag_action_0)
@@ -178,7 +178,7 @@ fn scan_codeblock_rbrace_state_6(input : Input) -> (State, TagAction) {
      _ => (0, [])
    }
  }
-fn scan_codeblock_rbrace_state_7(input : Input) -> (State, TagAction) {
+fn scan_codeblock_rbrace_state_7(input : LexInput) -> (LexState, LexTagAction) {
    match input {
      48..=57 => (9, scan_codeblock_rbrace_tag_action_0)
      65..=90 => (9, scan_codeblock_rbrace_tag_action_0)
@@ -189,7 +189,7 @@ fn scan_codeblock_rbrace_state_7(input : Input) -> (State, TagAction) {
      _ => (0, [])
    }
  }
-fn scan_codeblock_rbrace_state_8(input : Input) -> (State, TagAction) {
+fn scan_codeblock_rbrace_state_8(input : LexInput) -> (LexState, LexTagAction) {
    match input {
      48..=57 => (9, scan_codeblock_rbrace_tag_action_0)
      65..=90 => (9, scan_codeblock_rbrace_tag_action_0)
@@ -200,7 +200,7 @@ fn scan_codeblock_rbrace_state_8(input : Input) -> (State, TagAction) {
      _ => (0, [])
    }
  }
-fn scan_codeblock_rbrace_state_9(input : Input) -> (State, TagAction) {
+fn scan_codeblock_rbrace_state_9(input : LexInput) -> (LexState, LexTagAction) {
    match input {
      48..=57 => (9, scan_codeblock_rbrace_tag_action_0)
      65..=90 => (9, scan_codeblock_rbrace_tag_action_0)
@@ -209,7 +209,7 @@ fn scan_codeblock_rbrace_state_9(input : Input) -> (State, TagAction) {
      _ => (0, [])
    }
  }
-fn scan_codeblock_rbrace_state_10(input : Input) -> (State, TagAction) {
+fn scan_codeblock_rbrace_state_10(input : LexInput) -> (LexState, LexTagAction) {
    match input {
      48..=57 => (9, scan_codeblock_rbrace_tag_action_0)
      65..=90 => (9, scan_codeblock_rbrace_tag_action_0)
@@ -220,7 +220,7 @@ fn scan_codeblock_rbrace_state_10(input : Input) -> (State, TagAction) {
      _ => (0, [])
    }
  }
-fn scan_codeblock_rbrace_state_11(input : Input) -> (State, TagAction) {
+fn scan_codeblock_rbrace_state_11(input : LexInput) -> (LexState, LexTagAction) {
    match input {
      48..=57 => (9, scan_codeblock_rbrace_tag_action_0)
      65..=90 => (9, scan_codeblock_rbrace_tag_action_0)
@@ -230,7 +230,7 @@ fn scan_codeblock_rbrace_state_11(input : Input) -> (State, TagAction) {
      _ => (0, [])
    }
  }
-fn scan_codeblock_rbrace_state_12(input : Input) -> (State, TagAction) {
+fn scan_codeblock_rbrace_state_12(input : LexInput) -> (LexState, LexTagAction) {
    match input {
      48..=57 => (9, scan_codeblock_rbrace_tag_action_0)
      65..=90 => (9, scan_codeblock_rbrace_tag_action_0)
@@ -241,7 +241,7 @@ fn scan_codeblock_rbrace_state_12(input : Input) -> (State, TagAction) {
      _ => (0, [])
    }
  }
-fn scan_codeblock_rbrace_state_13(input : Input) -> (State, TagAction) {
+fn scan_codeblock_rbrace_state_13(input : LexInput) -> (LexState, LexTagAction) {
    match input {
      48..=57 => (9, scan_codeblock_rbrace_tag_action_0)
      65..=90 => (9, scan_codeblock_rbrace_tag_action_0)
@@ -252,7 +252,7 @@ fn scan_codeblock_rbrace_state_13(input : Input) -> (State, TagAction) {
      _ => (0, [])
    }
  }
-fn scan_codeblock_rbrace_state_14(input : Input) -> (State, TagAction) {
+fn scan_codeblock_rbrace_state_14(input : LexInput) -> (LexState, LexTagAction) {
    match input {
      48..=57 => (9, scan_codeblock_rbrace_tag_action_0)
      65..=90 => (9, scan_codeblock_rbrace_tag_action_0)
@@ -263,7 +263,7 @@ fn scan_codeblock_rbrace_state_14(input : Input) -> (State, TagAction) {
      _ => (0, [])
    }
  }
-fn scan_codeblock_rbrace_state_15(input : Input) -> (State, TagAction) {
+fn scan_codeblock_rbrace_state_15(input : LexInput) -> (LexState, LexTagAction) {
    match input {
      48..=57 => (9, scan_codeblock_rbrace_tag_action_0)
      65..=90 => (9, scan_codeblock_rbrace_tag_action_0)
@@ -274,7 +274,7 @@ fn scan_codeblock_rbrace_state_15(input : Input) -> (State, TagAction) {
      _ => (0, [])
    }
  }
-fn scan_codeblock_rbrace_state_16(input : Input) -> (State, TagAction) {
+fn scan_codeblock_rbrace_state_16(input : LexInput) -> (LexState, LexTagAction) {
    match input {
      48..=57 => (9, scan_codeblock_rbrace_tag_action_0)
      65..=90 => (9, scan_codeblock_rbrace_tag_action_0)
@@ -285,7 +285,7 @@ fn scan_codeblock_rbrace_state_16(input : Input) -> (State, TagAction) {
      _ => (0, [])
    }
  }
-fn scan_codeblock_rbrace_state_17(input : Input) -> (State, TagAction) {
+fn scan_codeblock_rbrace_state_17(input : LexInput) -> (LexState, LexTagAction) {
    match input {
      48..=57 => (9, scan_codeblock_rbrace_tag_action_0)
      65..=90 => (9, scan_codeblock_rbrace_tag_action_0)
@@ -296,7 +296,7 @@ fn scan_codeblock_rbrace_state_17(input : Input) -> (State, TagAction) {
      _ => (0, [])
    }
  }
-fn scan_codeblock_rbrace_state_18(input : Input) -> (State, TagAction) {
+fn scan_codeblock_rbrace_state_18(input : LexInput) -> (LexState, LexTagAction) {
    match input {
      40 => (20, scan_codeblock_rbrace_tag_action_4)
      48..=57 => (9, scan_codeblock_rbrace_tag_action_0)
@@ -306,7 +306,7 @@ fn scan_codeblock_rbrace_state_18(input : Input) -> (State, TagAction) {
      _ => (0, [])
    }
  }
-fn scan_codeblock_rbrace_state_19(input : Input) -> (State, TagAction) {
+fn scan_codeblock_rbrace_state_19(input : LexInput) -> (LexState, LexTagAction) {
    match input {
      48..=57 => (9, scan_codeblock_rbrace_tag_action_0)
      65..=90 => (9, scan_codeblock_rbrace_tag_action_0)
@@ -317,7 +317,7 @@ fn scan_codeblock_rbrace_state_19(input : Input) -> (State, TagAction) {
      _ => (0, [])
    }
  }
-fn scan_codeblock_rbrace_state_20(input : Input) -> (State, TagAction) {
+fn scan_codeblock_rbrace_state_20(input : LexInput) -> (LexState, LexTagAction) {
    match input {
      9 => (23, scan_codeblock_rbrace_tag_action_4)
      32 => (23, scan_codeblock_rbrace_tag_action_4)
@@ -327,7 +327,7 @@ fn scan_codeblock_rbrace_state_20(input : Input) -> (State, TagAction) {
      _ => (0, [])
    }
  }
-fn scan_codeblock_rbrace_state_21(input : Input) -> (State, TagAction) {
+fn scan_codeblock_rbrace_state_21(input : LexInput) -> (LexState, LexTagAction) {
    match input {
      48..=57 => (9, scan_codeblock_rbrace_tag_action_0)
      65..=90 => (9, scan_codeblock_rbrace_tag_action_0)
@@ -338,7 +338,7 @@ fn scan_codeblock_rbrace_state_21(input : Input) -> (State, TagAction) {
      _ => (0, [])
    }
  }
-fn scan_codeblock_rbrace_state_22(input : Input) -> (State, TagAction) {
+fn scan_codeblock_rbrace_state_22(input : LexInput) -> (LexState, LexTagAction) {
    match input {
      9 => (25, scan_codeblock_rbrace_tag_action_6)
      32 => (25, scan_codeblock_rbrace_tag_action_6)
@@ -350,7 +350,7 @@ fn scan_codeblock_rbrace_state_22(input : Input) -> (State, TagAction) {
      _ => (0, [])
    }
  }
-fn scan_codeblock_rbrace_state_23(input : Input) -> (State, TagAction) {
+fn scan_codeblock_rbrace_state_23(input : LexInput) -> (LexState, LexTagAction) {
    match input {
      9 => (23, scan_codeblock_rbrace_tag_action_4)
      32 => (23, scan_codeblock_rbrace_tag_action_4)
@@ -360,7 +360,7 @@ fn scan_codeblock_rbrace_state_23(input : Input) -> (State, TagAction) {
      _ => (0, [])
    }
  }
-fn scan_codeblock_rbrace_state_24(input : Input) -> (State, TagAction) {
+fn scan_codeblock_rbrace_state_24(input : LexInput) -> (LexState, LexTagAction) {
    match input {
      40 => (20, scan_codeblock_rbrace_tag_action_4)
      48..=57 => (9, scan_codeblock_rbrace_tag_action_0)
@@ -370,7 +370,7 @@ fn scan_codeblock_rbrace_state_24(input : Input) -> (State, TagAction) {
      _ => (0, [])
    }
  }
-fn scan_codeblock_rbrace_state_25(input : Input) -> (State, TagAction) {
+fn scan_codeblock_rbrace_state_25(input : LexInput) -> (LexState, LexTagAction) {
    match input {
      9 => (25, scan_codeblock_rbrace_tag_action_6)
      32 => (25, scan_codeblock_rbrace_tag_action_6)
@@ -378,12 +378,12 @@ fn scan_codeblock_rbrace_state_25(input : Input) -> (State, TagAction) {
      _ => (0, [])
    }
  }
-fn scan_codeblock_rbrace_state_26(input : Input) -> (State, TagAction) {
+fn scan_codeblock_rbrace_state_26(input : LexInput) -> (LexState, LexTagAction) {
    match input {
      _ => (0, [])
    }
  }
-fn scan_codeblock_rbrace_state_27(input : Input) -> (State, TagAction) {
+fn scan_codeblock_rbrace_state_27(input : LexInput) -> (LexState, LexTagAction) {
    match input {
      9 => (25, scan_codeblock_rbrace_tag_action_6)
      32 => (25, scan_codeblock_rbrace_tag_action_6)
@@ -396,7 +396,7 @@ fn scan_codeblock_rbrace_state_27(input : Input) -> (State, TagAction) {
    }
  }
 
-let __mbtlex_engine_scan_codeblock_rbrace: Engine = { graph: [scan_codeblock_rbrace_state_0, scan_codeblock_rbrace_state_1, scan_codeblock_rbrace_state_2, scan_codeblock_rbrace_state_3, scan_codeblock_rbrace_state_4, scan_codeblock_rbrace_state_5, scan_codeblock_rbrace_state_6, scan_codeblock_rbrace_state_7, scan_codeblock_rbrace_state_8, scan_codeblock_rbrace_state_9, scan_codeblock_rbrace_state_10, scan_codeblock_rbrace_state_11, scan_codeblock_rbrace_state_12, scan_codeblock_rbrace_state_13, scan_codeblock_rbrace_state_14, scan_codeblock_rbrace_state_15, scan_codeblock_rbrace_state_16, scan_codeblock_rbrace_state_17, scan_codeblock_rbrace_state_18, scan_codeblock_rbrace_state_19, scan_codeblock_rbrace_state_20, scan_codeblock_rbrace_state_21, scan_codeblock_rbrace_state_22, scan_codeblock_rbrace_state_23, scan_codeblock_rbrace_state_24, scan_codeblock_rbrace_state_25, scan_codeblock_rbrace_state_26, scan_codeblock_rbrace_state_27, ], end_nodes: [None, Some((5, [])), Some((4, [])), Some((0, [])), Some((1, [])), Some((4, [])), Some((3, [])), Some((3, [])), Some((3, [])), Some((3, [])), Some((3, [])), Some((3, [])), Some((3, [])), Some((3, [])), Some((3, [])), Some((3, [])), Some((3, [])), Some((3, [])), Some((3, [])), Some((3, [])), None, Some((3, [])), None, None, Some((3, [])), None, Some((2, [((0, 0), (1, 0)), ((2, 0), (3, 0)), ((4, 0), (5, 0))])), None], start_tags: [0], code_blocks_n: 6 }
+let __mbtlex_engine_scan_codeblock_rbrace: LexEngine = { graph: [scan_codeblock_rbrace_state_0, scan_codeblock_rbrace_state_1, scan_codeblock_rbrace_state_2, scan_codeblock_rbrace_state_3, scan_codeblock_rbrace_state_4, scan_codeblock_rbrace_state_5, scan_codeblock_rbrace_state_6, scan_codeblock_rbrace_state_7, scan_codeblock_rbrace_state_8, scan_codeblock_rbrace_state_9, scan_codeblock_rbrace_state_10, scan_codeblock_rbrace_state_11, scan_codeblock_rbrace_state_12, scan_codeblock_rbrace_state_13, scan_codeblock_rbrace_state_14, scan_codeblock_rbrace_state_15, scan_codeblock_rbrace_state_16, scan_codeblock_rbrace_state_17, scan_codeblock_rbrace_state_18, scan_codeblock_rbrace_state_19, scan_codeblock_rbrace_state_20, scan_codeblock_rbrace_state_21, scan_codeblock_rbrace_state_22, scan_codeblock_rbrace_state_23, scan_codeblock_rbrace_state_24, scan_codeblock_rbrace_state_25, scan_codeblock_rbrace_state_26, scan_codeblock_rbrace_state_27, ], end_nodes: [None, Some((5, [])), Some((4, [])), Some((0, [])), Some((1, [])), Some((4, [])), Some((3, [])), Some((3, [])), Some((3, [])), Some((3, [])), Some((3, [])), Some((3, [])), Some((3, [])), Some((3, [])), Some((3, [])), Some((3, [])), Some((3, [])), Some((3, [])), Some((3, [])), Some((3, [])), None, Some((3, [])), None, None, Some((3, [])), None, Some((2, [((0, 0), (1, 0)), ((2, 0), (3, 0)), ((4, 0), (5, 0))])), None], start_tags: [0], code_blocks_n: 6 }
 fn scan_codeblock_rbrace( subst :  Array[SubstItem], lexbuf : Lexbuf ) ->  Unit  {
  match __mbtlex_engine_scan_codeblock_rbrace.run(lexbuf) {
  (0, __mbtlex_captures) => {

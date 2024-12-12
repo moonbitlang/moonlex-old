@@ -110,7 +110,7 @@ fn codegen_rule(rule : Rule) -> String {
   graph_code.write_string("[")
   for state_num, trans in dfa.graph {
     states_code.write_string(
-      $|fn \{rule.name}_state_\{state_num}(input : Input) -> (State, TagAction) {
+      $|fn \{rule.name}_state_\{state_num}(input : LexInput) -> (LexState, LexTagAction) {
       $|  match input {
       $|
       ,
@@ -194,7 +194,7 @@ fn codegen_rule(rule : Rule) -> String {
     shared_tag_action_rows_code.to_string(),
     shared_tag_actions_code.to_string(),
     states_code.to_string(),
-    "let \{engine}: Engine = { graph: \{graph_code}, end_nodes: \{end_nodes}, start_tags: \{start_tags}, code_blocks_n: \{dfa.code_blocks.length()} }",
+    "let \{engine}: LexEngine = { graph: \{graph_code}, end_nodes: \{end_nodes}, start_tags: \{start_tags}, code_blocks_n: \{dfa.code_blocks.length()} }",
     [
       "fn \{rule.name}(",
       [..rule.vars, { identifier: "lexbuf", ty: "Lexbuf" }].map(

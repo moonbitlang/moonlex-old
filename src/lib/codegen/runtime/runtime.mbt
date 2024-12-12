@@ -27,24 +27,24 @@ fn substring(self : Lexbuf, start : Int, end : Int) -> String {
 }
 
 ///|
-typealias TagAction = Array[Array[Int]]
+typealias LexTagAction = Array[Array[Int]]
 
 ///|
-typealias State = Int
+typealias LexState = Int
 
 ///|
-typealias Input = Int
+typealias LexInput = Int
 
 ///|
-pub(all) struct Engine {
-  graph : Array[(State) -> (State, TagAction)]
+pub(all) struct LexEngine {
+  graph : Array[(LexState) -> (LexState, LexTagAction)]
   end_nodes : Array[(Int, Array[((Int, Int), (Int, Int))])?]
   start_tags : Array[Int]
   code_blocks_n : Int
 }
 
 ///|
-pub fn run(self : Engine, lexbuf : Lexbuf) -> (Int, Array[(Int, Int)]) {
+pub fn run(self : LexEngine, lexbuf : Lexbuf) -> (Int, Array[(Int, Int)]) {
   let mut state = 1
   let mut tagState : Array[Array[Int]] = []
   let backtrace = Array::make(self.code_blocks_n, None)

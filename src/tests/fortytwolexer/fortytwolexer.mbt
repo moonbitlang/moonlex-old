@@ -28,24 +28,24 @@ fn substring(self : Lexbuf, start : Int, end : Int) -> String {
  }
 
 ///|
-typealias TagAction = Array[Array[Int]]
+typealias LexTagAction = Array[Array[Int]]
 
 ///|
-typealias State = Int
+typealias LexState = Int
 
 ///|
-typealias Input = Int
+typealias LexInput = Int
 
 ///|
-pub(all) struct Engine {
-   graph : Array[(State) -> (State, TagAction)]
+pub(all) struct LexEngine {
+   graph : Array[(LexState) -> (LexState, LexTagAction)]
    end_nodes : Array[(Int, Array[((Int, Int), (Int, Int))])?]
    start_tags : Array[Int]
    code_blocks_n : Int
  }
 
 ///|
-pub fn run(self : Engine, lexbuf : Lexbuf) -> (Int, Array[(Int, Int)]) {
+pub fn run(self : LexEngine, lexbuf : Lexbuf) -> (Int, Array[(Int, Int)]) {
    let mut state = 1
    let mut tagState : Array[Array[Int]] = []
    let backtrace = Array::make(self.code_blocks_n, None)
@@ -109,12 +109,12 @@ let scan_newline_tag_action_row_1 : Array[Int] = [0]
 let scan_newline_tag_action_0 : Array[Array[Int]] = [scan_newline_tag_action_row_0, scan_newline_tag_action_row_0]
 let scan_newline_tag_action_1 : Array[Array[Int]] = [scan_newline_tag_action_row_1, scan_newline_tag_action_row_2]
 
-fn scan_newline_state_0(input : Input) -> (State, TagAction) {
+fn scan_newline_state_0(input : LexInput) -> (LexState, LexTagAction) {
    match input {
      _ => (0, [])
    }
  }
-fn scan_newline_state_1(input : Input) -> (State, TagAction) {
+fn scan_newline_state_1(input : LexInput) -> (LexState, LexTagAction) {
    match input {
      1..=9 => (4, scan_newline_tag_action_0)
      10 => (2, scan_newline_tag_action_1)
@@ -124,35 +124,35 @@ fn scan_newline_state_1(input : Input) -> (State, TagAction) {
      _ => (0, [])
    }
  }
-fn scan_newline_state_2(input : Input) -> (State, TagAction) {
+fn scan_newline_state_2(input : LexInput) -> (LexState, LexTagAction) {
    match input {
      _ => (0, [])
    }
  }
-fn scan_newline_state_3(input : Input) -> (State, TagAction) {
+fn scan_newline_state_3(input : LexInput) -> (LexState, LexTagAction) {
    match input {
      10 => (5, scan_newline_tag_action_1)
      13 => (6, scan_newline_tag_action_1)
      _ => (0, [])
    }
  }
-fn scan_newline_state_4(input : Input) -> (State, TagAction) {
+fn scan_newline_state_4(input : LexInput) -> (LexState, LexTagAction) {
    match input {
      _ => (0, [])
    }
  }
-fn scan_newline_state_5(input : Input) -> (State, TagAction) {
+fn scan_newline_state_5(input : LexInput) -> (LexState, LexTagAction) {
    match input {
      _ => (0, [])
    }
  }
-fn scan_newline_state_6(input : Input) -> (State, TagAction) {
+fn scan_newline_state_6(input : LexInput) -> (LexState, LexTagAction) {
    match input {
      _ => (0, [])
    }
  }
 
-let __mbtlex_engine_scan_newline: Engine = { graph: [scan_newline_state_0, scan_newline_state_1, scan_newline_state_2, scan_newline_state_3, scan_newline_state_4, scan_newline_state_5, scan_newline_state_6, ], end_nodes: [None, Some((2, [])), Some((0, [((0, 0), (1, 0))])), Some((0, [((0, 0), (1, 0))])), Some((1, [])), Some((0, [((0, 0), (1, 0))])), Some((0, [((0, 0), (1, 0))]))], start_tags: [0], code_blocks_n: 3 }
+let __mbtlex_engine_scan_newline: LexEngine = { graph: [scan_newline_state_0, scan_newline_state_1, scan_newline_state_2, scan_newline_state_3, scan_newline_state_4, scan_newline_state_5, scan_newline_state_6, ], end_nodes: [None, Some((2, [])), Some((0, [((0, 0), (1, 0))])), Some((0, [((0, 0), (1, 0))])), Some((1, [])), Some((0, [((0, 0), (1, 0))])), Some((0, [((0, 0), (1, 0))]))], start_tags: [0], code_blocks_n: 3 }
 fn scan_newline( lexbuf : Lexbuf ) ->  Int  {
  match __mbtlex_engine_scan_newline.run(lexbuf) {
  (0, __mbtlex_captures) => {

@@ -28,24 +28,24 @@ fn substring(self : Lexbuf, start : Int, end : Int) -> String {
  }
 
 ///|
-typealias TagAction = Array[Array[Int]]
+typealias LexTagAction = Array[Array[Int]]
 
 ///|
-typealias State = Int
+typealias LexState = Int
 
 ///|
-typealias Input = Int
+typealias LexInput = Int
 
 ///|
-pub(all) struct Engine {
-   graph : Array[(State) -> (State, TagAction)]
+pub(all) struct LexEngine {
+   graph : Array[(LexState) -> (LexState, LexTagAction)]
    end_nodes : Array[(Int, Array[((Int, Int), (Int, Int))])?]
    start_tags : Array[Int]
    code_blocks_n : Int
  }
 
 ///|
-pub fn run(self : Engine, lexbuf : Lexbuf) -> (Int, Array[(Int, Int)]) {
+pub fn run(self : LexEngine, lexbuf : Lexbuf) -> (Int, Array[(Int, Int)]) {
    let mut state = 1
    let mut tagState : Array[Array[Int]] = []
    let backtrace = Array::make(self.code_blocks_n, None)
@@ -111,12 +111,12 @@ enum Token {
 
 let token_tag_action_0 : Array[Array[Int]] = []
 
-fn token_state_0(input : Input) -> (State, TagAction) {
+fn token_state_0(input : LexInput) -> (LexState, LexTagAction) {
    match input {
      _ => (0, [])
    }
  }
-fn token_state_1(input : Input) -> (State, TagAction) {
+fn token_state_1(input : LexInput) -> (LexState, LexTagAction) {
    match input {
      0 => (4, token_tag_action_0)
      1..=36 => (3, token_tag_action_0)
@@ -125,29 +125,29 @@ fn token_state_1(input : Input) -> (State, TagAction) {
      _ => panic()
    }
  }
-fn token_state_2(input : Input) -> (State, TagAction) {
+fn token_state_2(input : LexInput) -> (LexState, LexTagAction) {
    match input {
      0 => (5, token_tag_action_0)
      _ => (0, [])
    }
  }
-fn token_state_3(input : Input) -> (State, TagAction) {
+fn token_state_3(input : LexInput) -> (LexState, LexTagAction) {
    match input {
      _ => (0, [])
    }
  }
-fn token_state_4(input : Input) -> (State, TagAction) {
+fn token_state_4(input : LexInput) -> (LexState, LexTagAction) {
    match input {
      _ => (0, [])
    }
  }
-fn token_state_5(input : Input) -> (State, TagAction) {
+fn token_state_5(input : LexInput) -> (LexState, LexTagAction) {
    match input {
      _ => (0, [])
    }
  }
 
-let __mbtlex_engine_token: Engine = { graph: [token_state_0, token_state_1, token_state_2, token_state_3, token_state_4, token_state_5, ], end_nodes: [None, None, Some((1, [])), Some((2, [])), Some((3, [])), Some((0, []))], start_tags: [], code_blocks_n: 4 }
+let __mbtlex_engine_token: LexEngine = { graph: [token_state_0, token_state_1, token_state_2, token_state_3, token_state_4, token_state_5, ], end_nodes: [None, None, Some((1, [])), Some((2, [])), Some((3, [])), Some((0, []))], start_tags: [], code_blocks_n: 4 }
 fn token( lexbuf : Lexbuf ) ->  Token  {
  match __mbtlex_engine_token.run(lexbuf) {
  (0, __mbtlex_captures) => {
