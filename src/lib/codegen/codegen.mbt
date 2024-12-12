@@ -33,6 +33,47 @@ fn rewrite_codeblock(
 }
 
 ///|
+fn group_trans(
+  trans : Map[Char, (Int, @automaton.TagAction)]
+) -> Array[((Int, Int), (Int, Array[Array[Int]]))] {
+  let result = Array::new()
+  let mut first_char = -1
+  let mut last_char = -1
+  let mut last_target : (Int, Array[Array[Int]]) = (0, [])
+  fn add(char : Int, target : (Int, Array[Array[Int]])) {
+    if target != last_target {
+      if last_char != -1 {
+        result.push(((first_char, last_char), last_target))
+      }
+      last_target = target
+      first_char = char
+    }
+  }
+
+  fn flush() {
+    if last_char != -1 {
+      result.push(((first_char, last_char), last_target))
+    }
+  }
+
+  for char in 0..<128 {
+    match trans[Char::from_int(char)] {
+      None => {
+        add(char, (0, []))
+        last_char = -1
+        first_char = char + 1
+      }
+      Some((target, tag_action)) => {
+        add(char, (target, tag_action._))
+        last_char = char
+      }
+    }
+  }
+  flush()
+  result
+}
+
+///|
 fn codegen_rule(rule : Rule) -> String {
   let dfa = @automaton.DFA::from_rule(rule)
   let engine = "__mbtlex_engine_\{rule.name}"
@@ -52,7 +93,7 @@ fn codegen_rule(rule : Rule) -> String {
 
   let states_code = StringBuilder::new()
   let graph_code = StringBuilder::new()
-  graph_code.write_string("[\n")
+  graph_code.write_string("[")
   for state_num, trans in dfa.graph {
     states_code.write_string(
       $|fn \{rule.name}_state_\{state_num}(input : Input) -> (State, TagAction) {
@@ -60,13 +101,21 @@ fn codegen_rule(rule : Rule) -> String {
       $|
       ,
     )
-    for tran in trans {
-      let (char, (next_state, tag_action)) = tran
-      states_code.write_string(
-        $|    \{char.to_int()} => (\{next_state}, \{rule.name}_tag_action_\{get_tag_action_id(tag_action)})
-        $|
-        ,
-      )
+    for tran in group_trans(trans) {
+      let ((first_char, last_char), (next_state, tag_action)) = tran
+      if first_char == last_char {
+        states_code.write_string(
+          $|    \{first_char} => (\{next_state}, \{rule.name}_tag_action_\{get_tag_action_id(tag_action)})
+          $|
+          ,
+        )
+      } else {
+        states_code.write_string(
+          $|    \{first_char}..=\{last_char} => (\{next_state}, \{rule.name}_tag_action_\{get_tag_action_id(tag_action)})
+          $|
+          ,
+        )
+      }
     }
     if trans.size() < 128 {
       states_code.write_string(
@@ -87,13 +136,9 @@ fn codegen_rule(rule : Rule) -> String {
       $|
       ,
     )
-    graph_code.write_string(
-      $|  \{rule.name}_state_\{state_num},
-      $|
-      ,
-    )
+    graph_code.write_string("\{rule.name}_state_\{state_num}, ")
   }
-  graph_code.write_string("]\n")
+  graph_code.write_string("]")
   let end_nodes : Array[(Int, Array[((Int, Int), (Int, Int))])?] = Array::makei(
     dfa.node_count,
     fn(i) { dfa.end_nodes.get(i) },
