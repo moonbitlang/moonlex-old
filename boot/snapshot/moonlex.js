@@ -210,16 +210,19 @@ function Error$$to_string(_e) {
 }
 const moonbitlang$core$immut$internal$sparse_array$$empty_bitset = 0;
 const jian$mbtlex$lib$parser$$string_re = new $64$jian$47$mbtlex$47$lib$47$type$46$Regex$Concat(new $64$jian$47$mbtlex$47$lib$47$type$46$Regex$ReChar(34), new $64$jian$47$mbtlex$47$lib$47$type$46$Regex$Concat(new $64$jian$47$mbtlex$47$lib$47$type$46$Regex$Option(new $64$jian$47$mbtlex$47$lib$47$type$46$Regex$Repetition(new $64$jian$47$mbtlex$47$lib$47$type$46$Regex$Alter(new $64$jian$47$mbtlex$47$lib$47$type$46$Regex$ReStr("\\\""), new $64$jian$47$mbtlex$47$lib$47$type$46$Regex$RevCharSet([34])))), new $64$jian$47$mbtlex$47$lib$47$type$46$Regex$ReChar(34)));
-const jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 = [[], [], [], [], [], []];
-const jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_0 = [[0], [], [-1], [], [], []];
-const jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_2 = [[0], [], [0], [], [], []];
-const jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_3 = [[0], [], [0], [-1], [], []];
-const jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_4 = [[0], [], [0], [0], [-1], []];
-const jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 = [[0], [], [0], [0], [0], [-1]];
-const jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_6 = [[0], [], [0], [0], [0], [0]];
-const jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_7 = [[0], [-1], [0], [0], [0], [0]];
+const jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_row_0 = [];
+const jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_row_2 = [-1];
+const jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_row_1 = [0];
 const jian$mbtlex$lib$codegen$$runtime = "///|\nstruct Lexbuf {\n  content : String\n  mut pos : Int\n}\n\n///|\npub fn Lexbuf::from_string(content : String) -> Lexbuf {\n  { content, pos: 0 }\n}\n\n// NOTE: MoonBit do have unboxed Option[Char] optimization\n///|\nfn next(self : Lexbuf) -> Char? {\n  if self.pos < self.content.length() {\n    let ch = self.content[self.pos]\n    self.pos += 1\n    Some(ch)\n  } else {\n    None\n  }\n}\n\n///|\nfn substring(self : Lexbuf, start : Int, end : Int) -> String {\n  self.content.substring(start~, end~)\n}\n\n///|\ntypealias TagAction = Array[Array[Int]]\n\n///|\ntypealias State = Int\n\n///|\ntypealias Input = Int\n\n///|\npub(all) struct Engine {\n  graph : Array[(State) -> (State, TagAction)]\n  end_nodes : Array[(Int, Array[((Int, Int), (Int, Int))])?]\n  start_tags : Array[Int]\n  code_blocks_n : Int\n}\n\n///|\npub fn run(self : Engine, lexbuf : Lexbuf) -> (Int, Array[(Int, Int)]) {\n  let mut state = 1\n  let mut tagState : Array[Array[Int]] = []\n  let backtrace = Array::make(self.code_blocks_n, None)\n  for tag in self.start_tags {\n    while tagState.length() <= tag {\n      tagState.push([])\n    }\n    tagState[tag].push(lexbuf.pos)\n  }\n  while state != 0 {\n    match self.end_nodes[state] {\n      Some(t) => backtrace[t.0] = Some((lexbuf.pos, state, tagState))\n      _ => ()\n    }\n    let b = match lexbuf.next() {\n      Some(b) => b\n      None => '\\x00'\n    }\n    let next = self.graph[state](b.to_int())\n    state = next.0\n    let new_tagState : Array[Array[Int]] = []\n    for i = 0; i < next.1.length(); i = i + 1 {\n      new_tagState.push([])\n      for j = 0; j < next.1[i].length(); j = j + 1 {\n        let t = next.1[i][j]\n        if t == -1 {\n          new_tagState[i].push(lexbuf.pos)\n        } else {\n          new_tagState[i].push(tagState[i][t])\n        }\n      }\n    }\n    tagState = new_tagState\n  }\n  for index, b in backtrace {\n    match b {\n      Some((p, state, tagState)) => {\n        lexbuf.pos = p\n        let captures = self.end_nodes[state].unwrap().1.map(\n          fn {\n            ((b_t, b_r), (e_t, e_r)) => (tagState[b_t][b_r], tagState[e_t][e_r])\n          },\n        )\n        break (index, captures)\n      }\n      None => ()\n    }\n  } else {\n    (self.code_blocks_n, [])\n  }\n}\n";
 const jian$mbtlex$main$$_init$42$46$usage$1$ = "Usage: moonlex [options] <input-file>";
+const jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 = [jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_row_1, jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_row_0, jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_row_1, jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_row_1, jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_row_1, jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_row_2];
+const jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_7 = [jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_row_1, jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_row_2, jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_row_1, jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_row_1, jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_row_1, jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_row_1];
+const jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_6 = [jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_row_1, jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_row_0, jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_row_1, jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_row_1, jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_row_1, jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_row_1];
+const jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_0 = [jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_row_0, jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_row_0, jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_row_0, jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_row_0, jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_row_0, jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_row_0];
+const jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_2 = [jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_row_1, jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_row_0, jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_row_1, jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_row_0, jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_row_0, jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_row_0];
+const jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_4 = [jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_row_1, jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_row_0, jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_row_1, jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_row_1, jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_row_2, jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_row_0];
+const jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_3 = [jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_row_1, jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_row_0, jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_row_1, jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_row_2, jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_row_0, jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_row_0];
+const jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 = [jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_row_1, jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_row_0, jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_row_2, jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_row_0, jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_row_0, jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_row_0];
 const jian$mbtlex$lib$codegen$internal$codeblock_parser$$__mbtlex_engine_scan_codeblock_rbrace = { graph: [jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_state_0, jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_state_1, jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_state_2, jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_state_3, jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_state_4, jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_state_5, jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_state_6, jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_state_7, jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_state_8, jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_state_9, jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_state_10, jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_state_11, jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_state_12, jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_state_13, jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_state_14, jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_state_15, jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_state_16, jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_state_17, jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_state_18, jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_state_19, jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_state_20, jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_state_21, jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_state_22, jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_state_23, jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_state_24, jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_state_25, jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_state_26, jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_state_27], end_nodes: [undefined, { _0: 5, _1: [] }, { _0: 4, _1: [] }, { _0: 0, _1: [] }, { _0: 1, _1: [] }, { _0: 4, _1: [] }, { _0: 3, _1: [] }, { _0: 3, _1: [] }, { _0: 3, _1: [] }, { _0: 3, _1: [] }, { _0: 3, _1: [] }, { _0: 3, _1: [] }, { _0: 3, _1: [] }, { _0: 3, _1: [] }, { _0: 3, _1: [] }, { _0: 3, _1: [] }, { _0: 3, _1: [] }, { _0: 3, _1: [] }, { _0: 3, _1: [] }, { _0: 3, _1: [] }, undefined, { _0: 3, _1: [] }, undefined, undefined, { _0: 3, _1: [] }, undefined, { _0: 2, _1: [{ _0: { _0: 0, _1: 0 }, _1: { _0: 1, _1: 0 } }, { _0: { _0: 2, _1: 0 }, _1: { _0: 3, _1: 0 } }, { _0: { _0: 4, _1: 0 }, _1: { _0: 5, _1: 0 } }] }, undefined], start_tags: [0], code_blocks_n: 6 };
 const jian$mbtlex$lib$parser$$digit_re = new $64$jian$47$mbtlex$47$lib$47$type$46$Regex$CharSet(jian$mbtlex$lib$parser$$ch_range(48, 57));
 const jian$mbtlex$lib$parser$$hex_digit_re = new $64$jian$47$mbtlex$47$lib$47$type$46$Regex$Alter(jian$mbtlex$lib$parser$$digit_re, new $64$jian$47$mbtlex$47$lib$47$type$46$Regex$Alter(new $64$jian$47$mbtlex$47$lib$47$type$46$Regex$CharSet(jian$mbtlex$lib$parser$$ch_range(97, 102)), new $64$jian$47$mbtlex$47$lib$47$type$46$Regex$CharSet(jian$mbtlex$lib$parser$$ch_range(65, 70))));
@@ -1752,8 +1755,14 @@ function moonbitlang$core$immut$sorted_map$$T$op_get$21$(self, key) {
 function moonbitlang$core$sorted_map$$new_node$24$(key, value) {
   return { key: key, value: value, left: undefined, right: undefined, height: 1 };
 }
+function moonbitlang$core$sorted_map$$new_node$25$(key, value) {
+  return { key: key, value: value, left: undefined, right: undefined, height: 1 };
+}
 function moonbitlang$core$sorted_map$$Node$op_equal$24$(self, other) {
   return moonbitlang$core$array$$Array$op_equal$10$(self.key, other.key);
+}
+function moonbitlang$core$sorted_map$$Node$op_equal$25$(self, other) {
+  return moonbitlang$core$array$$Array$op_equal$7$(self.key, other.key);
 }
 function moonbitlang$core$sorted_map$$max(x, y) {
   return x > y ? x : y;
@@ -1767,30 +1776,64 @@ function moonbitlang$core$sorted_map$$height$24$(node) {
     return _x.height;
   }
 }
+function moonbitlang$core$sorted_map$$height$25$(node) {
+  if (node === undefined) {
+    return 0;
+  } else {
+    const _Some = node;
+    const _x = _Some;
+    return _x.height;
+  }
+}
 function moonbitlang$core$sorted_map$$Node$update_height$24$(self) {
   self.height = 1 + moonbitlang$core$sorted_map$$max(moonbitlang$core$sorted_map$$height$24$(self.left), moonbitlang$core$sorted_map$$height$24$(self.right)) | 0;
 }
+function moonbitlang$core$sorted_map$$Node$update_height$25$(self) {
+  self.height = 1 + moonbitlang$core$sorted_map$$max(moonbitlang$core$sorted_map$$height$25$(self.left), moonbitlang$core$sorted_map$$height$25$(self.right)) | 0;
+}
 function moonbitlang$core$sorted_map$$rotate_l$24$(n) {
-  const r = moonbitlang$core$option$$Option$unwrap$25$(n.right);
+  const r = moonbitlang$core$option$$Option$unwrap$26$(n.right);
   n.right = r.left;
   r.left = n;
   moonbitlang$core$sorted_map$$Node$update_height$24$(n);
   moonbitlang$core$sorted_map$$Node$update_height$24$(r);
   return r;
 }
+function moonbitlang$core$sorted_map$$rotate_l$25$(n) {
+  const r = moonbitlang$core$option$$Option$unwrap$27$(n.right);
+  n.right = r.left;
+  r.left = n;
+  moonbitlang$core$sorted_map$$Node$update_height$25$(n);
+  moonbitlang$core$sorted_map$$Node$update_height$25$(r);
+  return r;
+}
 function moonbitlang$core$sorted_map$$rotate_r$24$(n) {
-  const l = moonbitlang$core$option$$Option$unwrap$25$(n.left);
+  const l = moonbitlang$core$option$$Option$unwrap$26$(n.left);
   n.left = l.right;
   l.right = n;
   moonbitlang$core$sorted_map$$Node$update_height$24$(n);
   moonbitlang$core$sorted_map$$Node$update_height$24$(l);
   return l;
 }
+function moonbitlang$core$sorted_map$$rotate_r$25$(n) {
+  const l = moonbitlang$core$option$$Option$unwrap$27$(n.left);
+  n.left = l.right;
+  l.right = n;
+  moonbitlang$core$sorted_map$$Node$update_height$25$(n);
+  moonbitlang$core$sorted_map$$Node$update_height$25$(l);
+  return l;
+}
 function moonbitlang$core$sorted_map$$rotate_rl$24$(n) {
-  const r = moonbitlang$core$option$$Option$unwrap$25$(n.right);
+  const r = moonbitlang$core$option$$Option$unwrap$26$(n.right);
   const v = moonbitlang$core$sorted_map$$rotate_r$24$(r);
   n.right = v;
   return moonbitlang$core$sorted_map$$rotate_l$24$(n);
+}
+function moonbitlang$core$sorted_map$$rotate_rl$25$(n) {
+  const r = moonbitlang$core$option$$Option$unwrap$27$(n.right);
+  const v = moonbitlang$core$sorted_map$$rotate_r$25$(r);
+  n.right = v;
+  return moonbitlang$core$sorted_map$$rotate_l$25$(n);
 }
 function moonbitlang$core$sorted_map$$height_ge$24$(x1, x2) {
   if (x2 === undefined) {
@@ -1807,11 +1850,32 @@ function moonbitlang$core$sorted_map$$height_ge$24$(x1, x2) {
     }
   }
 }
+function moonbitlang$core$sorted_map$$height_ge$25$(x1, x2) {
+  if (x2 === undefined) {
+    return true;
+  } else {
+    const _Some = x2;
+    const _x = _Some;
+    if (x1 === undefined) {
+      return false;
+    } else {
+      const _Some$2 = x1;
+      const _x$2 = _Some$2;
+      return _x$2.height >= _x.height;
+    }
+  }
+}
 function moonbitlang$core$sorted_map$$rotate_lr$24$(n) {
-  const l = moonbitlang$core$option$$Option$unwrap$25$(n.left);
+  const l = moonbitlang$core$option$$Option$unwrap$26$(n.left);
   const v = moonbitlang$core$sorted_map$$rotate_l$24$(l);
   n.left = v;
   return moonbitlang$core$sorted_map$$rotate_r$24$(n);
+}
+function moonbitlang$core$sorted_map$$rotate_lr$25$(n) {
+  const l = moonbitlang$core$option$$Option$unwrap$27$(n.left);
+  const v = moonbitlang$core$sorted_map$$rotate_l$25$(l);
+  n.left = v;
+  return moonbitlang$core$sorted_map$$rotate_r$25$(n);
 }
 function moonbitlang$core$sorted_map$$balance$24$(root) {
   const l = root.left;
@@ -1820,13 +1884,13 @@ function moonbitlang$core$sorted_map$$balance$24$(root) {
   const hr = moonbitlang$core$sorted_map$$height$24$(r);
   let new_root;
   if (hl > (hr + 1 | 0)) {
-    const _bind = moonbitlang$core$option$$Option$unwrap$25$(l);
+    const _bind = moonbitlang$core$option$$Option$unwrap$26$(l);
     const _x = _bind.left;
     const _x$2 = _bind.right;
     new_root = moonbitlang$core$sorted_map$$height_ge$24$(_x, _x$2) ? moonbitlang$core$sorted_map$$rotate_r$24$(root) : moonbitlang$core$sorted_map$$rotate_lr$24$(root);
   } else {
     if (hr > (hl + 1 | 0)) {
-      const _bind = moonbitlang$core$option$$Option$unwrap$25$(r);
+      const _bind = moonbitlang$core$option$$Option$unwrap$26$(r);
       const _x = _bind.left;
       const _x$2 = _bind.right;
       new_root = moonbitlang$core$sorted_map$$height_ge$24$(_x$2, _x) ? moonbitlang$core$sorted_map$$rotate_l$24$(root) : moonbitlang$core$sorted_map$$rotate_rl$24$(root);
@@ -1835,6 +1899,30 @@ function moonbitlang$core$sorted_map$$balance$24$(root) {
     }
   }
   moonbitlang$core$sorted_map$$Node$update_height$24$(new_root);
+  return new_root;
+}
+function moonbitlang$core$sorted_map$$balance$25$(root) {
+  const l = root.left;
+  const r = root.right;
+  const hl = moonbitlang$core$sorted_map$$height$25$(l);
+  const hr = moonbitlang$core$sorted_map$$height$25$(r);
+  let new_root;
+  if (hl > (hr + 1 | 0)) {
+    const _bind = moonbitlang$core$option$$Option$unwrap$27$(l);
+    const _x = _bind.left;
+    const _x$2 = _bind.right;
+    new_root = moonbitlang$core$sorted_map$$height_ge$25$(_x, _x$2) ? moonbitlang$core$sorted_map$$rotate_r$25$(root) : moonbitlang$core$sorted_map$$rotate_lr$25$(root);
+  } else {
+    if (hr > (hl + 1 | 0)) {
+      const _bind = moonbitlang$core$option$$Option$unwrap$27$(r);
+      const _x = _bind.left;
+      const _x$2 = _bind.right;
+      new_root = moonbitlang$core$sorted_map$$height_ge$25$(_x$2, _x) ? moonbitlang$core$sorted_map$$rotate_l$25$(root) : moonbitlang$core$sorted_map$$rotate_rl$25$(root);
+    } else {
+      new_root = root;
+    }
+  }
+  moonbitlang$core$sorted_map$$Node$update_height$25$(new_root);
   return new_root;
 }
 function moonbitlang$core$sorted_map$$add_node$24$(root, key, value) {
@@ -1849,7 +1937,7 @@ function moonbitlang$core$sorted_map$$add_node$24$(root, key, value) {
     } else {
       const l = _x.left;
       const r = _x.right;
-      if (moonbitlang$core$builtin$$op_lt$26$(key, _x.key)) {
+      if (moonbitlang$core$builtin$$op_lt$28$(key, _x.key)) {
         const _bind = moonbitlang$core$sorted_map$$add_node$24$(l, key, value);
         const _x$2 = _bind._0;
         const _x$3 = _bind._1;
@@ -1865,11 +1953,53 @@ function moonbitlang$core$sorted_map$$add_node$24$(root, key, value) {
     }
   }
 }
+function moonbitlang$core$sorted_map$$add_node$25$(root, key, value) {
+  if (root === undefined) {
+    return { _0: moonbitlang$core$sorted_map$$new_node$25$(key, value), _1: true };
+  } else {
+    const _Some = root;
+    const _x = _Some;
+    if (moonbitlang$core$array$$Array$op_equal$7$(key, _x.key)) {
+      _x.value = value;
+      return { _0: _x, _1: false };
+    } else {
+      const l = _x.left;
+      const r = _x.right;
+      if (moonbitlang$core$builtin$$op_lt$10$(key, _x.key)) {
+        const _bind = moonbitlang$core$sorted_map$$add_node$25$(l, key, value);
+        const _x$2 = _bind._0;
+        const _x$3 = _bind._1;
+        _x.left = _x$2;
+        return { _0: moonbitlang$core$sorted_map$$balance$25$(_x), _1: _x$3 };
+      } else {
+        const _bind = moonbitlang$core$sorted_map$$add_node$25$(r, key, value);
+        const _x$2 = _bind._0;
+        const _x$3 = _bind._1;
+        _x.right = _x$2;
+        return { _0: moonbitlang$core$sorted_map$$balance$25$(_x), _1: _x$3 };
+      }
+    }
+  }
+}
 function moonbitlang$core$sorted_map$$T$add$24$(self, key, value) {
   const _bind = moonbitlang$core$sorted_map$$add_node$24$(self.root, key, value);
   const _x = _bind._0;
   const _x$2 = _bind._1;
-  if (moonbitlang$core$builtin$$op_notequal$27$(self.root, _x)) {
+  if (moonbitlang$core$builtin$$op_notequal$29$(self.root, _x)) {
+    self.root = _x;
+  }
+  if (_x$2) {
+    self.size = self.size + 1 | 0;
+    return;
+  } else {
+    return;
+  }
+}
+function moonbitlang$core$sorted_map$$T$add$25$(self, key, value) {
+  const _bind = moonbitlang$core$sorted_map$$add_node$25$(self.root, key, value);
+  const _x = _bind._0;
+  const _x$2 = _bind._1;
+  if (moonbitlang$core$builtin$$op_notequal$30$(self.root, _x)) {
     self.root = _x;
   }
   if (_x$2) {
@@ -1881,6 +2011,9 @@ function moonbitlang$core$sorted_map$$T$add$24$(self, key, value) {
 }
 function moonbitlang$core$sorted_map$$T$op_set$24$(self, key, value) {
   moonbitlang$core$sorted_map$$T$add$24$(self, key, value);
+}
+function moonbitlang$core$sorted_map$$T$op_set$25$(self, key, value) {
+  moonbitlang$core$sorted_map$$T$add$25$(self, key, value);
 }
 function moonbitlang$core$sorted_map$$T$get$24$(self, key) {
   let _tmp = self.root;
@@ -1906,10 +2039,40 @@ function moonbitlang$core$sorted_map$$T$get$24$(self, key) {
     }
   }
 }
+function moonbitlang$core$sorted_map$$T$get$25$(self, key) {
+  let _tmp = self.root;
+  while (true) {
+    const _param = _tmp;
+    if (_param === undefined) {
+      return undefined;
+    } else {
+      const _Some = _param;
+      const _x = _Some;
+      const cmp = moonbitlang$core$array$$Array$compare$7$(key, _x.key);
+      if (cmp === 0) {
+        return _x.value;
+      } else {
+        if (cmp > 0) {
+          _tmp = _x.right;
+          continue;
+        } else {
+          _tmp = _x.left;
+          continue;
+        }
+      }
+    }
+  }
+}
 function moonbitlang$core$sorted_map$$T$op_get$24$(self, key) {
   return moonbitlang$core$sorted_map$$T$get$24$(self, key);
 }
+function moonbitlang$core$sorted_map$$T$op_get$25$(self, key) {
+  return moonbitlang$core$sorted_map$$T$get$25$(self, key);
+}
 function moonbitlang$core$sorted_map$$new$24$() {
+  return { root: undefined, size: 0 };
+}
+function moonbitlang$core$sorted_map$$new$25$() {
   return { root: undefined, size: 0 };
 }
 function moonbitlang$core$sorted_map$$iter_aux2$24$(node) {
@@ -1923,44 +2086,31 @@ function moonbitlang$core$sorted_map$$iter_aux2$24$(node) {
     }
   });
 }
+function moonbitlang$core$sorted_map$$iter_aux2$25$(node) {
+  return moonbitlang$core$builtin$$Iter2$new$25$((yield_) => {
+    if (node === undefined) {
+      return 1;
+    } else {
+      const _Some = node;
+      const _x = _Some;
+      return moonbitlang$core$builtin$$Eq$op_equal$17$(moonbitlang$core$builtin$$Iter2$run$25$(moonbitlang$core$sorted_map$$iter_aux2$25$(_x.left), yield_), 0) ? 0 : moonbitlang$core$builtin$$Eq$op_equal$17$(yield_(_x.key, _x.value), 0) ? 0 : moonbitlang$core$builtin$$Eq$op_equal$17$(moonbitlang$core$builtin$$Iter2$run$25$(moonbitlang$core$sorted_map$$iter_aux2$25$(_x.right), yield_), 0) ? 0 : 1;
+    }
+  });
+}
+function moonbitlang$core$sorted_map$$T$iter2$25$(self) {
+  return moonbitlang$core$sorted_map$$iter_aux2$25$(self.root);
+}
 function moonbitlang$core$sorted_map$$T$iter2$24$(self) {
   return moonbitlang$core$sorted_map$$iter_aux2$24$(self.root);
 }
 function moonbitlang$core$math$$minimum$7$(x, y) {
   return x > y ? y : x;
 }
-function moonbitlang$core$option$$when$28$(condition, value) {
+function moonbitlang$core$option$$when$31$(condition, value) {
   return condition ? value() : undefined;
 }
-function moonbitlang$core$option$$unless$28$(condition, value) {
-  return moonbitlang$core$option$$when$28$(!condition, value);
-}
-function moonbitlang$core$option$$Option$map$29$(self, f) {
-  if (self === undefined) {
-    return undefined;
-  } else {
-    const _Some = self;
-    const _x = _Some;
-    return f(_x);
-  }
-}
-function moonbitlang$core$option$$Option$map$30$(self, f) {
-  if (self === undefined) {
-    return undefined;
-  } else {
-    const _Some = self;
-    const _x = _Some;
-    return f(_x);
-  }
-}
-function moonbitlang$core$option$$Option$map$31$(self, f) {
-  if (self === undefined) {
-    return undefined;
-  } else {
-    const _Some = self;
-    const _x = _Some;
-    return f(_x);
-  }
+function moonbitlang$core$option$$unless$31$(condition, value) {
+  return moonbitlang$core$option$$when$31$(!condition, value);
 }
 function moonbitlang$core$option$$Option$map$32$(self, f) {
   if (self === undefined) {
@@ -2017,6 +2167,33 @@ function moonbitlang$core$option$$Option$map$37$(self, f) {
   }
 }
 function moonbitlang$core$option$$Option$map$38$(self, f) {
+  if (self === undefined) {
+    return undefined;
+  } else {
+    const _Some = self;
+    const _x = _Some;
+    return f(_x);
+  }
+}
+function moonbitlang$core$option$$Option$map$39$(self, f) {
+  if (self === undefined) {
+    return undefined;
+  } else {
+    const _Some = self;
+    const _x = _Some;
+    return f(_x);
+  }
+}
+function moonbitlang$core$option$$Option$map$40$(self, f) {
+  if (self === undefined) {
+    return undefined;
+  } else {
+    const _Some = self;
+    const _x = _Some;
+    return f(_x);
+  }
+}
+function moonbitlang$core$option$$Option$map$41$(self, f) {
   if (self === -1) {
     return undefined;
   } else {
@@ -2025,43 +2202,7 @@ function moonbitlang$core$option$$Option$map$38$(self, f) {
     return f(_x);
   }
 }
-function moonbitlang$core$option$$Option$bind$29$(self, f) {
-  if (self === undefined) {
-    return undefined;
-  } else {
-    const _Some = self;
-    const _x = _Some;
-    return f(_x);
-  }
-}
-function moonbitlang$core$option$$Option$bind$33$(self, f) {
-  if (self === undefined) {
-    return undefined;
-  } else {
-    const _Some = self;
-    const _x = _Some;
-    return f(_x);
-  }
-}
-function moonbitlang$core$option$$Option$bind$39$(self, f) {
-  if (self === undefined) {
-    return undefined;
-  } else {
-    const _Some = self;
-    const _x = _Some;
-    return f(_x);
-  }
-}
-function moonbitlang$core$option$$Option$bind$40$(self, f) {
-  if (self === undefined) {
-    return undefined;
-  } else {
-    const _Some = self;
-    const _x = _Some;
-    return f(_x);
-  }
-}
-function moonbitlang$core$option$$Option$bind$35$(self, f) {
+function moonbitlang$core$option$$Option$bind$32$(self, f) {
   if (self === undefined) {
     return undefined;
   } else {
@@ -2079,7 +2220,43 @@ function moonbitlang$core$option$$Option$bind$36$(self, f) {
     return f(_x);
   }
 }
+function moonbitlang$core$option$$Option$bind$42$(self, f) {
+  if (self === undefined) {
+    return undefined;
+  } else {
+    const _Some = self;
+    const _x = _Some;
+    return f(_x);
+  }
+}
+function moonbitlang$core$option$$Option$bind$43$(self, f) {
+  if (self === undefined) {
+    return undefined;
+  } else {
+    const _Some = self;
+    const _x = _Some;
+    return f(_x);
+  }
+}
 function moonbitlang$core$option$$Option$bind$38$(self, f) {
+  if (self === undefined) {
+    return undefined;
+  } else {
+    const _Some = self;
+    const _x = _Some;
+    return f(_x);
+  }
+}
+function moonbitlang$core$option$$Option$bind$39$(self, f) {
+  if (self === undefined) {
+    return undefined;
+  } else {
+    const _Some = self;
+    const _x = _Some;
+    return f(_x);
+  }
+}
+function moonbitlang$core$option$$Option$bind$41$(self, f) {
   if (self === -1) {
     return undefined;
   } else {
@@ -2088,7 +2265,7 @@ function moonbitlang$core$option$$Option$bind$38$(self, f) {
     return f(_x);
   }
 }
-function moonbitlang$core$option$$Option$bind$37$(self, f) {
+function moonbitlang$core$option$$Option$bind$40$(self, f) {
   if (self === undefined) {
     return undefined;
   } else {
@@ -2106,7 +2283,7 @@ function moonbitlang$core$option$$Option$is_empty$20$(self) {
 function moonbitlang$core$option$$Option$is_empty$7$(self) {
   return self === undefined;
 }
-function moonbitlang$core$option$$Option$or$41$(self, default_) {
+function moonbitlang$core$option$$Option$or$44$(self, default_) {
   if (self === undefined) {
     return default_;
   } else {
@@ -2245,7 +2422,7 @@ function moonbitlang$core$queue$$T$unsafe_pop$7$(self) {
 function moonbitlang$core$queue$$T$pop$6$(self) {
   return self.length === 0 ? undefined : moonbitlang$core$queue$$T$unsafe_pop$6$(self);
 }
-function moonbitlang$core$builtin$$abort$42$(msg) {
+function moonbitlang$core$builtin$$abort$45$(msg) {
   return $panic();
 }
 function moonbitlang$core$builtin$$abort$6$(msg) {
@@ -2263,16 +2440,16 @@ function moonbitlang$core$builtin$$abort$7$(msg) {
 function moonbitlang$core$builtin$$abort$2$(msg) {
   return $panic();
 }
-function moonbitlang$core$builtin$$abort$43$(msg) {
-  return $panic();
-}
-function moonbitlang$core$builtin$$abort$44$(msg) {
-  return $panic();
-}
-function moonbitlang$core$builtin$$abort$45$(msg) {
-  return $panic();
-}
 function moonbitlang$core$builtin$$abort$46$(msg) {
+  return $panic();
+}
+function moonbitlang$core$builtin$$abort$47$(msg) {
+  return $panic();
+}
+function moonbitlang$core$builtin$$abort$48$(msg) {
+  return $panic();
+}
+function moonbitlang$core$builtin$$abort$49$(msg) {
   $panic();
 }
 function moonbitlang$core$builtin$$abort$3$(msg) {
@@ -2305,16 +2482,19 @@ function moonbitlang$core$builtin$$op_notequal$10$(x, y) {
 function moonbitlang$core$builtin$$op_notequal$20$(x, y) {
   return !moonbitlang$core$builtin$$Eq$op_equal$20$(x, y);
 }
-function moonbitlang$core$builtin$$op_notequal$47$(x, y) {
-  return !moonbitlang$core$option$$Option$op_equal$42$(x, y);
-}
-function moonbitlang$core$builtin$$op_notequal$27$(x, y) {
-  return !moonbitlang$core$option$$Option$op_equal$25$(x, y);
-}
-function moonbitlang$core$builtin$$op_notequal$48$(x, y) {
-  return !moonbitlang$core$tuple$$Tuple2$op_equal$49$(x, y);
-}
 function moonbitlang$core$builtin$$op_notequal$50$(x, y) {
+  return !moonbitlang$core$option$$Option$op_equal$45$(x, y);
+}
+function moonbitlang$core$builtin$$op_notequal$29$(x, y) {
+  return !moonbitlang$core$option$$Option$op_equal$26$(x, y);
+}
+function moonbitlang$core$builtin$$op_notequal$30$(x, y) {
+  return !moonbitlang$core$option$$Option$op_equal$27$(x, y);
+}
+function moonbitlang$core$builtin$$op_notequal$51$(x, y) {
+  return !moonbitlang$core$tuple$$Tuple2$op_equal$52$(x, y);
+}
+function moonbitlang$core$builtin$$op_notequal$53$(x, y) {
   return !moonbitlang$core$option$$Option$op_equal$2$(x, y);
 }
 function moonbitlang$core$builtin$$op_notequal$3$(x, y) {
@@ -2326,8 +2506,11 @@ function moonbitlang$core$builtin$$println$3$(input) {
 function moonbitlang$core$builtin$$op_lt$3$(self_, other) {
   return moonbitlang$core$string$$String$compare(self_, other) < 0;
 }
-function moonbitlang$core$builtin$$op_lt$26$(self_, other) {
+function moonbitlang$core$builtin$$op_lt$28$(self_, other) {
   return moonbitlang$core$array$$Array$compare$10$(self_, other) < 0;
+}
+function moonbitlang$core$builtin$$op_lt$10$(self_, other) {
+  return moonbitlang$core$array$$Array$compare$7$(self_, other) < 0;
 }
 function moonbitlang$core$builtin$$StringBuilder$write_char(self, ch) {
   const _bind = self;
@@ -2344,10 +2527,10 @@ function moonbitlang$core$builtin$$MyInt64$add_hi_lo(self, bhi, blo) {
   const hi = (_x + bhi | 0) + c | 0;
   return { hi: hi, lo: lo };
 }
-function moonbitlang$core$builtin$$to_string$46$write_digits$51$(buf, num) {
+function moonbitlang$core$builtin$$to_string$46$write_digits$54$(buf, num) {
   const num2 = num / 10 | 0;
   if (num2 !== 0) {
-    moonbitlang$core$builtin$$to_string$46$write_digits$51$(buf, num2);
+    moonbitlang$core$builtin$$to_string$46$write_digits$54$(buf, num2);
   }
   const n = num % 10 | 0;
   moonbitlang$core$builtin$$StringBuilder$write_char(buf, (n < 0 ? 0 - n | 0 : n) + 48 | 0);
@@ -2357,7 +2540,7 @@ function moonbitlang$core$int$$Int$to_string(self) {
   if (self < 0) {
     moonbitlang$core$builtin$$StringBuilder$write_char(buf, 45);
   }
-  moonbitlang$core$builtin$$to_string$46$write_digits$51$(buf, self);
+  moonbitlang$core$builtin$$to_string$46$write_digits$54$(buf, self);
   return moonbitlang$core$builtin$$StringBuilder$to_string(buf);
 }
 function moonbitlang$core$builtin$$StringBuilder$write_string(self, str) {
@@ -2372,23 +2555,23 @@ function moonbitlang$core$array$$Array$op_get$18$(self, index) {
   const len = self.length;
   return index >= 0 && index < len ? self[index] : $panic();
 }
-function moonbitlang$core$array$$Array$op_get$52$(self, index) {
-  const len = self.length;
-  return index >= 0 && index < len ? self[index] : $panic();
-}
-function moonbitlang$core$array$$Array$op_get$53$(self, index) {
-  const len = self.length;
-  return index >= 0 && index < len ? self[index] : $panic();
-}
-function moonbitlang$core$array$$Array$op_get$54$(self, index) {
-  const len = self.length;
-  return index >= 0 && index < len ? self[index] : $panic();
-}
 function moonbitlang$core$array$$Array$op_get$55$(self, index) {
   const len = self.length;
   return index >= 0 && index < len ? self[index] : $panic();
 }
 function moonbitlang$core$array$$Array$op_get$56$(self, index) {
+  const len = self.length;
+  return index >= 0 && index < len ? self[index] : $panic();
+}
+function moonbitlang$core$array$$Array$op_get$57$(self, index) {
+  const len = self.length;
+  return index >= 0 && index < len ? self[index] : $panic();
+}
+function moonbitlang$core$array$$Array$op_get$58$(self, index) {
+  const len = self.length;
+  return index >= 0 && index < len ? self[index] : $panic();
+}
+function moonbitlang$core$array$$Array$op_get$59$(self, index) {
   const len = self.length;
   return index >= 0 && index < len ? self[index] : $panic();
 }
@@ -2404,22 +2587,6 @@ function moonbitlang$core$array$$Array$op_get$9$(self, index) {
   const len = self.length;
   return index >= 0 && index < len ? self[index] : $panic();
 }
-function moonbitlang$core$array$$Array$op_get$57$(self, index) {
-  const len = self.length;
-  return index >= 0 && index < len ? self[index] : $panic();
-}
-function moonbitlang$core$array$$Array$op_get$58$(self, index) {
-  const len = self.length;
-  return index >= 0 && index < len ? self[index] : $panic();
-}
-function moonbitlang$core$array$$Array$op_get$5$(self, index) {
-  const len = self.length;
-  return index >= 0 && index < len ? self[index] : $panic();
-}
-function moonbitlang$core$array$$Array$op_get$59$(self, index) {
-  const len = self.length;
-  return index >= 0 && index < len ? self[index] : $panic();
-}
 function moonbitlang$core$array$$Array$op_get$60$(self, index) {
   const len = self.length;
   return index >= 0 && index < len ? self[index] : $panic();
@@ -2428,15 +2595,11 @@ function moonbitlang$core$array$$Array$op_get$61$(self, index) {
   const len = self.length;
   return index >= 0 && index < len ? self[index] : $panic();
 }
+function moonbitlang$core$array$$Array$op_get$5$(self, index) {
+  const len = self.length;
+  return index >= 0 && index < len ? self[index] : $panic();
+}
 function moonbitlang$core$array$$Array$op_get$62$(self, index) {
-  const len = self.length;
-  return index >= 0 && index < len ? self[index] : $panic();
-}
-function moonbitlang$core$array$$Array$op_get$2$(self, index) {
-  const len = self.length;
-  return index >= 0 && index < len ? self[index] : $panic();
-}
-function moonbitlang$core$array$$Array$op_get$8$(self, index) {
   const len = self.length;
   return index >= 0 && index < len ? self[index] : $panic();
 }
@@ -2452,15 +2615,15 @@ function moonbitlang$core$array$$Array$op_get$65$(self, index) {
   const len = self.length;
   return index >= 0 && index < len ? self[index] : $panic();
 }
+function moonbitlang$core$array$$Array$op_get$2$(self, index) {
+  const len = self.length;
+  return index >= 0 && index < len ? self[index] : $panic();
+}
+function moonbitlang$core$array$$Array$op_get$8$(self, index) {
+  const len = self.length;
+  return index >= 0 && index < len ? self[index] : $panic();
+}
 function moonbitlang$core$array$$Array$op_get$66$(self, index) {
-  const len = self.length;
-  return index >= 0 && index < len ? self[index] : $panic();
-}
-function moonbitlang$core$array$$Array$op_get$3$(self, index) {
-  const len = self.length;
-  return index >= 0 && index < len ? self[index] : $panic();
-}
-function moonbitlang$core$array$$Array$op_get$10$(self, index) {
   const len = self.length;
   return index >= 0 && index < len ? self[index] : $panic();
 }
@@ -2472,34 +2635,51 @@ function moonbitlang$core$array$$Array$op_get$68$(self, index) {
   const len = self.length;
   return index >= 0 && index < len ? self[index] : $panic();
 }
+function moonbitlang$core$array$$Array$op_get$69$(self, index) {
+  const len = self.length;
+  return index >= 0 && index < len ? self[index] : $panic();
+}
+function moonbitlang$core$array$$Array$op_get$3$(self, index) {
+  const len = self.length;
+  return index >= 0 && index < len ? self[index] : $panic();
+}
+function moonbitlang$core$array$$Array$op_get$10$(self, index) {
+  const len = self.length;
+  return index >= 0 && index < len ? self[index] : $panic();
+}
+function moonbitlang$core$array$$Array$op_get$70$(self, index) {
+  const len = self.length;
+  return index >= 0 && index < len ? self[index] : $panic();
+}
+function moonbitlang$core$array$$Array$op_get$71$(self, index) {
+  const len = self.length;
+  return index >= 0 && index < len ? self[index] : $panic();
+}
 function moonbitlang$core$builtin$$op_gt$3$(self_, other) {
   return moonbitlang$core$string$$String$compare(self_, other) > 0;
 }
-function moonbitlang$core$tuple$$Tuple2$op_equal$49$(self, other) {
+function moonbitlang$core$tuple$$Tuple2$op_equal$52$(self, other) {
   return self._0 === other._0 && moonbitlang$core$array$$Array$op_equal$10$(self._1, other._1);
 }
-function moonbitlang$core$builtin$$Logger$write_object$61$(self, obj) {
-  moonbitlang$core$builtin$$Show$output$69$(obj, self);
-}
-function moonbitlang$core$builtin$$Logger$write_object$52$(self, obj) {
-  moonbitlang$core$builtin$$Show$output$70$(obj, self);
-}
-function moonbitlang$core$builtin$$Logger$write_object$71$(self, obj) {
+function moonbitlang$core$builtin$$Logger$write_object$64$(self, obj) {
   moonbitlang$core$builtin$$Show$output$72$(obj, self);
 }
-function moonbitlang$core$builtin$$Logger$write_object$73$(self, obj) {
-  moonbitlang$core$builtin$$Show$output$74$(obj, self);
+function moonbitlang$core$builtin$$Logger$write_object$55$(self, obj) {
+  moonbitlang$core$builtin$$Show$output$73$(obj, self);
 }
-function moonbitlang$core$builtin$$Logger$write_object$10$(self, obj) {
+function moonbitlang$core$builtin$$Logger$write_object$74$(self, obj) {
   moonbitlang$core$builtin$$Show$output$75$(obj, self);
 }
-function moonbitlang$core$builtin$$Logger$write_object$11$(self, obj) {
-  moonbitlang$core$builtin$$Show$output$76$(obj, self);
+function moonbitlang$core$builtin$$Logger$write_object$76$(self, obj) {
+  moonbitlang$core$builtin$$Show$output$77$(obj, self);
 }
 function moonbitlang$core$builtin$$Logger$write_object$7$(self, obj) {
   moonbitlang$core$builtin$$Show$output$7$(obj, self);
 }
-function moonbitlang$core$builtin$$Show$output$69$(self, logger) {
+function moonbitlang$core$builtin$$Logger$write_object$11$(self, obj) {
+  moonbitlang$core$builtin$$Show$output$78$(obj, self);
+}
+function moonbitlang$core$builtin$$Show$output$72$(self, logger) {
   const _x = self._0;
   const _x$2 = self._1;
   logger.method_0(logger.self, "(");
@@ -2508,22 +2688,22 @@ function moonbitlang$core$builtin$$Show$output$69$(self, logger) {
   moonbitlang$core$builtin$$Logger$write_object$7$(logger, _x$2);
   logger.method_0(logger.self, ")");
 }
-function moonbitlang$core$builtin$$Show$output$70$(self, logger) {
+function moonbitlang$core$builtin$$Show$output$73$(self, logger) {
   const _x = self._0;
   const _x$2 = self._1;
   logger.method_0(logger.self, "(");
-  moonbitlang$core$builtin$$Logger$write_object$61$(logger, _x);
+  moonbitlang$core$builtin$$Logger$write_object$64$(logger, _x);
   logger.method_0(logger.self, ", ");
-  moonbitlang$core$builtin$$Logger$write_object$61$(logger, _x$2);
+  moonbitlang$core$builtin$$Logger$write_object$64$(logger, _x$2);
   logger.method_0(logger.self, ")");
 }
-function moonbitlang$core$builtin$$Show$output$74$(self, logger) {
+function moonbitlang$core$builtin$$Show$output$77$(self, logger) {
   const _x = self._0;
   const _x$2 = self._1;
   logger.method_0(logger.self, "(");
   moonbitlang$core$builtin$$Logger$write_object$7$(logger, _x);
   logger.method_0(logger.self, ", ");
-  moonbitlang$core$builtin$$Logger$write_object$71$(logger, _x$2);
+  moonbitlang$core$builtin$$Logger$write_object$74$(logger, _x$2);
   logger.method_0(logger.self, ")");
 }
 function moonbitlang$core$string$$String$substring(self, start, end) {
@@ -2540,10 +2720,10 @@ function moonbitlang$core$builtin$$StringBuilder$write_substring(self, str, star
   _bind.val = `${_bind.val}${moonbitlang$core$string$$String$substring(str, start, start + len | 0)}`;
 }
 function moonbitlang$core$builtin$$Hasher$combine$9$(self, value) {
-  moonbitlang$core$builtin$$Hash$hash_combine$77$(value, self);
+  moonbitlang$core$builtin$$Hash$hash_combine$79$(value, self);
 }
-function moonbitlang$core$builtin$$Hasher$combine$78$(self, value) {
-  moonbitlang$core$builtin$$Hash$hash_combine$78$(value, self);
+function moonbitlang$core$builtin$$Hasher$combine$80$(self, value) {
+  moonbitlang$core$builtin$$Hash$hash_combine$80$(value, self);
 }
 function moonbitlang$core$builtin$$Hasher$combine$7$(self, value) {
   moonbitlang$core$builtin$$Hash$hash_combine$7$(value, self);
@@ -2579,15 +2759,7 @@ function moonbitlang$core$builtin$$Map$new$14$(capacity) {
   const capacity$2 = moonbitlang$core$builtin$$power_2_above(8, capacity);
   return { entries: $make_array_len_and_init(capacity$2, undefined), list: $make_array_len_and_init(capacity$2, { prev: undefined, next: undefined }), size: 0, capacity: capacity$2, capacity_mask: capacity$2 - 1 | 0, growAt: moonbitlang$core$builtin$$calc_grow_threshold(capacity$2), head: undefined, tail: undefined };
 }
-function moonbitlang$core$builtin$$Map$new$30$(capacity) {
-  const capacity$2 = moonbitlang$core$builtin$$power_2_above(8, capacity);
-  return { entries: $make_array_len_and_init(capacity$2, undefined), list: $make_array_len_and_init(capacity$2, { prev: undefined, next: undefined }), size: 0, capacity: capacity$2, capacity_mask: capacity$2 - 1 | 0, growAt: moonbitlang$core$builtin$$calc_grow_threshold(capacity$2), head: undefined, tail: undefined };
-}
-function moonbitlang$core$builtin$$Map$new$79$(capacity) {
-  const capacity$2 = moonbitlang$core$builtin$$power_2_above(8, capacity);
-  return { entries: $make_array_len_and_init(capacity$2, undefined), list: $make_array_len_and_init(capacity$2, { prev: undefined, next: undefined }), size: 0, capacity: capacity$2, capacity_mask: capacity$2 - 1 | 0, growAt: moonbitlang$core$builtin$$calc_grow_threshold(capacity$2), head: undefined, tail: undefined };
-}
-function moonbitlang$core$builtin$$Map$new$80$(capacity) {
+function moonbitlang$core$builtin$$Map$new$33$(capacity) {
   const capacity$2 = moonbitlang$core$builtin$$power_2_above(8, capacity);
   return { entries: $make_array_len_and_init(capacity$2, undefined), list: $make_array_len_and_init(capacity$2, { prev: undefined, next: undefined }), size: 0, capacity: capacity$2, capacity_mask: capacity$2 - 1 | 0, growAt: moonbitlang$core$builtin$$calc_grow_threshold(capacity$2), head: undefined, tail: undefined };
 }
@@ -2607,25 +2779,33 @@ function moonbitlang$core$builtin$$Map$new$84$(capacity) {
   const capacity$2 = moonbitlang$core$builtin$$power_2_above(8, capacity);
   return { entries: $make_array_len_and_init(capacity$2, undefined), list: $make_array_len_and_init(capacity$2, { prev: undefined, next: undefined }), size: 0, capacity: capacity$2, capacity_mask: capacity$2 - 1 | 0, growAt: moonbitlang$core$builtin$$calc_grow_threshold(capacity$2), head: undefined, tail: undefined };
 }
-function moonbitlang$core$builtin$$Map$new$46$capacity$46$default$30$() {
-  return 8;
+function moonbitlang$core$builtin$$Map$new$85$(capacity) {
+  const capacity$2 = moonbitlang$core$builtin$$power_2_above(8, capacity);
+  return { entries: $make_array_len_and_init(capacity$2, undefined), list: $make_array_len_and_init(capacity$2, { prev: undefined, next: undefined }), size: 0, capacity: capacity$2, capacity_mask: capacity$2 - 1 | 0, growAt: moonbitlang$core$builtin$$calc_grow_threshold(capacity$2), head: undefined, tail: undefined };
 }
-function moonbitlang$core$builtin$$Map$new$46$capacity$46$default$79$() {
-  return 8;
+function moonbitlang$core$builtin$$Map$new$86$(capacity) {
+  const capacity$2 = moonbitlang$core$builtin$$power_2_above(8, capacity);
+  return { entries: $make_array_len_and_init(capacity$2, undefined), list: $make_array_len_and_init(capacity$2, { prev: undefined, next: undefined }), size: 0, capacity: capacity$2, capacity_mask: capacity$2 - 1 | 0, growAt: moonbitlang$core$builtin$$calc_grow_threshold(capacity$2), head: undefined, tail: undefined };
 }
-function moonbitlang$core$builtin$$Map$new$46$capacity$46$default$80$() {
+function moonbitlang$core$builtin$$Map$new$46$capacity$46$default$33$() {
   return 8;
 }
 function moonbitlang$core$builtin$$Map$new$46$capacity$46$default$81$() {
   return 8;
 }
+function moonbitlang$core$builtin$$Map$new$46$capacity$46$default$82$() {
+  return 8;
+}
 function moonbitlang$core$builtin$$Map$new$46$capacity$46$default$83$() {
   return 8;
 }
-function moonbitlang$core$builtin$$Map$new$46$capacity$46$default$84$() {
+function moonbitlang$core$builtin$$Map$new$46$capacity$46$default$85$() {
   return 8;
 }
-function moonbitlang$core$builtin$$Map$add_entry_to_tail$79$(self, entry) {
+function moonbitlang$core$builtin$$Map$new$46$capacity$46$default$86$() {
+  return 8;
+}
+function moonbitlang$core$builtin$$Map$add_entry_to_tail$81$(self, entry) {
   const _bind = self.tail;
   if (_bind === undefined) {
     self.head = entry;
@@ -2640,22 +2820,7 @@ function moonbitlang$core$builtin$$Map$add_entry_to_tail$79$(self, entry) {
     return;
   }
 }
-function moonbitlang$core$builtin$$Map$add_entry_to_tail$84$(self, entry) {
-  const _bind = self.tail;
-  if (_bind === undefined) {
-    self.head = entry;
-    self.tail = entry;
-    return;
-  } else {
-    const _Some = _bind;
-    const _x = _Some;
-    self.list[_x.idx].next = entry;
-    self.list[entry.idx].prev = _x;
-    self.tail = entry;
-    return;
-  }
-}
-function moonbitlang$core$builtin$$Map$add_entry_to_tail$80$(self, entry) {
+function moonbitlang$core$builtin$$Map$add_entry_to_tail$86$(self, entry) {
   const _bind = self.tail;
   if (_bind === undefined) {
     self.head = entry;
@@ -2685,37 +2850,7 @@ function moonbitlang$core$builtin$$Map$add_entry_to_tail$82$(self, entry) {
     return;
   }
 }
-function moonbitlang$core$builtin$$Map$add_entry_to_tail$81$(self, entry) {
-  const _bind = self.tail;
-  if (_bind === undefined) {
-    self.head = entry;
-    self.tail = entry;
-    return;
-  } else {
-    const _Some = _bind;
-    const _x = _Some;
-    self.list[_x.idx].next = entry;
-    self.list[entry.idx].prev = _x;
-    self.tail = entry;
-    return;
-  }
-}
-function moonbitlang$core$builtin$$Map$add_entry_to_tail$14$(self, entry) {
-  const _bind = self.tail;
-  if (_bind === undefined) {
-    self.head = entry;
-    self.tail = entry;
-    return;
-  } else {
-    const _Some = _bind;
-    const _x = _Some;
-    self.list[_x.idx].next = entry;
-    self.list[entry.idx].prev = _x;
-    self.tail = entry;
-    return;
-  }
-}
-function moonbitlang$core$builtin$$Map$add_entry_to_tail$30$(self, entry) {
+function moonbitlang$core$builtin$$Map$add_entry_to_tail$84$(self, entry) {
   const _bind = self.tail;
   if (_bind === undefined) {
     self.head = entry;
@@ -2745,11 +2880,56 @@ function moonbitlang$core$builtin$$Map$add_entry_to_tail$83$(self, entry) {
     return;
   }
 }
-function moonbitlang$core$builtin$$Map$set$79$(self, key, value) {
-  if (self.size >= self.growAt) {
-    moonbitlang$core$builtin$$Map$grow$79$(self);
+function moonbitlang$core$builtin$$Map$add_entry_to_tail$14$(self, entry) {
+  const _bind = self.tail;
+  if (_bind === undefined) {
+    self.head = entry;
+    self.tail = entry;
+    return;
+  } else {
+    const _Some = _bind;
+    const _x = _Some;
+    self.list[_x.idx].next = entry;
+    self.list[entry.idx].prev = _x;
+    self.tail = entry;
+    return;
   }
-  const hash = moonbitlang$core$builtin$$Hash$hash$85$(key);
+}
+function moonbitlang$core$builtin$$Map$add_entry_to_tail$33$(self, entry) {
+  const _bind = self.tail;
+  if (_bind === undefined) {
+    self.head = entry;
+    self.tail = entry;
+    return;
+  } else {
+    const _Some = _bind;
+    const _x = _Some;
+    self.list[_x.idx].next = entry;
+    self.list[entry.idx].prev = _x;
+    self.tail = entry;
+    return;
+  }
+}
+function moonbitlang$core$builtin$$Map$add_entry_to_tail$85$(self, entry) {
+  const _bind = self.tail;
+  if (_bind === undefined) {
+    self.head = entry;
+    self.tail = entry;
+    return;
+  } else {
+    const _Some = _bind;
+    const _x = _Some;
+    self.list[_x.idx].next = entry;
+    self.list[entry.idx].prev = _x;
+    self.tail = entry;
+    return;
+  }
+}
+function moonbitlang$core$builtin$$Map$set$81$(self, key, value) {
+  if (self.size >= self.growAt) {
+    moonbitlang$core$builtin$$Map$grow$81$(self);
+  }
+  const hash = moonbitlang$core$builtin$$Hash$hash$87$(key);
   const insert_entry = { idx: -1, psl: 0, hash: hash, key: key, value: value };
   const list_node = { prev: undefined, next: undefined };
   let _tmp = 0;
@@ -2766,14 +2946,14 @@ function moonbitlang$core$builtin$$Map$set$79$(self, key, value) {
       self.entries[_param$2] = _param$3;
       self.list[_param$2] = _param$4;
       _param$3.idx = _param$2;
-      moonbitlang$core$builtin$$Map$add_entry_to_tail$79$(self, insert_entry);
+      moonbitlang$core$builtin$$Map$add_entry_to_tail$81$(self, insert_entry);
       self.size = self.size + 1 | 0;
       return;
     } else {
       const _Some = _bind;
       const _x = _Some;
       const curr_node = self.list[_x.idx];
-      if (_x.hash === _param$3.hash && moonbitlang$core$builtin$$Eq$op_equal$78$(_x.key, _param$3.key)) {
+      if (_x.hash === _param$3.hash && moonbitlang$core$builtin$$Eq$op_equal$80$(_x.key, _param$3.key)) {
         _x.value = _param$3.value;
         break;
       }
@@ -2800,9 +2980,9 @@ function moonbitlang$core$builtin$$Map$set$79$(self, key, value) {
     }
   }
 }
-function moonbitlang$core$builtin$$Map$set$80$(self, key, value) {
+function moonbitlang$core$builtin$$Map$set$82$(self, key, value) {
   if (self.size >= self.growAt) {
-    moonbitlang$core$builtin$$Map$grow$80$(self);
+    moonbitlang$core$builtin$$Map$grow$82$(self);
   }
   const hash = moonbitlang$core$builtin$$Hash$hash$7$(key);
   const insert_entry = { idx: -1, psl: 0, hash: hash, key: key, value: value };
@@ -2821,7 +3001,7 @@ function moonbitlang$core$builtin$$Map$set$80$(self, key, value) {
       self.entries[_param$2] = _param$3;
       self.list[_param$2] = _param$4;
       _param$3.idx = _param$2;
-      moonbitlang$core$builtin$$Map$add_entry_to_tail$80$(self, insert_entry);
+      moonbitlang$core$builtin$$Map$add_entry_to_tail$82$(self, insert_entry);
       self.size = self.size + 1 | 0;
       return;
     } else {
@@ -2855,11 +3035,11 @@ function moonbitlang$core$builtin$$Map$set$80$(self, key, value) {
     }
   }
 }
-function moonbitlang$core$builtin$$Map$set$84$(self, key, value) {
+function moonbitlang$core$builtin$$Map$set$86$(self, key, value) {
   if (self.size >= self.growAt) {
-    moonbitlang$core$builtin$$Map$grow$84$(self);
+    moonbitlang$core$builtin$$Map$grow$86$(self);
   }
-  const hash = moonbitlang$core$builtin$$Hash$hash$86$(key);
+  const hash = moonbitlang$core$builtin$$Hash$hash$88$(key);
   const insert_entry = { idx: -1, psl: 0, hash: hash, key: key, value: value };
   const list_node = { prev: undefined, next: undefined };
   let _tmp = 0;
@@ -2876,7 +3056,7 @@ function moonbitlang$core$builtin$$Map$set$84$(self, key, value) {
       self.entries[_param$2] = _param$3;
       self.list[_param$2] = _param$4;
       _param$3.idx = _param$2;
-      moonbitlang$core$builtin$$Map$add_entry_to_tail$84$(self, insert_entry);
+      moonbitlang$core$builtin$$Map$add_entry_to_tail$86$(self, insert_entry);
       self.size = self.size + 1 | 0;
       return;
     } else {
@@ -2910,9 +3090,9 @@ function moonbitlang$core$builtin$$Map$set$84$(self, key, value) {
     }
   }
 }
-function moonbitlang$core$builtin$$Map$set$30$(self, key, value) {
+function moonbitlang$core$builtin$$Map$set$33$(self, key, value) {
   if (self.size >= self.growAt) {
-    moonbitlang$core$builtin$$Map$grow$30$(self);
+    moonbitlang$core$builtin$$Map$grow$33$(self);
   }
   const hash = moonbitlang$core$builtin$$Hash$hash$7$(key);
   const insert_entry = { idx: -1, psl: 0, hash: hash, key: key, value: value };
@@ -2931,7 +3111,7 @@ function moonbitlang$core$builtin$$Map$set$30$(self, key, value) {
       self.entries[_param$2] = _param$3;
       self.list[_param$2] = _param$4;
       _param$3.idx = _param$2;
-      moonbitlang$core$builtin$$Map$add_entry_to_tail$30$(self, insert_entry);
+      moonbitlang$core$builtin$$Map$add_entry_to_tail$33$(self, insert_entry);
       self.size = self.size + 1 | 0;
       return;
     } else {
@@ -3020,116 +3200,6 @@ function moonbitlang$core$builtin$$Map$set$14$(self, key, value) {
     }
   }
 }
-function moonbitlang$core$builtin$$Map$set$81$(self, key, value) {
-  if (self.size >= self.growAt) {
-    moonbitlang$core$builtin$$Map$grow$81$(self);
-  }
-  const hash = moonbitlang$core$builtin$$Hash$hash$2$(key);
-  const insert_entry = { idx: -1, psl: 0, hash: hash, key: key, value: value };
-  const list_node = { prev: undefined, next: undefined };
-  let _tmp = 0;
-  let _tmp$2 = hash & self.capacity_mask;
-  let _tmp$3 = insert_entry;
-  let _tmp$4 = list_node;
-  while (true) {
-    const _param = _tmp;
-    const _param$2 = _tmp$2;
-    const _param$3 = _tmp$3;
-    const _param$4 = _tmp$4;
-    const _bind = self.entries[_param$2];
-    if (_bind === undefined) {
-      self.entries[_param$2] = _param$3;
-      self.list[_param$2] = _param$4;
-      _param$3.idx = _param$2;
-      moonbitlang$core$builtin$$Map$add_entry_to_tail$81$(self, insert_entry);
-      self.size = self.size + 1 | 0;
-      return;
-    } else {
-      const _Some = _bind;
-      const _x = _Some;
-      const curr_node = self.list[_x.idx];
-      if (_x.hash === _param$3.hash && _x.key === _param$3.key) {
-        _x.value = _param$3.value;
-        break;
-      }
-      if (_param$3.psl > _x.psl) {
-        self.entries[_param$2] = _param$3;
-        self.list[_param$2] = _param$4;
-        _param$3.idx = _param$2;
-        _x.psl = _x.psl + 1 | 0;
-        const _tmp$5 = _param + 1 | 0;
-        const _tmp$6 = _param$2 + 1 & self.capacity_mask;
-        _tmp = _tmp$5;
-        _tmp$2 = _tmp$6;
-        _tmp$3 = _x;
-        _tmp$4 = curr_node;
-        continue;
-      } else {
-        _param$3.psl = _param$3.psl + 1 | 0;
-        const _tmp$5 = _param + 1 | 0;
-        const _tmp$6 = _param$2 + 1 & self.capacity_mask;
-        _tmp = _tmp$5;
-        _tmp$2 = _tmp$6;
-        continue;
-      }
-    }
-  }
-}
-function moonbitlang$core$builtin$$Map$set$82$(self, key, value) {
-  if (self.size >= self.growAt) {
-    moonbitlang$core$builtin$$Map$grow$82$(self);
-  }
-  const hash = moonbitlang$core$builtin$$Hash$hash$87$(key);
-  const insert_entry = { idx: -1, psl: 0, hash: hash, key: key, value: value };
-  const list_node = { prev: undefined, next: undefined };
-  let _tmp = 0;
-  let _tmp$2 = hash & self.capacity_mask;
-  let _tmp$3 = insert_entry;
-  let _tmp$4 = list_node;
-  while (true) {
-    const _param = _tmp;
-    const _param$2 = _tmp$2;
-    const _param$3 = _tmp$3;
-    const _param$4 = _tmp$4;
-    const _bind = self.entries[_param$2];
-    if (_bind === undefined) {
-      self.entries[_param$2] = _param$3;
-      self.list[_param$2] = _param$4;
-      _param$3.idx = _param$2;
-      moonbitlang$core$builtin$$Map$add_entry_to_tail$82$(self, insert_entry);
-      self.size = self.size + 1 | 0;
-      return;
-    } else {
-      const _Some = _bind;
-      const _x = _Some;
-      const curr_node = self.list[_x.idx];
-      if (_x.hash === _param$3.hash && _x.key === _param$3.key) {
-        _x.value = _param$3.value;
-        break;
-      }
-      if (_param$3.psl > _x.psl) {
-        self.entries[_param$2] = _param$3;
-        self.list[_param$2] = _param$4;
-        _param$3.idx = _param$2;
-        _x.psl = _x.psl + 1 | 0;
-        const _tmp$5 = _param + 1 | 0;
-        const _tmp$6 = _param$2 + 1 & self.capacity_mask;
-        _tmp = _tmp$5;
-        _tmp$2 = _tmp$6;
-        _tmp$3 = _x;
-        _tmp$4 = curr_node;
-        continue;
-      } else {
-        _param$3.psl = _param$3.psl + 1 | 0;
-        const _tmp$5 = _param + 1 | 0;
-        const _tmp$6 = _param$2 + 1 & self.capacity_mask;
-        _tmp = _tmp$5;
-        _tmp$2 = _tmp$6;
-        continue;
-      }
-    }
-  }
-}
 function moonbitlang$core$builtin$$Map$set$83$(self, key, value) {
   if (self.size >= self.growAt) {
     moonbitlang$core$builtin$$Map$grow$83$(self);
@@ -3185,7 +3255,117 @@ function moonbitlang$core$builtin$$Map$set$83$(self, key, value) {
     }
   }
 }
-function moonbitlang$core$builtin$$Map$grow$79$(self) {
+function moonbitlang$core$builtin$$Map$set$84$(self, key, value) {
+  if (self.size >= self.growAt) {
+    moonbitlang$core$builtin$$Map$grow$84$(self);
+  }
+  const hash = moonbitlang$core$builtin$$Hash$hash$89$(key);
+  const insert_entry = { idx: -1, psl: 0, hash: hash, key: key, value: value };
+  const list_node = { prev: undefined, next: undefined };
+  let _tmp = 0;
+  let _tmp$2 = hash & self.capacity_mask;
+  let _tmp$3 = insert_entry;
+  let _tmp$4 = list_node;
+  while (true) {
+    const _param = _tmp;
+    const _param$2 = _tmp$2;
+    const _param$3 = _tmp$3;
+    const _param$4 = _tmp$4;
+    const _bind = self.entries[_param$2];
+    if (_bind === undefined) {
+      self.entries[_param$2] = _param$3;
+      self.list[_param$2] = _param$4;
+      _param$3.idx = _param$2;
+      moonbitlang$core$builtin$$Map$add_entry_to_tail$84$(self, insert_entry);
+      self.size = self.size + 1 | 0;
+      return;
+    } else {
+      const _Some = _bind;
+      const _x = _Some;
+      const curr_node = self.list[_x.idx];
+      if (_x.hash === _param$3.hash && _x.key === _param$3.key) {
+        _x.value = _param$3.value;
+        break;
+      }
+      if (_param$3.psl > _x.psl) {
+        self.entries[_param$2] = _param$3;
+        self.list[_param$2] = _param$4;
+        _param$3.idx = _param$2;
+        _x.psl = _x.psl + 1 | 0;
+        const _tmp$5 = _param + 1 | 0;
+        const _tmp$6 = _param$2 + 1 & self.capacity_mask;
+        _tmp = _tmp$5;
+        _tmp$2 = _tmp$6;
+        _tmp$3 = _x;
+        _tmp$4 = curr_node;
+        continue;
+      } else {
+        _param$3.psl = _param$3.psl + 1 | 0;
+        const _tmp$5 = _param + 1 | 0;
+        const _tmp$6 = _param$2 + 1 & self.capacity_mask;
+        _tmp = _tmp$5;
+        _tmp$2 = _tmp$6;
+        continue;
+      }
+    }
+  }
+}
+function moonbitlang$core$builtin$$Map$set$85$(self, key, value) {
+  if (self.size >= self.growAt) {
+    moonbitlang$core$builtin$$Map$grow$85$(self);
+  }
+  const hash = moonbitlang$core$builtin$$Hash$hash$2$(key);
+  const insert_entry = { idx: -1, psl: 0, hash: hash, key: key, value: value };
+  const list_node = { prev: undefined, next: undefined };
+  let _tmp = 0;
+  let _tmp$2 = hash & self.capacity_mask;
+  let _tmp$3 = insert_entry;
+  let _tmp$4 = list_node;
+  while (true) {
+    const _param = _tmp;
+    const _param$2 = _tmp$2;
+    const _param$3 = _tmp$3;
+    const _param$4 = _tmp$4;
+    const _bind = self.entries[_param$2];
+    if (_bind === undefined) {
+      self.entries[_param$2] = _param$3;
+      self.list[_param$2] = _param$4;
+      _param$3.idx = _param$2;
+      moonbitlang$core$builtin$$Map$add_entry_to_tail$85$(self, insert_entry);
+      self.size = self.size + 1 | 0;
+      return;
+    } else {
+      const _Some = _bind;
+      const _x = _Some;
+      const curr_node = self.list[_x.idx];
+      if (_x.hash === _param$3.hash && _x.key === _param$3.key) {
+        _x.value = _param$3.value;
+        break;
+      }
+      if (_param$3.psl > _x.psl) {
+        self.entries[_param$2] = _param$3;
+        self.list[_param$2] = _param$4;
+        _param$3.idx = _param$2;
+        _x.psl = _x.psl + 1 | 0;
+        const _tmp$5 = _param + 1 | 0;
+        const _tmp$6 = _param$2 + 1 & self.capacity_mask;
+        _tmp = _tmp$5;
+        _tmp$2 = _tmp$6;
+        _tmp$3 = _x;
+        _tmp$4 = curr_node;
+        continue;
+      } else {
+        _param$3.psl = _param$3.psl + 1 | 0;
+        const _tmp$5 = _param + 1 | 0;
+        const _tmp$6 = _param$2 + 1 & self.capacity_mask;
+        _tmp = _tmp$5;
+        _tmp$2 = _tmp$6;
+        continue;
+      }
+    }
+  }
+}
+function moonbitlang$core$builtin$$Map$grow$81$(self) {
   const old_head = self.head;
   const old_list = self.list;
   const new_capacity = self.capacity << 1;
@@ -3208,13 +3388,13 @@ function moonbitlang$core$builtin$$Map$grow$79$(self) {
       const _x$2 = _x.idx;
       const _x$3 = _x.key;
       const _x$4 = _x.value;
-      moonbitlang$core$builtin$$Map$set$79$(self, _x$3, _x$4);
+      moonbitlang$core$builtin$$Map$set$81$(self, _x$3, _x$4);
       _tmp = old_list[_x$2].next;
       continue;
     }
   }
 }
-function moonbitlang$core$builtin$$Map$grow$84$(self) {
+function moonbitlang$core$builtin$$Map$grow$86$(self) {
   const old_head = self.head;
   const old_list = self.list;
   const new_capacity = self.capacity << 1;
@@ -3237,36 +3417,7 @@ function moonbitlang$core$builtin$$Map$grow$84$(self) {
       const _x$2 = _x.idx;
       const _x$3 = _x.key;
       const _x$4 = _x.value;
-      moonbitlang$core$builtin$$Map$set$84$(self, _x$3, _x$4);
-      _tmp = old_list[_x$2].next;
-      continue;
-    }
-  }
-}
-function moonbitlang$core$builtin$$Map$grow$80$(self) {
-  const old_head = self.head;
-  const old_list = self.list;
-  const new_capacity = self.capacity << 1;
-  self.entries = $make_array_len_and_init(new_capacity, undefined);
-  self.list = $make_array_len_and_init(new_capacity, { prev: undefined, next: undefined });
-  self.capacity = new_capacity;
-  self.capacity_mask = new_capacity - 1 | 0;
-  self.growAt = moonbitlang$core$builtin$$calc_grow_threshold(self.capacity);
-  self.size = 0;
-  self.head = undefined;
-  self.tail = undefined;
-  let _tmp = old_head;
-  while (true) {
-    const _param = _tmp;
-    if (_param === undefined) {
-      return;
-    } else {
-      const _Some = _param;
-      const _x = _Some;
-      const _x$2 = _x.idx;
-      const _x$3 = _x.key;
-      const _x$4 = _x.value;
-      moonbitlang$core$builtin$$Map$set$80$(self, _x$3, _x$4);
+      moonbitlang$core$builtin$$Map$set$86$(self, _x$3, _x$4);
       _tmp = old_list[_x$2].next;
       continue;
     }
@@ -3301,7 +3452,7 @@ function moonbitlang$core$builtin$$Map$grow$82$(self) {
     }
   }
 }
-function moonbitlang$core$builtin$$Map$grow$81$(self) {
+function moonbitlang$core$builtin$$Map$grow$84$(self) {
   const old_head = self.head;
   const old_list = self.list;
   const new_capacity = self.capacity << 1;
@@ -3324,7 +3475,36 @@ function moonbitlang$core$builtin$$Map$grow$81$(self) {
       const _x$2 = _x.idx;
       const _x$3 = _x.key;
       const _x$4 = _x.value;
-      moonbitlang$core$builtin$$Map$set$81$(self, _x$3, _x$4);
+      moonbitlang$core$builtin$$Map$set$84$(self, _x$3, _x$4);
+      _tmp = old_list[_x$2].next;
+      continue;
+    }
+  }
+}
+function moonbitlang$core$builtin$$Map$grow$83$(self) {
+  const old_head = self.head;
+  const old_list = self.list;
+  const new_capacity = self.capacity << 1;
+  self.entries = $make_array_len_and_init(new_capacity, undefined);
+  self.list = $make_array_len_and_init(new_capacity, { prev: undefined, next: undefined });
+  self.capacity = new_capacity;
+  self.capacity_mask = new_capacity - 1 | 0;
+  self.growAt = moonbitlang$core$builtin$$calc_grow_threshold(self.capacity);
+  self.size = 0;
+  self.head = undefined;
+  self.tail = undefined;
+  let _tmp = old_head;
+  while (true) {
+    const _param = _tmp;
+    if (_param === undefined) {
+      return;
+    } else {
+      const _Some = _param;
+      const _x = _Some;
+      const _x$2 = _x.idx;
+      const _x$3 = _x.key;
+      const _x$4 = _x.value;
+      moonbitlang$core$builtin$$Map$set$83$(self, _x$3, _x$4);
       _tmp = old_list[_x$2].next;
       continue;
     }
@@ -3359,7 +3539,7 @@ function moonbitlang$core$builtin$$Map$grow$14$(self) {
     }
   }
 }
-function moonbitlang$core$builtin$$Map$grow$30$(self) {
+function moonbitlang$core$builtin$$Map$grow$33$(self) {
   const old_head = self.head;
   const old_list = self.list;
   const new_capacity = self.capacity << 1;
@@ -3382,13 +3562,13 @@ function moonbitlang$core$builtin$$Map$grow$30$(self) {
       const _x$2 = _x.idx;
       const _x$3 = _x.key;
       const _x$4 = _x.value;
-      moonbitlang$core$builtin$$Map$set$30$(self, _x$3, _x$4);
+      moonbitlang$core$builtin$$Map$set$33$(self, _x$3, _x$4);
       _tmp = old_list[_x$2].next;
       continue;
     }
   }
 }
-function moonbitlang$core$builtin$$Map$grow$83$(self) {
+function moonbitlang$core$builtin$$Map$grow$85$(self) {
   const old_head = self.head;
   const old_list = self.list;
   const new_capacity = self.capacity << 1;
@@ -3411,7 +3591,7 @@ function moonbitlang$core$builtin$$Map$grow$83$(self) {
       const _x$2 = _x.idx;
       const _x$3 = _x.key;
       const _x$4 = _x.value;
-      moonbitlang$core$builtin$$Map$set$83$(self, _x$3, _x$4);
+      moonbitlang$core$builtin$$Map$set$85$(self, _x$3, _x$4);
       _tmp = old_list[_x$2].next;
       continue;
     }
@@ -3447,13 +3627,13 @@ function moonbitlang$core$array$$Array$each$16$(self, f) {
     }
   }
 }
-function moonbitlang$core$array$$Array$each$54$(self, f) {
+function moonbitlang$core$array$$Array$each$57$(self, f) {
   const _len = self.length;
   let _tmp = 0;
   while (true) {
     const _i = _tmp;
     if (_i < _len) {
-      const v = moonbitlang$core$array$$Array$op_get$54$(self, _i);
+      const v = moonbitlang$core$array$$Array$op_get$57$(self, _i);
       f(v);
       _tmp = _i + 1 | 0;
       continue;
@@ -3469,14 +3649,14 @@ function moonbitlang$core$builtin$$Map$from_array$14$(arr) {
   });
   return m;
 }
-function moonbitlang$core$builtin$$Map$from_array$82$(arr) {
-  const m = moonbitlang$core$builtin$$Map$new$82$(arr.length);
-  moonbitlang$core$array$$Array$each$54$(arr, (e) => {
-    moonbitlang$core$builtin$$Map$set$82$(m, e._0, e._1);
+function moonbitlang$core$builtin$$Map$from_array$84$(arr) {
+  const m = moonbitlang$core$builtin$$Map$new$84$(arr.length);
+  moonbitlang$core$array$$Array$each$57$(arr, (e) => {
+    moonbitlang$core$builtin$$Map$set$84$(m, e._0, e._1);
   });
   return m;
 }
-function moonbitlang$core$builtin$$Map$get$30$(self, key) {
+function moonbitlang$core$builtin$$Map$get$33$(self, key) {
   const hash = moonbitlang$core$builtin$$Hash$hash$7$(key);
   let _tmp = 0;
   let _tmp$2 = hash & self.capacity_mask;
@@ -3503,8 +3683,8 @@ function moonbitlang$core$builtin$$Map$get$30$(self, key) {
     }
   }
 }
-function moonbitlang$core$builtin$$Map$get$79$(self, key) {
-  const hash = moonbitlang$core$builtin$$Hash$hash$85$(key);
+function moonbitlang$core$builtin$$Map$get$81$(self, key) {
+  const hash = moonbitlang$core$builtin$$Hash$hash$87$(key);
   let _tmp = 0;
   let _tmp$2 = hash & self.capacity_mask;
   while (true) {
@@ -3516,7 +3696,7 @@ function moonbitlang$core$builtin$$Map$get$79$(self, key) {
     } else {
       const _Some = _bind;
       const _x = _Some;
-      if (_x.hash === hash && moonbitlang$core$builtin$$Eq$op_equal$78$(_x.key, key)) {
+      if (_x.hash === hash && moonbitlang$core$builtin$$Eq$op_equal$80$(_x.key, key)) {
         return _x.value;
       }
       if (i > _x.psl) {
@@ -3530,7 +3710,7 @@ function moonbitlang$core$builtin$$Map$get$79$(self, key) {
     }
   }
 }
-function moonbitlang$core$builtin$$Map$get$83$(self, key) {
+function moonbitlang$core$builtin$$Map$get$85$(self, key) {
   const hash = moonbitlang$core$builtin$$Hash$hash$2$(key);
   let _tmp = 0;
   let _tmp$2 = hash & self.capacity_mask;
@@ -3584,8 +3764,8 @@ function moonbitlang$core$builtin$$Map$get$14$(self, key) {
     }
   }
 }
-function moonbitlang$core$builtin$$Map$get$84$(self, key) {
-  const hash = moonbitlang$core$builtin$$Hash$hash$86$(key);
+function moonbitlang$core$builtin$$Map$get$86$(self, key) {
+  const hash = moonbitlang$core$builtin$$Hash$hash$88$(key);
   let _tmp = 0;
   let _tmp$2 = hash & self.capacity_mask;
   while (true) {
@@ -3611,7 +3791,7 @@ function moonbitlang$core$builtin$$Map$get$84$(self, key) {
     }
   }
 }
-function moonbitlang$core$builtin$$Map$get$81$(self, key) {
+function moonbitlang$core$builtin$$Map$get$83$(self, key) {
   const hash = moonbitlang$core$builtin$$Hash$hash$2$(key);
   let _tmp = 0;
   let _tmp$2 = hash & self.capacity_mask;
@@ -3638,8 +3818,8 @@ function moonbitlang$core$builtin$$Map$get$81$(self, key) {
     }
   }
 }
-function moonbitlang$core$builtin$$Map$get$82$(self, key) {
-  const hash = moonbitlang$core$builtin$$Hash$hash$87$(key);
+function moonbitlang$core$builtin$$Map$get$84$(self, key) {
+  const hash = moonbitlang$core$builtin$$Hash$hash$89$(key);
   let _tmp = 0;
   let _tmp$2 = hash & self.capacity_mask;
   while (true) {
@@ -3665,7 +3845,7 @@ function moonbitlang$core$builtin$$Map$get$82$(self, key) {
     }
   }
 }
-function moonbitlang$core$builtin$$Map$get$80$(self, key) {
+function moonbitlang$core$builtin$$Map$get$82$(self, key) {
   const hash = moonbitlang$core$builtin$$Hash$hash$7$(key);
   let _tmp = 0;
   let _tmp$2 = hash & self.capacity_mask;
@@ -3692,11 +3872,11 @@ function moonbitlang$core$builtin$$Map$get$80$(self, key) {
     }
   }
 }
+function moonbitlang$core$builtin$$Map$op_get$85$(self, key) {
+  return moonbitlang$core$builtin$$Map$get$85$(self, key);
+}
 function moonbitlang$core$builtin$$Map$op_get$83$(self, key) {
   return moonbitlang$core$builtin$$Map$get$83$(self, key);
-}
-function moonbitlang$core$builtin$$Map$op_get$81$(self, key) {
-  return moonbitlang$core$builtin$$Map$get$81$(self, key);
 }
 function moonbitlang$core$builtin$$Map$get_or_default$14$(self, key, default_) {
   const _bind = moonbitlang$core$builtin$$Map$get$14$(self, key);
@@ -3708,8 +3888,8 @@ function moonbitlang$core$builtin$$Map$get_or_default$14$(self, key, default_) {
     return _x;
   }
 }
-function moonbitlang$core$builtin$$Map$get_or_default$79$(self, key, default_) {
-  const _bind = moonbitlang$core$builtin$$Map$get$79$(self, key);
+function moonbitlang$core$builtin$$Map$get_or_default$81$(self, key, default_) {
+  const _bind = moonbitlang$core$builtin$$Map$get$81$(self, key);
   if (_bind === undefined) {
     return default_;
   } else {
@@ -3718,11 +3898,11 @@ function moonbitlang$core$builtin$$Map$get_or_default$79$(self, key, default_) {
     return _x;
   }
 }
-function moonbitlang$core$builtin$$Map$get_or_init$79$(self, key, default_) {
-  const _bind = moonbitlang$core$builtin$$Map$get$79$(self, key);
+function moonbitlang$core$builtin$$Map$get_or_init$81$(self, key, default_) {
+  const _bind = moonbitlang$core$builtin$$Map$get$81$(self, key);
   if (_bind === undefined) {
     const v = default_();
-    moonbitlang$core$builtin$$Map$set$79$(self, key, v);
+    moonbitlang$core$builtin$$Map$set$81$(self, key, v);
     return v;
   } else {
     const _Some = _bind;
@@ -3730,11 +3910,11 @@ function moonbitlang$core$builtin$$Map$get_or_init$79$(self, key, default_) {
     return _x;
   }
 }
-function moonbitlang$core$builtin$$Map$get_or_init$84$(self, key, default_) {
-  const _bind = moonbitlang$core$builtin$$Map$get$84$(self, key);
+function moonbitlang$core$builtin$$Map$get_or_init$86$(self, key, default_) {
+  const _bind = moonbitlang$core$builtin$$Map$get$86$(self, key);
   if (_bind === undefined) {
     const v = default_();
-    moonbitlang$core$builtin$$Map$set$84$(self, key, v);
+    moonbitlang$core$builtin$$Map$set$86$(self, key, v);
     return v;
   } else {
     const _Some = _bind;
@@ -3751,7 +3931,7 @@ function moonbitlang$core$option$$Option$unwrap$12$(self) {
     return _x;
   }
 }
-function moonbitlang$core$option$$Option$unwrap$25$(self) {
+function moonbitlang$core$option$$Option$unwrap$26$(self) {
   if (self === undefined) {
     return $panic();
   } else {
@@ -3760,7 +3940,16 @@ function moonbitlang$core$option$$Option$unwrap$25$(self) {
     return _x;
   }
 }
-function moonbitlang$core$option$$Option$unwrap$73$(self) {
+function moonbitlang$core$option$$Option$unwrap$27$(self) {
+  if (self === undefined) {
+    return $panic();
+  } else {
+    const _Some = self;
+    const _x = _Some;
+    return _x;
+  }
+}
+function moonbitlang$core$option$$Option$unwrap$76$(self) {
   if (self === undefined) {
     return $panic();
   } else {
@@ -3796,7 +3985,7 @@ function moonbitlang$core$option$$Option$unwrap$6$(self) {
     return _x;
   }
 }
-function moonbitlang$core$option$$Option$unwrap$61$(self) {
+function moonbitlang$core$option$$Option$unwrap$64$(self) {
   if (self === undefined) {
     return $panic();
   } else {
@@ -3814,7 +4003,7 @@ function moonbitlang$core$option$$Option$unwrap$3$(self) {
     return _x;
   }
 }
-function moonbitlang$core$option$$Option$unwrap$59$(self) {
+function moonbitlang$core$option$$Option$unwrap$62$(self) {
   if (self === undefined) {
     return $panic();
   } else {
@@ -3823,10 +4012,10 @@ function moonbitlang$core$option$$Option$unwrap$59$(self) {
     return _x;
   }
 }
-function moonbitlang$core$builtin$$Map$size$81$(self) {
+function moonbitlang$core$builtin$$Map$size$83$(self) {
   return self.size;
 }
-function moonbitlang$core$builtin$$Iter$new$52$(f) {
+function moonbitlang$core$builtin$$Iter$new$55$(f) {
   return f;
 }
 function moonbitlang$core$builtin$$Iter$new$18$(f) {
@@ -3835,13 +4024,10 @@ function moonbitlang$core$builtin$$Iter$new$18$(f) {
 function moonbitlang$core$builtin$$Iter$new$16$(f) {
   return f;
 }
-function moonbitlang$core$builtin$$Iter$new$10$(f) {
+function moonbitlang$core$builtin$$Iter$new$7$(f) {
   return f;
 }
 function moonbitlang$core$builtin$$Iter$new$11$(f) {
-  return f;
-}
-function moonbitlang$core$builtin$$Iter$new$7$(f) {
   return f;
 }
 function moonbitlang$core$builtin$$Iter$new$2$(f) {
@@ -3872,17 +4058,20 @@ function moonbitlang$core$builtin$$Map$iter$14$(self) {
     }
   });
 }
-function moonbitlang$core$builtin$$Iter2$new$79$(f) {
+function moonbitlang$core$builtin$$Iter2$new$81$(f) {
   return f;
 }
-function moonbitlang$core$builtin$$Iter2$new$83$(f) {
+function moonbitlang$core$builtin$$Iter2$new$85$(f) {
+  return f;
+}
+function moonbitlang$core$builtin$$Iter2$new$25$(f) {
   return f;
 }
 function moonbitlang$core$builtin$$Iter2$new$24$(f) {
   return f;
 }
-function moonbitlang$core$builtin$$Map$iter2$83$(self) {
-  return moonbitlang$core$builtin$$Iter2$new$83$((yield_) => {
+function moonbitlang$core$builtin$$Map$iter2$85$(self) {
+  return moonbitlang$core$builtin$$Iter2$new$85$((yield_) => {
     let _tmp = self.head;
     while (true) {
       const _param = _tmp;
@@ -3904,8 +4093,8 @@ function moonbitlang$core$builtin$$Map$iter2$83$(self) {
     }
   });
 }
-function moonbitlang$core$builtin$$Map$iter2$79$(self) {
-  return moonbitlang$core$builtin$$Iter2$new$79$((yield_) => {
+function moonbitlang$core$builtin$$Map$iter2$81$(self) {
+  return moonbitlang$core$builtin$$Iter2$new$81$((yield_) => {
     let _tmp = self.head;
     while (true) {
       const _param = _tmp;
@@ -3933,40 +4122,40 @@ function moonbitlang$core$array$$Array$push$13$(self, value) {
 function moonbitlang$core$array$$Array$push$18$(self, value) {
   moonbitlang$core$builtin$$JSArray$push(self, value);
 }
-function moonbitlang$core$array$$Array$push$57$(self, value) {
-  moonbitlang$core$builtin$$JSArray$push(self, value);
-}
-function moonbitlang$core$array$$Array$push$68$(self, value) {
-  moonbitlang$core$builtin$$JSArray$push(self, value);
-}
 function moonbitlang$core$array$$Array$push$60$(self, value) {
   moonbitlang$core$builtin$$JSArray$push(self, value);
 }
-function moonbitlang$core$array$$Array$push$58$(self, value) {
+function moonbitlang$core$array$$Array$push$71$(self, value) {
+  moonbitlang$core$builtin$$JSArray$push(self, value);
+}
+function moonbitlang$core$array$$Array$push$63$(self, value) {
+  moonbitlang$core$builtin$$JSArray$push(self, value);
+}
+function moonbitlang$core$array$$Array$push$61$(self, value) {
   moonbitlang$core$builtin$$JSArray$push(self, value);
 }
 function moonbitlang$core$array$$Array$push$10$(self, value) {
   moonbitlang$core$builtin$$JSArray$push(self, value);
 }
-function moonbitlang$core$array$$Array$push$59$(self, value) {
+function moonbitlang$core$array$$Array$push$62$(self, value) {
+  moonbitlang$core$builtin$$JSArray$push(self, value);
+}
+function moonbitlang$core$array$$Array$push$68$(self, value) {
+  moonbitlang$core$builtin$$JSArray$push(self, value);
+}
+function moonbitlang$core$array$$Array$push$56$(self, value) {
   moonbitlang$core$builtin$$JSArray$push(self, value);
 }
 function moonbitlang$core$array$$Array$push$65$(self, value) {
   moonbitlang$core$builtin$$JSArray$push(self, value);
 }
-function moonbitlang$core$array$$Array$push$53$(self, value) {
-  moonbitlang$core$builtin$$JSArray$push(self, value);
-}
-function moonbitlang$core$array$$Array$push$62$(self, value) {
-  moonbitlang$core$builtin$$JSArray$push(self, value);
-}
 function moonbitlang$core$array$$Array$push$2$(self, value) {
   moonbitlang$core$builtin$$JSArray$push(self, value);
 }
-function moonbitlang$core$array$$Array$push$67$(self, value) {
+function moonbitlang$core$array$$Array$push$70$(self, value) {
   moonbitlang$core$builtin$$JSArray$push(self, value);
 }
-function moonbitlang$core$array$$Array$push$64$(self, value) {
+function moonbitlang$core$array$$Array$push$67$(self, value) {
   moonbitlang$core$builtin$$JSArray$push(self, value);
 }
 function moonbitlang$core$array$$Array$push$3$(self, value) {
@@ -3981,10 +4170,10 @@ function moonbitlang$core$array$$Array$push$7$(self, value) {
 function moonbitlang$core$array$$Array$new$2$(capacity) {
   return [];
 }
-function moonbitlang$core$array$$Array$new$67$(capacity) {
+function moonbitlang$core$array$$Array$new$70$(capacity) {
   return [];
 }
-function moonbitlang$core$array$$Array$new$46$capacity$46$default$67$() {
+function moonbitlang$core$array$$Array$new$46$capacity$46$default$70$() {
   return 0;
 }
 function moonbitlang$core$array$$ArrayView$length$3$(self) {
@@ -4006,7 +4195,7 @@ function moonbitlang$core$array$$ArrayView$swap$3$(self, i, j) {
     self.buf[self.start + j | 0] = temp;
     return;
   } else {
-    moonbitlang$core$builtin$$abort$46$(`index out of bounds: the len is from 0 to ${moonbitlang$core$int$$Int$to_string(self.len)} but the index is (${moonbitlang$core$int$$Int$to_string(i)}, ${moonbitlang$core$int$$Int$to_string(j)})`);
+    moonbitlang$core$builtin$$abort$49$(`index out of bounds: the len is from 0 to ${moonbitlang$core$int$$Int$to_string(self.len)} but the index is (${moonbitlang$core$int$$Int$to_string(i)}, ${moonbitlang$core$int$$Int$to_string(j)})`);
     return;
   }
 }
@@ -4020,7 +4209,7 @@ function moonbitlang$core$array$$Array$op_as_view$3$(self, start, end) {
     const _x = _Some;
     end$2 = _x;
   }
-  return start >= 0 && (start <= end$2 && end$2 <= len) ? { buf: self, start: start, len: end$2 - start | 0 } : moonbitlang$core$builtin$$abort$45$("View start index out of bounds");
+  return start >= 0 && (start <= end$2 && end$2 <= len) ? { buf: self, start: start, len: end$2 - start | 0 } : moonbitlang$core$builtin$$abort$48$("View start index out of bounds");
 }
 function moonbitlang$core$array$$Array$op_as_view$2$(self, start, end) {
   const len = self.length;
@@ -4032,7 +4221,7 @@ function moonbitlang$core$array$$Array$op_as_view$2$(self, start, end) {
     const _x = _Some;
     end$2 = _x;
   }
-  return start >= 0 && (start <= end$2 && end$2 <= len) ? { buf: self, start: start, len: end$2 - start | 0 } : moonbitlang$core$builtin$$abort$44$("View start index out of bounds");
+  return start >= 0 && (start <= end$2 && end$2 <= len) ? { buf: self, start: start, len: end$2 - start | 0 } : moonbitlang$core$builtin$$abort$47$("View start index out of bounds");
 }
 function moonbitlang$core$array$$ArrayView$op_as_view$3$(self, start, end) {
   const len = moonbitlang$core$array$$ArrayView$length$3$(self);
@@ -4044,7 +4233,7 @@ function moonbitlang$core$array$$ArrayView$op_as_view$3$(self, start, end) {
     const _x = _Some;
     end$2 = _x;
   }
-  return start >= 0 && (start <= end$2 && end$2 <= len) ? { buf: self.buf, start: self.start + start | 0, len: end$2 - start | 0 } : moonbitlang$core$builtin$$abort$45$("View start index out of bounds");
+  return start >= 0 && (start <= end$2 && end$2 <= len) ? { buf: self.buf, start: self.start + start | 0, len: end$2 - start | 0 } : moonbitlang$core$builtin$$abort$48$("View start index out of bounds");
 }
 function moonbitlang$core$array$$ArrayView$op_as_view$2$(self, start, end) {
   const len = moonbitlang$core$array$$ArrayView$length$2$(self);
@@ -4056,7 +4245,7 @@ function moonbitlang$core$array$$ArrayView$op_as_view$2$(self, start, end) {
     const _x = _Some;
     end$2 = _x;
   }
-  return start >= 0 && (start <= end$2 && end$2 <= len) ? { buf: self.buf, start: self.start + start | 0, len: end$2 - start | 0 } : moonbitlang$core$builtin$$abort$44$("View start index out of bounds");
+  return start >= 0 && (start <= end$2 && end$2 <= len) ? { buf: self.buf, start: self.start + start | 0, len: end$2 - start | 0 } : moonbitlang$core$builtin$$abort$47$("View start index out of bounds");
 }
 function moonbitlang$core$array$$Array$unsafe_pop$13$(self) {
   return moonbitlang$core$builtin$$JSArray$pop(self);
@@ -4148,7 +4337,7 @@ function moonbitlang$core$builtin$$Hash$hash$7$(self) {
 function moonbitlang$core$builtin$$Hash$hash_combine$7$(self, hasher) {
   moonbitlang$core$builtin$$Hasher$combine_int(hasher, self);
 }
-function moonbitlang$core$builtin$$Hash$hash_combine$77$(self, hasher) {
+function moonbitlang$core$builtin$$Hash$hash_combine$79$(self, hasher) {
   if (self === undefined) {
     moonbitlang$core$builtin$$Hasher$combine_int(hasher, 0);
     return;
@@ -4241,60 +4430,6 @@ function moonbitlang$core$array$$FixedArray$unsafe_blit$7$(dst, dst_offset, src,
     }
   }
 }
-function moonbitlang$core$array$$FixedArray$unsafe_blit$88$(dst, dst_offset, src, src_offset, len) {
-  if (dst === src && dst_offset < src_offset) {
-    let _tmp = 0;
-    while (true) {
-      const i = _tmp;
-      if (i < len) {
-        dst[dst_offset + i | 0] = src[src_offset + i | 0];
-        _tmp = i + 1 | 0;
-        continue;
-      } else {
-        return;
-      }
-    }
-  } else {
-    let _tmp = len - 1 | 0;
-    while (true) {
-      const i = _tmp;
-      if (i >= 0) {
-        dst[dst_offset + i | 0] = src[src_offset + i | 0];
-        _tmp = i - 1 | 0;
-        continue;
-      } else {
-        return;
-      }
-    }
-  }
-}
-function moonbitlang$core$array$$FixedArray$unsafe_blit$89$(dst, dst_offset, src, src_offset, len) {
-  if (dst === src && dst_offset < src_offset) {
-    let _tmp = 0;
-    while (true) {
-      const i = _tmp;
-      if (i < len) {
-        dst[dst_offset + i | 0] = src[src_offset + i | 0];
-        _tmp = i + 1 | 0;
-        continue;
-      } else {
-        return;
-      }
-    }
-  } else {
-    let _tmp = len - 1 | 0;
-    while (true) {
-      const i = _tmp;
-      if (i >= 0) {
-        dst[dst_offset + i | 0] = src[src_offset + i | 0];
-        _tmp = i - 1 | 0;
-        continue;
-      } else {
-        return;
-      }
-    }
-  }
-}
 function moonbitlang$core$array$$FixedArray$unsafe_blit$90$(dst, dst_offset, src, src_offset, len) {
   if (dst === src && dst_offset < src_offset) {
     let _tmp = 0;
@@ -4349,6 +4484,60 @@ function moonbitlang$core$array$$FixedArray$unsafe_blit$91$(dst, dst_offset, src
     }
   }
 }
+function moonbitlang$core$array$$FixedArray$unsafe_blit$92$(dst, dst_offset, src, src_offset, len) {
+  if (dst === src && dst_offset < src_offset) {
+    let _tmp = 0;
+    while (true) {
+      const i = _tmp;
+      if (i < len) {
+        dst[dst_offset + i | 0] = src[src_offset + i | 0];
+        _tmp = i + 1 | 0;
+        continue;
+      } else {
+        return;
+      }
+    }
+  } else {
+    let _tmp = len - 1 | 0;
+    while (true) {
+      const i = _tmp;
+      if (i >= 0) {
+        dst[dst_offset + i | 0] = src[src_offset + i | 0];
+        _tmp = i - 1 | 0;
+        continue;
+      } else {
+        return;
+      }
+    }
+  }
+}
+function moonbitlang$core$array$$FixedArray$unsafe_blit$93$(dst, dst_offset, src, src_offset, len) {
+  if (dst === src && dst_offset < src_offset) {
+    let _tmp = 0;
+    while (true) {
+      const i = _tmp;
+      if (i < len) {
+        dst[dst_offset + i | 0] = src[src_offset + i | 0];
+        _tmp = i + 1 | 0;
+        continue;
+      } else {
+        return;
+      }
+    }
+  } else {
+    let _tmp = len - 1 | 0;
+    while (true) {
+      const i = _tmp;
+      if (i >= 0) {
+        dst[dst_offset + i | 0] = src[src_offset + i | 0];
+        _tmp = i - 1 | 0;
+        continue;
+      } else {
+        return;
+      }
+    }
+  }
+}
 function moonbitlang$core$array$$FixedArray$blit_to$5$(self, dst, len, src_offset, dst_offset) {
   if ((dst_offset + len | 0) > dst.length || (src_offset + len | 0) > self.length) {
     $panic();
@@ -4373,46 +4562,6 @@ function moonbitlang$core$array$$FixedArray$blit_to$46$dst_offset$46$default$5$(
 function moonbitlang$core$array$$FixedArray$blit_to$46$dst_offset$46$default$6$() {
   return 0;
 }
-function moonbitlang$core$array$$Array$map$92$(self, f) {
-  if (self.length === 0) {
-    return [];
-  }
-  const arr = new Array(self.length);
-  const _len = self.length;
-  let _tmp = 0;
-  while (true) {
-    const _i = _tmp;
-    if (_i < _len) {
-      const v = moonbitlang$core$array$$Array$op_get$54$(self, _i);
-      arr[_i] = f(v);
-      _tmp = _i + 1 | 0;
-      continue;
-    } else {
-      break;
-    }
-  }
-  return arr;
-}
-function moonbitlang$core$array$$Array$map$93$(self, f) {
-  if (self.length === 0) {
-    return [];
-  }
-  const arr = new Array(self.length);
-  const _len = self.length;
-  let _tmp = 0;
-  while (true) {
-    const _i = _tmp;
-    if (_i < _len) {
-      const v = moonbitlang$core$array$$Array$op_get$52$(self, _i);
-      arr[_i] = f(v);
-      _tmp = _i + 1 | 0;
-      continue;
-    } else {
-      break;
-    }
-  }
-  return arr;
-}
 function moonbitlang$core$array$$Array$map$94$(self, f) {
   if (self.length === 0) {
     return [];
@@ -4423,7 +4572,7 @@ function moonbitlang$core$array$$Array$map$94$(self, f) {
   while (true) {
     const _i = _tmp;
     if (_i < _len) {
-      const v = moonbitlang$core$array$$Array$op_get$54$(self, _i);
+      const v = moonbitlang$core$array$$Array$op_get$57$(self, _i);
       arr[_i] = f(v);
       _tmp = _i + 1 | 0;
       continue;
@@ -4443,7 +4592,7 @@ function moonbitlang$core$array$$Array$map$95$(self, f) {
   while (true) {
     const _i = _tmp;
     if (_i < _len) {
-      const v = moonbitlang$core$array$$Array$op_get$53$(self, _i);
+      const v = moonbitlang$core$array$$Array$op_get$55$(self, _i);
       arr[_i] = f(v);
       _tmp = _i + 1 | 0;
       continue;
@@ -4463,7 +4612,7 @@ function moonbitlang$core$array$$Array$map$96$(self, f) {
   while (true) {
     const _i = _tmp;
     if (_i < _len) {
-      const v = moonbitlang$core$array$$Array$op_get$3$(self, _i);
+      const v = moonbitlang$core$array$$Array$op_get$57$(self, _i);
       arr[_i] = f(v);
       _tmp = _i + 1 | 0;
       continue;
@@ -4483,7 +4632,7 @@ function moonbitlang$core$array$$Array$map$97$(self, f) {
   while (true) {
     const _i = _tmp;
     if (_i < _len) {
-      const v = moonbitlang$core$array$$Array$op_get$8$(self, _i);
+      const v = moonbitlang$core$array$$Array$op_get$56$(self, _i);
       arr[_i] = f(v);
       _tmp = _i + 1 | 0;
       continue;
@@ -4503,7 +4652,47 @@ function moonbitlang$core$array$$Array$map$98$(self, f) {
   while (true) {
     const _i = _tmp;
     if (_i < _len) {
-      const v = moonbitlang$core$array$$Array$op_get$64$(self, _i);
+      const v = moonbitlang$core$array$$Array$op_get$3$(self, _i);
+      arr[_i] = f(v);
+      _tmp = _i + 1 | 0;
+      continue;
+    } else {
+      break;
+    }
+  }
+  return arr;
+}
+function moonbitlang$core$array$$Array$map$99$(self, f) {
+  if (self.length === 0) {
+    return [];
+  }
+  const arr = new Array(self.length);
+  const _len = self.length;
+  let _tmp = 0;
+  while (true) {
+    const _i = _tmp;
+    if (_i < _len) {
+      const v = moonbitlang$core$array$$Array$op_get$8$(self, _i);
+      arr[_i] = f(v);
+      _tmp = _i + 1 | 0;
+      continue;
+    } else {
+      break;
+    }
+  }
+  return arr;
+}
+function moonbitlang$core$array$$Array$map$100$(self, f) {
+  if (self.length === 0) {
+    return [];
+  }
+  const arr = new Array(self.length);
+  const _len = self.length;
+  let _tmp = 0;
+  while (true) {
+    const _i = _tmp;
+    if (_i < _len) {
+      const v = moonbitlang$core$array$$Array$op_get$67$(self, _i);
       arr[_i] = f(v);
       _tmp = _i + 1 | 0;
       continue;
@@ -4553,7 +4742,7 @@ function moonbitlang$core$array$$Array$op_set$2$(self, index, value) {
     return;
   }
 }
-function moonbitlang$core$array$$Array$op_set$55$(self, index, value) {
+function moonbitlang$core$array$$Array$op_set$58$(self, index, value) {
   const len = self.length;
   if (index >= 0 && index < len) {
     self[index] = value;
@@ -4628,7 +4817,7 @@ function moonbitlang$core$array$$Array$make$2$(len, elem) {
   }
   return arr;
 }
-function moonbitlang$core$array$$Array$make$55$(len, elem) {
+function moonbitlang$core$array$$Array$make$58$(len, elem) {
   const arr = new Array(len);
   let _tmp = 0;
   while (true) {
@@ -4689,13 +4878,13 @@ function moonbitlang$core$array$$Array$make$3$(len, elem) {
   return arr;
 }
 function moonbitlang$core$array$$Array$unsafe_blit$2$(dst, dst_offset, src, src_offset, len) {
-  moonbitlang$core$array$$FixedArray$unsafe_blit$89$(dst, dst_offset, src, src_offset, len);
+  moonbitlang$core$array$$FixedArray$unsafe_blit$91$(dst, dst_offset, src, src_offset, len);
 }
 function moonbitlang$core$array$$Array$unsafe_blit$9$(dst, dst_offset, src, src_offset, len) {
-  moonbitlang$core$array$$FixedArray$unsafe_blit$88$(dst, dst_offset, src, src_offset, len);
+  moonbitlang$core$array$$FixedArray$unsafe_blit$90$(dst, dst_offset, src, src_offset, len);
 }
 function moonbitlang$core$array$$Array$unsafe_blit$3$(dst, dst_offset, src, src_offset, len) {
-  moonbitlang$core$array$$FixedArray$unsafe_blit$90$(dst, dst_offset, src, src_offset, len);
+  moonbitlang$core$array$$FixedArray$unsafe_blit$92$(dst, dst_offset, src, src_offset, len);
 }
 function moonbitlang$core$array$$Array$blit_to$2$(self, dst, len, src_offset, dst_offset) {
   if (len >= 0 && (dst_offset >= 0 && (src_offset >= 0 && (dst_offset <= dst.length && (src_offset + len | 0) <= self.length)))) {
@@ -4727,7 +4916,7 @@ function moonbitlang$core$builtin$$Show$output$7$(self, logger) {
 function moonbitlang$core$builtin$$Show$to_string$3$(self) {
   return self;
 }
-function moonbitlang$core$builtin$$Show$output$76$(self, logger) {
+function moonbitlang$core$builtin$$Show$output$78$(self, logger) {
   if (self === undefined) {
     logger.method_0(logger.self, "None");
     return;
@@ -4735,16 +4924,16 @@ function moonbitlang$core$builtin$$Show$output$76$(self, logger) {
     const _Some = self;
     const _x = _Some;
     logger.method_0(logger.self, "Some(");
-    moonbitlang$core$builtin$$Logger$write_object$73$(logger, _x);
+    moonbitlang$core$builtin$$Logger$write_object$76$(logger, _x);
     logger.method_0(logger.self, ")");
     return;
   }
 }
-function moonbitlang$core$builtin$$Logger$write_iter$52$(self, iter, prefix, suffix, sep, trailing) {
+function moonbitlang$core$builtin$$Logger$write_iter$55$(self, iter, prefix, suffix, sep, trailing) {
   self.method_0(self.self, prefix);
   if (trailing) {
     iter((x) => {
-      moonbitlang$core$builtin$$Logger$write_object$52$(self, x);
+      moonbitlang$core$builtin$$Logger$write_object$55$(self, x);
       self.method_0(self.self, sep);
       return 1;
     });
@@ -4756,29 +4945,7 @@ function moonbitlang$core$builtin$$Logger$write_iter$52$(self, iter, prefix, suf
       } else {
         self.method_0(self.self, sep);
       }
-      moonbitlang$core$builtin$$Logger$write_object$52$(self, x);
-      return 1;
-    });
-  }
-  self.method_0(self.self, suffix);
-}
-function moonbitlang$core$builtin$$Logger$write_iter$7$(self, iter, prefix, suffix, sep, trailing) {
-  self.method_0(self.self, prefix);
-  if (trailing) {
-    iter((x) => {
-      moonbitlang$core$builtin$$Logger$write_object$7$(self, x);
-      self.method_0(self.self, sep);
-      return 1;
-    });
-  } else {
-    const first = { val: true };
-    iter((x) => {
-      if (first.val) {
-        first.val = false;
-      } else {
-        self.method_0(self.self, sep);
-      }
-      moonbitlang$core$builtin$$Logger$write_object$7$(self, x);
+      moonbitlang$core$builtin$$Logger$write_object$55$(self, x);
       return 1;
     });
   }
@@ -4806,11 +4973,11 @@ function moonbitlang$core$builtin$$Logger$write_iter$11$(self, iter, prefix, suf
   }
   self.method_0(self.self, suffix);
 }
-function moonbitlang$core$builtin$$Logger$write_iter$10$(self, iter, prefix, suffix, sep, trailing) {
+function moonbitlang$core$builtin$$Logger$write_iter$7$(self, iter, prefix, suffix, sep, trailing) {
   self.method_0(self.self, prefix);
   if (trailing) {
     iter((x) => {
-      moonbitlang$core$builtin$$Logger$write_object$10$(self, x);
+      moonbitlang$core$builtin$$Logger$write_object$7$(self, x);
       self.method_0(self.self, sep);
       return 1;
     });
@@ -4822,89 +4989,56 @@ function moonbitlang$core$builtin$$Logger$write_iter$10$(self, iter, prefix, suf
       } else {
         self.method_0(self.self, sep);
       }
-      moonbitlang$core$builtin$$Logger$write_object$10$(self, x);
+      moonbitlang$core$builtin$$Logger$write_object$7$(self, x);
       return 1;
     });
   }
   self.method_0(self.self, suffix);
 }
-function moonbitlang$core$builtin$$Logger$write_iter$46$prefix$46$default$52$() {
-  return "[";
-}
-function moonbitlang$core$builtin$$Logger$write_iter$46$prefix$46$default$7$() {
+function moonbitlang$core$builtin$$Logger$write_iter$46$prefix$46$default$55$() {
   return "[";
 }
 function moonbitlang$core$builtin$$Logger$write_iter$46$prefix$46$default$11$() {
   return "[";
 }
-function moonbitlang$core$builtin$$Logger$write_iter$46$prefix$46$default$10$() {
+function moonbitlang$core$builtin$$Logger$write_iter$46$prefix$46$default$7$() {
   return "[";
 }
-function moonbitlang$core$builtin$$Logger$write_iter$46$suffix$46$default$52$() {
-  return "]";
-}
-function moonbitlang$core$builtin$$Logger$write_iter$46$suffix$46$default$7$() {
+function moonbitlang$core$builtin$$Logger$write_iter$46$suffix$46$default$55$() {
   return "]";
 }
 function moonbitlang$core$builtin$$Logger$write_iter$46$suffix$46$default$11$() {
   return "]";
 }
-function moonbitlang$core$builtin$$Logger$write_iter$46$suffix$46$default$10$() {
+function moonbitlang$core$builtin$$Logger$write_iter$46$suffix$46$default$7$() {
   return "]";
 }
-function moonbitlang$core$builtin$$Logger$write_iter$46$sep$46$default$52$() {
-  return ", ";
-}
-function moonbitlang$core$builtin$$Logger$write_iter$46$sep$46$default$7$() {
+function moonbitlang$core$builtin$$Logger$write_iter$46$sep$46$default$55$() {
   return ", ";
 }
 function moonbitlang$core$builtin$$Logger$write_iter$46$sep$46$default$11$() {
   return ", ";
 }
-function moonbitlang$core$builtin$$Logger$write_iter$46$sep$46$default$10$() {
+function moonbitlang$core$builtin$$Logger$write_iter$46$sep$46$default$7$() {
   return ", ";
 }
-function moonbitlang$core$builtin$$Logger$write_iter$46$trailing$46$default$52$() {
-  return false;
-}
-function moonbitlang$core$builtin$$Logger$write_iter$46$trailing$46$default$7$() {
+function moonbitlang$core$builtin$$Logger$write_iter$46$trailing$46$default$55$() {
   return false;
 }
 function moonbitlang$core$builtin$$Logger$write_iter$46$trailing$46$default$11$() {
   return false;
 }
-function moonbitlang$core$builtin$$Logger$write_iter$46$trailing$46$default$10$() {
+function moonbitlang$core$builtin$$Logger$write_iter$46$trailing$46$default$7$() {
   return false;
 }
-function moonbitlang$core$array$$Array$iter$52$(self) {
-  return moonbitlang$core$builtin$$Iter$new$52$((yield_) => {
+function moonbitlang$core$array$$Array$iter$55$(self) {
+  return moonbitlang$core$builtin$$Iter$new$55$((yield_) => {
     const _len = self.length;
     let _tmp = 0;
     while (true) {
       const _i = _tmp;
       if (_i < _len) {
-        const v = moonbitlang$core$array$$Array$op_get$52$(self, _i);
-        const _bind = yield_(v);
-        if (_bind === 1) {
-        } else {
-          return _bind;
-        }
-        _tmp = _i + 1 | 0;
-        continue;
-      } else {
-        return 1;
-      }
-    }
-  });
-}
-function moonbitlang$core$array$$Array$iter$7$(self) {
-  return moonbitlang$core$builtin$$Iter$new$7$((yield_) => {
-    const _len = self.length;
-    let _tmp = 0;
-    while (true) {
-      const _i = _tmp;
-      if (_i < _len) {
-        const v = moonbitlang$core$array$$Array$op_get$7$(self, _i);
+        const v = moonbitlang$core$array$$Array$op_get$55$(self, _i);
         const _bind = yield_(v);
         if (_bind === 1) {
         } else {
@@ -4939,14 +5073,14 @@ function moonbitlang$core$array$$Array$iter$11$(self) {
     }
   });
 }
-function moonbitlang$core$array$$Array$iter$10$(self) {
-  return moonbitlang$core$builtin$$Iter$new$10$((yield_) => {
+function moonbitlang$core$array$$Array$iter$7$(self) {
+  return moonbitlang$core$builtin$$Iter$new$7$((yield_) => {
     const _len = self.length;
     let _tmp = 0;
     while (true) {
       const _i = _tmp;
       if (_i < _len) {
-        const v = moonbitlang$core$array$$Array$op_get$10$(self, _i);
+        const v = moonbitlang$core$array$$Array$op_get$7$(self, _i);
         const _bind = yield_(v);
         if (_bind === 1) {
         } else {
@@ -4981,60 +5115,56 @@ function moonbitlang$core$array$$Array$iter$8$(self) {
     }
   });
 }
-function moonbitlang$core$builtin$$Show$output$72$(self, logger) {
-  moonbitlang$core$builtin$$Logger$write_iter$52$(logger, moonbitlang$core$array$$Array$iter$52$(self), moonbitlang$core$builtin$$Logger$write_iter$46$prefix$46$default$52$(), moonbitlang$core$builtin$$Logger$write_iter$46$suffix$46$default$52$(), moonbitlang$core$builtin$$Logger$write_iter$46$sep$46$default$52$(), moonbitlang$core$builtin$$Logger$write_iter$46$trailing$46$default$52$());
-}
-function moonbitlang$core$builtin$$Show$output$99$(self, logger) {
-  moonbitlang$core$builtin$$Logger$write_iter$10$(logger, moonbitlang$core$array$$Array$iter$10$(self), moonbitlang$core$builtin$$Logger$write_iter$46$prefix$46$default$10$(), moonbitlang$core$builtin$$Logger$write_iter$46$suffix$46$default$10$(), moonbitlang$core$builtin$$Logger$write_iter$46$sep$46$default$10$(), moonbitlang$core$builtin$$Logger$write_iter$46$trailing$46$default$10$());
-}
-function moonbitlang$core$builtin$$Show$output$100$(self, logger) {
-  moonbitlang$core$builtin$$Logger$write_iter$11$(logger, moonbitlang$core$array$$Array$iter$11$(self), moonbitlang$core$builtin$$Logger$write_iter$46$prefix$46$default$11$(), moonbitlang$core$builtin$$Logger$write_iter$46$suffix$46$default$11$(), moonbitlang$core$builtin$$Logger$write_iter$46$sep$46$default$11$(), moonbitlang$core$builtin$$Logger$write_iter$46$trailing$46$default$11$());
-}
 function moonbitlang$core$builtin$$Show$output$75$(self, logger) {
+  moonbitlang$core$builtin$$Logger$write_iter$55$(logger, moonbitlang$core$array$$Array$iter$55$(self), moonbitlang$core$builtin$$Logger$write_iter$46$prefix$46$default$55$(), moonbitlang$core$builtin$$Logger$write_iter$46$suffix$46$default$55$(), moonbitlang$core$builtin$$Logger$write_iter$46$sep$46$default$55$(), moonbitlang$core$builtin$$Logger$write_iter$46$trailing$46$default$55$());
+}
+function moonbitlang$core$builtin$$Show$output$101$(self, logger) {
   moonbitlang$core$builtin$$Logger$write_iter$7$(logger, moonbitlang$core$array$$Array$iter$7$(self), moonbitlang$core$builtin$$Logger$write_iter$46$prefix$46$default$7$(), moonbitlang$core$builtin$$Logger$write_iter$46$suffix$46$default$7$(), moonbitlang$core$builtin$$Logger$write_iter$46$sep$46$default$7$(), moonbitlang$core$builtin$$Logger$write_iter$46$trailing$46$default$7$());
 }
-function moonbitlang$core$builtin$$Hash$hash$85$(self) {
-  const hasher = moonbitlang$core$builtin$$Hasher$new(moonbitlang$core$builtin$$Hasher$new$46$seed$46$default());
-  moonbitlang$core$builtin$$Hasher$combine$78$(hasher, self);
-  return moonbitlang$core$builtin$$Hasher$finalize(hasher);
+function moonbitlang$core$builtin$$Show$output$102$(self, logger) {
+  moonbitlang$core$builtin$$Logger$write_iter$11$(logger, moonbitlang$core$array$$Array$iter$11$(self), moonbitlang$core$builtin$$Logger$write_iter$46$prefix$46$default$11$(), moonbitlang$core$builtin$$Logger$write_iter$46$suffix$46$default$11$(), moonbitlang$core$builtin$$Logger$write_iter$46$sep$46$default$11$(), moonbitlang$core$builtin$$Logger$write_iter$46$trailing$46$default$11$());
 }
 function moonbitlang$core$builtin$$Hash$hash$87$(self) {
+  const hasher = moonbitlang$core$builtin$$Hasher$new(moonbitlang$core$builtin$$Hasher$new$46$seed$46$default());
+  moonbitlang$core$builtin$$Hasher$combine$80$(hasher, self);
+  return moonbitlang$core$builtin$$Hasher$finalize(hasher);
+}
+function moonbitlang$core$builtin$$Hash$hash$89$(self) {
   const hasher = moonbitlang$core$builtin$$Hasher$new(moonbitlang$core$builtin$$Hasher$new$46$seed$46$default());
   moonbitlang$core$builtin$$Hasher$combine$3$(hasher, self);
   return moonbitlang$core$builtin$$Hasher$finalize(hasher);
 }
-function moonbitlang$core$builtin$$Hash$hash$86$(self) {
+function moonbitlang$core$builtin$$Hash$hash$88$(self) {
   const hasher = moonbitlang$core$builtin$$Hasher$new(moonbitlang$core$builtin$$Hasher$new$46$seed$46$default());
   moonbitlang$core$builtin$$Hasher$combine$6$(hasher, self);
   return moonbitlang$core$builtin$$Hasher$finalize(hasher);
 }
-function moonbitlang$core$builtin$$Logger$write_sub_string$101$(self, value, start, len) {
+function moonbitlang$core$builtin$$Logger$write_sub_string$103$(self, value, start, len) {
   moonbitlang$core$builtin$$StringBuilder$write_substring(self, value, start, len);
 }
 function moonbitlang$core$builtin$$Show$to_string$0$(self) {
   const logger = moonbitlang$core$builtin$$StringBuilder$new(moonbitlang$core$builtin$$StringBuilder$new$46$size_hint$46$default());
-  moonbitlang$core$builtin$$Show$output$102$(self, { self: logger, method_0: moonbitlang$core$builtin$$StringBuilder$write_string, method_1: moonbitlang$core$builtin$$StringBuilder$write_substring, method_2: moonbitlang$core$builtin$$Logger$write_sub_string$101$, method_3: moonbitlang$core$builtin$$StringBuilder$write_char });
-  return moonbitlang$core$builtin$$StringBuilder$to_string(logger);
-}
-function moonbitlang$core$builtin$$Show$to_string$103$(self) {
-  const logger = moonbitlang$core$builtin$$StringBuilder$new(moonbitlang$core$builtin$$StringBuilder$new$46$size_hint$46$default());
-  moonbitlang$core$builtin$$Show$output$75$(self, { self: logger, method_0: moonbitlang$core$builtin$$StringBuilder$write_string, method_1: moonbitlang$core$builtin$$StringBuilder$write_substring, method_2: moonbitlang$core$builtin$$Logger$write_sub_string$101$, method_3: moonbitlang$core$builtin$$StringBuilder$write_char });
-  return moonbitlang$core$builtin$$StringBuilder$to_string(logger);
-}
-function moonbitlang$core$builtin$$Show$to_string$104$(self) {
-  const logger = moonbitlang$core$builtin$$StringBuilder$new(moonbitlang$core$builtin$$StringBuilder$new$46$size_hint$46$default());
-  moonbitlang$core$builtin$$Show$output$100$(self, { self: logger, method_0: moonbitlang$core$builtin$$StringBuilder$write_string, method_1: moonbitlang$core$builtin$$StringBuilder$write_substring, method_2: moonbitlang$core$builtin$$Logger$write_sub_string$101$, method_3: moonbitlang$core$builtin$$StringBuilder$write_char });
+  moonbitlang$core$builtin$$Show$output$104$(self, { self: logger, method_0: moonbitlang$core$builtin$$StringBuilder$write_string, method_1: moonbitlang$core$builtin$$StringBuilder$write_substring, method_2: moonbitlang$core$builtin$$Logger$write_sub_string$103$, method_3: moonbitlang$core$builtin$$StringBuilder$write_char });
   return moonbitlang$core$builtin$$StringBuilder$to_string(logger);
 }
 function moonbitlang$core$builtin$$Show$to_string$105$(self) {
   const logger = moonbitlang$core$builtin$$StringBuilder$new(moonbitlang$core$builtin$$StringBuilder$new$46$size_hint$46$default());
-  moonbitlang$core$builtin$$Show$output$99$(self, { self: logger, method_0: moonbitlang$core$builtin$$StringBuilder$write_string, method_1: moonbitlang$core$builtin$$StringBuilder$write_substring, method_2: moonbitlang$core$builtin$$Logger$write_sub_string$101$, method_3: moonbitlang$core$builtin$$StringBuilder$write_char });
+  moonbitlang$core$builtin$$Show$output$102$(self, { self: logger, method_0: moonbitlang$core$builtin$$StringBuilder$write_string, method_1: moonbitlang$core$builtin$$StringBuilder$write_substring, method_2: moonbitlang$core$builtin$$Logger$write_sub_string$103$, method_3: moonbitlang$core$builtin$$StringBuilder$write_char });
   return moonbitlang$core$builtin$$StringBuilder$to_string(logger);
 }
 function moonbitlang$core$builtin$$Show$to_string$106$(self) {
   const logger = moonbitlang$core$builtin$$StringBuilder$new(moonbitlang$core$builtin$$StringBuilder$new$46$size_hint$46$default());
-  moonbitlang$core$builtin$$Show$output$4$(self, { self: logger, method_0: moonbitlang$core$builtin$$StringBuilder$write_string, method_1: moonbitlang$core$builtin$$StringBuilder$write_substring, method_2: moonbitlang$core$builtin$$Logger$write_sub_string$101$, method_3: moonbitlang$core$builtin$$StringBuilder$write_char });
+  moonbitlang$core$builtin$$Show$output$101$(self, { self: logger, method_0: moonbitlang$core$builtin$$StringBuilder$write_string, method_1: moonbitlang$core$builtin$$StringBuilder$write_substring, method_2: moonbitlang$core$builtin$$Logger$write_sub_string$103$, method_3: moonbitlang$core$builtin$$StringBuilder$write_char });
   return moonbitlang$core$builtin$$StringBuilder$to_string(logger);
+}
+function moonbitlang$core$builtin$$Show$to_string$107$(self) {
+  const logger = moonbitlang$core$builtin$$StringBuilder$new(moonbitlang$core$builtin$$StringBuilder$new$46$size_hint$46$default());
+  moonbitlang$core$builtin$$Show$output$4$(self, { self: logger, method_0: moonbitlang$core$builtin$$StringBuilder$write_string, method_1: moonbitlang$core$builtin$$StringBuilder$write_substring, method_2: moonbitlang$core$builtin$$Logger$write_sub_string$103$, method_3: moonbitlang$core$builtin$$StringBuilder$write_char });
+  return moonbitlang$core$builtin$$StringBuilder$to_string(logger);
+}
+function moonbitlang$core$builtin$$Iter2$run$25$(self, f) {
+  const _func = self;
+  return _func(f);
 }
 function moonbitlang$core$builtin$$Iter2$run$24$(self, f) {
   const _func = self;
@@ -5070,7 +5200,7 @@ function moonbitlang$core$option$$Option$op_equal$7$(self, other) {
     }
   }
 }
-function moonbitlang$core$option$$Option$op_equal$25$(self, other) {
+function moonbitlang$core$option$$Option$op_equal$26$(self, other) {
   if (self === undefined) {
     return other === undefined;
   } else {
@@ -5085,7 +5215,7 @@ function moonbitlang$core$option$$Option$op_equal$25$(self, other) {
     }
   }
 }
-function moonbitlang$core$option$$Option$op_equal$42$(self, other) {
+function moonbitlang$core$option$$Option$op_equal$45$(self, other) {
   if (self === undefined) {
     return other === undefined;
   } else {
@@ -5096,7 +5226,22 @@ function moonbitlang$core$option$$Option$op_equal$42$(self, other) {
     } else {
       const _Some$2 = other;
       const _x$2 = _Some$2;
-      return moonbitlang$core$builtin$$Eq$op_equal$42$(_x, _x$2);
+      return moonbitlang$core$builtin$$Eq$op_equal$45$(_x, _x$2);
+    }
+  }
+}
+function moonbitlang$core$option$$Option$op_equal$27$(self, other) {
+  if (self === undefined) {
+    return other === undefined;
+  } else {
+    const _Some = self;
+    const _x = _Some;
+    if (other === undefined) {
+      return false;
+    } else {
+      const _Some$2 = other;
+      const _x$2 = _Some$2;
+      return moonbitlang$core$sorted_map$$Node$op_equal$25$(_x, _x$2);
     }
   }
 }
@@ -5115,7 +5260,7 @@ function moonbitlang$core$option$$Option$op_equal$2$(self, other) {
     }
   }
 }
-function moonbitlang$core$array$$Array$get$59$(self, index) {
+function moonbitlang$core$array$$Array$get$62$(self, index) {
   const len = self.length;
   return index >= 0 && index < len ? self[index] : undefined;
 }
@@ -5128,24 +5273,6 @@ function moonbitlang$core$array$$Array$op_equal$9$(self, other) {
         return true;
       }
       if (moonbitlang$core$builtin$$op_notequal$9$(moonbitlang$core$array$$Array$op_get$9$(self, i), moonbitlang$core$array$$Array$op_get$9$(other, i))) {
-        return false;
-      }
-      _tmp = i + 1 | 0;
-      continue;
-    }
-  } else {
-    return false;
-  }
-}
-function moonbitlang$core$array$$Array$op_equal$7$(self, other) {
-  if (self.length === other.length) {
-    let _tmp = 0;
-    while (true) {
-      const i = _tmp;
-      if (i >= self.length) {
-        return true;
-      }
-      if (moonbitlang$core$array$$Array$op_get$7$(self, i) !== moonbitlang$core$array$$Array$op_get$7$(other, i)) {
         return false;
       }
       _tmp = i + 1 | 0;
@@ -5173,30 +5300,22 @@ function moonbitlang$core$array$$Array$op_equal$10$(self, other) {
     return false;
   }
 }
-function moonbitlang$core$array$$Array$compare$7$(self, other) {
-  const len_self = self.length;
-  const len_other = other.length;
-  if (len_self < len_other) {
-    return -1;
-  } else {
-    if (len_self > len_other) {
-      return 1;
-    } else {
-      let _tmp = 0;
-      while (true) {
-        const i = _tmp;
-        if (i < len_self) {
-          const cmp = $compare_int(moonbitlang$core$array$$Array$op_get$7$(self, i), moonbitlang$core$array$$Array$op_get$7$(other, i));
-          if (cmp !== 0) {
-            return cmp;
-          }
-          _tmp = i + 1 | 0;
-          continue;
-        } else {
-          return 0;
-        }
+function moonbitlang$core$array$$Array$op_equal$7$(self, other) {
+  if (self.length === other.length) {
+    let _tmp = 0;
+    while (true) {
+      const i = _tmp;
+      if (i >= self.length) {
+        return true;
       }
+      if (moonbitlang$core$array$$Array$op_get$7$(self, i) !== moonbitlang$core$array$$Array$op_get$7$(other, i)) {
+        return false;
+      }
+      _tmp = i + 1 | 0;
+      continue;
     }
+  } else {
+    return false;
   }
 }
 function moonbitlang$core$array$$Array$compare$10$(self, other) {
@@ -5225,8 +5344,34 @@ function moonbitlang$core$array$$Array$compare$10$(self, other) {
     }
   }
 }
-function moonbitlang$core$builtin$$UninitializedArray$unsafe_blit$59$(dst, dst_offset, src, src_offset, len) {
-  moonbitlang$core$array$$FixedArray$unsafe_blit$91$(dst, dst_offset, src, src_offset, len);
+function moonbitlang$core$array$$Array$compare$7$(self, other) {
+  const len_self = self.length;
+  const len_other = other.length;
+  if (len_self < len_other) {
+    return -1;
+  } else {
+    if (len_self > len_other) {
+      return 1;
+    } else {
+      let _tmp = 0;
+      while (true) {
+        const i = _tmp;
+        if (i < len_self) {
+          const cmp = $compare_int(moonbitlang$core$array$$Array$op_get$7$(self, i), moonbitlang$core$array$$Array$op_get$7$(other, i));
+          if (cmp !== 0) {
+            return cmp;
+          }
+          _tmp = i + 1 | 0;
+          continue;
+        } else {
+          return 0;
+        }
+      }
+    }
+  }
+}
+function moonbitlang$core$builtin$$UninitializedArray$unsafe_blit$62$(dst, dst_offset, src, src_offset, len) {
+  moonbitlang$core$array$$FixedArray$unsafe_blit$93$(dst, dst_offset, src, src_offset, len);
 }
 function moonbitlang$core$array$$Array$append$2$(self, other) {
   moonbitlang$core$array$$Array$blit_to$2$(other, self, other.length, 0, self.length);
@@ -5249,7 +5394,7 @@ function moonbitlang$core$array$$Array$map_inplace$10$(self, f) {
     }
   }
 }
-function moonbitlang$core$array$$Array$mapi$107$(self, f) {
+function moonbitlang$core$array$$Array$mapi$108$(self, f) {
   if (self.length === 0) {
     return [];
   }
@@ -5293,16 +5438,16 @@ function moonbitlang$core$array$$Array$is_empty$2$(self) {
 function moonbitlang$core$array$$Array$is_empty$7$(self) {
   return self.length === 0;
 }
-function moonbitlang$core$array$$Array$split_at$59$(self, index) {
+function moonbitlang$core$array$$Array$split_at$62$(self, index) {
   if (index < 0 || index > self.length) {
     const len = self.length;
-    moonbitlang$core$builtin$$abort$46$(`index out of bounds: the len is from 0 to ${moonbitlang$core$int$$Int$to_string(len)} but the index is ${moonbitlang$core$int$$Int$to_string(index)}`);
+    moonbitlang$core$builtin$$abort$49$(`index out of bounds: the len is from 0 to ${moonbitlang$core$int$$Int$to_string(len)} but the index is ${moonbitlang$core$int$$Int$to_string(index)}`);
   }
   const v1 = new Array(index);
   const v2 = new Array(self.length - index | 0);
-  moonbitlang$core$builtin$$UninitializedArray$unsafe_blit$59$(v1, 0, self, 0, index);
+  moonbitlang$core$builtin$$UninitializedArray$unsafe_blit$62$(v1, 0, self, 0, index);
   if (index !== self.length) {
-    moonbitlang$core$builtin$$UninitializedArray$unsafe_blit$59$(v2, 0, self, index, self.length - index | 0);
+    moonbitlang$core$builtin$$UninitializedArray$unsafe_blit$62$(v2, 0, self, index, self.length - index | 0);
   }
   return { _0: v1, _1: v2 };
 }
@@ -5330,7 +5475,7 @@ function moonbitlang$core$array$$Array$flatten$2$(self) {
   while (true) {
     const _i = _tmp;
     if (_i < _len) {
-      const arr = moonbitlang$core$array$$Array$op_get$60$(self, _i);
+      const arr = moonbitlang$core$array$$Array$op_get$63$(self, _i);
       moonbitlang$core$array$$Array$append$2$(v, arr);
       _tmp = _i + 1 | 0;
       continue;
@@ -5347,7 +5492,7 @@ function moonbitlang$core$array$$Array$flatten$3$(self) {
   while (true) {
     const _i = _tmp;
     if (_i < _len) {
-      const arr = moonbitlang$core$array$$Array$op_get$66$(self, _i);
+      const arr = moonbitlang$core$array$$Array$op_get$69$(self, _i);
       moonbitlang$core$array$$Array$append$3$(v, arr);
       _tmp = _i + 1 | 0;
       continue;
@@ -5357,7 +5502,7 @@ function moonbitlang$core$array$$Array$flatten$3$(self) {
   }
   return v;
 }
-function moonbitlang$core$array$$Array$fold$30$(self, init, f) {
+function moonbitlang$core$array$$Array$fold$33$(self, init, f) {
   let _tmp = 0;
   let _tmp$2 = init;
   while (true) {
@@ -5374,7 +5519,7 @@ function moonbitlang$core$array$$Array$fold$30$(self, init, f) {
     }
   }
 }
-function moonbitlang$core$array$$Array$fold$108$(self, init, f) {
+function moonbitlang$core$array$$Array$fold$109$(self, init, f) {
   let _tmp = 0;
   let _tmp$2 = init;
   while (true) {
@@ -5382,7 +5527,7 @@ function moonbitlang$core$array$$Array$fold$108$(self, init, f) {
     const acc = _tmp$2;
     if (i < self.length) {
       const _tmp$3 = i + 1 | 0;
-      const _tmp$4 = f(acc, moonbitlang$core$array$$Array$op_get$59$(self, i));
+      const _tmp$4 = f(acc, moonbitlang$core$array$$Array$op_get$62$(self, i));
       _tmp = _tmp$3;
       _tmp$2 = _tmp$4;
       continue;
@@ -5391,7 +5536,7 @@ function moonbitlang$core$array$$Array$fold$108$(self, init, f) {
     }
   }
 }
-function moonbitlang$core$array$$Array$fold$107$(self, init, f) {
+function moonbitlang$core$array$$Array$fold$108$(self, init, f) {
   let _tmp = 0;
   let _tmp$2 = init;
   while (true) {
@@ -5408,7 +5553,7 @@ function moonbitlang$core$array$$Array$fold$107$(self, init, f) {
     }
   }
 }
-function moonbitlang$core$array$$Array$fold$109$(self, init, f) {
+function moonbitlang$core$array$$Array$fold$110$(self, init, f) {
   let _tmp = 0;
   let _tmp$2 = init;
   while (true) {
@@ -5416,7 +5561,7 @@ function moonbitlang$core$array$$Array$fold$109$(self, init, f) {
     const acc = _tmp$2;
     if (i < self.length) {
       const _tmp$3 = i + 1 | 0;
-      const _tmp$4 = f(acc, moonbitlang$core$array$$Array$op_get$63$(self, i));
+      const _tmp$4 = f(acc, moonbitlang$core$array$$Array$op_get$66$(self, i));
       _tmp = _tmp$3;
       _tmp$2 = _tmp$4;
       continue;
@@ -5463,7 +5608,7 @@ function moonbitlang$core$builtin$$Iter$singleton$16$(a) {
 function moonbitlang$core$builtin$$Iter$singleton$18$(a) {
   return (yield_) => yield_(a);
 }
-function moonbitlang$core$builtin$$Iter$map_option$110$(self, f) {
+function moonbitlang$core$builtin$$Iter$map_option$111$(self, f) {
   return (yield_) => moonbitlang$core$builtin$$Iter$run$18$(self, (a) => {
     const _bind = f(a);
     if (_bind === undefined) {
@@ -5567,7 +5712,7 @@ function jian$mbtlex$lib$type$$Regex$get_capture_names(self) {
     const i = _tmp;
     if (i < result.length) {
       if (moonbitlang$core$array$$Array$op_get$3$(result, i - 1 | 0) === moonbitlang$core$array$$Array$op_get$3$(result, i)) {
-        moonbitlang$core$builtin$$abort$46$("duplicated capture var");
+        moonbitlang$core$builtin$$abort$49$("duplicated capture var");
       }
       _tmp = i + 1 | 0;
       continue;
@@ -5577,7 +5722,7 @@ function jian$mbtlex$lib$type$$Regex$get_capture_names(self) {
   }
   return result;
 }
-function moonbitlang$core$builtin$$Eq$op_equal$42$(_x_21, _x_22) {
+function moonbitlang$core$builtin$$Eq$op_equal$45$(_x_21, _x_22) {
   return moonbitlang$core$array$$FixedArray$op_equal$7$(_x_21.bits, _x_22.bits) && _x_21.len === _x_22.len;
 }
 function jian$mbtlex$lib$type$$Bitset$new(len) {
@@ -5594,7 +5739,7 @@ function jian$mbtlex$lib$type$$Bitset$set(self, index, value) {
   self.bits[t] = self.bits[t] | moonbitlang$core$bool$$Bool$to_int(value) << index;
 }
 function jian$mbtlex$lib$type$$Bitset$union(self, other) {
-  return self.len !== other.len ? moonbitlang$core$builtin$$abort$42$("") : { bits: moonbitlang$core$array$$FixedArray$makei$7$(self.bits.length, (i) => self.bits[i] | other.bits[i]), len: self.len };
+  return self.len !== other.len ? moonbitlang$core$builtin$$abort$45$("") : { bits: moonbitlang$core$array$$FixedArray$makei$7$(self.bits.length, (i) => self.bits[i] | other.bits[i]), len: self.len };
 }
 function jian$mbtlex$lib$parser$$ParserBuf$from_string(content) {
   return { ptr: 0, content: content };
@@ -5619,7 +5764,7 @@ function jian$mbtlex$lib$parser$$ParserBuf$match_str(self, pattern) {
   while (true) {
     const i = _tmp;
     if (i < pattern.length) {
-      if (moonbitlang$core$builtin$$op_notequal$50$(jian$mbtlex$lib$parser$$ParserBuf$peek(self, i), pattern.charCodeAt(i))) {
+      if (moonbitlang$core$builtin$$op_notequal$53$(jian$mbtlex$lib$parser$$ParserBuf$peek(self, i), pattern.charCodeAt(i))) {
         return undefined;
       }
       _tmp = i + 1 | 0;
@@ -5684,36 +5829,36 @@ function jian$mbtlex$lib$parser$$ParserBuf$match_str_array(self, patterns) {
   }
   return p;
 }
-function jian$mbtlex$lib$parser$$bind_none$28$(opt, f) {
+function jian$mbtlex$lib$parser$$bind_none$31$(opt, f) {
   return opt === undefined ? f() : opt;
 }
 function jian$mbtlex$lib$parser$$ParserBuf$match_re(self, re) {
   switch (re.$tag) {
     case 0: {
-      return moonbitlang$core$option$$Option$map$38$(jian$mbtlex$lib$parser$$ParserBuf$peek(self, jian$mbtlex$lib$parser$$ParserBuf$peek$46$i$46$default()), (c) => ({ _0: jian$mbtlex$lib$parser$$ParserBuf$step(self, jian$mbtlex$lib$parser$$ParserBuf$step$46$i$46$default()), _1: moonbitlang$core$string$$String$from_array([c]) }));
+      return moonbitlang$core$option$$Option$map$41$(jian$mbtlex$lib$parser$$ParserBuf$peek(self, jian$mbtlex$lib$parser$$ParserBuf$peek$46$i$46$default()), (c) => ({ _0: jian$mbtlex$lib$parser$$ParserBuf$step(self, jian$mbtlex$lib$parser$$ParserBuf$step$46$i$46$default()), _1: moonbitlang$core$string$$String$from_array([c]) }));
     }
     case 1: {
-      return moonbitlang$core$option$$when$28$(self.ptr === self.content.length, () => ({ _0: self, _1: "" }));
+      return moonbitlang$core$option$$when$31$(self.ptr === self.content.length, () => ({ _0: self, _1: "" }));
     }
     case 2: {
       const _ReStr = re;
       const _x = _ReStr._0;
-      return moonbitlang$core$option$$Option$map$37$(jian$mbtlex$lib$parser$$ParserBuf$match_str(self, _x), (p) => ({ _0: p, _1: _x }));
+      return moonbitlang$core$option$$Option$map$40$(jian$mbtlex$lib$parser$$ParserBuf$match_str(self, _x), (p) => ({ _0: p, _1: _x }));
     }
     case 3: {
       const _ReChar = re;
       const _x$2 = _ReChar._0;
-      return moonbitlang$core$option$$Option$bind$38$(jian$mbtlex$lib$parser$$ParserBuf$peek(self, jian$mbtlex$lib$parser$$ParserBuf$peek$46$i$46$default()), (c) => moonbitlang$core$option$$when$28$(_x$2 === c, () => ({ _0: jian$mbtlex$lib$parser$$ParserBuf$step(self, jian$mbtlex$lib$parser$$ParserBuf$step$46$i$46$default()), _1: moonbitlang$core$string$$String$from_array([c]) })));
+      return moonbitlang$core$option$$Option$bind$41$(jian$mbtlex$lib$parser$$ParserBuf$peek(self, jian$mbtlex$lib$parser$$ParserBuf$peek$46$i$46$default()), (c) => moonbitlang$core$option$$when$31$(_x$2 === c, () => ({ _0: jian$mbtlex$lib$parser$$ParserBuf$step(self, jian$mbtlex$lib$parser$$ParserBuf$step$46$i$46$default()), _1: moonbitlang$core$string$$String$from_array([c]) })));
     }
     case 4: {
       const _CharSet = re;
       const _x$3 = _CharSet._0;
-      return moonbitlang$core$option$$Option$bind$38$(jian$mbtlex$lib$parser$$ParserBuf$peek(self, jian$mbtlex$lib$parser$$ParserBuf$peek$46$i$46$default()), (c) => moonbitlang$core$option$$when$28$(moonbitlang$core$array$$Array$contains$2$(_x$3, c), () => ({ _0: jian$mbtlex$lib$parser$$ParserBuf$step(self, jian$mbtlex$lib$parser$$ParserBuf$step$46$i$46$default()), _1: moonbitlang$core$string$$String$from_array([c]) })));
+      return moonbitlang$core$option$$Option$bind$41$(jian$mbtlex$lib$parser$$ParserBuf$peek(self, jian$mbtlex$lib$parser$$ParserBuf$peek$46$i$46$default()), (c) => moonbitlang$core$option$$when$31$(moonbitlang$core$array$$Array$contains$2$(_x$3, c), () => ({ _0: jian$mbtlex$lib$parser$$ParserBuf$step(self, jian$mbtlex$lib$parser$$ParserBuf$step$46$i$46$default()), _1: moonbitlang$core$string$$String$from_array([c]) })));
     }
     case 5: {
       const _RevCharSet = re;
       const _x$4 = _RevCharSet._0;
-      return moonbitlang$core$option$$Option$bind$38$(jian$mbtlex$lib$parser$$ParserBuf$peek(self, jian$mbtlex$lib$parser$$ParserBuf$peek$46$i$46$default()), (c) => moonbitlang$core$option$$unless$28$(moonbitlang$core$array$$Array$contains$2$(_x$4, c), () => ({ _0: jian$mbtlex$lib$parser$$ParserBuf$step(self, jian$mbtlex$lib$parser$$ParserBuf$step$46$i$46$default()), _1: moonbitlang$core$string$$String$from_array([c]) })));
+      return moonbitlang$core$option$$Option$bind$41$(jian$mbtlex$lib$parser$$ParserBuf$peek(self, jian$mbtlex$lib$parser$$ParserBuf$peek$46$i$46$default()), (c) => moonbitlang$core$option$$unless$31$(moonbitlang$core$array$$Array$contains$2$(_x$4, c), () => ({ _0: jian$mbtlex$lib$parser$$ParserBuf$step(self, jian$mbtlex$lib$parser$$ParserBuf$step$46$i$46$default()), _1: moonbitlang$core$string$$String$from_array([c]) })));
     }
     case 6: {
       const _Repetition = re;
@@ -5726,7 +5871,7 @@ function jian$mbtlex$lib$parser$$ParserBuf$match_re(self, re) {
         const _x$6 = _Some;
         const _x$7 = _x$6._0;
         const _x$8 = _x$6._1;
-        return moonbitlang$core$option$$Option$map$36$(jian$mbtlex$lib$parser$$ParserBuf$match_re(_x$7, new $64$jian$47$mbtlex$47$lib$47$type$46$Regex$Option(new $64$jian$47$mbtlex$47$lib$47$type$46$Regex$Repetition(_x$5))), (_param1) => {
+        return moonbitlang$core$option$$Option$map$39$(jian$mbtlex$lib$parser$$ParserBuf$match_re(_x$7, new $64$jian$47$mbtlex$47$lib$47$type$46$Regex$Option(new $64$jian$47$mbtlex$47$lib$47$type$46$Regex$Repetition(_x$5))), (_param1) => {
           const _x$9 = _param1._0;
           const _x$10 = _param1._1;
           return { _0: _x$9, _1: `${_x$8}${_x$10}` };
@@ -5736,22 +5881,22 @@ function jian$mbtlex$lib$parser$$ParserBuf$match_re(self, re) {
     case 7: {
       const _Option = re;
       const _x$6 = _Option._0;
-      return jian$mbtlex$lib$parser$$bind_none$28$(jian$mbtlex$lib$parser$$ParserBuf$match_re(self, _x$6), () => ({ _0: self, _1: "" }));
+      return jian$mbtlex$lib$parser$$bind_none$31$(jian$mbtlex$lib$parser$$ParserBuf$match_re(self, _x$6), () => ({ _0: self, _1: "" }));
     }
     case 8: {
       const _Alter = re;
       const _x$7 = _Alter._0;
       const _x$8 = _Alter._1;
-      return jian$mbtlex$lib$parser$$bind_none$28$(jian$mbtlex$lib$parser$$ParserBuf$match_re(self, _x$7), () => jian$mbtlex$lib$parser$$ParserBuf$match_re(self, _x$8));
+      return jian$mbtlex$lib$parser$$bind_none$31$(jian$mbtlex$lib$parser$$ParserBuf$match_re(self, _x$7), () => jian$mbtlex$lib$parser$$ParserBuf$match_re(self, _x$8));
     }
     case 9: {
       const _Concat = re;
       const _x$9 = _Concat._0;
       const _x$10 = _Concat._1;
-      return moonbitlang$core$option$$Option$bind$36$(jian$mbtlex$lib$parser$$ParserBuf$match_re(self, _x$9), (_param2) => {
+      return moonbitlang$core$option$$Option$bind$39$(jian$mbtlex$lib$parser$$ParserBuf$match_re(self, _x$9), (_param2) => {
         const _x$11 = _param2._0;
         const _x$12 = _param2._1;
-        return moonbitlang$core$option$$Option$map$36$(jian$mbtlex$lib$parser$$ParserBuf$match_re(_x$11, _x$10), (_param3) => {
+        return moonbitlang$core$option$$Option$map$39$(jian$mbtlex$lib$parser$$ParserBuf$match_re(_x$11, _x$10), (_param3) => {
           const _x$13 = _param3._0;
           const _x$14 = _param3._1;
           return { _0: _x$13, _1: `${_x$12}${_x$14}` };
@@ -5759,11 +5904,11 @@ function jian$mbtlex$lib$parser$$ParserBuf$match_re(self, re) {
       });
     }
     default: {
-      return moonbitlang$core$builtin$$abort$43$("Capture is not allowed in ParserBuf");
+      return moonbitlang$core$builtin$$abort$46$("Capture is not allowed in ParserBuf");
     }
   }
 }
-function jian$mbtlex$lib$parser$$ParserBuf$repeat_match$60$(self, match_fn) {
+function jian$mbtlex$lib$parser$$ParserBuf$repeat_match$63$(self, match_fn) {
   let _tmp = self;
   let _tmp$2 = [];
   while (true) {
@@ -5777,27 +5922,7 @@ function jian$mbtlex$lib$parser$$ParserBuf$repeat_match$60$(self, match_fn) {
       const _x = _Some;
       const _x$2 = _x._0;
       const _x$3 = _x._1;
-      moonbitlang$core$array$$Array$push$60$(arr, _x$3);
-      _tmp = _x$2;
-      continue;
-    }
-  }
-}
-function jian$mbtlex$lib$parser$$ParserBuf$repeat_match$59$(self, match_fn) {
-  let _tmp = self;
-  let _tmp$2 = [];
-  while (true) {
-    const p = _tmp;
-    const arr = _tmp$2;
-    const _bind = match_fn(p);
-    if (_bind === undefined) {
-      return { _0: p, _1: arr };
-    } else {
-      const _Some = _bind;
-      const _x = _Some;
-      const _x$2 = _x._0;
-      const _x$3 = _x._1;
-      moonbitlang$core$array$$Array$push$59$(arr, _x$3);
+      moonbitlang$core$array$$Array$push$63$(arr, _x$3);
       _tmp = _x$2;
       continue;
     }
@@ -5823,6 +5948,26 @@ function jian$mbtlex$lib$parser$$ParserBuf$repeat_match$62$(self, match_fn) {
     }
   }
 }
+function jian$mbtlex$lib$parser$$ParserBuf$repeat_match$65$(self, match_fn) {
+  let _tmp = self;
+  let _tmp$2 = [];
+  while (true) {
+    const p = _tmp;
+    const arr = _tmp$2;
+    const _bind = match_fn(p);
+    if (_bind === undefined) {
+      return { _0: p, _1: arr };
+    } else {
+      const _Some = _bind;
+      const _x = _Some;
+      const _x$2 = _x._0;
+      const _x$3 = _x._1;
+      moonbitlang$core$array$$Array$push$65$(arr, _x$3);
+      _tmp = _x$2;
+      continue;
+    }
+  }
+}
 function jian$mbtlex$lib$parser$$ParserBuf$repeat_match$8$(self, match_fn) {
   let _tmp = self;
   let _tmp$2 = [];
@@ -5843,7 +5988,7 @@ function jian$mbtlex$lib$parser$$ParserBuf$repeat_match$8$(self, match_fn) {
     }
   }
 }
-function jian$mbtlex$lib$parser$$ParserBuf$repeat_match$64$(self, match_fn) {
+function jian$mbtlex$lib$parser$$ParserBuf$repeat_match$67$(self, match_fn) {
   let _tmp = self;
   let _tmp$2 = [];
   while (true) {
@@ -5857,7 +6002,7 @@ function jian$mbtlex$lib$parser$$ParserBuf$repeat_match$64$(self, match_fn) {
       const _x = _Some;
       const _x$2 = _x._0;
       const _x$3 = _x._1;
-      moonbitlang$core$array$$Array$push$64$(arr, _x$3);
+      moonbitlang$core$array$$Array$push$67$(arr, _x$3);
       _tmp = _x$2;
       continue;
     }
@@ -5868,12 +6013,12 @@ function jian$mbtlex$lib$parser$$ch_range(ch_begin, ch_end) {
   const ch_end$2 = ch_end;
   return moonbitlang$core$array$$Array$makei$2$((ch_end$2 - ch_begin$2 | 0) + 1 | 0, (i) => i + ch_begin$2 | 0);
 }
-function jian$mbtlex$lib$parser$$char$46$hex_char_to_int$111$(c) {
+function jian$mbtlex$lib$parser$$char$46$hex_char_to_int$112$(c) {
   const c$2 = c;
   return c$2 >= 48 && c$2 <= 57 ? c$2 - 48 | 0 : c$2 >= 97 && c$2 <= 102 ? (c$2 - 97 | 0) + 10 | 0 : c$2 >= 65 && c$2 <= 70 ? (c$2 - 65 | 0) + 10 | 0 : moonbitlang$core$builtin$$abort$7$("illegal hex char");
 }
 function jian$mbtlex$lib$parser$$ParserBuf$char(self) {
-  return moonbitlang$core$option$$Option$map$31$(jian$mbtlex$lib$parser$$ParserBuf$match_re(self, jian$mbtlex$lib$parser$$char_re), (_param4) => {
+  return moonbitlang$core$option$$Option$map$34$(jian$mbtlex$lib$parser$$ParserBuf$match_re(self, jian$mbtlex$lib$parser$$char_re), (_param4) => {
     const _x = _param4._0;
     const _x$2 = _param4._1;
     let ch;
@@ -5909,8 +6054,8 @@ function jian$mbtlex$lib$parser$$ParserBuf$char(self) {
         }
       } else {
         if (_x$2.length === 6) {
-          const c1 = jian$mbtlex$lib$parser$$char$46$hex_char_to_int$111$(_x$2.charCodeAt(3));
-          const c2 = jian$mbtlex$lib$parser$$char$46$hex_char_to_int$111$(_x$2.charCodeAt(4));
+          const c1 = jian$mbtlex$lib$parser$$char$46$hex_char_to_int$112$(_x$2.charCodeAt(3));
+          const c2 = jian$mbtlex$lib$parser$$char$46$hex_char_to_int$112$(_x$2.charCodeAt(4));
           ch = (Math.imul(c1, 16) | 0) + c2 | 0;
         } else {
           ch = moonbitlang$core$builtin$$abort$2$("illegal char");
@@ -5921,22 +6066,22 @@ function jian$mbtlex$lib$parser$$ParserBuf$char(self) {
   });
 }
 function jian$mbtlex$lib$parser$$ParserBuf$string(self) {
-  return moonbitlang$core$option$$Option$map$36$(jian$mbtlex$lib$parser$$ParserBuf$match_re(self, jian$mbtlex$lib$parser$$string_re), (_param5) => {
+  return moonbitlang$core$option$$Option$map$39$(jian$mbtlex$lib$parser$$ParserBuf$match_re(self, jian$mbtlex$lib$parser$$string_re), (_param5) => {
     const _x = _param5._0;
     const _x$2 = _param5._1;
     return { _0: _x, _1: moonbitlang$core$string$$String$substring(_x$2, 1, _x$2.length - 1 | 0) };
   });
 }
 function jian$mbtlex$lib$parser$$ParserBuf$charset_inside(self) {
-  const _bind = jian$mbtlex$lib$parser$$ParserBuf$repeat_match$60$(self, (p) => {
+  const _bind = jian$mbtlex$lib$parser$$ParserBuf$repeat_match$63$(self, (p) => {
     const c = jian$mbtlex$lib$parser$$ParserBuf$char(jian$mbtlex$lib$parser$$ParserBuf$skip_ws(p));
-    return moonbitlang$core$option$$Option$bind$29$(c, (_param6) => {
+    return moonbitlang$core$option$$Option$bind$32$(c, (_param6) => {
       const _x = _param6._0;
       const _x$2 = _param6._1;
       const p$2 = jian$mbtlex$lib$parser$$ParserBuf$skip_ws(_x);
       if (moonbitlang$core$option$$Option$op_equal$2$(jian$mbtlex$lib$parser$$ParserBuf$peek(p$2, jian$mbtlex$lib$parser$$ParserBuf$peek$46$i$46$default()), 45)) {
         const ch_end = jian$mbtlex$lib$parser$$ParserBuf$char(jian$mbtlex$lib$parser$$ParserBuf$skip_ws(jian$mbtlex$lib$parser$$ParserBuf$step(p$2, jian$mbtlex$lib$parser$$ParserBuf$step$46$i$46$default())));
-        return moonbitlang$core$option$$Option$map$29$(ch_end, (_param7) => {
+        return moonbitlang$core$option$$Option$map$32$(ch_end, (_param7) => {
           const _x$3 = _param7._0;
           const _x$4 = _param7._1;
           return { _0: _x$3, _1: jian$mbtlex$lib$parser$$ch_range(_x$2, _x$4) };
@@ -5967,14 +6112,14 @@ function jian$mbtlex$lib$parser$$ParserBuf$regex_nonleftrec(self) {
         const _x = _Some;
         switch (_x) {
           case 39: {
-            return moonbitlang$core$option$$Option$map$32$(jian$mbtlex$lib$parser$$ParserBuf$char(p), (_param8) => {
+            return moonbitlang$core$option$$Option$map$35$(jian$mbtlex$lib$parser$$ParserBuf$char(p), (_param8) => {
               const _x$2 = _param8._0;
               const _x$3 = _param8._1;
               return { _0: _x$2, _1: new $64$jian$47$mbtlex$47$lib$47$type$46$Regex$ReChar(_x$3) };
             });
           }
           case 34: {
-            return moonbitlang$core$option$$Option$map$34$(jian$mbtlex$lib$parser$$ParserBuf$string(p), (_param9) => {
+            return moonbitlang$core$option$$Option$map$37$(jian$mbtlex$lib$parser$$ParserBuf$string(p), (_param9) => {
               const _x$2 = _param9._0;
               const _x$3 = _param9._1;
               return { _0: _x$2, _1: new $64$jian$47$mbtlex$47$lib$47$type$46$Regex$ReStr(_x$3) };
@@ -5990,21 +6135,21 @@ function jian$mbtlex$lib$parser$$ParserBuf$regex_nonleftrec(self) {
                 const _bind$3 = jian$mbtlex$lib$parser$$ParserBuf$charset_inside(jian$mbtlex$lib$parser$$ParserBuf$step(p, 2));
                 const _x$3 = _bind$3._0;
                 const _x$4 = _bind$3._1;
-                return moonbitlang$core$option$$Option$map$33$(jian$mbtlex$lib$parser$$ParserBuf$match_str(_x$3, "]"), (p$2) => ({ _0: p$2, _1: new $64$jian$47$mbtlex$47$lib$47$type$46$Regex$RevCharSet(_x$4) }));
+                return moonbitlang$core$option$$Option$map$36$(jian$mbtlex$lib$parser$$ParserBuf$match_str(_x$3, "]"), (p$2) => ({ _0: p$2, _1: new $64$jian$47$mbtlex$47$lib$47$type$46$Regex$RevCharSet(_x$4) }));
               } else {
                 break _L$2;
               }
             }
           }
           case 40: {
-            return moonbitlang$core$option$$Option$bind$35$(jian$mbtlex$lib$parser$$ParserBuf$regex(jian$mbtlex$lib$parser$$ParserBuf$step(p, jian$mbtlex$lib$parser$$ParserBuf$step$46$i$46$default())), (_param10) => {
+            return moonbitlang$core$option$$Option$bind$38$(jian$mbtlex$lib$parser$$ParserBuf$regex(jian$mbtlex$lib$parser$$ParserBuf$step(p, jian$mbtlex$lib$parser$$ParserBuf$step$46$i$46$default())), (_param10) => {
               const _x$2 = _param10._0;
               const _x$3 = _param10._1;
-              return moonbitlang$core$option$$Option$map$33$(jian$mbtlex$lib$parser$$ParserBuf$match_str(_x$2, ")"), (p$2) => ({ _0: p$2, _1: _x$3 }));
+              return moonbitlang$core$option$$Option$map$36$(jian$mbtlex$lib$parser$$ParserBuf$match_str(_x$2, ")"), (p$2) => ({ _0: p$2, _1: _x$3 }));
             });
           }
           case 101: {
-            return moonbitlang$core$option$$Option$map$33$(jian$mbtlex$lib$parser$$ParserBuf$match_str(p, "eof"), (p$2) => ({ _0: p$2, _1: $64$jian$47$mbtlex$47$lib$47$type$46$Regex$EOF }));
+            return moonbitlang$core$option$$Option$map$36$(jian$mbtlex$lib$parser$$ParserBuf$match_str(p, "eof"), (p$2) => ({ _0: p$2, _1: $64$jian$47$mbtlex$47$lib$47$type$46$Regex$EOF }));
           }
           case 95: {
             return { _0: jian$mbtlex$lib$parser$$ParserBuf$step(p, jian$mbtlex$lib$parser$$ParserBuf$step$46$i$46$default()), _1: $64$jian$47$mbtlex$47$lib$47$type$46$Regex$Underscore };
@@ -6018,12 +6163,12 @@ function jian$mbtlex$lib$parser$$ParserBuf$regex_nonleftrec(self) {
     const _bind = jian$mbtlex$lib$parser$$ParserBuf$charset_inside(jian$mbtlex$lib$parser$$ParserBuf$step(p, jian$mbtlex$lib$parser$$ParserBuf$step$46$i$46$default()));
     const _x = _bind._0;
     const _x$2 = _bind._1;
-    return moonbitlang$core$option$$Option$map$33$(jian$mbtlex$lib$parser$$ParserBuf$match_str(_x, "]"), (p$2) => ({ _0: p$2, _1: new $64$jian$47$mbtlex$47$lib$47$type$46$Regex$CharSet(_x$2) }));
+    return moonbitlang$core$option$$Option$map$36$(jian$mbtlex$lib$parser$$ParserBuf$match_str(_x, "]"), (p$2) => ({ _0: p$2, _1: new $64$jian$47$mbtlex$47$lib$47$type$46$Regex$CharSet(_x$2) }));
   }
   return undefined;
 }
 function jian$mbtlex$lib$parser$$ParserBuf$regex(self) {
-  const _bind = jian$mbtlex$lib$parser$$ParserBuf$repeat_match$59$(self, (p) => moonbitlang$core$option$$Option$bind$35$(jian$mbtlex$lib$parser$$ParserBuf$regex_nonleftrec(p), (_param13) => {
+  const _bind = jian$mbtlex$lib$parser$$ParserBuf$repeat_match$62$(self, (p) => moonbitlang$core$option$$Option$bind$38$(jian$mbtlex$lib$parser$$ParserBuf$regex_nonleftrec(p), (_param13) => {
     const _x = _param13._0;
     const _x$2 = _param13._1;
     return jian$mbtlex$lib$parser$$ParserBuf$regex_leftrec(_x, _x$2);
@@ -6033,8 +6178,8 @@ function jian$mbtlex$lib$parser$$ParserBuf$regex(self) {
   if (_x$2.length === 0) {
     return undefined;
   } else {
-    const head = moonbitlang$core$option$$Option$unwrap$59$(moonbitlang$core$array$$Array$get$59$(_x$2, 0));
-    return { _0: _x, _1: moonbitlang$core$array$$Array$fold$108$(moonbitlang$core$array$$Array$split_at$59$(_x$2, 1)._1, head, (a, b) => new $64$jian$47$mbtlex$47$lib$47$type$46$Regex$Concat(a, b)) };
+    const head = moonbitlang$core$option$$Option$unwrap$62$(moonbitlang$core$array$$Array$get$62$(_x$2, 0));
+    return { _0: _x, _1: moonbitlang$core$array$$Array$fold$109$(moonbitlang$core$array$$Array$split_at$62$(_x$2, 1)._1, head, (a, b) => new $64$jian$47$mbtlex$47$lib$47$type$46$Regex$Concat(a, b)) };
   }
 }
 function jian$mbtlex$lib$parser$$ParserBuf$regex_leftrec(self, re) {
@@ -6053,7 +6198,7 @@ function jian$mbtlex$lib$parser$$ParserBuf$regex_leftrec(self, re) {
         const _x = _Some;
         switch (_x) {
           case 124: {
-            return moonbitlang$core$option$$Option$map$35$(jian$mbtlex$lib$parser$$ParserBuf$regex(jian$mbtlex$lib$parser$$ParserBuf$step(p, jian$mbtlex$lib$parser$$ParserBuf$step$46$i$46$default())), (_param11) => {
+            return moonbitlang$core$option$$Option$map$38$(jian$mbtlex$lib$parser$$ParserBuf$regex(jian$mbtlex$lib$parser$$ParserBuf$step(p, jian$mbtlex$lib$parser$$ParserBuf$step$46$i$46$default())), (_param11) => {
               const _x$2 = _param11._0;
               const _x$3 = _param11._1;
               return { _0: _x$2, _1: new $64$jian$47$mbtlex$47$lib$47$type$46$Regex$Alter(re$2, _x$3) };
@@ -6081,7 +6226,7 @@ function jian$mbtlex$lib$parser$$ParserBuf$regex_leftrec(self, re) {
             continue _L;
           }
           case 97: {
-            return moonbitlang$core$option$$Option$bind$33$(jian$mbtlex$lib$parser$$ParserBuf$match_str(p, "as"), (p$2) => moonbitlang$core$option$$Option$map$34$(jian$mbtlex$lib$parser$$ParserBuf$identifier(jian$mbtlex$lib$parser$$ParserBuf$skip_ws(p$2)), (_param12) => {
+            return moonbitlang$core$option$$Option$bind$36$(jian$mbtlex$lib$parser$$ParserBuf$match_str(p, "as"), (p$2) => moonbitlang$core$option$$Option$map$37$(jian$mbtlex$lib$parser$$ParserBuf$identifier(jian$mbtlex$lib$parser$$ParserBuf$skip_ws(p$2)), (_param12) => {
               const _x$2 = _param12._0;
               const _x$3 = _param12._1;
               return { _0: _x$2, _1: new $64$jian$47$mbtlex$47$lib$47$type$46$Regex$Capture(re$2, _x$3) };
@@ -6137,14 +6282,14 @@ function jian$mbtlex$lib$parser$$ParserBuf$ty(self) {
                 if (moonbitlang$core$array$$Array$is_empty$2$(stack)) {
                   return { _0: jian$mbtlex$lib$parser$$ParserBuf$step(self, i), _1: moonbitlang$core$option$$Option$unwrap$3$(jian$mbtlex$lib$parser$$ParserBuf$get_str(self, i)) };
                 } else {
-                  if (moonbitlang$core$builtin$$op_notequal$50$(moonbitlang$core$array$$Array$pop$2$(stack), 40)) {
+                  if (moonbitlang$core$builtin$$op_notequal$53$(moonbitlang$core$array$$Array$pop$2$(stack), 40)) {
                     return undefined;
                   }
                 }
                 break;
               }
               case 93: {
-                if (moonbitlang$core$builtin$$op_notequal$50$(moonbitlang$core$array$$Array$pop$2$(stack), 91)) {
+                if (moonbitlang$core$builtin$$op_notequal$53$(moonbitlang$core$array$$Array$pop$2$(stack), 91)) {
                   return undefined;
                 }
                 break;
@@ -6165,10 +6310,10 @@ function jian$mbtlex$lib$parser$$ParserBuf$ty(self) {
   }
 }
 function jian$mbtlex$lib$parser$$ParserBuf$var_definition(self) {
-  return moonbitlang$core$option$$Option$bind$40$(jian$mbtlex$lib$parser$$ParserBuf$identifier(jian$mbtlex$lib$parser$$ParserBuf$skip_ws(self)), (_param14) => {
+  return moonbitlang$core$option$$Option$bind$43$(jian$mbtlex$lib$parser$$ParserBuf$identifier(jian$mbtlex$lib$parser$$ParserBuf$skip_ws(self)), (_param14) => {
     const _x = _param14._0;
     const _x$2 = _param14._1;
-    return moonbitlang$core$option$$Option$bind$39$(jian$mbtlex$lib$parser$$ParserBuf$match_str(jian$mbtlex$lib$parser$$ParserBuf$skip_ws(_x), ":"), (p) => {
+    return moonbitlang$core$option$$Option$bind$42$(jian$mbtlex$lib$parser$$ParserBuf$match_str(jian$mbtlex$lib$parser$$ParserBuf$skip_ws(_x), ":"), (p) => {
       const _bind = jian$mbtlex$lib$parser$$ParserBuf$ty(p);
       if (_bind === undefined) {
         return undefined;
@@ -6184,7 +6329,7 @@ function jian$mbtlex$lib$parser$$ParserBuf$var_definition(self) {
 }
 function jian$mbtlex$lib$parser$$ParserBuf$code_block(self) {
   const re = new $64$jian$47$mbtlex$47$lib$47$type$46$Regex$Option(new $64$jian$47$mbtlex$47$lib$47$type$46$Regex$Repetition(new $64$jian$47$mbtlex$47$lib$47$type$46$Regex$Alter(new $64$jian$47$mbtlex$47$lib$47$type$46$Regex$RevCharSet([123, 125, 39, 34]), new $64$jian$47$mbtlex$47$lib$47$type$46$Regex$Alter(jian$mbtlex$lib$parser$$char_re, jian$mbtlex$lib$parser$$string_re))));
-  return moonbitlang$core$option$$Option$bind$37$(jian$mbtlex$lib$parser$$ParserBuf$match_str(jian$mbtlex$lib$parser$$ParserBuf$skip_ws(self), "{"), (p) => {
+  return moonbitlang$core$option$$Option$bind$40$(jian$mbtlex$lib$parser$$ParserBuf$match_str(jian$mbtlex$lib$parser$$ParserBuf$skip_ws(self), "{"), (p) => {
     const strbuf = [];
     let mut_p = p;
     let _tmp = 1;
@@ -6229,11 +6374,11 @@ function jian$mbtlex$lib$parser$$ParserBuf$code_block(self) {
             }
           }
         }
-        moonbitlang$core$builtin$$abort$46$("unreachable");
+        moonbitlang$core$builtin$$abort$49$("unreachable");
       }
       continue;
     }
-    return { _0: mut_p, _1: moonbitlang$core$array$$Array$fold$107$(strbuf, "", (a, b) => `${a}${b}`) };
+    return { _0: mut_p, _1: moonbitlang$core$array$$Array$fold$108$(strbuf, "", (a, b) => `${a}${b}`) };
   });
 }
 function jian$mbtlex$lib$parser$$ParserBuf$rule(self) {
@@ -6299,7 +6444,7 @@ function jian$mbtlex$lib$parser$$ParserBuf$rule(self) {
             } else {
               const _Some$6 = _bind$7;
               const _x$12 = _Some$6;
-              const _bind$8 = jian$mbtlex$lib$parser$$ParserBuf$repeat_match$62$(_x$12, (p) => {
+              const _bind$8 = jian$mbtlex$lib$parser$$ParserBuf$repeat_match$65$(_x$12, (p) => {
                 const p$2 = jian$mbtlex$lib$parser$$ParserBuf$skip_ws(p);
                 const _bind$9 = jian$mbtlex$lib$parser$$ParserBuf$regex(p$2);
                 if (_bind$9 === undefined) {
@@ -6354,7 +6499,7 @@ function jian$mbtlex$lib$parser$$ParserBuf$lex(self) {
     const _x = _Some;
     const _x$2 = _x._0;
     const _x$3 = _x._1;
-    const _bind$2 = jian$mbtlex$lib$parser$$ParserBuf$repeat_match$64$(_x$2, jian$mbtlex$lib$parser$$ParserBuf$rule);
+    const _bind$2 = jian$mbtlex$lib$parser$$ParserBuf$repeat_match$67$(_x$2, jian$mbtlex$lib$parser$$ParserBuf$rule);
     const _x$4 = _bind$2._0;
     const _x$5 = _bind$2._1;
     const _bind$3 = jian$mbtlex$lib$parser$$ParserBuf$code_block(_x$4);
@@ -6436,16 +6581,16 @@ function jian$mbtlex$lib$automaton$$TagState$tagState_min(self, other) {
   }
 }
 function jian$mbtlex$lib$automaton$$DFA$new(code_blocks, captures, start_action) {
-  return { graph: [moonbitlang$core$builtin$$Map$new$81$(moonbitlang$core$builtin$$Map$new$46$capacity$46$default$81$())], end_nodes: moonbitlang$core$builtin$$Map$new$80$(moonbitlang$core$builtin$$Map$new$46$capacity$46$default$80$()), code_blocks: code_blocks, captures: captures, start_action: start_action, node_count: 1 };
+  return { graph: [moonbitlang$core$builtin$$Map$new$83$(moonbitlang$core$builtin$$Map$new$46$capacity$46$default$83$())], end_nodes: moonbitlang$core$builtin$$Map$new$82$(moonbitlang$core$builtin$$Map$new$46$capacity$46$default$82$()), code_blocks: code_blocks, captures: captures, start_action: start_action, node_count: 1 };
 }
 function jian$mbtlex$lib$automaton$$DFA$new_node(self) {
   const id = self.node_count;
   self.node_count = self.node_count + 1 | 0;
-  moonbitlang$core$array$$Array$push$68$(self.graph, moonbitlang$core$builtin$$Map$new$81$(moonbitlang$core$builtin$$Map$new$46$capacity$46$default$81$()));
+  moonbitlang$core$array$$Array$push$71$(self.graph, moonbitlang$core$builtin$$Map$new$83$(moonbitlang$core$builtin$$Map$new$46$capacity$46$default$83$()));
   return id;
 }
 function jian$mbtlex$lib$automaton$$DFA$add_edge(self, from, e, action, to) {
-  moonbitlang$core$builtin$$Map$set$81$(moonbitlang$core$array$$Array$op_get$68$(self.graph, from), e, { _0: to, _1: action });
+  moonbitlang$core$builtin$$Map$set$83$(moonbitlang$core$array$$Array$op_get$71$(self.graph, from), e, { _0: to, _1: action });
 }
 function jian$mbtlex$lib$automaton$$state_canonicalize(state, tag_count) {
   const mat = moonbitlang$core$array$$Array$makei$10$(tag_count, (_i) => []);
@@ -6474,7 +6619,7 @@ function jian$mbtlex$lib$automaton$$state_canonicalize(state, tag_count) {
   const _bind$2 = moonbitlang$core$immut$hashmap$$T$iter$15$(state);
   const new_state = moonbitlang$core$immut$hashmap$$T$from_iter$15$((_p) => _bind$2((_p$2) => {
     const tags = _p$2._1;
-    moonbitlang$core$array$$Array$mapi_inplace$9$(tags, (tag, op) => moonbitlang$core$option$$Option$map$30$(op, (x) => {
+    moonbitlang$core$array$$Array$mapi_inplace$9$(tags, (tag, op) => moonbitlang$core$option$$Option$map$33$(op, (x) => {
       const _arr = moonbitlang$core$array$$Array$op_get$10$(mat, tag);
       const _len = _arr.length;
       let _tmp = 0;
@@ -6497,30 +6642,30 @@ function jian$mbtlex$lib$automaton$$state_canonicalize(state, tag_count) {
   return { _0: new_state, _1: mat };
 }
 function jian$mbtlex$lib$automaton$$DFA$register_node(self, nfa, node, os) {
-  const code_blocks = moonbitlang$core$builtin$$Iter$collect$7$(moonbitlang$core$builtin$$Iter$map_option$110$(moonbitlang$core$immut$hashmap$$T$iter$15$(os), (x) => moonbitlang$core$builtin$$Map$get$30$(nfa.end_nodes, x._0)));
+  const code_blocks = moonbitlang$core$builtin$$Iter$collect$7$(moonbitlang$core$builtin$$Iter$map_option$111$(moonbitlang$core$immut$hashmap$$T$iter$15$(os), (x) => moonbitlang$core$builtin$$Map$get$33$(nfa.end_nodes, x._0)));
   if (!moonbitlang$core$array$$Array$is_empty$7$(code_blocks)) {
-    const min_code_block = moonbitlang$core$array$$Array$fold$30$(code_blocks, moonbitlang$core$array$$Array$op_get$7$(code_blocks, 0), moonbitlang$core$math$$minimum$7$);
+    const min_code_block = moonbitlang$core$array$$Array$fold$33$(code_blocks, moonbitlang$core$array$$Array$op_get$7$(code_blocks, 0), moonbitlang$core$math$$minimum$7$);
     const _bind = moonbitlang$core$immut$hashmap$$T$iter$15$(os);
-    const end_nodes = moonbitlang$core$builtin$$Iter$to_array$18$((_p) => _bind((_p$2) => moonbitlang$core$option$$Option$op_equal$7$(moonbitlang$core$builtin$$Map$get$30$(nfa.end_nodes, _p$2._0), min_code_block) ? _p(_p$2) : 1));
+    const end_nodes = moonbitlang$core$builtin$$Iter$to_array$18$((_p) => _bind((_p$2) => moonbitlang$core$option$$Option$op_equal$7$(moonbitlang$core$builtin$$Map$get$33$(nfa.end_nodes, _p$2._0), min_code_block) ? _p(_p$2) : 1));
     if (end_nodes.length === 1) {
       const tagState = moonbitlang$core$array$$Array$op_get$18$(end_nodes, 0)._1;
-      const min_tags = moonbitlang$core$array$$Array$map$92$(moonbitlang$core$array$$Array$op_get$53$(nfa.captures, min_code_block), (_param1) => {
+      const min_tags = moonbitlang$core$array$$Array$map$94$(moonbitlang$core$array$$Array$op_get$56$(nfa.captures, min_code_block), (_param1) => {
         const _x = _param1._1;
         const _x$2 = _x._0;
         const _x$3 = _x._1;
         return { _0: { _0: _x$2, _1: moonbitlang$core$option$$Option$unwrap$7$(moonbitlang$core$array$$Array$op_get$9$(tagState, _x$2)) }, _1: { _0: _x$3, _1: moonbitlang$core$option$$Option$unwrap$7$(moonbitlang$core$array$$Array$op_get$9$(tagState, _x$3)) } };
       });
-      moonbitlang$core$builtin$$Map$set$80$(self.end_nodes, node, { _0: min_code_block, _1: min_tags });
+      moonbitlang$core$builtin$$Map$set$82$(self.end_nodes, node, { _0: min_code_block, _1: min_tags });
       return;
     } else {
-      moonbitlang$core$builtin$$abort$46$("error");
+      moonbitlang$core$builtin$$abort$49$("error");
       return;
     }
   } else {
     return;
   }
 }
-function jian$mbtlex$lib$automaton$$get_eps_closure$46$get_bits$112$(_env, n) {
+function jian$mbtlex$lib$automaton$$get_eps_closure$46$get_bits$113$(_env, n) {
   const result = _env._1;
   const empty_bits = _env._0;
   return moonbitlang$core$builtin$$Map$get_or_default$14$(result, n, empty_bits);
@@ -6534,22 +6679,22 @@ function jian$mbtlex$lib$automaton$$NFA$get_eps_closure(self) {
     while (true) {
       if (!moonbitlang$core$queue$$T$is_empty$7$(queue)) {
         const o = moonbitlang$core$queue$$T$unsafe_pop$7$(queue);
-        const o_bits = jian$mbtlex$lib$automaton$$get_eps_closure$46$get_bits$112$(_env, o);
-        const _arr = moonbitlang$core$builtin$$Map$get_or_default$79$(moonbitlang$core$array$$Array$op_get$58$(self.graph, o), $64$jian$47$mbtlex$47$lib$47$automaton$46$Symbol$Eps, []);
+        const o_bits = jian$mbtlex$lib$automaton$$get_eps_closure$46$get_bits$113$(_env, o);
+        const _arr = moonbitlang$core$builtin$$Map$get_or_default$81$(moonbitlang$core$array$$Array$op_get$61$(self.graph, o), $64$jian$47$mbtlex$47$lib$47$automaton$46$Symbol$Eps, []);
         const _len = _arr.length;
         let _tmp = 0;
         while (true) {
           const _i = _tmp;
           if (_i < _len) {
-            const e = moonbitlang$core$array$$Array$op_get$57$(_arr, _i);
+            const e = moonbitlang$core$array$$Array$op_get$60$(_arr, _i);
             const _x = e._0;
             const _x$2 = e._1;
-            let new_u_bits = jian$mbtlex$lib$type$$Bitset$union(jian$mbtlex$lib$automaton$$get_eps_closure$46$get_bits$112$(_env, _x), o_bits);
+            let new_u_bits = jian$mbtlex$lib$type$$Bitset$union(jian$mbtlex$lib$automaton$$get_eps_closure$46$get_bits$113$(_env, _x), o_bits);
             if (!moonbitlang$core$option$$Option$is_empty$7$(_x$2)) {
               new_u_bits = jian$mbtlex$lib$type$$Bitset$copy(new_u_bits);
               jian$mbtlex$lib$type$$Bitset$set(new_u_bits, moonbitlang$core$option$$Option$unwrap$7$(_x$2), true);
             }
-            if (moonbitlang$core$builtin$$op_notequal$47$(new_u_bits, moonbitlang$core$builtin$$Map$get$14$(result, _x))) {
+            if (moonbitlang$core$builtin$$op_notequal$50$(new_u_bits, moonbitlang$core$builtin$$Map$get$14$(result, _x))) {
               moonbitlang$core$builtin$$Map$set$14$(result, _x, new_u_bits);
               moonbitlang$core$queue$$T$push$7$(queue, _x);
             }
@@ -6567,19 +6712,19 @@ function jian$mbtlex$lib$automaton$$NFA$get_eps_closure(self) {
     return moonbitlang$core$immut$hashmap$$T$from_iter$14$(moonbitlang$core$builtin$$Map$iter$14$(result));
   });
 }
-function jian$mbtlex$lib$automaton$$from_nfa$46$get_id$113$(_env, state) {
+function jian$mbtlex$lib$automaton$$from_nfa$46$get_id$114$(_env, state) {
   const node_map = _env._3;
   const dfa = _env._2;
   const nfa = _env._1;
   const queue = _env._0;
-  return moonbitlang$core$builtin$$Map$get_or_init$84$(node_map, state, () => {
+  return moonbitlang$core$builtin$$Map$get_or_init$86$(node_map, state, () => {
     const node = jian$mbtlex$lib$automaton$$DFA$new_node(dfa);
     jian$mbtlex$lib$automaton$$DFA$register_node(dfa, nfa, node, state);
     moonbitlang$core$queue$$T$push$6$(queue, state);
     return node;
   });
 }
-function jian$mbtlex$lib$automaton$$from_nfa$46$42$bind$114$(_bind, _p) {
+function jian$mbtlex$lib$automaton$$from_nfa$46$42$bind$115$(_bind, _p) {
   return _bind((_p$2) => _p(_p$2._0));
 }
 function jian$mbtlex$lib$automaton$$DFA$from_nfa(nfa) {
@@ -6594,32 +6739,32 @@ function jian$mbtlex$lib$automaton$$DFA$from_nfa(nfa) {
   const _bind$2 = jian$mbtlex$lib$automaton$$state_canonicalize(initial_state, nfa.tag_count);
   const _x = _bind$2._0;
   const _x$2 = _bind$2._1;
-  const captures = moonbitlang$core$array$$Array$map$95$(nfa.captures, (x) => moonbitlang$core$array$$Array$map$94$(x, (y) => y._0));
+  const captures = moonbitlang$core$array$$Array$map$97$(nfa.captures, (x) => moonbitlang$core$array$$Array$map$96$(x, (y) => y._0));
   const dfa = jian$mbtlex$lib$automaton$$DFA$new(nfa.code_blocks, captures, _x$2);
-  const node_map = moonbitlang$core$builtin$$Map$new$84$(moonbitlang$core$builtin$$Map$new$46$capacity$46$default$84$());
+  const node_map = moonbitlang$core$builtin$$Map$new$86$(moonbitlang$core$builtin$$Map$new$46$capacity$46$default$86$());
   const queue = moonbitlang$core$queue$$T$new$6$();
   const _env = { _0: queue, _1: nfa, _2: dfa, _3: node_map };
-  jian$mbtlex$lib$automaton$$from_nfa$46$get_id$113$(_env, _x);
+  jian$mbtlex$lib$automaton$$from_nfa$46$get_id$114$(_env, _x);
   while (true) {
     if (!moonbitlang$core$queue$$T$is_empty$6$(queue)) {
       const cur_state = moonbitlang$core$option$$Option$unwrap$6$(moonbitlang$core$queue$$T$pop$6$(queue));
-      const from_n = moonbitlang$core$option$$Option$unwrap$7$(moonbitlang$core$builtin$$Map$get$84$(node_map, cur_state));
-      const next_states = moonbitlang$core$builtin$$Map$new$83$(moonbitlang$core$builtin$$Map$new$46$capacity$46$default$83$());
+      const from_n = moonbitlang$core$option$$Option$unwrap$7$(moonbitlang$core$builtin$$Map$get$86$(node_map, cur_state));
+      const next_states = moonbitlang$core$builtin$$Map$new$85$(moonbitlang$core$builtin$$Map$new$46$capacity$46$default$85$());
       const _bind$3 = moonbitlang$core$immut$hashmap$$T$iter$15$(cur_state);
-      jian$mbtlex$lib$automaton$$from_nfa$46$42$bind$114$(_bind$3, (node) => {
+      jian$mbtlex$lib$automaton$$from_nfa$46$42$bind$115$(_bind$3, (node) => {
         const node_tagState = moonbitlang$core$option$$Option$unwrap$20$(moonbitlang$core$immut$hashmap$$T$op_get$15$(cur_state, node));
-        const _bind$4 = moonbitlang$core$builtin$$Map$iter2$79$(moonbitlang$core$array$$Array$op_get$58$(nfa.graph, node));
+        const _bind$4 = moonbitlang$core$builtin$$Map$iter2$81$(moonbitlang$core$array$$Array$op_get$61$(nfa.graph, node));
         _bind$4((edge, targets) => {
           if (edge.$tag === 1) {
             const _EChar = edge;
             const _x$3 = _EChar._0;
-            const state_map = { val: moonbitlang$core$option$$Option$or_else$6$(moonbitlang$core$builtin$$Map$op_get$83$(next_states, _x$3), () => moonbitlang$core$immut$hashmap$$T$new$15$()) };
+            const state_map = { val: moonbitlang$core$option$$Option$or_else$6$(moonbitlang$core$builtin$$Map$op_get$85$(next_states, _x$3), () => moonbitlang$core$immut$hashmap$$T$new$15$()) };
             const _len = targets.length;
             let _tmp = 0;
             while (true) {
               const _i = _tmp;
               if (_i < _len) {
-                const pair = moonbitlang$core$array$$Array$op_get$57$(targets, _i);
+                const pair = moonbitlang$core$array$$Array$op_get$60$(targets, _i);
                 const _x$4 = pair._0;
                 const _x$5 = pair._1;
                 if (moonbitlang$core$option$$Option$is_empty$7$(_x$5)) {
@@ -6634,7 +6779,7 @@ function jian$mbtlex$lib$automaton$$DFA$from_nfa(nfa) {
                     return 1;
                   });
                 } else {
-                  moonbitlang$core$builtin$$abort$46$("error");
+                  moonbitlang$core$builtin$$abort$49$("error");
                 }
                 _tmp = _i + 1 | 0;
                 continue;
@@ -6642,18 +6787,18 @@ function jian$mbtlex$lib$automaton$$DFA$from_nfa(nfa) {
                 break;
               }
             }
-            moonbitlang$core$builtin$$Map$set$83$(next_states, _x$3, state_map.val);
+            moonbitlang$core$builtin$$Map$set$85$(next_states, _x$3, state_map.val);
           }
           return 1;
         });
         return 1;
       });
-      const _bind$4 = moonbitlang$core$builtin$$Map$iter2$83$(next_states);
+      const _bind$4 = moonbitlang$core$builtin$$Map$iter2$85$(next_states);
       _bind$4((ch, state) => {
         const _bind$5 = jian$mbtlex$lib$automaton$$state_canonicalize(state, nfa.tag_count);
         const _x$3 = _bind$5._0;
         const _x$4 = _bind$5._1;
-        const to_n = jian$mbtlex$lib$automaton$$from_nfa$46$get_id$113$(_env, _x$3);
+        const to_n = jian$mbtlex$lib$automaton$$from_nfa$46$get_id$114$(_env, _x$3);
         jian$mbtlex$lib$automaton$$DFA$add_edge(dfa, from_n, ch, _x$4, to_n);
         return 1;
       });
@@ -6665,7 +6810,7 @@ function jian$mbtlex$lib$automaton$$DFA$from_nfa(nfa) {
   return dfa;
 }
 function jian$mbtlex$lib$automaton$$NFA$add_edge(self, from, s, tag, to) {
-  moonbitlang$core$array$$Array$push$57$(moonbitlang$core$builtin$$Map$get_or_init$79$(moonbitlang$core$array$$Array$op_get$58$(self.graph, from), s, () => []), { _0: to, _1: tag });
+  moonbitlang$core$array$$Array$push$60$(moonbitlang$core$builtin$$Map$get_or_init$81$(moonbitlang$core$array$$Array$op_get$61$(self.graph, from), s, () => []), { _0: to, _1: tag });
 }
 function jian$mbtlex$lib$automaton$$NFA$add_edge$46$tag$46$default() {
   return undefined;
@@ -6673,7 +6818,7 @@ function jian$mbtlex$lib$automaton$$NFA$add_edge$46$tag$46$default() {
 function jian$mbtlex$lib$automaton$$NFA$new_node(self) {
   const new_id = self.node_count;
   self.node_count = self.node_count + 1 | 0;
-  moonbitlang$core$array$$Array$push$58$(self.graph, moonbitlang$core$builtin$$Map$new$79$(moonbitlang$core$builtin$$Map$new$46$capacity$46$default$79$()));
+  moonbitlang$core$array$$Array$push$61$(self.graph, moonbitlang$core$builtin$$Map$new$81$(moonbitlang$core$builtin$$Map$new$46$capacity$46$default$81$()));
   return (new_id + 1 | 0) === self.graph.length ? new_id : $panic();
 }
 function jian$mbtlex$lib$automaton$$NFA$register_regex_rec(self, node, re, name2tag) {
@@ -6830,10 +6975,10 @@ function jian$mbtlex$lib$automaton$$NFA$register_regex(self, node, re, code_bloc
   const final_ = jian$mbtlex$lib$automaton$$NFA$register_regex_rec(self, node, re, name2tag);
   const id = self.code_blocks.length;
   moonbitlang$core$array$$Array$push$3$(self.code_blocks, code_block);
-  moonbitlang$core$builtin$$Map$set$30$(self.end_nodes, final_, id);
+  moonbitlang$core$builtin$$Map$set$33$(self.end_nodes, final_, id);
 }
 function jian$mbtlex$lib$automaton$$NFA$new_nfa() {
-  return { graph: [moonbitlang$core$builtin$$Map$new$79$(moonbitlang$core$builtin$$Map$new$46$capacity$46$default$79$())], end_nodes: moonbitlang$core$builtin$$Map$new$30$(moonbitlang$core$builtin$$Map$new$46$capacity$46$default$30$()), code_blocks: [], captures: [], node_count: 1, tag_count: 0 };
+  return { graph: [moonbitlang$core$builtin$$Map$new$81$(moonbitlang$core$builtin$$Map$new$46$capacity$46$default$81$())], end_nodes: moonbitlang$core$builtin$$Map$new$33$(moonbitlang$core$builtin$$Map$new$46$capacity$46$default$33$()), code_blocks: [], captures: [], node_count: 1, tag_count: 0 };
 }
 function jian$mbtlex$lib$automaton$$NFA$from_rule(rule) {
   const nfa = jian$mbtlex$lib$automaton$$NFA$new_nfa();
@@ -6844,18 +6989,18 @@ function jian$mbtlex$lib$automaton$$NFA$from_rule(rule) {
   while (true) {
     const _i = _tmp;
     if (_i < _len) {
-      const pattern = moonbitlang$core$array$$Array$op_get$62$(_arr, _i);
+      const pattern = moonbitlang$core$array$$Array$op_get$65$(_arr, _i);
       const _x = pattern._0;
       const _x$2 = pattern._1;
-      const capture_names = moonbitlang$core$array$$Array$map$96$(jian$mbtlex$lib$type$$Regex$get_capture_names(_x), (name) => {
+      const capture_names = moonbitlang$core$array$$Array$map$98$(jian$mbtlex$lib$type$$Regex$get_capture_names(_x), (name) => {
         const begin_tag = nfa.tag_count;
         const end_tag = nfa.tag_count + 1 | 0;
         nfa.tag_count = nfa.tag_count + 2 | 0;
         return { _0: name, _1: { _0: begin_tag, _1: end_tag } };
       });
-      const map = moonbitlang$core$builtin$$Map$from_array$82$(capture_names);
-      jian$mbtlex$lib$automaton$$NFA$register_regex(nfa, node, _x, _x$2, (x) => moonbitlang$core$option$$Option$unwrap$61$(moonbitlang$core$builtin$$Map$get$82$(map, x)));
-      moonbitlang$core$array$$Array$push$53$(nfa.captures, capture_names);
+      const map = moonbitlang$core$builtin$$Map$from_array$84$(capture_names);
+      jian$mbtlex$lib$automaton$$NFA$register_regex(nfa, node, _x, _x$2, (x) => moonbitlang$core$option$$Option$unwrap$64$(moonbitlang$core$builtin$$Map$get$84$(map, x)));
+      moonbitlang$core$array$$Array$push$56$(nfa.captures, capture_names);
       _tmp = _i + 1 | 0;
       continue;
     } else {
@@ -6867,7 +7012,7 @@ function jian$mbtlex$lib$automaton$$NFA$from_rule(rule) {
 function jian$mbtlex$lib$automaton$$DFA$from_rule(rule) {
   return jian$mbtlex$lib$automaton$$DFA$from_nfa(jian$mbtlex$lib$automaton$$NFA$from_rule(rule));
 }
-function moonbitlang$core$builtin$$Eq$op_equal$78$(_x_110, _x_111) {
+function moonbitlang$core$builtin$$Eq$op_equal$80$(_x_110, _x_111) {
   if (_x_110.$tag === 0) {
     if (_x_111.$tag === 0) {
       return true;
@@ -6886,7 +7031,7 @@ function moonbitlang$core$builtin$$Eq$op_equal$78$(_x_110, _x_111) {
     }
   }
 }
-function moonbitlang$core$builtin$$Hash$hash_combine$78$(_x_104, _x_105) {
+function moonbitlang$core$builtin$$Hash$hash_combine$80$(_x_104, _x_105) {
   if (_x_104.$tag === 0) {
     moonbitlang$core$builtin$$Hasher$combine_int(_x_105, 0);
     return;
@@ -6916,7 +7061,7 @@ function jian$mbtlex$lib$codegen$internal$codeblock_parser$$Lexbuf$substring(sel
 function jian$mbtlex$lib$codegen$internal$codeblock_parser$$Engine$run(self, lexbuf) {
   let state = 1;
   let tagState = [];
-  const backtrace = moonbitlang$core$array$$Array$make$55$(self.code_blocks_n, undefined);
+  const backtrace = moonbitlang$core$array$$Array$make$58$(self.code_blocks_n, undefined);
   const _arr = self.start_tags;
   const _len = _arr.length;
   let _tmp = 0;
@@ -6946,7 +7091,7 @@ function jian$mbtlex$lib$codegen$internal$codeblock_parser$$Engine$run(self, lex
       } else {
         const _Some = _bind;
         const _x = _Some;
-        moonbitlang$core$array$$Array$op_set$55$(backtrace, _x._0, { _0: lexbuf.pos, _1: state, _2: tagState });
+        moonbitlang$core$array$$Array$op_set$58$(backtrace, _x._0, { _0: lexbuf.pos, _1: state, _2: tagState });
       }
       const _bind$2 = jian$mbtlex$lib$codegen$internal$codeblock_parser$$Lexbuf$next(lexbuf);
       let b;
@@ -6957,7 +7102,7 @@ function jian$mbtlex$lib$codegen$internal$codeblock_parser$$Engine$run(self, lex
         const _x = _Some;
         b = _x;
       }
-      const _func = moonbitlang$core$array$$Array$op_get$56$(self.graph, state);
+      const _func = moonbitlang$core$array$$Array$op_get$59$(self.graph, state);
       const next = _func(b);
       state = next._0;
       const new_tagState = [];
@@ -6999,7 +7144,7 @@ function jian$mbtlex$lib$codegen$internal$codeblock_parser$$Engine$run(self, lex
   while (true) {
     const _i = _tmp$2;
     if (_i < _len$2) {
-      const b = moonbitlang$core$array$$Array$op_get$55$(backtrace, _i);
+      const b = moonbitlang$core$array$$Array$op_get$58$(backtrace, _i);
       if (b === undefined) {
       } else {
         const _Some = b;
@@ -7008,7 +7153,7 @@ function jian$mbtlex$lib$codegen$internal$codeblock_parser$$Engine$run(self, lex
         const _x$3 = _x._1;
         const _x$4 = _x._2;
         lexbuf.pos = _x$2;
-        const captures = moonbitlang$core$array$$Array$map$93$(moonbitlang$core$option$$Option$unwrap$73$(moonbitlang$core$array$$Array$op_get$11$(self.end_nodes, _x$3))._1, (_param1) => {
+        const captures = moonbitlang$core$array$$Array$map$95$(moonbitlang$core$option$$Option$unwrap$76$(moonbitlang$core$array$$Array$op_get$11$(self.end_nodes, _x$3))._1, (_param1) => {
           const _x$5 = _param1._0;
           const _x$6 = _x$5._0;
           const _x$7 = _x$5._1;
@@ -7030,556 +7175,57 @@ function jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrac
   return { _0: 0, _1: [] };
 }
 function jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_state_1(input) {
-  switch (input) {
-    case 36: {
-      return { _0: 2, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_0 };
-    }
-    case 123: {
-      return { _0: 3, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 125: {
-      return { _0: 4, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 1: {
-      return { _0: 5, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 2: {
-      return { _0: 5, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 3: {
-      return { _0: 5, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 4: {
-      return { _0: 5, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 5: {
-      return { _0: 5, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 6: {
-      return { _0: 5, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 7: {
-      return { _0: 5, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 8: {
-      return { _0: 5, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 9: {
-      return { _0: 5, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 10: {
-      return { _0: 5, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 11: {
-      return { _0: 5, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 12: {
-      return { _0: 5, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 13: {
-      return { _0: 5, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 14: {
-      return { _0: 5, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 15: {
-      return { _0: 5, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 16: {
-      return { _0: 5, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 17: {
-      return { _0: 5, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 18: {
-      return { _0: 5, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 19: {
-      return { _0: 5, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 20: {
-      return { _0: 5, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 21: {
-      return { _0: 5, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 22: {
-      return { _0: 5, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 23: {
-      return { _0: 5, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 24: {
-      return { _0: 5, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 25: {
-      return { _0: 5, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 26: {
-      return { _0: 5, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 27: {
-      return { _0: 5, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 28: {
-      return { _0: 5, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 29: {
-      return { _0: 5, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 30: {
-      return { _0: 5, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 31: {
-      return { _0: 5, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 32: {
-      return { _0: 5, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 33: {
-      return { _0: 5, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 34: {
-      return { _0: 5, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 35: {
-      return { _0: 5, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 37: {
-      return { _0: 5, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 38: {
-      return { _0: 5, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 39: {
-      return { _0: 5, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 40: {
-      return { _0: 5, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 41: {
-      return { _0: 5, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 42: {
-      return { _0: 5, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 43: {
-      return { _0: 5, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 44: {
-      return { _0: 5, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 45: {
-      return { _0: 5, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 46: {
-      return { _0: 5, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 47: {
-      return { _0: 5, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 48: {
-      return { _0: 5, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 49: {
-      return { _0: 5, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 50: {
-      return { _0: 5, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 51: {
-      return { _0: 5, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 52: {
-      return { _0: 5, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 53: {
-      return { _0: 5, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 54: {
-      return { _0: 5, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 55: {
-      return { _0: 5, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 56: {
-      return { _0: 5, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 57: {
-      return { _0: 5, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 58: {
-      return { _0: 5, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 59: {
-      return { _0: 5, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 60: {
-      return { _0: 5, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 61: {
-      return { _0: 5, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 62: {
-      return { _0: 5, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 63: {
-      return { _0: 5, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 64: {
-      return { _0: 5, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 65: {
-      return { _0: 5, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 66: {
-      return { _0: 5, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 67: {
-      return { _0: 5, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 68: {
-      return { _0: 5, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 69: {
-      return { _0: 5, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 70: {
-      return { _0: 5, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 71: {
-      return { _0: 5, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 72: {
-      return { _0: 5, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 73: {
-      return { _0: 5, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 74: {
-      return { _0: 5, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 75: {
-      return { _0: 5, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 76: {
-      return { _0: 5, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 77: {
-      return { _0: 5, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 78: {
-      return { _0: 5, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 79: {
-      return { _0: 5, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 80: {
-      return { _0: 5, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 81: {
-      return { _0: 5, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 82: {
-      return { _0: 5, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 83: {
-      return { _0: 5, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 84: {
-      return { _0: 5, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 85: {
-      return { _0: 5, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 86: {
-      return { _0: 5, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 87: {
-      return { _0: 5, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 88: {
-      return { _0: 5, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 89: {
-      return { _0: 5, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 90: {
-      return { _0: 5, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 91: {
-      return { _0: 5, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 92: {
-      return { _0: 5, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 93: {
-      return { _0: 5, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 94: {
-      return { _0: 5, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 95: {
-      return { _0: 5, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 96: {
-      return { _0: 5, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 97: {
-      return { _0: 5, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 98: {
-      return { _0: 5, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 99: {
-      return { _0: 5, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 100: {
-      return { _0: 5, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 101: {
-      return { _0: 5, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 102: {
-      return { _0: 5, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 103: {
-      return { _0: 5, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 104: {
-      return { _0: 5, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 105: {
-      return { _0: 5, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 106: {
-      return { _0: 5, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 107: {
-      return { _0: 5, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 108: {
-      return { _0: 5, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 109: {
-      return { _0: 5, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 110: {
-      return { _0: 5, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 111: {
-      return { _0: 5, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 112: {
-      return { _0: 5, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 113: {
-      return { _0: 5, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 114: {
-      return { _0: 5, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 115: {
-      return { _0: 5, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 116: {
-      return { _0: 5, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 117: {
-      return { _0: 5, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 118: {
-      return { _0: 5, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 119: {
-      return { _0: 5, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 120: {
-      return { _0: 5, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 121: {
-      return { _0: 5, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 122: {
-      return { _0: 5, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 124: {
-      return { _0: 5, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 126: {
-      return { _0: 5, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 127: {
-      return { _0: 5, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    default: {
-      return { _0: 0, _1: [] };
+  if (1 <= input && input <= 35) {
+    return { _0: 5, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_0 };
+  } else {
+    if (input === 36) {
+      return { _0: 2, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
+    } else {
+      if (37 <= input && input <= 122) {
+        return { _0: 5, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_0 };
+      } else {
+        switch (input) {
+          case 123: {
+            return { _0: 3, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_0 };
+          }
+          case 124: {
+            return { _0: 5, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_0 };
+          }
+          case 125: {
+            return { _0: 4, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_0 };
+          }
+          default: {
+            return 126 <= input && input <= 127 ? { _0: 5, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_0 } : { _0: 0, _1: [] };
+          }
+        }
+      }
     }
   }
 }
 function jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_state_2(input) {
-  switch (input) {
-    case 65: {
-      return { _0: 6, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 66: {
-      return { _0: 6, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 67: {
-      return { _0: 6, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 68: {
-      return { _0: 6, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 69: {
-      return { _0: 6, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 70: {
-      return { _0: 6, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 71: {
-      return { _0: 6, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 72: {
-      return { _0: 6, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 73: {
-      return { _0: 6, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 74: {
-      return { _0: 6, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 75: {
-      return { _0: 6, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 76: {
-      return { _0: 6, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 77: {
-      return { _0: 6, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 78: {
-      return { _0: 6, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 79: {
-      return { _0: 6, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 80: {
-      return { _0: 6, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 81: {
-      return { _0: 6, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 82: {
-      return { _0: 6, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 83: {
-      return { _0: 6, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 84: {
-      return { _0: 6, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 85: {
-      return { _0: 6, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 86: {
-      return { _0: 6, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 87: {
-      return { _0: 6, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 88: {
-      return { _0: 6, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 89: {
-      return { _0: 6, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 90: {
-      return { _0: 6, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 97: {
-      return { _0: 6, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 98: {
-      return { _0: 6, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 99: {
-      return { _0: 6, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 100: {
-      return { _0: 6, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 101: {
-      return { _0: 7, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_2 };
-    }
-    case 102: {
-      return { _0: 6, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 103: {
-      return { _0: 6, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 104: {
-      return { _0: 6, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 105: {
-      return { _0: 6, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 106: {
-      return { _0: 6, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 107: {
-      return { _0: 6, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 108: {
-      return { _0: 6, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 109: {
-      return { _0: 6, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 110: {
-      return { _0: 6, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 111: {
-      return { _0: 6, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 112: {
-      return { _0: 6, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 113: {
-      return { _0: 6, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 114: {
-      return { _0: 6, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 115: {
-      return { _0: 8, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_2 };
-    }
-    case 116: {
-      return { _0: 6, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 117: {
-      return { _0: 6, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 118: {
-      return { _0: 6, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 119: {
-      return { _0: 6, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 120: {
-      return { _0: 6, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 121: {
-      return { _0: 6, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 122: {
-      return { _0: 6, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 95: {
-      return { _0: 6, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    default: {
-      return { _0: 0, _1: [] };
+  if (65 <= input && input <= 90) {
+    return { _0: 6, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_0 };
+  } else {
+    if (input === 95) {
+      return { _0: 6, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_0 };
+    } else {
+      if (97 <= input && input <= 100) {
+        return { _0: 6, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_0 };
+      } else {
+        if (input === 101) {
+          return { _0: 7, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_2 };
+        } else {
+          if (102 <= input && input <= 114) {
+            return { _0: 6, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_0 };
+          } else {
+            if (input === 115) {
+              return { _0: 8, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_2 };
+            } else {
+              return 116 <= input && input <= 122 ? { _0: 6, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_0 } : { _0: 0, _1: [] };
+            }
+          }
+        }
+      }
     }
   }
 }
@@ -7593,3702 +7239,423 @@ function jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrac
   return { _0: 0, _1: [] };
 }
 function jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_state_6(input) {
-  switch (input) {
-    case 65: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 66: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 67: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 68: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 69: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 70: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 71: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 72: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 73: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 74: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 75: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 76: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 77: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 78: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 79: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 80: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 81: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 82: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 83: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 84: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 85: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 86: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 87: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 88: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 89: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 90: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 97: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 98: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 99: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 100: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 101: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 102: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 103: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 104: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 105: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 106: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 107: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 108: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 109: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 110: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 111: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 112: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 113: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 114: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 115: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 116: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 117: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 118: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 119: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 120: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 121: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 122: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 48: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 49: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 50: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 51: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 52: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 53: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 54: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 55: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 56: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 57: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 95: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    default: {
-      return { _0: 0, _1: [] };
+  if (48 <= input && input <= 57) {
+    return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_0 };
+  } else {
+    if (65 <= input && input <= 90) {
+      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_0 };
+    } else {
+      if (input === 95) {
+        return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_0 };
+      } else {
+        return 97 <= input && input <= 122 ? { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_0 } : { _0: 0, _1: [] };
+      }
     }
   }
 }
 function jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_state_7(input) {
-  switch (input) {
-    case 65: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 66: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 67: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 68: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 69: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 70: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 71: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 72: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 73: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 74: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 75: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 76: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 77: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 78: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 79: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 80: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 81: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 82: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 83: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 84: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 85: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 86: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 87: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 88: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 89: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 90: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 97: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 98: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 99: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 100: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 101: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 102: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 103: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 104: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 105: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 106: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 107: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 108: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 109: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 110: {
-      return { _0: 10, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_2 };
-    }
-    case 111: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 112: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 113: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 114: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 115: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 116: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 117: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 118: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 119: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 120: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 121: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 122: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 48: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 49: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 50: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 51: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 52: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 53: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 54: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 55: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 56: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 57: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 95: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    default: {
-      return { _0: 0, _1: [] };
+  if (48 <= input && input <= 57) {
+    return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_0 };
+  } else {
+    if (65 <= input && input <= 90) {
+      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_0 };
+    } else {
+      if (input === 95) {
+        return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_0 };
+      } else {
+        if (97 <= input && input <= 109) {
+          return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_0 };
+        } else {
+          if (input === 110) {
+            return { _0: 10, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_2 };
+          } else {
+            return 111 <= input && input <= 122 ? { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_0 } : { _0: 0, _1: [] };
+          }
+        }
+      }
     }
   }
 }
 function jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_state_8(input) {
-  switch (input) {
-    case 116: {
-      return { _0: 11, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_2 };
-    }
-    case 65: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 66: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 67: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 68: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 69: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 70: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 71: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 72: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 73: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 74: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 75: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 76: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 77: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 78: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 79: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 80: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 81: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 82: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 83: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 84: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 85: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 86: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 87: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 88: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 89: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 90: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 97: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 98: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 99: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 100: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 101: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 102: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 103: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 104: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 105: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 106: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 107: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 108: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 109: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 110: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 111: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 112: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 113: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 114: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 115: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 117: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 118: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 119: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 120: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 121: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 122: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 48: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 49: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 50: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 51: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 52: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 53: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 54: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 55: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 56: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 57: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 95: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    default: {
-      return { _0: 0, _1: [] };
+  if (48 <= input && input <= 57) {
+    return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_0 };
+  } else {
+    if (65 <= input && input <= 90) {
+      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_0 };
+    } else {
+      if (input === 95) {
+        return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_0 };
+      } else {
+        if (97 <= input && input <= 115) {
+          return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_0 };
+        } else {
+          if (input === 116) {
+            return { _0: 11, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_2 };
+          } else {
+            return 117 <= input && input <= 122 ? { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_0 } : { _0: 0, _1: [] };
+          }
+        }
+      }
     }
   }
 }
 function jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_state_9(input) {
-  switch (input) {
-    case 65: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 66: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 67: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 68: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 69: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 70: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 71: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 72: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 73: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 74: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 75: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 76: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 77: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 78: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 79: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 80: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 81: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 82: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 83: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 84: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 85: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 86: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 87: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 88: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 89: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 90: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 97: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 98: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 99: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 100: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 101: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 102: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 103: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 104: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 105: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 106: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 107: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 108: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 109: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 110: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 111: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 112: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 113: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 114: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 115: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 116: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 117: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 118: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 119: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 120: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 121: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 122: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 48: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 49: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 50: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 51: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 52: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 53: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 54: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 55: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 56: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 57: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 95: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    default: {
-      return { _0: 0, _1: [] };
+  if (48 <= input && input <= 57) {
+    return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_0 };
+  } else {
+    if (65 <= input && input <= 90) {
+      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_0 };
+    } else {
+      if (input === 95) {
+        return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_0 };
+      } else {
+        return 97 <= input && input <= 122 ? { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_0 } : { _0: 0, _1: [] };
+      }
     }
   }
 }
 function jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_state_10(input) {
-  switch (input) {
-    case 100: {
-      return { _0: 12, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_2 };
-    }
-    case 65: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 66: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 67: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 68: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 69: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 70: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 71: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 72: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 73: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 74: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 75: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 76: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 77: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 78: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 79: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 80: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 81: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 82: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 83: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 84: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 85: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 86: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 87: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 88: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 89: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 90: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 97: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 98: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 99: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 101: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 102: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 103: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 104: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 105: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 106: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 107: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 108: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 109: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 110: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 111: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 112: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 113: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 114: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 115: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 116: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 117: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 118: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 119: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 120: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 121: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 122: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 48: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 49: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 50: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 51: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 52: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 53: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 54: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 55: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 56: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 57: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 95: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    default: {
-      return { _0: 0, _1: [] };
+  if (48 <= input && input <= 57) {
+    return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_0 };
+  } else {
+    if (65 <= input && input <= 90) {
+      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_0 };
+    } else {
+      if (input === 95) {
+        return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_0 };
+      } else {
+        if (97 <= input && input <= 99) {
+          return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_0 };
+        } else {
+          if (input === 100) {
+            return { _0: 12, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_2 };
+          } else {
+            return 101 <= input && input <= 122 ? { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_0 } : { _0: 0, _1: [] };
+          }
+        }
+      }
     }
   }
 }
 function jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_state_11(input) {
-  switch (input) {
-    case 65: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 66: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 67: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 68: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 69: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 70: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 71: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 72: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 73: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 74: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 75: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 76: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 77: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 78: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 79: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 80: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 81: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 82: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 83: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 84: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 85: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 86: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 87: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 88: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 89: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 90: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 97: {
-      return { _0: 13, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_2 };
-    }
-    case 98: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 99: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 100: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 101: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 102: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 103: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 104: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 105: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 106: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 107: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 108: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 109: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 110: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 111: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 112: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 113: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 114: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 115: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 116: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 117: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 118: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 119: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 120: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 121: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 122: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 48: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 49: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 50: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 51: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 52: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 53: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 54: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 55: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 56: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 57: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 95: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    default: {
-      return { _0: 0, _1: [] };
+  if (48 <= input && input <= 57) {
+    return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_0 };
+  } else {
+    if (65 <= input && input <= 90) {
+      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_0 };
+    } else {
+      switch (input) {
+        case 95: {
+          return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_0 };
+        }
+        case 97: {
+          return { _0: 13, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_2 };
+        }
+        default: {
+          return 98 <= input && input <= 122 ? { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_0 } : { _0: 0, _1: [] };
+        }
+      }
     }
   }
 }
 function jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_state_12(input) {
-  switch (input) {
-    case 112: {
-      return { _0: 14, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_2 };
-    }
-    case 65: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 66: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 67: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 68: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 69: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 70: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 71: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 72: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 73: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 74: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 75: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 76: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 77: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 78: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 79: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 80: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 81: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 82: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 83: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 84: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 85: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 86: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 87: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 88: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 89: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 90: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 97: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 98: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 99: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 100: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 101: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 102: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 103: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 104: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 105: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 106: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 107: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 108: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 109: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 110: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 111: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 113: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 114: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 115: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 116: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 117: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 118: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 119: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 120: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 121: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 122: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 48: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 49: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 50: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 51: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 52: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 53: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 54: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 55: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 56: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 57: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 95: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    default: {
-      return { _0: 0, _1: [] };
+  if (48 <= input && input <= 57) {
+    return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_0 };
+  } else {
+    if (65 <= input && input <= 90) {
+      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_0 };
+    } else {
+      if (input === 95) {
+        return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_0 };
+      } else {
+        if (97 <= input && input <= 111) {
+          return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_0 };
+        } else {
+          if (input === 112) {
+            return { _0: 14, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_2 };
+          } else {
+            return 113 <= input && input <= 122 ? { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_0 } : { _0: 0, _1: [] };
+          }
+        }
+      }
     }
   }
 }
 function jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_state_13(input) {
-  switch (input) {
-    case 65: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 66: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 67: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 68: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 69: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 70: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 71: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 72: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 73: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 74: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 75: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 76: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 77: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 78: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 79: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 80: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 81: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 82: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 83: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 84: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 85: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 86: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 87: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 88: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 89: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 90: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 97: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 98: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 99: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 100: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 101: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 102: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 103: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 104: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 105: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 106: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 107: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 108: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 109: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 110: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 111: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 112: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 113: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 114: {
-      return { _0: 15, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_2 };
-    }
-    case 115: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 116: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 117: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 118: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 119: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 120: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 121: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 122: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 48: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 49: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 50: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 51: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 52: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 53: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 54: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 55: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 56: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 57: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 95: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    default: {
-      return { _0: 0, _1: [] };
+  if (48 <= input && input <= 57) {
+    return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_0 };
+  } else {
+    if (65 <= input && input <= 90) {
+      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_0 };
+    } else {
+      if (input === 95) {
+        return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_0 };
+      } else {
+        if (97 <= input && input <= 113) {
+          return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_0 };
+        } else {
+          if (input === 114) {
+            return { _0: 15, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_2 };
+          } else {
+            return 115 <= input && input <= 122 ? { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_0 } : { _0: 0, _1: [] };
+          }
+        }
+      }
     }
   }
 }
 function jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_state_14(input) {
-  switch (input) {
-    case 111: {
-      return { _0: 16, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_2 };
-    }
-    case 65: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 66: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 67: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 68: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 69: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 70: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 71: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 72: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 73: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 74: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 75: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 76: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 77: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 78: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 79: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 80: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 81: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 82: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 83: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 84: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 85: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 86: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 87: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 88: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 89: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 90: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 97: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 98: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 99: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 100: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 101: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 102: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 103: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 104: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 105: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 106: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 107: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 108: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 109: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 110: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 112: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 113: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 114: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 115: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 116: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 117: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 118: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 119: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 120: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 121: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 122: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 48: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 49: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 50: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 51: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 52: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 53: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 54: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 55: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 56: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 57: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 95: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    default: {
-      return { _0: 0, _1: [] };
+  if (48 <= input && input <= 57) {
+    return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_0 };
+  } else {
+    if (65 <= input && input <= 90) {
+      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_0 };
+    } else {
+      if (input === 95) {
+        return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_0 };
+      } else {
+        if (97 <= input && input <= 110) {
+          return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_0 };
+        } else {
+          if (input === 111) {
+            return { _0: 16, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_2 };
+          } else {
+            return 112 <= input && input <= 122 ? { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_0 } : { _0: 0, _1: [] };
+          }
+        }
+      }
     }
   }
 }
 function jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_state_15(input) {
-  switch (input) {
-    case 65: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 66: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 67: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 68: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 69: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 70: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 71: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 72: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 73: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 74: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 75: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 76: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 77: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 78: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 79: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 80: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 81: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 82: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 83: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 84: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 85: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 86: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 87: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 88: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 89: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 90: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 97: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 98: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 99: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 100: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 101: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 102: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 103: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 104: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 105: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 106: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 107: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 108: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 109: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 110: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 111: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 112: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 113: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 114: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 115: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 116: {
-      return { _0: 17, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_2 };
-    }
-    case 117: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 118: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 119: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 120: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 121: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 122: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 48: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 49: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 50: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 51: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 52: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 53: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 54: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 55: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 56: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 57: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 95: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    default: {
-      return { _0: 0, _1: [] };
+  if (48 <= input && input <= 57) {
+    return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_0 };
+  } else {
+    if (65 <= input && input <= 90) {
+      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_0 };
+    } else {
+      if (input === 95) {
+        return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_0 };
+      } else {
+        if (97 <= input && input <= 115) {
+          return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_0 };
+        } else {
+          if (input === 116) {
+            return { _0: 17, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_2 };
+          } else {
+            return 117 <= input && input <= 122 ? { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_0 } : { _0: 0, _1: [] };
+          }
+        }
+      }
     }
   }
 }
 function jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_state_16(input) {
-  switch (input) {
-    case 65: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 66: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 67: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 68: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 69: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 70: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 71: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 72: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 73: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 74: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 75: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 76: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 77: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 78: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 79: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 80: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 81: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 82: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 83: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 84: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 85: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 86: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 87: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 88: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 89: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 90: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 97: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 98: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 99: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 100: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 101: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 102: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 103: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 104: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 105: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 106: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 107: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 108: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 109: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 110: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 111: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 112: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 113: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 114: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 115: {
-      return { _0: 18, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_3 };
-    }
-    case 116: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 117: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 118: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 119: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 120: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 121: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 122: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 48: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 49: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 50: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 51: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 52: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 53: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 54: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 55: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 56: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 57: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 95: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    default: {
-      return { _0: 0, _1: [] };
+  if (48 <= input && input <= 57) {
+    return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_0 };
+  } else {
+    if (65 <= input && input <= 90) {
+      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_0 };
+    } else {
+      if (input === 95) {
+        return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_0 };
+      } else {
+        if (97 <= input && input <= 114) {
+          return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_0 };
+        } else {
+          if (input === 115) {
+            return { _0: 18, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_3 };
+          } else {
+            return 116 <= input && input <= 122 ? { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_0 } : { _0: 0, _1: [] };
+          }
+        }
+      }
     }
   }
 }
 function jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_state_17(input) {
-  switch (input) {
-    case 65: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 66: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 67: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 68: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 69: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 70: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 71: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 72: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 73: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 74: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 75: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 76: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 77: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 78: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 79: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 80: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 81: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 82: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 83: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 84: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 85: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 86: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 87: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 88: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 89: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 90: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 97: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 98: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 99: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 100: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 101: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 102: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 103: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 104: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 105: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 106: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 107: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 108: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 109: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 110: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 111: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 112: {
-      return { _0: 19, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_2 };
-    }
-    case 113: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 114: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 115: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 116: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 117: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 118: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 119: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 120: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 121: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 122: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 48: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 49: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 50: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 51: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 52: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 53: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 54: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 55: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 56: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 57: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 95: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    default: {
-      return { _0: 0, _1: [] };
+  if (48 <= input && input <= 57) {
+    return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_0 };
+  } else {
+    if (65 <= input && input <= 90) {
+      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_0 };
+    } else {
+      if (input === 95) {
+        return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_0 };
+      } else {
+        if (97 <= input && input <= 111) {
+          return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_0 };
+        } else {
+          if (input === 112) {
+            return { _0: 19, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_2 };
+          } else {
+            return 113 <= input && input <= 122 ? { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_0 } : { _0: 0, _1: [] };
+          }
+        }
+      }
     }
   }
 }
 function jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_state_18(input) {
-  switch (input) {
-    case 65: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 66: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 67: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 68: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 69: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 70: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 71: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 72: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 73: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 74: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 75: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 76: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 77: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 78: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 79: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 80: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 81: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 82: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 83: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 84: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 85: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 86: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 87: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 88: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 89: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 90: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 97: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 98: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 99: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 100: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 101: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 102: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 103: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 104: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 105: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 106: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 107: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 108: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 109: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 110: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 111: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 112: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 113: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 114: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 115: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 116: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 117: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 118: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 119: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 120: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 121: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 122: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 48: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 49: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 50: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 51: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 52: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 53: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 54: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 55: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 56: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 57: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 95: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 40: {
-      return { _0: 20, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_4 };
-    }
-    default: {
-      return { _0: 0, _1: [] };
+  if (input === 40) {
+    return { _0: 20, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_4 };
+  } else {
+    if (48 <= input && input <= 57) {
+      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_0 };
+    } else {
+      if (65 <= input && input <= 90) {
+        return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_0 };
+      } else {
+        if (input === 95) {
+          return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_0 };
+        } else {
+          return 97 <= input && input <= 122 ? { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_0 } : { _0: 0, _1: [] };
+        }
+      }
     }
   }
 }
 function jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_state_19(input) {
-  switch (input) {
-    case 65: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 66: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 67: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 68: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 69: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 70: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 71: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 72: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 73: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 74: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 75: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 76: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 77: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 78: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 79: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 80: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 81: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 82: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 83: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 84: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 85: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 86: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 87: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 88: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 89: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 90: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 97: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 98: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 99: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 100: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 101: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 102: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 103: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 104: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 105: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 106: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 107: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 108: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 109: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 110: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 111: {
-      return { _0: 21, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_2 };
-    }
-    case 112: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 113: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 114: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 115: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 116: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 117: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 118: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 119: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 120: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 121: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 122: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 48: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 49: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 50: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 51: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 52: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 53: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 54: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 55: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 56: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 57: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 95: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    default: {
-      return { _0: 0, _1: [] };
+  if (48 <= input && input <= 57) {
+    return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_0 };
+  } else {
+    if (65 <= input && input <= 90) {
+      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_0 };
+    } else {
+      if (input === 95) {
+        return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_0 };
+      } else {
+        if (97 <= input && input <= 110) {
+          return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_0 };
+        } else {
+          if (input === 111) {
+            return { _0: 21, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_2 };
+          } else {
+            return 112 <= input && input <= 122 ? { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_0 } : { _0: 0, _1: [] };
+          }
+        }
+      }
     }
   }
 }
 function jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_state_20(input) {
   switch (input) {
-    case 65: {
-      return { _0: 22, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 66: {
-      return { _0: 22, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 67: {
-      return { _0: 22, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 68: {
-      return { _0: 22, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 69: {
-      return { _0: 22, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 70: {
-      return { _0: 22, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 71: {
-      return { _0: 22, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 72: {
-      return { _0: 22, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 73: {
-      return { _0: 22, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 74: {
-      return { _0: 22, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 75: {
-      return { _0: 22, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 76: {
-      return { _0: 22, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 77: {
-      return { _0: 22, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 78: {
-      return { _0: 22, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 79: {
-      return { _0: 22, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 80: {
-      return { _0: 22, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 81: {
-      return { _0: 22, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 82: {
-      return { _0: 22, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 83: {
-      return { _0: 22, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 84: {
-      return { _0: 22, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 85: {
-      return { _0: 22, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 86: {
-      return { _0: 22, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 87: {
-      return { _0: 22, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 88: {
-      return { _0: 22, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 89: {
-      return { _0: 22, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 90: {
-      return { _0: 22, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 97: {
-      return { _0: 22, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 98: {
-      return { _0: 22, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 99: {
-      return { _0: 22, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 100: {
-      return { _0: 22, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 101: {
-      return { _0: 22, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 102: {
-      return { _0: 22, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 103: {
-      return { _0: 22, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 104: {
-      return { _0: 22, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 105: {
-      return { _0: 22, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 106: {
-      return { _0: 22, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 107: {
-      return { _0: 22, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 108: {
-      return { _0: 22, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 109: {
-      return { _0: 22, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 110: {
-      return { _0: 22, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 111: {
-      return { _0: 22, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 112: {
-      return { _0: 22, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 113: {
-      return { _0: 22, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 114: {
-      return { _0: 22, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 115: {
-      return { _0: 22, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 116: {
-      return { _0: 22, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 117: {
-      return { _0: 22, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 118: {
-      return { _0: 22, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 119: {
-      return { _0: 22, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 120: {
-      return { _0: 22, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 121: {
-      return { _0: 22, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 122: {
-      return { _0: 22, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 95: {
-      return { _0: 22, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
+    case 9: {
+      return { _0: 23, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_4 };
     }
     case 32: {
       return { _0: 23, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_4 };
     }
-    case 9: {
-      return { _0: 23, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_4 };
-    }
     default: {
-      return { _0: 0, _1: [] };
+      if (65 <= input && input <= 90) {
+        return { _0: 22, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
+      } else {
+        if (input === 95) {
+          return { _0: 22, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
+        } else {
+          return 97 <= input && input <= 122 ? { _0: 22, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 } : { _0: 0, _1: [] };
+        }
+      }
     }
   }
 }
 function jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_state_21(input) {
-  switch (input) {
-    case 115: {
-      return { _0: 24, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_3 };
-    }
-    case 65: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 66: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 67: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 68: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 69: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 70: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 71: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 72: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 73: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 74: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 75: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 76: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 77: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 78: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 79: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 80: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 81: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 82: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 83: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 84: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 85: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 86: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 87: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 88: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 89: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 90: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 97: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 98: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 99: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 100: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 101: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 102: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 103: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 104: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 105: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 106: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 107: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 108: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 109: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 110: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 111: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 112: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 113: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 114: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 116: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 117: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 118: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 119: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 120: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 121: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 122: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 48: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 49: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 50: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 51: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 52: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 53: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 54: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 55: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 56: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 57: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 95: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    default: {
-      return { _0: 0, _1: [] };
+  if (48 <= input && input <= 57) {
+    return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_0 };
+  } else {
+    if (65 <= input && input <= 90) {
+      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_0 };
+    } else {
+      if (input === 95) {
+        return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_0 };
+      } else {
+        if (97 <= input && input <= 114) {
+          return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_0 };
+        } else {
+          if (input === 115) {
+            return { _0: 24, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_3 };
+          } else {
+            return 116 <= input && input <= 122 ? { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_0 } : { _0: 0, _1: [] };
+          }
+        }
+      }
     }
   }
 }
 function jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_state_22(input) {
   switch (input) {
-    case 32: {
+    case 9: {
       return { _0: 25, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_6 };
     }
-    case 9: {
+    case 32: {
       return { _0: 25, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_6 };
     }
     case 41: {
       return { _0: 26, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_7 };
     }
-    case 65: {
-      return { _0: 27, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 66: {
-      return { _0: 27, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 67: {
-      return { _0: 27, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 68: {
-      return { _0: 27, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 69: {
-      return { _0: 27, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 70: {
-      return { _0: 27, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 71: {
-      return { _0: 27, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 72: {
-      return { _0: 27, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 73: {
-      return { _0: 27, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 74: {
-      return { _0: 27, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 75: {
-      return { _0: 27, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 76: {
-      return { _0: 27, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 77: {
-      return { _0: 27, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 78: {
-      return { _0: 27, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 79: {
-      return { _0: 27, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 80: {
-      return { _0: 27, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 81: {
-      return { _0: 27, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 82: {
-      return { _0: 27, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 83: {
-      return { _0: 27, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 84: {
-      return { _0: 27, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 85: {
-      return { _0: 27, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 86: {
-      return { _0: 27, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 87: {
-      return { _0: 27, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 88: {
-      return { _0: 27, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 89: {
-      return { _0: 27, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 90: {
-      return { _0: 27, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 97: {
-      return { _0: 27, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 98: {
-      return { _0: 27, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 99: {
-      return { _0: 27, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 100: {
-      return { _0: 27, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 101: {
-      return { _0: 27, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 102: {
-      return { _0: 27, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 103: {
-      return { _0: 27, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 104: {
-      return { _0: 27, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 105: {
-      return { _0: 27, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 106: {
-      return { _0: 27, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 107: {
-      return { _0: 27, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 108: {
-      return { _0: 27, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 109: {
-      return { _0: 27, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 110: {
-      return { _0: 27, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 111: {
-      return { _0: 27, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 112: {
-      return { _0: 27, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 113: {
-      return { _0: 27, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 114: {
-      return { _0: 27, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 115: {
-      return { _0: 27, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 116: {
-      return { _0: 27, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 117: {
-      return { _0: 27, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 118: {
-      return { _0: 27, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 119: {
-      return { _0: 27, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 120: {
-      return { _0: 27, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 121: {
-      return { _0: 27, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 122: {
-      return { _0: 27, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 48: {
-      return { _0: 27, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 49: {
-      return { _0: 27, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 50: {
-      return { _0: 27, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 51: {
-      return { _0: 27, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 52: {
-      return { _0: 27, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 53: {
-      return { _0: 27, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 54: {
-      return { _0: 27, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 55: {
-      return { _0: 27, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 56: {
-      return { _0: 27, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 57: {
-      return { _0: 27, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 95: {
-      return { _0: 27, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
     default: {
-      return { _0: 0, _1: [] };
+      if (48 <= input && input <= 57) {
+        return { _0: 27, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
+      } else {
+        if (65 <= input && input <= 90) {
+          return { _0: 27, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
+        } else {
+          if (input === 95) {
+            return { _0: 27, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
+          } else {
+            return 97 <= input && input <= 122 ? { _0: 27, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 } : { _0: 0, _1: [] };
+          }
+        }
+      }
     }
   }
 }
 function jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_state_23(input) {
   switch (input) {
-    case 65: {
-      return { _0: 22, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 66: {
-      return { _0: 22, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 67: {
-      return { _0: 22, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 68: {
-      return { _0: 22, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 69: {
-      return { _0: 22, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 70: {
-      return { _0: 22, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 71: {
-      return { _0: 22, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 72: {
-      return { _0: 22, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 73: {
-      return { _0: 22, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 74: {
-      return { _0: 22, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 75: {
-      return { _0: 22, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 76: {
-      return { _0: 22, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 77: {
-      return { _0: 22, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 78: {
-      return { _0: 22, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 79: {
-      return { _0: 22, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 80: {
-      return { _0: 22, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 81: {
-      return { _0: 22, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 82: {
-      return { _0: 22, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 83: {
-      return { _0: 22, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 84: {
-      return { _0: 22, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 85: {
-      return { _0: 22, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 86: {
-      return { _0: 22, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 87: {
-      return { _0: 22, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 88: {
-      return { _0: 22, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 89: {
-      return { _0: 22, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 90: {
-      return { _0: 22, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 97: {
-      return { _0: 22, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 98: {
-      return { _0: 22, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 99: {
-      return { _0: 22, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 100: {
-      return { _0: 22, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 101: {
-      return { _0: 22, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 102: {
-      return { _0: 22, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 103: {
-      return { _0: 22, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 104: {
-      return { _0: 22, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 105: {
-      return { _0: 22, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 106: {
-      return { _0: 22, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 107: {
-      return { _0: 22, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 108: {
-      return { _0: 22, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 109: {
-      return { _0: 22, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 110: {
-      return { _0: 22, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 111: {
-      return { _0: 22, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 112: {
-      return { _0: 22, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 113: {
-      return { _0: 22, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 114: {
-      return { _0: 22, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 115: {
-      return { _0: 22, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 116: {
-      return { _0: 22, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 117: {
-      return { _0: 22, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 118: {
-      return { _0: 22, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 119: {
-      return { _0: 22, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 120: {
-      return { _0: 22, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 121: {
-      return { _0: 22, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 122: {
-      return { _0: 22, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 95: {
-      return { _0: 22, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
+    case 9: {
+      return { _0: 23, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_4 };
     }
     case 32: {
       return { _0: 23, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_4 };
     }
-    case 9: {
-      return { _0: 23, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_4 };
-    }
     default: {
-      return { _0: 0, _1: [] };
+      if (65 <= input && input <= 90) {
+        return { _0: 22, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
+      } else {
+        if (input === 95) {
+          return { _0: 22, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
+        } else {
+          return 97 <= input && input <= 122 ? { _0: 22, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 } : { _0: 0, _1: [] };
+        }
+      }
     }
   }
 }
 function jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_state_24(input) {
-  switch (input) {
-    case 65: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 66: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 67: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 68: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 69: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 70: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 71: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 72: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 73: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 74: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 75: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 76: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 77: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 78: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 79: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 80: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 81: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 82: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 83: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 84: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 85: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 86: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 87: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 88: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 89: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 90: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 97: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 98: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 99: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 100: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 101: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 102: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 103: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 104: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 105: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 106: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 107: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 108: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 109: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 110: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 111: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 112: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 113: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 114: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 115: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 116: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 117: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 118: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 119: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 120: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 121: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 122: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 48: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 49: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 50: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 51: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 52: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 53: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 54: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 55: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 56: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 57: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 95: {
-      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_1 };
-    }
-    case 40: {
-      return { _0: 20, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_4 };
-    }
-    default: {
-      return { _0: 0, _1: [] };
+  if (input === 40) {
+    return { _0: 20, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_4 };
+  } else {
+    if (48 <= input && input <= 57) {
+      return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_0 };
+    } else {
+      if (65 <= input && input <= 90) {
+        return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_0 };
+      } else {
+        if (input === 95) {
+          return { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_0 };
+        } else {
+          return 97 <= input && input <= 122 ? { _0: 9, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_0 } : { _0: 0, _1: [] };
+        }
+      }
     }
   }
 }
 function jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_state_25(input) {
   switch (input) {
-    case 32: {
+    case 9: {
       return { _0: 25, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_6 };
     }
-    case 9: {
+    case 32: {
       return { _0: 25, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_6 };
     }
     case 41: {
@@ -11304,206 +7671,29 @@ function jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrac
 }
 function jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_state_27(input) {
   switch (input) {
-    case 32: {
+    case 9: {
       return { _0: 25, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_6 };
     }
-    case 9: {
+    case 32: {
       return { _0: 25, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_6 };
     }
     case 41: {
       return { _0: 26, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_7 };
     }
-    case 65: {
-      return { _0: 27, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 66: {
-      return { _0: 27, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 67: {
-      return { _0: 27, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 68: {
-      return { _0: 27, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 69: {
-      return { _0: 27, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 70: {
-      return { _0: 27, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 71: {
-      return { _0: 27, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 72: {
-      return { _0: 27, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 73: {
-      return { _0: 27, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 74: {
-      return { _0: 27, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 75: {
-      return { _0: 27, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 76: {
-      return { _0: 27, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 77: {
-      return { _0: 27, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 78: {
-      return { _0: 27, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 79: {
-      return { _0: 27, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 80: {
-      return { _0: 27, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 81: {
-      return { _0: 27, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 82: {
-      return { _0: 27, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 83: {
-      return { _0: 27, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 84: {
-      return { _0: 27, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 85: {
-      return { _0: 27, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 86: {
-      return { _0: 27, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 87: {
-      return { _0: 27, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 88: {
-      return { _0: 27, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 89: {
-      return { _0: 27, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 90: {
-      return { _0: 27, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 97: {
-      return { _0: 27, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 98: {
-      return { _0: 27, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 99: {
-      return { _0: 27, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 100: {
-      return { _0: 27, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 101: {
-      return { _0: 27, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 102: {
-      return { _0: 27, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 103: {
-      return { _0: 27, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 104: {
-      return { _0: 27, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 105: {
-      return { _0: 27, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 106: {
-      return { _0: 27, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 107: {
-      return { _0: 27, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 108: {
-      return { _0: 27, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 109: {
-      return { _0: 27, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 110: {
-      return { _0: 27, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 111: {
-      return { _0: 27, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 112: {
-      return { _0: 27, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 113: {
-      return { _0: 27, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 114: {
-      return { _0: 27, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 115: {
-      return { _0: 27, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 116: {
-      return { _0: 27, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 117: {
-      return { _0: 27, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 118: {
-      return { _0: 27, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 119: {
-      return { _0: 27, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 120: {
-      return { _0: 27, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 121: {
-      return { _0: 27, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 122: {
-      return { _0: 27, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 48: {
-      return { _0: 27, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 49: {
-      return { _0: 27, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 50: {
-      return { _0: 27, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 51: {
-      return { _0: 27, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 52: {
-      return { _0: 27, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 53: {
-      return { _0: 27, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 54: {
-      return { _0: 27, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 55: {
-      return { _0: 27, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 56: {
-      return { _0: 27, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 57: {
-      return { _0: 27, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
-    case 95: {
-      return { _0: 27, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
-    }
     default: {
-      return { _0: 0, _1: [] };
+      if (48 <= input && input <= 57) {
+        return { _0: 27, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
+      } else {
+        if (65 <= input && input <= 90) {
+          return { _0: 27, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
+        } else {
+          if (input === 95) {
+            return { _0: 27, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 };
+          } else {
+            return 97 <= input && input <= 122 ? { _0: 27, _1: jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_5 } : { _0: 0, _1: [] };
+          }
+        }
+      }
     }
   }
 }
@@ -11525,15 +7715,15 @@ function jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrac
       }
       case 2: {
         const _x$2 = _bind._1;
-        const _bind$2 = moonbitlang$core$array$$Array$op_get$61$(_x$2, 0);
+        const _bind$2 = moonbitlang$core$array$$Array$op_get$64$(_x$2, 0);
         const _x$3 = _bind$2._0;
         const _x$4 = _bind$2._1;
         jian$mbtlex$lib$codegen$internal$codeblock_parser$$Lexbuf$substring(lexbuf$2, _x$3, _x$4);
-        const _bind$3 = moonbitlang$core$array$$Array$op_get$61$(_x$2, 1);
+        const _bind$3 = moonbitlang$core$array$$Array$op_get$64$(_x$2, 1);
         const _x$5 = _bind$3._0;
         const _x$6 = _bind$3._1;
         const t1 = jian$mbtlex$lib$codegen$internal$codeblock_parser$$Lexbuf$substring(lexbuf$2, _x$5, _x$6);
-        const _bind$4 = moonbitlang$core$array$$Array$op_get$61$(_x$2, 2);
+        const _bind$4 = moonbitlang$core$array$$Array$op_get$64$(_x$2, 2);
         const _x$7 = _bind$4._0;
         const _x$8 = _bind$4._1;
         const t2 = jian$mbtlex$lib$codegen$internal$codeblock_parser$$Lexbuf$substring(lexbuf$2, _x$7, _x$8);
@@ -11551,7 +7741,7 @@ function jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrac
             _tmp$3 = $panic();
           }
         }
-        moonbitlang$core$array$$Array$push$65$(subst$2, { start: _x$3, end: _x$4, desc: _tmp$3 });
+        moonbitlang$core$array$$Array$push$68$(subst$2, { start: _x$3, end: _x$4, desc: _tmp$3 });
         continue _L;
       }
       case 3: {
@@ -11564,7 +7754,7 @@ function jian$mbtlex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrac
         return;
       }
       default: {
-        moonbitlang$core$builtin$$abort$46$("lex: fail to match");
+        moonbitlang$core$builtin$$abort$49$("lex: fail to match");
         return;
       }
     }
@@ -11656,7 +7846,7 @@ function jian$mbtlex$lib$codegen$$rewrite_codeblock(codeblock, subst) {
   while (true) {
     const _i = _tmp;
     if (_i < _len) {
-      const item = moonbitlang$core$array$$Array$op_get$65$(subst, _i);
+      const item = moonbitlang$core$array$$Array$op_get$68$(subst, _i);
       moonbitlang$core$builtin$$StringBuilder$write_substring(buf, codeblock, last_index, item.start - last_index | 0);
       const _bind = item.desc;
       if (_bind.$tag === 0) {
@@ -11680,14 +7870,14 @@ function jian$mbtlex$lib$codegen$$rewrite_codeblock(codeblock, subst) {
   }
   return moonbitlang$core$builtin$$StringBuilder$to_string(buf);
 }
-function jian$mbtlex$lib$codegen$$group_trans$46$add$115$(_env, char, target) {
-  const last_char = _env._3;
+function jian$mbtlex$lib$codegen$$group_trans$46$add$116$(_env, char, target) {
+  const last_target = _env._3;
   const first_char = _env._2;
-  const last_target = _env._1;
-  const result = _env._0;
-  if (moonbitlang$core$builtin$$op_notequal$48$(target, last_target.val)) {
+  const result = _env._1;
+  const last_char = _env._0;
+  if (moonbitlang$core$builtin$$op_notequal$51$(target, last_target.val)) {
     if (last_char.val !== -1) {
-      moonbitlang$core$array$$Array$push$67$(result, { _0: { _0: first_char.val, _1: last_char.val }, _1: last_target.val });
+      moonbitlang$core$array$$Array$push$70$(result, { _0: { _0: first_char.val, _1: last_char.val }, _1: last_target.val });
     }
     last_target.val = target;
     first_char.val = char;
@@ -11697,18 +7887,18 @@ function jian$mbtlex$lib$codegen$$group_trans$46$add$115$(_env, char, target) {
   }
 }
 function jian$mbtlex$lib$codegen$$group_trans(trans) {
-  const result = moonbitlang$core$array$$Array$new$67$(moonbitlang$core$array$$Array$new$46$capacity$46$default$67$());
+  const result = moonbitlang$core$array$$Array$new$70$(moonbitlang$core$array$$Array$new$46$capacity$46$default$70$());
   const first_char = { val: -1 };
   const last_char = { val: -1 };
   const last_target = { val: { _0: 0, _1: [] } };
-  const _env = { _0: result, _1: last_target, _2: first_char, _3: last_char };
+  const _env = { _0: last_char, _1: result, _2: first_char, _3: last_target };
   let _tmp = 0;
   while (true) {
     const char = _tmp;
     if (char < 128) {
-      const _bind = moonbitlang$core$builtin$$Map$op_get$81$(trans, char);
+      const _bind = moonbitlang$core$builtin$$Map$op_get$83$(trans, char);
       if (_bind === undefined) {
-        jian$mbtlex$lib$codegen$$group_trans$46$add$115$(_env, char, { _0: 0, _1: [] });
+        jian$mbtlex$lib$codegen$$group_trans$46$add$116$(_env, char, { _0: 0, _1: [] });
         last_char.val = -1;
         first_char.val = char + 1 | 0;
       } else {
@@ -11716,7 +7906,7 @@ function jian$mbtlex$lib$codegen$$group_trans(trans) {
         const _x = _Some;
         const _x$2 = _x._0;
         const _x$3 = _x._1;
-        jian$mbtlex$lib$codegen$$group_trans$46$add$115$(_env, char, { _0: _x$2, _1: _x$3 });
+        jian$mbtlex$lib$codegen$$group_trans$46$add$116$(_env, char, { _0: _x$2, _1: _x$3 });
         last_char.val = char;
       }
       _tmp = char + 1 | 0;
@@ -11726,13 +7916,13 @@ function jian$mbtlex$lib$codegen$$group_trans(trans) {
     }
   }
   if (last_char.val !== -1) {
-    moonbitlang$core$array$$Array$push$67$(result, { _0: { _0: first_char.val, _1: last_char.val }, _1: last_target.val });
+    moonbitlang$core$array$$Array$push$70$(result, { _0: { _0: first_char.val, _1: last_char.val }, _1: last_target.val });
   }
   return result;
 }
-function jian$mbtlex$lib$codegen$$codegen_rule$46$get_tag_action_id$116$(_env, tag_action) {
-  const tag_action_dedup = _env._1;
-  const next_tag_action_id = _env._0;
+function jian$mbtlex$lib$codegen$$codegen_rule$46$get_tag_action_id$117$(_env, tag_action) {
+  const next_tag_action_id = _env._1;
+  const tag_action_dedup = _env._0;
   const _bind = moonbitlang$core$sorted_map$$T$op_get$24$(tag_action_dedup, tag_action);
   if (_bind === undefined) {
     const id = next_tag_action_id.val;
@@ -11748,9 +7938,11 @@ function jian$mbtlex$lib$codegen$$codegen_rule$46$get_tag_action_id$116$(_env, t
 function jian$mbtlex$lib$codegen$$codegen_rule(rule) {
   const dfa = jian$mbtlex$lib$automaton$$DFA$from_rule(rule);
   const engine = `__mbtlex_engine_${rule.name}`;
+  const next_tag_action_row_id = { val: 0 };
+  const tag_action_row_dedup = moonbitlang$core$sorted_map$$new$25$();
   const next_tag_action_id = { val: 0 };
   const tag_action_dedup = moonbitlang$core$sorted_map$$new$24$();
-  const _env = { _0: next_tag_action_id, _1: tag_action_dedup };
+  const _env = { _0: tag_action_dedup, _1: next_tag_action_id };
   const states_code = moonbitlang$core$builtin$$StringBuilder$new(moonbitlang$core$builtin$$StringBuilder$new$46$size_hint$46$default());
   const graph_code = moonbitlang$core$builtin$$StringBuilder$new(moonbitlang$core$builtin$$StringBuilder$new$46$size_hint$46$default());
   moonbitlang$core$builtin$$StringBuilder$write_string(graph_code, "[");
@@ -11760,7 +7952,7 @@ function jian$mbtlex$lib$codegen$$codegen_rule(rule) {
   while (true) {
     const _i = _tmp;
     if (_i < _len) {
-      const trans = moonbitlang$core$array$$Array$op_get$68$(_arr, _i);
+      const trans = moonbitlang$core$array$$Array$op_get$71$(_arr, _i);
       moonbitlang$core$builtin$$StringBuilder$write_string(states_code, `fn ${rule.name}_state_${moonbitlang$core$int$$Int$to_string(_i)}(input : Input) -> (State, TagAction) {\n  match input {\n`);
       const _arr$2 = jian$mbtlex$lib$codegen$$group_trans(trans);
       const _len$2 = _arr$2.length;
@@ -11768,7 +7960,7 @@ function jian$mbtlex$lib$codegen$$codegen_rule(rule) {
       while (true) {
         const _i$2 = _tmp$2;
         if (_i$2 < _len$2) {
-          const tran = moonbitlang$core$array$$Array$op_get$67$(_arr$2, _i$2);
+          const tran = moonbitlang$core$array$$Array$op_get$70$(_arr$2, _i$2);
           const _x = tran._0;
           const _x$2 = _x._0;
           const _x$3 = _x._1;
@@ -11776,9 +7968,9 @@ function jian$mbtlex$lib$codegen$$codegen_rule(rule) {
           const _x$5 = _x$4._0;
           const _x$6 = _x$4._1;
           if (_x$2 === _x$3) {
-            moonbitlang$core$builtin$$StringBuilder$write_string(states_code, `    ${moonbitlang$core$int$$Int$to_string(_x$2)} => (${moonbitlang$core$int$$Int$to_string(_x$5)}, ${rule.name}_tag_action_${moonbitlang$core$int$$Int$to_string(jian$mbtlex$lib$codegen$$codegen_rule$46$get_tag_action_id$116$(_env, _x$6))})\n`);
+            moonbitlang$core$builtin$$StringBuilder$write_string(states_code, `    ${moonbitlang$core$int$$Int$to_string(_x$2)} => (${moonbitlang$core$int$$Int$to_string(_x$5)}, ${rule.name}_tag_action_${moonbitlang$core$int$$Int$to_string(jian$mbtlex$lib$codegen$$codegen_rule$46$get_tag_action_id$117$(_env, _x$6))})\n`);
           } else {
-            moonbitlang$core$builtin$$StringBuilder$write_string(states_code, `    ${moonbitlang$core$int$$Int$to_string(_x$2)}..=${moonbitlang$core$int$$Int$to_string(_x$3)} => (${moonbitlang$core$int$$Int$to_string(_x$5)}, ${rule.name}_tag_action_${moonbitlang$core$int$$Int$to_string(jian$mbtlex$lib$codegen$$codegen_rule$46$get_tag_action_id$116$(_env, _x$6))})\n`);
+            moonbitlang$core$builtin$$StringBuilder$write_string(states_code, `    ${moonbitlang$core$int$$Int$to_string(_x$2)}..=${moonbitlang$core$int$$Int$to_string(_x$3)} => (${moonbitlang$core$int$$Int$to_string(_x$5)}, ${rule.name}_tag_action_${moonbitlang$core$int$$Int$to_string(jian$mbtlex$lib$codegen$$codegen_rule$46$get_tag_action_id$117$(_env, _x$6))})\n`);
           }
           _tmp$2 = _i$2 + 1 | 0;
           continue;
@@ -11786,7 +7978,7 @@ function jian$mbtlex$lib$codegen$$codegen_rule(rule) {
           break;
         }
       }
-      if (moonbitlang$core$builtin$$Map$size$81$(trans) < 128) {
+      if (moonbitlang$core$builtin$$Map$size$83$(trans) < 128) {
         moonbitlang$core$builtin$$StringBuilder$write_string(states_code, "    _ => (0, [])\n");
       } else {
         moonbitlang$core$builtin$$StringBuilder$write_string(states_code, "    _ => panic()\n");
@@ -11800,11 +7992,43 @@ function jian$mbtlex$lib$codegen$$codegen_rule(rule) {
     }
   }
   moonbitlang$core$builtin$$StringBuilder$write_string(graph_code, "]");
-  const end_nodes = moonbitlang$core$array$$Array$makei$11$(dfa.node_count, (i) => moonbitlang$core$builtin$$Map$get$80$(dfa.end_nodes, i));
-  const tag_actions_code = moonbitlang$core$builtin$$StringBuilder$new(moonbitlang$core$builtin$$StringBuilder$new$46$size_hint$46$default());
+  const end_nodes = moonbitlang$core$array$$Array$makei$11$(dfa.node_count, (i) => moonbitlang$core$builtin$$Map$get$82$(dfa.end_nodes, i));
+  const shared_tag_actions_code = moonbitlang$core$builtin$$StringBuilder$new(moonbitlang$core$builtin$$StringBuilder$new$46$size_hint$46$default());
   const _bind = moonbitlang$core$sorted_map$$T$iter2$24$(tag_action_dedup);
   _bind((tag_action, id) => {
-    moonbitlang$core$builtin$$StringBuilder$write_string(tag_actions_code, `let ${rule.name}_tag_action_${moonbitlang$core$int$$Int$to_string(id)} : Array[Array[Int]] = ${moonbitlang$core$builtin$$Show$to_string$105$(tag_action)}\n`);
+    const rows_code = moonbitlang$core$builtin$$StringBuilder$new(moonbitlang$core$builtin$$StringBuilder$new$46$size_hint$46$default());
+    moonbitlang$core$builtin$$StringBuilder$write_string(rows_code, "[");
+    const _len$2 = tag_action.length;
+    let _tmp$2 = 0;
+    while (true) {
+      const _i = _tmp$2;
+      if (_i < _len$2) {
+        const row = moonbitlang$core$array$$Array$op_get$10$(tag_action, _i);
+        if (_i > 0) {
+          moonbitlang$core$builtin$$StringBuilder$write_string(rows_code, ", ");
+        }
+        const _tmp$3 = rule.name;
+        const _bind$2 = moonbitlang$core$sorted_map$$T$op_get$25$(tag_action_row_dedup, row);
+        let _tmp$4;
+        if (_bind$2 === undefined) {
+          const id$2 = next_tag_action_row_id.val;
+          moonbitlang$core$sorted_map$$T$op_set$25$(tag_action_row_dedup, row, id$2);
+          next_tag_action_row_id.val = next_tag_action_row_id.val + 1 | 0;
+          _tmp$4 = id$2;
+        } else {
+          const _Some = _bind$2;
+          const _x = _Some;
+          _tmp$4 = _x;
+        }
+        moonbitlang$core$builtin$$StringBuilder$write_string(rows_code, `${_tmp$3}_tag_action_row_${moonbitlang$core$int$$Int$to_string(_tmp$4)}`);
+        _tmp$2 = _i + 1 | 0;
+        continue;
+      } else {
+        break;
+      }
+    }
+    moonbitlang$core$builtin$$StringBuilder$write_string(rows_code, "]");
+    moonbitlang$core$builtin$$StringBuilder$write_string(shared_tag_actions_code, `let ${rule.name}_tag_action_${moonbitlang$core$int$$Int$to_string(id)} : Array[Array[Int]] = ${moonbitlang$core$builtin$$StringBuilder$to_string(rows_code)}\n`);
     return 1;
   });
   const start_tags = [];
@@ -11824,42 +8048,49 @@ function jian$mbtlex$lib$codegen$$codegen_rule(rule) {
       break;
     }
   }
-  const _tmp$3 = moonbitlang$core$builtin$$StringBuilder$to_string(tag_actions_code);
-  const _tmp$4 = moonbitlang$core$builtin$$StringBuilder$to_string(states_code);
-  const _tmp$5 = `let ${engine}: Engine = { graph: ${moonbitlang$core$builtin$$StringBuilder$to_string(graph_code)}, end_nodes: ${moonbitlang$core$builtin$$Show$to_string$104$(end_nodes)}, start_tags: ${moonbitlang$core$builtin$$Show$to_string$103$(start_tags)}, code_blocks_n: ${moonbitlang$core$int$$Int$to_string(dfa.code_blocks.length)} }`;
-  const _tmp$6 = `fn ${rule.name}(`;
+  const shared_tag_action_rows_code = moonbitlang$core$builtin$$StringBuilder$new(moonbitlang$core$builtin$$StringBuilder$new$46$size_hint$46$default());
+  const _bind$2 = moonbitlang$core$sorted_map$$T$iter2$25$(tag_action_row_dedup);
+  _bind$2((tag_action_row, id) => {
+    moonbitlang$core$builtin$$StringBuilder$write_string(shared_tag_action_rows_code, `let ${rule.name}_tag_action_row_${moonbitlang$core$int$$Int$to_string(id)} : Array[Int] = ${moonbitlang$core$builtin$$Show$to_string$106$(tag_action_row)}\n`);
+    return 1;
+  });
+  const _tmp$3 = moonbitlang$core$builtin$$StringBuilder$to_string(shared_tag_action_rows_code);
+  const _tmp$4 = moonbitlang$core$builtin$$StringBuilder$to_string(shared_tag_actions_code);
+  const _tmp$5 = moonbitlang$core$builtin$$StringBuilder$to_string(states_code);
+  const _tmp$6 = `let ${engine}: Engine = { graph: ${moonbitlang$core$builtin$$StringBuilder$to_string(graph_code)}, end_nodes: ${moonbitlang$core$builtin$$Show$to_string$105$(end_nodes)}, start_tags: ${moonbitlang$core$builtin$$Show$to_string$106$(start_tags)}, code_blocks_n: ${moonbitlang$core$int$$Int$to_string(dfa.code_blocks.length)} }`;
+  const _tmp$7 = `fn ${rule.name}(`;
   const self = [];
   moonbitlang$core$array$$Array$push_iter$8$(self, moonbitlang$core$array$$Array$iter$8$(rule.vars));
   moonbitlang$core$array$$Array$push$8$(self, { identifier: "lexbuf", ty: "Lexbuf" });
-  const _lhs = moonbitlang$core$array$$Array$map$97$(self, (p) => `${p.identifier} : ${p.ty}`);
-  const _tmp$7 = moonbitlang$core$string$$String$concat(_lhs, ", ");
-  const _lhs$2 = [_tmp$6, _tmp$7, ")", "->", rule.return_type, "{"];
-  const _tmp$8 = moonbitlang$core$string$$String$concat(_lhs$2, " ");
+  const _lhs = moonbitlang$core$array$$Array$map$99$(self, (p) => `${p.identifier} : ${p.ty}`);
+  const _tmp$8 = moonbitlang$core$string$$String$concat(_lhs, ", ");
+  const _lhs$2 = [_tmp$7, _tmp$8, ")", "->", rule.return_type, "{"];
+  const _tmp$9 = moonbitlang$core$string$$String$concat(_lhs$2, " ");
   const _lhs$3 = moonbitlang$core$array$$Array$flatten$3$([[`match ${engine}.run(lexbuf) {`], moonbitlang$core$array$$Array$makei$3$(dfa.code_blocks.length, (i) => {
     const codeblock = moonbitlang$core$array$$Array$op_get$3$(dfa.code_blocks, i);
     const subst = jian$mbtlex$lib$codegen$internal$codeblock_parser$$parse_codeblock(codeblock);
-    const _lhs$4 = moonbitlang$core$array$$Array$flatten$3$([[`(${moonbitlang$core$int$$Int$to_string(i)}, __mbtlex_captures) => {`], moonbitlang$core$array$$Array$mapi$107$(moonbitlang$core$array$$Array$op_get$66$(dfa.captures, i), (i$2, name) => {
+    const _lhs$4 = moonbitlang$core$array$$Array$flatten$3$([[`(${moonbitlang$core$int$$Int$to_string(i)}, __mbtlex_captures) => {`], moonbitlang$core$array$$Array$mapi$108$(moonbitlang$core$array$$Array$op_get$69$(dfa.captures, i), (i$2, name) => {
       let inject_ignore;
-      let _tmp$9;
+      let _tmp$10;
       let _return_value;
       _L: {
         _L$2: {
           const _len$3 = subst.length;
-          let _tmp$10 = 0;
+          let _tmp$11 = 0;
           while (true) {
-            const _i = _tmp$10;
+            const _i = _tmp$11;
             if (_i < _len$3) {
-              const item = moonbitlang$core$array$$Array$op_get$65$(subst, _i);
+              const item = moonbitlang$core$array$$Array$op_get$68$(subst, _i);
               let n;
               _L$3: {
-                const _bind$2 = item.desc;
-                if (_bind$2.$tag === 0) {
-                  const _StartPosOf = _bind$2;
+                const _bind$3 = item.desc;
+                if (_bind$3.$tag === 0) {
+                  const _StartPosOf = _bind$3;
                   const _x = _StartPosOf._0;
                   n = _x;
                   break _L$3;
                 } else {
-                  const _EndPosOf = _bind$2;
+                  const _EndPosOf = _bind$3;
                   const _x = _EndPosOf._0;
                   n = _x;
                   break _L$3;
@@ -11869,18 +8100,18 @@ function jian$mbtlex$lib$codegen$$codegen_rule(rule) {
                 _return_value = true;
                 break _L$2;
               }
-              _tmp$10 = _i + 1 | 0;
+              _tmp$11 = _i + 1 | 0;
               continue;
             } else {
               break;
             }
           }
-          _tmp$9 = false;
+          _tmp$10 = false;
           break _L;
         }
-        _tmp$9 = _return_value;
+        _tmp$10 = _return_value;
       }
-      if (_tmp$9) {
+      if (_tmp$10) {
         inject_ignore = `ignore(${name})`;
       } else {
         inject_ignore = "";
@@ -11889,17 +8120,17 @@ function jian$mbtlex$lib$codegen$$codegen_rule(rule) {
     }), [jian$mbtlex$lib$codegen$$rewrite_codeblock(codeblock, subst)], ["}"]]);
     return moonbitlang$core$string$$String$concat(_lhs$4, "\n");
   }), ["_ => abort(\"lex: fail to match\")"], ["}"]]);
-  const _lhs$4 = [_tmp$3, _tmp$4, _tmp$5, _tmp$8, moonbitlang$core$string$$String$concat(_lhs$3, "\n"), "}"];
+  const _lhs$4 = [_tmp$3, _tmp$4, _tmp$5, _tmp$6, _tmp$9, moonbitlang$core$string$$String$concat(_lhs$3, "\n"), "}"];
   return moonbitlang$core$string$$String$concat(_lhs$4, "\n");
 }
 function jian$mbtlex$lib$codegen$$codegen_lex(lex) {
   const _tmp = lex.header;
-  const _lhs = moonbitlang$core$array$$Array$map$98$(lex.rules, jian$mbtlex$lib$codegen$$codegen_rule);
+  const _lhs = moonbitlang$core$array$$Array$map$100$(lex.rules, jian$mbtlex$lib$codegen$$codegen_rule);
   const _tmp$2 = moonbitlang$core$string$$String$concat(_lhs, "\n");
   const _lhs$2 = [jian$mbtlex$lib$codegen$$runtime, _tmp, _tmp$2, lex.trailer];
   return jian$mbtlex$lib$codegen$$fix_indent(moonbitlang$core$string$$String$concat(_lhs$2, "\n\n"));
 }
-function Yoorkin$trie$$T$lookup$117$(self, path) {
+function Yoorkin$trie$$T$lookup$118$(self, path) {
   let _tmp = moonbitlang$core$array$$Array$op_as_view$2$(moonbitlang$core$string$$String$to_array(path), 0, undefined);
   let _tmp$2 = self;
   while (true) {
@@ -11923,20 +8154,20 @@ function Yoorkin$trie$$T$lookup$117$(self, path) {
     }
   }
 }
-function Yoorkin$trie$$T$add$117$(self, path, value) {
-  return Yoorkin$trie$$add$46$aux$47$2990(value, moonbitlang$core$array$$Array$op_as_view$2$(moonbitlang$core$string$$String$to_array(path), 0, undefined), self);
+function Yoorkin$trie$$T$add$118$(self, path, value) {
+  return Yoorkin$trie$$add$46$aux$47$3071(value, moonbitlang$core$array$$Array$op_as_view$2$(moonbitlang$core$string$$String$to_array(path), 0, undefined), self);
 }
-function Yoorkin$trie$$add$46$aux$47$2990(value, _param1, _param2) {
+function Yoorkin$trie$$add$46$aux$47$3071(value, _param1, _param2) {
   if (moonbitlang$core$array$$ArrayView$length$2$(_param1) === 0) {
     return { value: value, forks: _param2.forks };
   } else {
     const _x = moonbitlang$core$array$$ArrayView$op_get$2$(_param1, 0);
     const _x$2 = moonbitlang$core$array$$ArrayView$op_as_view$2$(_param1, 1, moonbitlang$core$array$$ArrayView$length$2$(_param1) - 0 | 0);
-    const subtree = moonbitlang$core$option$$Option$or$41$(moonbitlang$core$immut$sorted_map$$T$op_get$21$(_param2.forks, _x), { value: undefined, forks: moonbitlang$core$immut$sorted_map$$T$empty$21$() });
-    return { value: _param2.value, forks: moonbitlang$core$immut$sorted_map$$T$add$21$(_param2.forks, _x, Yoorkin$trie$$add$46$aux$47$2990(value, _x$2, subtree)) };
+    const subtree = moonbitlang$core$option$$Option$or$44$(moonbitlang$core$immut$sorted_map$$T$op_get$21$(_param2.forks, _x), { value: undefined, forks: moonbitlang$core$immut$sorted_map$$T$empty$21$() });
+    return { value: _param2.value, forks: moonbitlang$core$immut$sorted_map$$T$add$21$(_param2.forks, _x, Yoorkin$trie$$add$46$aux$47$3071(value, _x$2, subtree)) };
   }
 }
-function Yoorkin$trie$$empty$117$() {
+function Yoorkin$trie$$empty$118$() {
   return { value: undefined, forks: moonbitlang$core$immut$sorted_map$$T$empty$21$() };
 }
 function Yoorkin$ArgParser$$interpret(trie, xs, fallback) {
@@ -11948,7 +8179,7 @@ function Yoorkin$ArgParser$$interpret(trie, xs, fallback) {
     } else {
       const _x = moonbitlang$core$array$$ArrayView$op_get$3$(_param, 0);
       const _x$2 = moonbitlang$core$array$$ArrayView$op_as_view$3$(_param, 1, moonbitlang$core$array$$ArrayView$length$3$(_param) - 0 | 0);
-      const _bind = Yoorkin$trie$$T$lookup$117$(trie, _x);
+      const _bind = Yoorkin$trie$$T$lookup$118$(trie, _x);
       if (_bind === undefined) {
         fallback(_x);
         _tmp = _x$2;
@@ -12013,25 +8244,25 @@ function Yoorkin$ArgParser$$interpret(trie, xs, fallback) {
     }
   }
 }
-function Yoorkin$ArgParser$$parse$46$aux$112$(_param1, _param2) {
+function Yoorkin$ArgParser$$parse$46$aux$113$(_param1, _param2) {
   const _x = _param1._0;
   const _x$2 = _param1._1;
   const _x$3 = _param2._0;
   const _x$4 = _param2._1;
   const _x$5 = _param2._2;
   const _x$6 = _param2._3;
-  const trie = Yoorkin$trie$$T$add$117$(Yoorkin$trie$$T$add$117$(_x, _x$3, _x$5), _x$4, _x$5);
+  const trie = Yoorkin$trie$$T$add$118$(Yoorkin$trie$$T$add$118$(_x, _x$3, _x$5), _x$4, _x$5);
   const help_msg = `${_x$2}  ${_x$3}\t${_x$4}\t${_x$6}\n`;
   return { _0: trie, _1: help_msg };
 }
 function Yoorkin$ArgParser$$parse(speclist, rest, usage_msg, argv) {
-  const _bind = moonbitlang$core$array$$Array$fold$109$(speclist, { _0: Yoorkin$trie$$empty$117$(), _1: `${usage_msg}\n options:\n` }, Yoorkin$ArgParser$$parse$46$aux$112$);
+  const _bind = moonbitlang$core$array$$Array$fold$110$(speclist, { _0: Yoorkin$trie$$empty$118$(), _1: `${usage_msg}\n options:\n` }, Yoorkin$ArgParser$$parse$46$aux$113$);
   const _x = _bind._0;
   const _x$2 = _bind._1;
   const help_spec = new $64$Yoorkin$47$ArgParser$46$Spec$Unit(() => {
     moonbitlang$core$builtin$$println$3$(_x$2);
   });
-  const trie = Yoorkin$trie$$T$add$117$(Yoorkin$trie$$T$add$117$(_x, "--help", help_spec), "-h", help_spec);
+  const trie = Yoorkin$trie$$T$add$118$(Yoorkin$trie$$T$add$118$(_x, "--help", help_spec), "-h", help_spec);
   Yoorkin$ArgParser$$interpret(trie, argv, rest);
 }
 function moonbitlang$x$sys$internal$ffi$$get_cli_args() {
@@ -12054,7 +8285,7 @@ function moonbitlang$x$fs$$IOError$to_string(self) {
   const _x = _NotFound._0;
   return `\`${_x}\` does not exist`;
 }
-function moonbitlang$core$builtin$$Show$output$102$(self, logger) {
+function moonbitlang$core$builtin$$Show$output$104$(self, logger) {
   logger.method_0(logger.self, moonbitlang$x$fs$$IOError$to_string(self));
 }
 function moonbitlang$x$fs$$write_string_to_file(path, content) {
@@ -12100,12 +8331,12 @@ function moonbitlang$x$fs$$read_file_to_string(path) {
         }
         break _L;
       }
-      lexer_spec_src = moonbitlang$core$builtin$$abort$3$(moonbitlang$core$builtin$$Show$to_string$106$(_try_err));
+      lexer_spec_src = moonbitlang$core$builtin$$abort$3$(moonbitlang$core$builtin$$Show$to_string$107$(_try_err));
     }
     const parser_buf = jian$mbtlex$lib$parser$$ParserBuf$from_string(lexer_spec_src);
     const _bind = jian$mbtlex$lib$parser$$ParserBuf$lex(parser_buf);
     if (_bind === undefined) {
-      moonbitlang$core$builtin$$abort$46$("");
+      moonbitlang$core$builtin$$abort$49$("");
       return;
     } else {
       const _Some = _bind;
@@ -12121,7 +8352,7 @@ function moonbitlang$x$fs$$read_file_to_string(path) {
       }
     }
   } else {
-    moonbitlang$core$builtin$$abort$46$("Input file is required");
+    moonbitlang$core$builtin$$abort$49$("Input file is required");
     return;
   }
 })();

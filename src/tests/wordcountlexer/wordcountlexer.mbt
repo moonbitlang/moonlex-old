@@ -103,8 +103,12 @@ pub fn run(self : Engine, lexbuf : Lexbuf) -> (Int, Array[(Int, Int)]) {
 // translate from https://ohama.github.io/ocaml/ocamllex-tutorial/examples/wordcount/
 
 
-let count_tag_action_1 : Array[Array[Int]] = [[], []]
-let count_tag_action_0 : Array[Array[Int]] = [[0], [-1]]
+let count_tag_action_row_0 : Array[Int] = []
+let count_tag_action_row_2 : Array[Int] = [-1]
+let count_tag_action_row_1 : Array[Int] = [0]
+
+let count_tag_action_1 : Array[Array[Int]] = [count_tag_action_row_0, count_tag_action_row_0]
+let count_tag_action_0 : Array[Array[Int]] = [count_tag_action_row_1, count_tag_action_row_2]
 
 fn count_state_0(input : Input) -> (State, TagAction) {
    match input {

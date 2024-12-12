@@ -101,8 +101,12 @@ pub fn run(self : Engine, lexbuf : Lexbuf) -> (Int, Array[(Int, Int)]) {
 
 
 
-let test_func_tag_action_1 : Array[Array[Int]] = [[0], []]
-let test_func_tag_action_0 : Array[Array[Int]] = [[0], [-1]]
+let test_func_tag_action_row_1 : Array[Int] = []
+let test_func_tag_action_row_2 : Array[Int] = [-1]
+let test_func_tag_action_row_0 : Array[Int] = [0]
+
+let test_func_tag_action_1 : Array[Array[Int]] = [test_func_tag_action_row_0, test_func_tag_action_row_1]
+let test_func_tag_action_0 : Array[Array[Int]] = [test_func_tag_action_row_0, test_func_tag_action_row_2]
 
 fn test_func_state_0(input : Input) -> (State, TagAction) {
    match input {

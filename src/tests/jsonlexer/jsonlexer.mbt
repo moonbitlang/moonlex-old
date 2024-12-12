@@ -122,13 +122,17 @@ type! LexError {
  }
 
 
-let token_tag_action_6 : Array[Array[Int]] = [[], [], [], [], [], []]
-let token_tag_action_0 : Array[Array[Int]] = [[], [], [], [], [0], [-1]]
-let token_tag_action_1 : Array[Array[Int]] = [[], [], [0], [-1], [0], [-1]]
-let token_tag_action_5 : Array[Array[Int]] = [[0], [], [], [], [], []]
-let token_tag_action_2 : Array[Array[Int]] = [[0], [], [], [], [0], [-1]]
-let token_tag_action_4 : Array[Array[Int]] = [[0], [-1], [], [], [], []]
-let token_tag_action_3 : Array[Array[Int]] = [[0], [-1], [], [], [0], [-1]]
+let token_tag_action_row_0 : Array[Int] = []
+let token_tag_action_row_2 : Array[Int] = [-1]
+let token_tag_action_row_1 : Array[Int] = [0]
+
+let token_tag_action_6 : Array[Array[Int]] = [token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0]
+let token_tag_action_0 : Array[Array[Int]] = [token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_1, token_tag_action_row_2]
+let token_tag_action_1 : Array[Array[Int]] = [token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_1, token_tag_action_row_2, token_tag_action_row_1, token_tag_action_row_2]
+let token_tag_action_5 : Array[Array[Int]] = [token_tag_action_row_1, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0]
+let token_tag_action_2 : Array[Array[Int]] = [token_tag_action_row_1, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_1, token_tag_action_row_2]
+let token_tag_action_4 : Array[Array[Int]] = [token_tag_action_row_1, token_tag_action_row_2, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0]
+let token_tag_action_3 : Array[Array[Int]] = [token_tag_action_row_1, token_tag_action_row_2, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_1, token_tag_action_row_2]
 
 fn token_state_0(input : Input) -> (State, TagAction) {
    match input {
@@ -435,12 +439,16 @@ fn token( lexbuf : Lexbuf ) ->  Token!LexError  {
  _ => abort("lex: fail to match")
  }
  }
-let lex_string_tag_action_0 : Array[Array[Int]] = [[], [], [], [], [], [], [0], [-1]]
-let lex_string_tag_action_1 : Array[Array[Int]] = [[], [], [], [], [0], [-1], [0], [-1]]
-let lex_string_tag_action_5 : Array[Array[Int]] = [[], [], [0], [], [], [], [], []]
-let lex_string_tag_action_3 : Array[Array[Int]] = [[], [], [0], [], [], [], [0], [-1]]
-let lex_string_tag_action_4 : Array[Array[Int]] = [[], [], [0], [-1], [], [], [], []]
-let lex_string_tag_action_2 : Array[Array[Int]] = [[0], [-1], [], [], [], [], [0], [-1]]
+let lex_string_tag_action_row_0 : Array[Int] = []
+let lex_string_tag_action_row_2 : Array[Int] = [-1]
+let lex_string_tag_action_row_1 : Array[Int] = [0]
+
+let lex_string_tag_action_0 : Array[Array[Int]] = [lex_string_tag_action_row_0, lex_string_tag_action_row_0, lex_string_tag_action_row_0, lex_string_tag_action_row_0, lex_string_tag_action_row_0, lex_string_tag_action_row_0, lex_string_tag_action_row_1, lex_string_tag_action_row_2]
+let lex_string_tag_action_1 : Array[Array[Int]] = [lex_string_tag_action_row_0, lex_string_tag_action_row_0, lex_string_tag_action_row_0, lex_string_tag_action_row_0, lex_string_tag_action_row_1, lex_string_tag_action_row_2, lex_string_tag_action_row_1, lex_string_tag_action_row_2]
+let lex_string_tag_action_5 : Array[Array[Int]] = [lex_string_tag_action_row_0, lex_string_tag_action_row_0, lex_string_tag_action_row_1, lex_string_tag_action_row_0, lex_string_tag_action_row_0, lex_string_tag_action_row_0, lex_string_tag_action_row_0, lex_string_tag_action_row_0]
+let lex_string_tag_action_3 : Array[Array[Int]] = [lex_string_tag_action_row_0, lex_string_tag_action_row_0, lex_string_tag_action_row_1, lex_string_tag_action_row_0, lex_string_tag_action_row_0, lex_string_tag_action_row_0, lex_string_tag_action_row_1, lex_string_tag_action_row_2]
+let lex_string_tag_action_4 : Array[Array[Int]] = [lex_string_tag_action_row_0, lex_string_tag_action_row_0, lex_string_tag_action_row_1, lex_string_tag_action_row_2, lex_string_tag_action_row_0, lex_string_tag_action_row_0, lex_string_tag_action_row_0, lex_string_tag_action_row_0]
+let lex_string_tag_action_2 : Array[Array[Int]] = [lex_string_tag_action_row_1, lex_string_tag_action_row_2, lex_string_tag_action_row_0, lex_string_tag_action_row_0, lex_string_tag_action_row_0, lex_string_tag_action_row_0, lex_string_tag_action_row_1, lex_string_tag_action_row_2]
 
 fn lex_string_state_0(input : Input) -> (State, TagAction) {
    match input {

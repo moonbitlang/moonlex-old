@@ -112,14 +112,18 @@ pub(all) struct SubstItem {
  }
 
 
-let scan_codeblock_rbrace_tag_action_0 : Array[Array[Int]] = [[], [], [], [], [], []]
-let scan_codeblock_rbrace_tag_action_1 : Array[Array[Int]] = [[0], [], [-1], [], [], []]
-let scan_codeblock_rbrace_tag_action_2 : Array[Array[Int]] = [[0], [], [0], [], [], []]
-let scan_codeblock_rbrace_tag_action_3 : Array[Array[Int]] = [[0], [], [0], [-1], [], []]
-let scan_codeblock_rbrace_tag_action_4 : Array[Array[Int]] = [[0], [], [0], [0], [-1], []]
-let scan_codeblock_rbrace_tag_action_5 : Array[Array[Int]] = [[0], [], [0], [0], [0], [-1]]
-let scan_codeblock_rbrace_tag_action_6 : Array[Array[Int]] = [[0], [], [0], [0], [0], [0]]
-let scan_codeblock_rbrace_tag_action_7 : Array[Array[Int]] = [[0], [-1], [0], [0], [0], [0]]
+let scan_codeblock_rbrace_tag_action_row_0 : Array[Int] = []
+let scan_codeblock_rbrace_tag_action_row_2 : Array[Int] = [-1]
+let scan_codeblock_rbrace_tag_action_row_1 : Array[Int] = [0]
+
+let scan_codeblock_rbrace_tag_action_0 : Array[Array[Int]] = [scan_codeblock_rbrace_tag_action_row_0, scan_codeblock_rbrace_tag_action_row_0, scan_codeblock_rbrace_tag_action_row_0, scan_codeblock_rbrace_tag_action_row_0, scan_codeblock_rbrace_tag_action_row_0, scan_codeblock_rbrace_tag_action_row_0]
+let scan_codeblock_rbrace_tag_action_1 : Array[Array[Int]] = [scan_codeblock_rbrace_tag_action_row_1, scan_codeblock_rbrace_tag_action_row_0, scan_codeblock_rbrace_tag_action_row_2, scan_codeblock_rbrace_tag_action_row_0, scan_codeblock_rbrace_tag_action_row_0, scan_codeblock_rbrace_tag_action_row_0]
+let scan_codeblock_rbrace_tag_action_2 : Array[Array[Int]] = [scan_codeblock_rbrace_tag_action_row_1, scan_codeblock_rbrace_tag_action_row_0, scan_codeblock_rbrace_tag_action_row_1, scan_codeblock_rbrace_tag_action_row_0, scan_codeblock_rbrace_tag_action_row_0, scan_codeblock_rbrace_tag_action_row_0]
+let scan_codeblock_rbrace_tag_action_3 : Array[Array[Int]] = [scan_codeblock_rbrace_tag_action_row_1, scan_codeblock_rbrace_tag_action_row_0, scan_codeblock_rbrace_tag_action_row_1, scan_codeblock_rbrace_tag_action_row_2, scan_codeblock_rbrace_tag_action_row_0, scan_codeblock_rbrace_tag_action_row_0]
+let scan_codeblock_rbrace_tag_action_4 : Array[Array[Int]] = [scan_codeblock_rbrace_tag_action_row_1, scan_codeblock_rbrace_tag_action_row_0, scan_codeblock_rbrace_tag_action_row_1, scan_codeblock_rbrace_tag_action_row_1, scan_codeblock_rbrace_tag_action_row_2, scan_codeblock_rbrace_tag_action_row_0]
+let scan_codeblock_rbrace_tag_action_5 : Array[Array[Int]] = [scan_codeblock_rbrace_tag_action_row_1, scan_codeblock_rbrace_tag_action_row_0, scan_codeblock_rbrace_tag_action_row_1, scan_codeblock_rbrace_tag_action_row_1, scan_codeblock_rbrace_tag_action_row_1, scan_codeblock_rbrace_tag_action_row_2]
+let scan_codeblock_rbrace_tag_action_6 : Array[Array[Int]] = [scan_codeblock_rbrace_tag_action_row_1, scan_codeblock_rbrace_tag_action_row_0, scan_codeblock_rbrace_tag_action_row_1, scan_codeblock_rbrace_tag_action_row_1, scan_codeblock_rbrace_tag_action_row_1, scan_codeblock_rbrace_tag_action_row_1]
+let scan_codeblock_rbrace_tag_action_7 : Array[Array[Int]] = [scan_codeblock_rbrace_tag_action_row_1, scan_codeblock_rbrace_tag_action_row_2, scan_codeblock_rbrace_tag_action_row_1, scan_codeblock_rbrace_tag_action_row_1, scan_codeblock_rbrace_tag_action_row_1, scan_codeblock_rbrace_tag_action_row_1]
 
 fn scan_codeblock_rbrace_state_0(input : Input) -> (State, TagAction) {
    match input {
