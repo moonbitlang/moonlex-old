@@ -108,6 +108,7 @@ enum Token {
  } derive(ToJson)
 
 
+
 let token_tag_action_0 : Array[Array[Int]] = []
 
 fn token_state_0(input : Input) -> (State, TagAction) {

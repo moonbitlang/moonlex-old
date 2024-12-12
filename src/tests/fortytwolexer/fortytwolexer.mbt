@@ -102,8 +102,12 @@ pub fn run(self : Engine, lexbuf : Lexbuf) -> (Int, Array[(Int, Int)]) {
 
 
 
-let scan_newline_tag_action_0 : Array[Array[Int]] = [[], []]
-let scan_newline_tag_action_1 : Array[Array[Int]] = [[0], [-1]]
+let scan_newline_tag_action_row_0 : Array[Int] = []
+let scan_newline_tag_action_row_2 : Array[Int] = [-1]
+let scan_newline_tag_action_row_1 : Array[Int] = [0]
+
+let scan_newline_tag_action_0 : Array[Array[Int]] = [scan_newline_tag_action_row_0, scan_newline_tag_action_row_0]
+let scan_newline_tag_action_1 : Array[Array[Int]] = [scan_newline_tag_action_row_1, scan_newline_tag_action_row_2]
 
 fn scan_newline_state_0(input : Input) -> (State, TagAction) {
    match input {
