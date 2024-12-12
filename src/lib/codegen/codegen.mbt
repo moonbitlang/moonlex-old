@@ -52,7 +52,7 @@ fn codegen_rule(rule : Rule) -> String {
 
   let states_code = StringBuilder::new()
   let graph_code = StringBuilder::new()
-  graph_code.write_string("[\n")
+  graph_code.write_string("[")
   for state_num, trans in dfa.graph {
     states_code.write_string(
       $|fn \{rule.name}_state_\{state_num}(input : Input) -> (State, TagAction) {
@@ -87,13 +87,9 @@ fn codegen_rule(rule : Rule) -> String {
       $|
       ,
     )
-    graph_code.write_string(
-      $|  \{rule.name}_state_\{state_num},
-      $|
-      ,
-    )
+    graph_code.write_string("\{rule.name}_state_\{state_num}, ")
   }
-  graph_code.write_string("]\n")
+  graph_code.write_string("]")
   let end_nodes : Array[(Int, Array[((Int, Int), (Int, Int))])?] = Array::makei(
     dfa.node_count,
     fn(i) { dfa.end_nodes.get(i) },
