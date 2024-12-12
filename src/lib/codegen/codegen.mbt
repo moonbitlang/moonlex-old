@@ -77,6 +77,20 @@ fn group_trans(
 fn codegen_rule(rule : Rule) -> String {
   let dfa = @automaton.DFA::from_rule(rule)
   let engine = "__mbtlex_engine_\{rule.name}"
+  let mut next_tag_action_row_id = 0
+  let tag_action_row_dedup = @sorted_map.new()
+  fn get_tag_action_row_id(tag_action_row : Array[Int]) -> Int {
+    match tag_action_row_dedup[tag_action_row] {
+      Some(id) => id
+      None => {
+        let id = next_tag_action_row_id
+        tag_action_row_dedup[tag_action_row] = id
+        next_tag_action_row_id += 1
+        id
+      }
+    }
+  }
+
   let mut next_tag_action_id = 0
   let tag_action_dedup = @sorted_map.new()
   fn get_tag_action_id(tag_action : @automaton.TagAction) -> Int {
@@ -143,10 +157,21 @@ fn codegen_rule(rule : Rule) -> String {
     dfa.node_count,
     fn(i) { dfa.end_nodes.get(i) },
   )
-  let tag_actions_code = StringBuilder::new()
+  let shared_tag_actions_code = StringBuilder::new()
   for tag_action, id in tag_action_dedup {
-    tag_actions_code.write_string(
-      $|let \{rule.name}_tag_action_\{id} : Array[Array[Int]] = \{tag_action}
+    let rows_code = StringBuilder::new()
+    rows_code.write_string("[")
+    for i, row in tag_action {
+      if i > 0 {
+        rows_code.write_string(", ")
+      }
+      rows_code.write_string(
+        "\{rule.name}_tag_action_row_\{get_tag_action_row_id(row)}",
+      )
+    }
+    rows_code.write_string("]")
+    shared_tag_actions_code.write_string(
+      $|let \{rule.name}_tag_action_\{id} : Array[Array[Int]] = \{rows_code}
       $|
       ,
     )
@@ -157,8 +182,17 @@ fn codegen_rule(rule : Rule) -> String {
       start_tags.push(index)
     }
   }
+  let shared_tag_action_rows_code = StringBuilder::new()
+  for tag_action_row, id in tag_action_row_dedup {
+    shared_tag_action_rows_code.write_string(
+      $|let \{rule.name}_tag_action_row_\{id} : Array[Int] = \{tag_action_row}
+      $|
+      ,
+    )
+  }
   [
-    tag_actions_code.to_string(),
+    shared_tag_action_rows_code.to_string(),
+    shared_tag_actions_code.to_string(),
     states_code.to_string(),
     "let \{engine}: Engine = { graph: \{graph_code}, end_nodes: \{end_nodes}, start_tags: \{start_tags}, code_blocks_n: \{dfa.code_blocks.length()} }",
     [
