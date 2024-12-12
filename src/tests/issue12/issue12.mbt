@@ -101,50 +101,42 @@ pub fn run(self : Engine, lexbuf : Lexbuf) -> (Int, Array[(Int, Int)]) {
 
 
 
-let tag_action_1 : Array[Array[Int]] = [[0], []]
-let tag_action_0 : Array[Array[Int]] = [[0], [-1]]
+let test_func_tag_action_1 : Array[Array[Int]] = [[0], []]
+let test_func_tag_action_0 : Array[Array[Int]] = [[0], [-1]]
 
-fn state_0(input : Input) -> (State, TagAction) {
+fn test_func_state_0(input : Input) -> (State, TagAction) {
    match input {
      _ => (0, [])
    }
  }
-fn state_1(input : Input) -> (State, TagAction) {
+fn test_func_state_1(input : Input) -> (State, TagAction) {
    match input {
-     97 => (2, tag_action_0)
+     97 => (2, test_func_tag_action_0)
      _ => (0, [])
    }
  }
-fn state_2(input : Input) -> (State, TagAction) {
+fn test_func_state_2(input : Input) -> (State, TagAction) {
    match input {
-     97 => (3, tag_action_1)
-     98 => (3, tag_action_1)
+     97..=98 => (3, test_func_tag_action_1)
      _ => (0, [])
    }
  }
-fn state_3(input : Input) -> (State, TagAction) {
+fn test_func_state_3(input : Input) -> (State, TagAction) {
    match input {
-     97 => (4, tag_action_0)
-     98 => (3, tag_action_1)
+     97 => (4, test_func_tag_action_0)
+     98 => (3, test_func_tag_action_1)
      _ => (0, [])
    }
  }
-fn state_4(input : Input) -> (State, TagAction) {
+fn test_func_state_4(input : Input) -> (State, TagAction) {
    match input {
-     97 => (4, tag_action_0)
-     98 => (3, tag_action_1)
+     97 => (4, test_func_tag_action_0)
+     98 => (3, test_func_tag_action_1)
      _ => (0, [])
    }
  }
 
-let __mbtlex_engine_test_func: Engine = { graph: [
-   state_0,
-   state_1,
-   state_2,
-   state_3,
-   state_4,
- ]
- , end_nodes: [None, None, Some((0, [((0, 0), (1, 0))])), None, Some((0, [((0, 0), (1, 0))]))], start_tags: [0], code_blocks_n: 1 }
+let __mbtlex_engine_test_func: Engine = { graph: [test_func_state_0, test_func_state_1, test_func_state_2, test_func_state_3, test_func_state_4, ], end_nodes: [None, None, Some((0, [((0, 0), (1, 0))])), None, Some((0, [((0, 0), (1, 0))]))], start_tags: [0], code_blocks_n: 1 }
 fn test_func( lexbuf : Lexbuf ) ->  String  {
  match __mbtlex_engine_test_func.run(lexbuf) {
  (0, __mbtlex_captures) => {
