@@ -9,7 +9,7 @@ struct Bitset {
 
 ///|
 pub fn new(len : Int) -> Bitset {
-  { bits: FixedArray::makei((len + 64) / 64, fn(_i) { 0 }), len }
+  { bits: FixedArray::makei((len + 32) / 32, fn(_i) { 0 }), len }
 }
 
 ///|
@@ -19,12 +19,12 @@ pub fn copy(self : Bitset) -> Bitset {
 
 ///|
 pub fn get(self : Bitset, index : Int) -> Bool {
-  (self.bits[index / 64] & (1 << (index % 64))) != 0
+  (self.bits[index / 32] & (1 << (index % 32))) != 0
 }
 
 ///|
 pub fn set(self : Bitset, index : Int, value : Bool) -> Unit {
-  let t = index / 64
+  let t = index / 32
   self.bits[t] = self.bits[t] | (value.to_int() << index)
 }
 
