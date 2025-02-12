@@ -1,20 +1,25 @@
+///|
 type Edge (Int, Int, String?) // from, to, edge_info
 
+///|
 enum NodeType {
   Normal
   Accepted
 }
 
+///|
 pub(all) struct DotGraph {
   edges : Array[Edge]
   nodes : Map[Int, (NodeType, String?)]
   name : String
 }
 
+///|
 pub fn DotGraph::new(name~ : String = "graph") -> DotGraph {
   { edges: [], nodes: Map::new(), name }
 }
 
+///|
 pub fn add_edge(
   self : DotGraph,
   from~ : Int,
@@ -24,6 +29,7 @@ pub fn add_edge(
   self.edges.push((from, to, edge_info))
 }
 
+///|
 fn set_node(
   self : DotGraph,
   node~ : Int,
@@ -33,37 +39,34 @@ fn set_node(
   self.nodes.set(node, (nodeType, label))
 }
 
+///|
 fn to_graphviz(self : DotGraph) -> String {
   [
     "digraph \{self.name} {",
-    self.edges.map(
-      fn(e) {
-        let (from, to, info) = e._
-        "\t\{from} -> \{to}" + info.map_or("", fn(t) { "[label=\{t}]" })
-      },
-    )
+    self.edges.map(fn(e) {
+      let (from, to, info) = e._
+      "\t\{from} -> \{to}" + info.map_or("", fn(t) { "[label=\{t}]" })
+    })
     |> String::concat(separator="\n"),
     self.nodes
     .iter()
-    .map(
-      fn {
-        (node, (nodeType, label)) =>
-          [
-            node.to_string(),
-            "[",
-            "shape=",
-            match nodeType {
-              Normal => "circle"
-              Accepted => "box"
-            },
-            ",",
-            "label=",
-            label.or(node.to_string()),
-            "]",
-          ]
-          |> String::concat()
-      },
-    )
+    .map(fn {
+      (node, (nodeType, label)) =>
+        [
+          node.to_string(),
+          "[",
+          "shape=",
+          match nodeType {
+            Normal => "circle"
+            Accepted => "box"
+          },
+          ",",
+          "label=",
+          label.or(node.to_string()),
+          "]",
+        ]
+        |> String::concat()
+    })
     .collect()
     |> String::concat(separator="\n"),
     "}",
@@ -71,6 +74,7 @@ fn to_graphviz(self : DotGraph) -> String {
   |> String::concat()
 }
 
+///|
 fn to_mermaid(self : DotGraph) -> String {
   let styles =
     #|---
@@ -81,27 +85,23 @@ fn to_mermaid(self : DotGraph) -> String {
     "```mermaid",
     styles,
     "graph TD",
-    self.edges.map(
-      fn(e) {
-        let (from, to, edge_info) = e._
-        from.to_string() +
-        "-->" +
-        edge_info.map_or("", fn(s) { "|" + s + "|" }) +
-        to.to_string()
-      },
-    )
+    self.edges.map(fn(e) {
+      let (from, to, edge_info) = e._
+      from.to_string() +
+      "-->" +
+      edge_info.map_or("", fn(s) { "|" + s + "|" }) +
+      to.to_string()
+    })
     |> String::concat(separator="\n"),
     self.nodes
     .iter()
-    .map(
-      fn(n) {
-        let (node, (nodeType, label)) = n
-        match nodeType {
-          Normal => "\{node}((\{label.or(node.to_string())}))"
-          Accepted => "\{node}[\{label.or(node.to_string())}]"
-        }
-      },
-    )
+    .map(fn(n) {
+      let (node, (nodeType, label)) = n
+      match nodeType {
+        Normal => "\{node}((\{label.or(node.to_string())}))"
+        Accepted => "\{node}[\{label.or(node.to_string())}]"
+      }
+    })
     .collect()
     |> String::concat(separator="\n"),
     "```",

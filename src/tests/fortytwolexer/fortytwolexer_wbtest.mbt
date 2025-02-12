@@ -1,3 +1,4 @@
+///|
 test {
   let lexbuf = Lexbuf::from_string("Hello\nworld!")
   let pos = scan_newline(lexbuf)

@@ -1,17 +1,21 @@
 // parser_buf
+///|
 struct ParserBuf {
   ptr : Int
   content : String
 } derive(Show)
 
+///|
 pub fn ParserBuf::from_string(content : String) -> ParserBuf {
   { ptr: 0, content }
 }
 
+///|
 fn step(self : ParserBuf, i~ : Int = 1) -> ParserBuf {
   { ptr: self.ptr + i, content: self.content }
 }
 
+///|
 fn peek(self : ParserBuf, i~ : Int = 0) -> Char? {
   if self.ptr + i >= self.content.length() {
     None
@@ -20,6 +24,7 @@ fn peek(self : ParserBuf, i~ : Int = 0) -> Char? {
   }
 }
 
+///|
 fn get_str(self : ParserBuf, i : Int) -> String? {
   if self.ptr + i > self.content.length() {
     None
@@ -28,6 +33,7 @@ fn get_str(self : ParserBuf, i : Int) -> String? {
   }
 }
 
+///|
 fn match_str(self : ParserBuf, pattern : String) -> ParserBuf? {
   for i = 0; i < pattern.length(); i = i + 1 {
     if self.peek(i~) != Some(pattern.get(i)) {
@@ -39,6 +45,7 @@ fn match_str(self : ParserBuf, pattern : String) -> ParserBuf? {
 }
 
 // ignore ws
+///|
 fn match_str_array(self : ParserBuf, patterns : Array[String]) -> ParserBuf? {
   let mut p = self
   for pattern in patterns {
@@ -50,6 +57,7 @@ fn match_str_array(self : ParserBuf, patterns : Array[String]) -> ParserBuf? {
   Some(p)
 }
 
+///|
 fn match_re(self : ParserBuf, re : Regex) -> (ParserBuf, String)? {
   match re {
     Underscore =>
@@ -59,33 +67,25 @@ fn match_re(self : ParserBuf, re : Regex) -> (ParserBuf, String)? {
     ReChar(ch) =>
       self
       .peek()
-      .bind(
-        fn(c) {
-          @option.when(ch == c, fn() { (self.step(), String::from_array([c])) })
-        },
-      )
+      .bind(fn(c) {
+        @option.when(ch == c, fn() { (self.step(), String::from_array([c])) })
+      })
     CharSet(ch_set) =>
       self
       .peek()
-      .bind(
-        fn(c) {
-          @option.when(
-            ch_set.contains(c),
-            fn() { (self.step(), String::from_array([c])) },
-          )
-        },
-      )
+      .bind(fn(c) {
+        @option.when(ch_set.contains(c), fn() {
+          (self.step(), String::from_array([c]))
+        })
+      })
     RevCharSet(ch_set) =>
       self
       .peek()
-      .bind(
-        fn(c) {
-          @option.unless(
-            ch_set.contains(c),
-            fn() { (self.step(), String::from_array([c])) },
-          )
-        },
-      )
+      .bind(fn(c) {
+        @option.unless(ch_set.contains(c), fn() {
+          (self.step(), String::from_array([c]))
+        })
+      })
     Repetition(re) =>
       match self.match_re(re) {
         None => None
@@ -100,13 +100,14 @@ fn match_re(self : ParserBuf, re : Regex) -> (ParserBuf, String)? {
     Concat(re1, re2) =>
       self
       .match_re(re1)
-      .bind(
-        fn { (p, s1) => p.match_re(re2).map(fn { (p, s2) => (p, s1 + s2) }) },
-      )
+      .bind(fn {
+        (p, s1) => p.match_re(re2).map(fn { (p, s2) => (p, s1 + s2) })
+      })
     Capture(_, _) => abort("Capture is not allowed in ParserBuf")
   }
 }
 
+///|
 fn repeat_match[T](
   self : ParserBuf,
   match_fn : (ParserBuf) -> (ParserBuf, T)?
@@ -122,6 +123,7 @@ fn repeat_match[T](
   }
 }
 
+///|
 fn skip_ws(self : ParserBuf) -> ParserBuf {
   for p = self {
     match p.peek() {
@@ -131,14 +133,17 @@ fn skip_ws(self : ParserBuf) -> ParserBuf {
   }
 }
 
+///|
 let digit_re : Regex = CharSet(ch_range('0', '9'))
 
+///|
 let hex_digit_re : Regex = Alter(
   digit_re,
   Alter(CharSet(ch_range('a', 'f')), CharSet(ch_range('A', 'F'))),
 )
 
 // parser
+///|
 let char_re : Regex = Concat(
   ReChar('\''),
   Alter(
@@ -156,49 +161,49 @@ let char_re : Regex = Concat(
   ),
 )
 
+///|
 fn char(self : ParserBuf) -> (ParserBuf, Char)? {
   self
   .match_re(char_re)
-  .map(
-    fn {
-      (p, str) => {
-        let ch = if str.length() == 3 {
-          str.get(1)
-        } else if str.length() == 4 {
-          match str.get(2) {
-            't' => '\t'
-            'r' => '\r'
-            'n' => '\n'
-            '\\' => '\\'
-            '\'' => '\''
-            _ => abort("unsupported escaped char")
-          }
-        } else if str.length() == 6 {
-          fn hex_char_to_int(c : Char) -> Int {
-            let c = c.to_int()
-            if c >= '0'.to_int() && c <= '9'.to_int() {
-              c - '0'.to_int()
-            } else if c >= 'a'.to_int() && c <= 'f'.to_int() {
-              c - 'a'.to_int() + 10
-            } else if c >= 'A'.to_int() && c <= 'F'.to_int() {
-              c - 'A'.to_int() + 10
-            } else {
-              abort("illegal hex char")
-            }
-          }
-
-          let c1 = hex_char_to_int(str.get(3))
-          let c2 = hex_char_to_int(str.get(4))
-          Char::from_int(c1 * 16 + c2)
-        } else {
-          abort("illegal char")
+  .map(fn {
+    (p, str) => {
+      let ch = if str.length() == 3 {
+        str.get(1)
+      } else if str.length() == 4 {
+        match str.get(2) {
+          't' => '\t'
+          'r' => '\r'
+          'n' => '\n'
+          '\\' => '\\'
+          '\'' => '\''
+          _ => abort("unsupported escaped char")
         }
-        (p, ch)
+      } else if str.length() == 6 {
+        fn hex_char_to_int(c : Char) -> Int {
+          let c = c.to_int()
+          if c >= '0'.to_int() && c <= '9'.to_int() {
+            c - '0'.to_int()
+          } else if c >= 'a'.to_int() && c <= 'f'.to_int() {
+            c - 'a'.to_int() + 10
+          } else if c >= 'A'.to_int() && c <= 'F'.to_int() {
+            c - 'A'.to_int() + 10
+          } else {
+            abort("illegal hex char")
+          }
+        }
+
+        let c1 = hex_char_to_int(str.get(3))
+        let c2 = hex_char_to_int(str.get(4))
+        Char::from_int(c1 * 16 + c2)
+      } else {
+        abort("illegal char")
       }
-    },
-  )
+      (p, ch)
+    }
+  })
 }
 
+///|
 let string_re : Regex = Concat(
   ReChar('"'),
   Concat(
@@ -207,34 +212,33 @@ let string_re : Regex = Concat(
   ),
 )
 
+///|
 fn string(self : ParserBuf) -> (ParserBuf, String)? {
   self
   .match_re(string_re)
   .map(fn { (p, s) => (p, s.substring(start=1, end=s.length() - 1)) })
 }
 
+///|
 fn charset_inside(self : ParserBuf) -> (ParserBuf, Array[Char]) {
-  let (p, arr) = self.repeat_match(
-    fn(p) {
-      let c = p.skip_ws().char()
-      c.bind(
-        fn {
-          (p, ch) => {
-            let p = p.skip_ws()
-            if p.peek() == Some('-') {
-              let ch_end = p.step().skip_ws().char()
-              ch_end.map(fn { (p, ch_end) => (p, ch_range(ch, ch_end)) })
-            } else {
-              Some((p, [ch]))
-            }
-          }
-        },
-      )
-    },
-  )
+  let (p, arr) = self.repeat_match(fn(p) {
+    let c = p.skip_ws().char()
+    c.bind(fn {
+      (p, ch) => {
+        let p = p.skip_ws()
+        if p.peek() == Some('-') {
+          let ch_end = p.step().skip_ws().char()
+          ch_end.map(fn { (p, ch_end) => (p, ch_range(ch, ch_end)) })
+        } else {
+          Some((p, [ch]))
+        }
+      }
+    })
+  })
   (p, arr.flatten())
 }
 
+///|
 fn regex_nonleftrec(self : ParserBuf) -> (ParserBuf, Regex)? {
   let p = self.skip_ws()
   match (p.peek(), p.peek(i=1)) {
@@ -259,6 +263,7 @@ fn regex_nonleftrec(self : ParserBuf) -> (ParserBuf, Regex)? {
   }
 }
 
+///|
 fn regex_leftrec(self : ParserBuf, re : Regex) -> (ParserBuf, Regex)? {
   let p = self.skip_ws()
   match p.peek() {
@@ -269,22 +274,18 @@ fn regex_leftrec(self : ParserBuf, re : Regex) -> (ParserBuf, Regex)? {
     Some('a') =>
       p
       .match_str("as")
-      .bind(
-        fn(p) {
-          p
-          .skip_ws()
-          .identifier()
-          .map(fn { (p, name) => (p, Capture(re, name)) })
-        },
-      )
+      .bind(fn(p) {
+        p.skip_ws().identifier().map(fn { (p, name) => (p, Capture(re, name)) })
+      })
     _ => Some((p, re))
   }
 }
 
+///|
 pub fn regex(self : ParserBuf) -> (ParserBuf, Regex)? {
-  let (p, arr) = self.repeat_match(
-    fn(p) { p.regex_nonleftrec().bind(fn { (p, re) => p.regex_leftrec(re) }) },
-  )
+  let (p, arr) = self.repeat_match(fn(p) {
+    p.regex_nonleftrec().bind(fn { (p, re) => p.regex_leftrec(re) })
+  })
   if arr.length() == 0 {
     None
   } else {
@@ -293,6 +294,7 @@ pub fn regex(self : ParserBuf) -> (ParserBuf, Regex)? {
   }
 }
 
+///|
 fn identifier(self : ParserBuf) -> (ParserBuf, String)? {
   let re : Regex = Concat(
     CharSet(ch_range('a', 'z')),
@@ -307,6 +309,7 @@ fn identifier(self : ParserBuf) -> (ParserBuf, String)? {
   self.match_re(re)
 }
 
+///|
 fn ty(self : ParserBuf) -> (ParserBuf, String)? {
   // read until ','  ')' or '{' and the parentheses matched
   let p = self
@@ -337,26 +340,24 @@ fn ty(self : ParserBuf) -> (ParserBuf, String)? {
   }
 }
 
+///|
 fn var_definition(self : ParserBuf) -> (ParserBuf, VarDefinition)? {
   self
   .skip_ws()
   .identifier()
-  .bind(
-    fn {
-      (p, identifier) =>
-        p
-        .skip_ws()
-        .match_str(":")
-        .bind(
-          fn(p) {
-            guard let Some((p, ty)) = p.ty() else { _ => return None }
-            Some((p, { identifier, ty }))
-          },
-        )
-    },
-  )
+  .bind(fn {
+    (p, identifier) =>
+      p
+      .skip_ws()
+      .match_str(":")
+      .bind(fn(p) {
+        guard let Some((p, ty)) = p.ty() else { _ => return None }
+        Some((p, { identifier, ty }))
+      })
+  })
 }
 
+///|
 fn code_block(self : ParserBuf) -> (ParserBuf, CodeBlock)? {
   let re : Regex = Option(
     Repetition(
@@ -366,69 +367,65 @@ fn code_block(self : ParserBuf) -> (ParserBuf, CodeBlock)? {
   self
   .skip_ws()
   .match_str("{")
-  .bind(
-    fn(p) {
-      let strbuf : Array[String] = []
-      let mut mut_p = p
-      for count = 1 {
-        match mut_p.match_re(re) {
-          None => return None
-          Some((p, str)) => {
-            strbuf.push(str)
-            match p.peek() {
-              Some('{') => {
-                strbuf.push("{")
-                mut_p = p.step()
-                continue count + 1
-              }
-              Some('}') => {
-                mut_p = p.step()
-                if count == 1 {
-                  break
-                } else {
-                  strbuf.push("}")
-                  continue count - 1
-                }
-              }
-              _ => abort("unreachable")
+  .bind(fn(p) {
+    let strbuf : Array[String] = []
+    let mut mut_p = p
+    for count = 1 {
+      match mut_p.match_re(re) {
+        None => return None
+        Some((p, str)) => {
+          strbuf.push(str)
+          match p.peek() {
+            Some('{') => {
+              strbuf.push("{")
+              mut_p = p.step()
+              continue count + 1
             }
+            Some('}') => {
+              mut_p = p.step()
+              if count == 1 {
+                break
+              } else {
+                strbuf.push("}")
+                continue count - 1
+              }
+            }
+            _ => abort("unreachable")
           }
         }
       }
-      Some((mut_p, strbuf.fold(init="", fn(a, b) { a + b })))
-    },
-  )
+    }
+    Some((mut_p, strbuf.fold(init="", fn(a, b) { a + b })))
+  })
 }
 
+///|
 fn rule(self : ParserBuf) -> (ParserBuf, Rule)? {
   guard let Some(p) = self.skip_ws().match_str("rule") else { _ => None }
   guard let Some((p, name)) = p.skip_ws().identifier() else { _ => None }
   guard let Some(p) = p.skip_ws().match_str("(") else { _ => None }
-  let (p, vars) = p.repeat_match(
-    fn(p) {
-      guard let Some((p, var)) = p.var_definition() else { _ => None }
-      guard let Some((p, _)) = p.skip_ws().match_re(Option(ReStr(","))) else {
-        _ => None
-      }
-      Some((p, var))
-    },
-  )
+  let (p, vars) = p.repeat_match(fn(p) {
+    guard let Some((p, var)) = p.var_definition() else { _ => None }
+    guard let Some((p, _)) = p.skip_ws().match_re(Option(ReStr(","))) else {
+      _ => None
+    }
+    Some((p, var))
+  })
   guard let Some(p) = p.match_str_array([")", "->"]) else { _ => None }
   guard let Some((p, return_type)) = p.ty() else { _ => None }
   guard let Some(p) = p.match_str_array(["{", "parse", "{"]) else { _ => None }
-  let (p, patterns) = p.repeat_match(
-    fn(p) {
-      let p = p.skip_ws()
-      guard let Some((p, re)) = p.regex() else { _ => None }
-      guard let Some(p) = p.skip_ws().match_str("=>") else { _ => None }
-      guard let Some((p, code_block)) = p.code_block() else { _ => None }
-      Some((p, (re, code_block)))
-    },
-  )
+  let (p, patterns) = p.repeat_match(fn(p) {
+    let p = p.skip_ws()
+    guard let Some((p, re)) = p.regex() else { _ => None }
+    guard let Some(p) = p.skip_ws().match_str("=>") else { _ => None }
+    guard let Some((p, code_block)) = p.code_block() else { _ => None }
+    Some((p, (re, code_block)))
+  })
   guard let Some(p) = p.match_str_array(["}", "}"]) else { _ => None }
   Some((p, { name, vars, return_type, patterns }))
 }
 
+///|
 pub fn lex(self : ParserBuf) -> (ParserBuf, Lex)? {
   guard let Some((p, header)) = self.code_block() else { _ => None }
   let (p, rules) = p.repeat_match(rule)
@@ -437,6 +434,7 @@ pub fn lex(self : ParserBuf) -> (ParserBuf, Lex)? {
 }
 
 // utils funcs
+///|
 fn bind_none[T](opt : T?, f : () -> T?) -> T? {
   match opt {
     None => f()
@@ -445,6 +443,7 @@ fn bind_none[T](opt : T?, f : () -> T?) -> T? {
 }
 
 // include end
+///|
 fn ch_range(ch_begin : Char, ch_end : Char) -> Array[Char] {
   let ch_begin = ch_begin.to_int()
   let ch_end = ch_end.to_int()

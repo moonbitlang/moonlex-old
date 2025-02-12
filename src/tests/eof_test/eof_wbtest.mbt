@@ -1,3 +1,4 @@
+///|
 test {
   let lexbuf = Lexbuf::from_string("%a%")
   let tokens = []
@@ -9,13 +10,10 @@ test {
       _ => ()
     }
   }
-  @json.inspect!(
-    tokens,
-    content=[
-      { "$tag": "PERCENT" },
-      { "$tag": "NON_PERCENT" },
-      { "$tag": "PERCENT_EOF" },
-      { "$tag": "EOF" },
-    ],
-  )
+  @json.inspect!(tokens, content=[
+    { "$tag": "PERCENT" },
+    { "$tag": "NON_PERCENT" },
+    { "$tag": "PERCENT_EOF" },
+    { "$tag": "EOF" },
+  ])
 }

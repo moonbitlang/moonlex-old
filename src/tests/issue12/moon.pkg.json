@@ -5,5 +5,6 @@
             "input": "issue12.mbtx",
             "output": "issue12.mbt"
         }
-    ]
+    ],
+    "warn-list": "-1"
 }

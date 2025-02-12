@@ -1,3 +1,4 @@
+///|
 test {
   let str = "Hi\nWelcome to MoonbitLex\n"
   let lexbuf = Lexbuf::from_string(str)

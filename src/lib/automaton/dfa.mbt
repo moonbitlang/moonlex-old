@@ -1,23 +1,29 @@
 // paper: NFAs with Tagged Transitions, their Conversion to Deterministic 
 //        Automata and Application to Regular Expressions
 
+///|
 pub(all) type TagAction Array[Array[Int]] derive(Show) // indexed by tag_id, rank
 // tag_i <- tag_{mat[tag][i]}, tag_{-1} = cur_pos
 
+///|
 type TagState Array[Int?] derive(Eq, Show) // indexed by tag_id
 
+///|
 impl Hash for TagState with hash_combine(self, hasher) {
   self._.each(fn(x) { hasher.combine(x) })
 }
 
+///|
 fn TagState::new(size : Int) -> TagState {
   Array::make(size, None)
 }
 
+///|
 fn copy(self : TagState) -> TagState {
   self._.copy()
 }
 
+///|
 fn update_by_tag(self : TagState, tag : Tag, rank : Int) -> TagState {
   let r = self._[tag]
   if r.is_empty() || r.unwrap() > rank {
@@ -26,6 +32,7 @@ fn update_by_tag(self : TagState, tag : Tag, rank : Int) -> TagState {
   self
 }
 
+///|
 fn update_by_tags(self : TagState, tags : @type.Bitset) -> TagState {
   for i = 0; i < self._.length(); i = i + 1 {
     if tags.get(i) {
@@ -36,6 +43,7 @@ fn update_by_tags(self : TagState, tags : @type.Bitset) -> TagState {
   self
 }
 
+///|
 fn tagState_min(self : TagState, other : TagState) -> TagState {
   for i = 0; i < self._.length(); i = i + 1 {
     match (self._[i], other._[i]) {
@@ -51,6 +59,7 @@ fn tagState_min(self : TagState, other : TagState) -> TagState {
   }
 }
 
+///|
 pub(all) struct DFA {
   graph : Array[Map[Char, (Int, TagAction)]] // indexed by node_id
   end_nodes : Map[Int, (Int, Array[((Tag, Int), (Tag, Int))])]
@@ -61,6 +70,7 @@ pub(all) struct DFA {
   mut node_count : Int
 } derive(Show)
 
+///|
 fn DFA::new(
   code_blocks : Array[CodeBlock],
   captures : Array[Array[String]],
@@ -76,6 +86,7 @@ fn DFA::new(
   }
 }
 
+///|
 fn DFA::new_node(self : DFA) -> Int {
   let id = self.node_count
   self.node_count += 1
@@ -83,6 +94,7 @@ fn DFA::new_node(self : DFA) -> Int {
   id
 }
 
+///|
 fn DFA::add_edge(
   self : DFA,
   from : Int,
@@ -93,8 +105,10 @@ fn DFA::add_edge(
   self.graph[from].set(e, (to, action))
 }
 
+///|
 typealias State = @immut/hashmap.T[Int, TagState]
 
+///|
 fn state_canonicalize(state : State, tag_count : Int) -> (State, TagAction) {
   let mat = Array::makei(tag_count, fn(_i) { [] })
   for pair in state.iter() {
@@ -105,38 +119,33 @@ fn state_canonicalize(state : State, tag_count : Int) -> (State, TagAction) {
       }
     }
   }
-  mat.map_inplace(fn(x) { @sorted_set.T::from_iter(x.iter()).to_array() })
+  mat.map_inplace(fn(x) { @sorted_set.from_iter(x.iter()).to_array() })
   let new_state = state
     .iter()
-    .map(
-      fn(pair) {
-        let tags = pair.1
-        tags._.mapi_inplace(
-          fn(tag, op) {
-            op.map(
-              fn(x) {
-                for index, y in mat[tag] {
-                  if x == y {
-                    break index
-                  }
-                } else {
-                  abort("unreachable")
-                }
-              },
-            )
-          },
-        )
-        (pair.0, tags)
-      },
-    )
-    |> State::from_iter
+    .map(fn(pair) {
+      let tags = pair.1
+      tags._.mapi_inplace(fn(tag, op) {
+        op.map(fn(x) {
+          for index, y in mat[tag] {
+            if x == y {
+              break index
+            }
+          } else {
+            abort("unreachable")
+          }
+        })
+      })
+      (pair.0, tags)
+    })
+    |> @immut/hashmap.from_iter
   (new_state, mat)
 }
 
+///|
 fn register_node(self : DFA, nfa : NFA, node : Int, os : State) -> Unit {
   let code_blocks = os
     .iter()
-    .map_option(fn(x) { nfa.end_nodes.get(x.0) })
+    .filter_map(fn(x) { nfa.end_nodes.get(x.0) })
     .collect()
   guard not(code_blocks.is_empty()) else { return () }
   let min_code_block = code_blocks.fold(init=code_blocks[0], @math.minimum)
@@ -149,15 +158,14 @@ fn register_node(self : DFA, nfa : NFA, node : Int, os : State) -> Unit {
     abort("error")
   }
   let tagState = end_nodes[0].1
-  let min_tags = nfa.captures[min_code_block].map(
-    fn {
-      (_name, (begin, end)) =>
-        ((begin, tagState._[begin].unwrap()), (end, tagState._[end].unwrap()))
-    },
-  )
+  let min_tags = nfa.captures[min_code_block].map(fn {
+    (_name, (begin, end)) =>
+      ((begin, tagState._[begin].unwrap()), (end, tagState._[end].unwrap()))
+  })
   self.end_nodes.set(node, (min_code_block, min_tags))
 }
 
+///|
 fn DFA::from_nfa(nfa : NFA) -> DFA {
   fn get_nodes(state : State) -> Iter[Int] {
     state.iter().map(fn(p) { p.0 })
@@ -168,7 +176,7 @@ fn DFA::from_nfa(nfa : NFA) -> DFA {
   let initial_state = initial
     .iter()
     .map(fn { (x, y) => (x, TagState::new(nfa.tag_count).update_by_tags(y)) })
-    |> @immut/hashmap.T::from_iter
+    |> @immut/hashmap.from_iter
   let (initial_state, start_action) = state_canonicalize(
     initial_state,
     nfa.tag_count,
@@ -176,17 +184,14 @@ fn DFA::from_nfa(nfa : NFA) -> DFA {
   let captures = nfa.captures.map(fn(x) { x.map(fn(y) { y.0 }) })
   let dfa = DFA::new(nfa.code_blocks, captures, start_action)
   let node_map : Map[State, Int] = Map::new()
-  let queue = @queue.T::new()
+  let queue = @queue.new()
   fn get_id(state : State) -> Int {
-    node_map.get_or_init(
-      state,
-      fn() {
-        let node = dfa.new_node()
-        dfa.register_node(nfa, node, state)
-        queue.push(state)
-        node
-      },
-    )
+    node_map.get_or_init(state, fn() {
+      let node = dfa.new_node()
+      dfa.register_node(nfa, node, state)
+      queue.push(state)
+      node
+    })
   }
 
   let _ = get_id(initial_state)
@@ -199,9 +204,9 @@ fn DFA::from_nfa(nfa : NFA) -> DFA {
       for edge, targets in nfa.graph[node] {
         match edge {
           EChar(c) => {
-            let mut state_map = next_states[c].or_else(
-              fn() { @immut/hashmap.T::new() },
-            )
+            let mut state_map = next_states[c].or_else(fn() {
+              @immut/hashmap.new()
+            })
             for pair in targets {
               let (step_node, tag) = pair // tag == None
               guard tag.is_empty() else {
@@ -236,6 +241,7 @@ fn DFA::from_nfa(nfa : NFA) -> DFA {
   dfa
 }
 
+///|
 pub fn DFA::from_rule(rule : Rule) -> DFA {
   DFA::from_nfa(NFA::from_rule(rule))
 }
