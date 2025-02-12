@@ -1,3 +1,4 @@
+///|
 pub(all) enum Regex {
   Underscore
   EOF
@@ -12,6 +13,7 @@ pub(all) enum Regex {
   Capture(Regex, String)
 } derive(Show, Eq, ToJson)
 
+///|
 pub fn check_legal(self : Regex) -> Bool {
   // there're two special rules for our regex
   // 1. Capture can't be inside of Option/Repetition/Alter
@@ -20,6 +22,7 @@ pub fn check_legal(self : Regex) -> Bool {
   self.check_legal_rec(Set::from_array([]), false)
 }
 
+///|
 fn check_legal_rec(
   self : Regex,
   names : Set[String],
@@ -46,6 +49,7 @@ fn check_legal_rec(
   }
 }
 
+///|
 pub fn get_capture_names(self : Regex) -> Array[String] {
   let result = self.get_capture_names_rec().collect()
   result.sort()
@@ -60,6 +64,7 @@ pub fn get_capture_names(self : Regex) -> Array[String] {
   result
 }
 
+///|
 fn get_capture_names_rec(self : Regex) -> Iter[String] {
   match self {
     Capture(re, name) => re.get_capture_names_rec().append(name)
@@ -70,13 +75,16 @@ fn get_capture_names_rec(self : Regex) -> Iter[String] {
   }
 }
 
+///|
 pub(all) struct VarDefinition {
   identifier : String
   ty : String
 } derive(Show, Eq)
 
+///|
 pub typealias CodeBlock = String
 
+///|
 pub(all) struct Rule {
   name : String
   return_type : String
@@ -84,6 +92,7 @@ pub(all) struct Rule {
   patterns : Array[(Regex, CodeBlock)]
 } derive(Show)
 
+///|
 pub(all) struct Lex {
   header : CodeBlock
   rules : Array[Rule]

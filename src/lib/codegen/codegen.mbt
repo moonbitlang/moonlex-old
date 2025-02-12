@@ -197,9 +197,9 @@ fn codegen_rule(rule : Rule) -> String {
     "let \{engine}: LexEngine = { graph: \{graph_code}, end_nodes: \{end_nodes}, start_tags: \{start_tags}, code_blocks_n: \{dfa.code_blocks.length()} }",
     [
       "fn \{rule.name}(",
-      [..rule.vars, { identifier: "lexbuf", ty: "Lexbuf" }].map(
-        fn(p) { "\{p.identifier} : \{p.ty}" },
-      )
+      [..rule.vars, { identifier: "lexbuf", ty: "Lexbuf" }].map(fn(p) {
+        "\{p.identifier} : \{p.ty}"
+      })
       |> String::concat(separator=", "),
       ")",
       "->",
@@ -209,45 +209,40 @@ fn codegen_rule(rule : Rule) -> String {
     |> String::concat(separator=" "),
     [
       ["match \{engine}.run(lexbuf) {"],
-      Array::makei(
-        dfa.code_blocks.length(),
-        fn(i) {
-          let codeblock = dfa.code_blocks[i]
-          let subst = @codeblock_parser.parse_codeblock(codeblock)
-          fn name_used_in_subst(name : String) -> Bool {
-            for item in subst {
-              match item.desc {
-                StartPosOf(n) | EndPosOf(n) => if n == name { return true }
-              }
+      Array::makei(dfa.code_blocks.length(), fn(i) {
+        let codeblock = dfa.code_blocks[i]
+        let subst = @codeblock_parser.parse_codeblock(codeblock)
+        fn name_used_in_subst(name : String) -> Bool {
+          for item in subst {
+            match item.desc {
+              StartPosOf(n) | EndPosOf(n) => if n == name { return true }
             }
-            false
           }
+          false
+        }
 
-          [
-            ["(\{i}, __mbtlex_captures) => {"],
-            dfa.captures[i].mapi(
-              fn(i, name) {
-                let inject_ignore = if name_used_in_subst(name) {
-                  "ignore(\{name})"
-                } else {
-                  ""
-                }
-                $|let (_start_pos_of_\{name}, _end_pos_of_\{name}) = __mbtlex_captures[\{i}]
-                $|let \{name}: String = lexbuf.substring(_start_pos_of_\{name}, _end_pos_of_\{name})
-                $|\{inject_ignore}
-              },
-            ),
-            [rewrite_codeblock(codeblock, subst)],
-            ["}"],
-          ]
-          |> flatten()
-          |> String::concat(separator="\n")
-        },
-      ),
+        [
+          ["(\{i}, __mbtlex_captures) => {"],
+          dfa.captures[i].mapi(fn(i, name) {
+            let inject_ignore = if name_used_in_subst(name) {
+              "ignore(\{name})"
+            } else {
+              ""
+            }
+            $|let (_start_pos_of_\{name}, _end_pos_of_\{name}) = __mbtlex_captures[\{i}]
+            $|let \{name}: String = lexbuf.substring(_start_pos_of_\{name}, _end_pos_of_\{name})
+            $|\{inject_ignore}
+          }),
+          [rewrite_codeblock(codeblock, subst)],
+          ["}"],
+        ]
+        |> Array::flatten()
+        |> String::concat(separator="\n")
+      }),
       ["_ => abort(\"lex: fail to match\")"],
       ["}"],
     ]
-    |> flatten()
+    |> Array::flatten()
     |> String::concat(separator="\n"),
     "}",
   ]

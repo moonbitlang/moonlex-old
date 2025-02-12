@@ -1,10 +1,13 @@
+///|
 pub(all) enum Symbol {
   Eps
   EChar(Char)
 } derive(Eq, Hash, Show)
 
+///|
 typealias Tag = Int
 
+///|
 pub(all) struct NFA {
   graph : Array[Map[Symbol, Array[(Int, Tag?)]]] // indexed by node_id * char
   end_nodes : Map[Int, Int] // from node_id to pattern_id
@@ -14,6 +17,7 @@ pub(all) struct NFA {
   mut tag_count : Int
 } derive(Show)
 
+///|
 fn NFA::new_nfa() -> NFA {
   {
     graph: [Map::new()],
@@ -25,6 +29,7 @@ fn NFA::new_nfa() -> NFA {
   }
 }
 
+///|
 pub fn NFA::from_rule(rule : Rule) -> NFA {
   let nfa = NFA::new_nfa()
   let node = nfa.new_node() // match starting from 1
@@ -32,14 +37,12 @@ pub fn NFA::from_rule(rule : Rule) -> NFA {
     let (re, code_block) = pattern
     let capture_names = re
       .get_capture_names()
-      .map(
-        fn(name) {
-          let begin_tag = nfa.tag_count
-          let end_tag = nfa.tag_count + 1
-          nfa.tag_count += 2
-          (name, (begin_tag, end_tag))
-        },
-      )
+      .map(fn(name) {
+        let begin_tag = nfa.tag_count
+        let end_tag = nfa.tag_count + 1
+        nfa.tag_count += 2
+        (name, (begin_tag, end_tag))
+      })
     let map = Map::from_array(capture_names)
     nfa.register_regex(node, re, code_block, fn(x) { map.get(x).unwrap() })
     nfa.captures.push(capture_names)
@@ -47,6 +50,7 @@ pub fn NFA::from_rule(rule : Rule) -> NFA {
   nfa
 }
 
+///|
 fn new_node(self : NFA) -> Int {
   let new_id = self.node_count
   self.node_count += 1
@@ -55,6 +59,7 @@ fn new_node(self : NFA) -> Int {
   new_id
 }
 
+///|
 fn add_edge(
   self : NFA,
   from : Int,
@@ -65,6 +70,7 @@ fn add_edge(
   self.graph[from].get_or_init(s, fn() { [] }).push((to, tag))
 }
 
+///|
 fn register_regex(
   self : NFA,
   node : Int,
@@ -78,6 +84,7 @@ fn register_regex(
   self.end_nodes.set(final_, id)
 }
 
+///|
 fn register_regex_rec(
   self : NFA,
   node : Int,
@@ -176,34 +183,32 @@ fn register_regex_rec(
   }
 }
 
+///|
 fn get_eps_closure(self : NFA) -> Array[@immut/hashmap.T[Int, @type.Bitset]] {
-  Array::makei(
-    self.node_count,
-    fn(x) {
-      let empty_bits = @type.Bitset::new(self.tag_count)
-      let result = Map::from_array([(x, empty_bits)])
-      fn get_bits(n : Int) -> @type.Bitset {
-        result.get_or_default(n, empty_bits)
-      }
+  Array::makei(self.node_count, fn(x) {
+    let empty_bits = @type.Bitset::new(self.tag_count)
+    let result = Map::from_array([(x, empty_bits)])
+    fn get_bits(n : Int) -> @type.Bitset {
+      result.get_or_default(n, empty_bits)
+    }
 
-      let queue = @queue.T::from_array([x])
-      while not(queue.is_empty()) {
-        let o = queue.unsafe_pop()
-        let o_bits = get_bits(o)
-        for e in self.graph[o].get_or_default(Eps, []) {
-          let (u, tag) = e
-          let mut new_u_bits = get_bits(u).union(o_bits)
-          if not(tag.is_empty()) {
-            new_u_bits = new_u_bits.copy()
-            new_u_bits.set(tag.unwrap(), true)
-          }
-          if Some(new_u_bits) != result.get(u) {
-            result.set(u, new_u_bits)
-            queue.push(u)
-          }
+    let queue = @queue.from_array([x])
+    while not(queue.is_empty()) {
+      let o = queue.unsafe_pop()
+      let o_bits = get_bits(o)
+      for e in self.graph[o].get_or_default(Eps, []) {
+        let (u, tag) = e
+        let mut new_u_bits = get_bits(u).union(o_bits)
+        if not(tag.is_empty()) {
+          new_u_bits = new_u_bits.copy()
+          new_u_bits.set(tag.unwrap(), true)
+        }
+        if Some(new_u_bits) != result.get(u) {
+          result.set(u, new_u_bits)
+          queue.push(u)
         }
       }
-      @immut/hashmap.T::from_iter(result.iter())
-    },
-  )
+    }
+    @immut/hashmap.from_iter(result.iter())
+  })
 }
