@@ -1,11 +1,14 @@
 ///|
+pub typealias T = Bitset
+
+///|
 struct Bitset {
   bits : FixedArray[Int]
   len : Int
 } derive(Eq)
 
 ///|
-pub fn Bitset::new(len : Int) -> Bitset {
+pub fn new(len : Int) -> Bitset {
   { bits: FixedArray::makei((len + 64) / 64, fn(_i) { 0 }), len }
 }
 

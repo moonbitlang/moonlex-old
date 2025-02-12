@@ -33,7 +33,7 @@ fn update_by_tag(self : TagState, tag : Tag, rank : Int) -> TagState {
 }
 
 ///|
-fn update_by_tags(self : TagState, tags : @type.Bitset) -> TagState {
+fn update_by_tags(self : TagState, tags : @bitset.T) -> TagState {
   for i = 0; i < self._.length(); i = i + 1 {
     if tags.get(i) {
       let _ = self.update_by_tag(i, -1)

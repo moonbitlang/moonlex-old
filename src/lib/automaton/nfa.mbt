@@ -184,11 +184,11 @@ fn register_regex_rec(
 }
 
 ///|
-fn get_eps_closure(self : NFA) -> Array[@immut/hashmap.T[Int, @type.Bitset]] {
+fn get_eps_closure(self : NFA) -> Array[@immut/hashmap.T[Int, @bitset.T]] {
   Array::makei(self.node_count, fn(x) {
-    let empty_bits = @type.Bitset::new(self.tag_count)
+    let empty_bits = @bitset.new(self.tag_count)
     let result = Map::from_array([(x, empty_bits)])
-    fn get_bits(n : Int) -> @type.Bitset {
+    fn get_bits(n : Int) -> @bitset.T {
       result.get_or_default(n, empty_bits)
     }
 

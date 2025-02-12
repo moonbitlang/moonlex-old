@@ -1,5 +1,6 @@
 {
   "import": [
-    "jian/mbtlex/lib/type"
+    "jian/mbtlex/lib/type",
+    "jian/mbtlex/lib/util/bitset"
   ]
 }
