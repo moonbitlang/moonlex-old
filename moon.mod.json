@@ -1,6 +1,6 @@
 {
   "name": "moonbitlang/lex",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "deps": {
     "Yoorkin/ArgParser": "0.1.8",
     "moonbitlang/x": "0.4.19"
@@ -13,6 +13,7 @@
   "source": "src",
   "include": [
     "src",
+    "boot",
     "LICENSE",
     "README.md",
     "moon.mod.json"
