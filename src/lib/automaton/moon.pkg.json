@@ -1,6 +1,6 @@
 {
   "import": [
-    "jian/mbtlex/lib/type",
-    "jian/mbtlex/lib/util/bitset"
+    "moonbitlang/lex/lib/type",
+    "moonbitlang/lex/lib/util/bitset"
   ]
 }

@@ -1,7 +1,7 @@
 {
   "import": [
-    "jian/mbtlex/lib/type",
-    "jian/mbtlex/lib/automaton",
-    "jian/mbtlex/lib/parser"
+    "moonbitlang/lex/lib/type",
+    "moonbitlang/lex/lib/automaton",
+    "moonbitlang/lex/lib/parser"
   ]
 }

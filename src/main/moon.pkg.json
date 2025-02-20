@@ -1,9 +1,9 @@
 {
   "is-main": true,
   "import": [
-    "jian/mbtlex/lib/type",
-    "jian/mbtlex/lib/parser",
-    "jian/mbtlex/lib/codegen",
+    "moonbitlang/lex/lib/type",
+    "moonbitlang/lex/lib/parser",
+    "moonbitlang/lex/lib/codegen",
     "Yoorkin/ArgParser",
     "moonbitlang/x/sys",
     "moonbitlang/x/fs"
