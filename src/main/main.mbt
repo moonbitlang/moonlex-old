@@ -29,6 +29,7 @@ fn main {
   let lexer_spec_src = @fs.read_file_to_string?(input_file.val).unwrap()
   let parser_buf = @parser.ParserBuf::from_string(lexer_spec_src)
   guard let Some((_, lex)) = parser_buf.lex() else { _ => abort("") }
+  let lex = lex.eliminate_named()
   let output = @codegen.codegen_lex(lex)
   if output_file.val == "" {
     println(output)
