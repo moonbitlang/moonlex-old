@@ -1,0 +1,17 @@
+{}
+
+let digit = ['0'-'9'];
+let number = '0' | ['1'-'9'] digit*;
+
+rule lex_is_number() -> Bool {
+    parse {
+        number => { true }
+        _ => { false }
+    }
+}
+{
+pub fn is_number(str : String) -> Bool {
+    let lexbuf = Lexbuf::from_string(str)
+    lex_is_number(lexbuf)
+}
+}

@@ -180,6 +180,7 @@ fn register_regex_rec(
       self.add_edge(tail, Eps, final_, tag=Some(end_tag))
       final_
     }
+    Named(_) => abort("Named should be resolved before building NFA")
   }
 }
 

@@ -11,6 +11,7 @@ pub(all) enum Regex {
   Alter(Regex, Regex)
   Concat(Regex, Regex)
   Capture(Regex, String)
+  Named(String)
 } derive(Show, Eq, ToJson)
 
 ///|
@@ -46,6 +47,7 @@ fn check_legal_rec(
       re1.check_legal_rec(names, true) && re2.check_legal_rec(names, true)
     Repetition(re) => re.check_legal_rec(names, true)
     Option(re) => re.check_legal_rec(names, true)
+    Named(_) => true
   }
 }
 
@@ -95,6 +97,47 @@ pub(all) struct Rule {
 ///|
 pub(all) struct Lex {
   header : CodeBlock
+  named_regexes : Array[(String, Regex)]
   rules : Array[Rule]
   trailer : CodeBlock
 } derive(Show)
+
+///|
+pub fn eliminate_named(self : Lex) -> Lex {
+  guard not(self.named_regexes.is_empty()) else { return self }
+  let named_regexes = Map::from_array(self.named_regexes)
+  fn eliminate_named_regex(re : Regex) -> Regex {
+    match re {
+      Underscore | EOF | ReStr(_) | ReChar(_) | CharSet(_) | RevCharSet(_) => re
+      Repetition(re) => Repetition(eliminate_named_regex(re))
+      Option(re) => Option(eliminate_named_regex(re))
+      Alter(re1, re2) =>
+        Alter(eliminate_named_regex(re1), eliminate_named_regex(re2))
+      Concat(re1, re2) =>
+        Concat(eliminate_named_regex(re1), eliminate_named_regex(re2))
+      Capture(re, name) => Capture(eliminate_named_regex(re), name)
+      Named(name) =>
+        match named_regexes.get(name) {
+          Some(re) => eliminate_named_regex(re)
+          None => abort("Named regex not found")
+        }
+    }
+  }
+
+  Lex::{
+    header: self.header,
+    named_regexes: [],
+    rules: self.rules.map(fn(rule) {
+      Rule::{
+        name: rule.name,
+        return_type: rule.return_type,
+        vars: rule.vars,
+        patterns: rule.patterns.map(fn(pattern) {
+          let (re, code) = pattern
+          (eliminate_named_regex(re), code)
+        }),
+      }
+    }),
+    trailer: self.trailer,
+  }
+}

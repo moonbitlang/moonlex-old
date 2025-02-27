@@ -104,6 +104,7 @@ fn match_re(self : ParserBuf, re : Regex) -> (ParserBuf, String)? {
         (p, s1) => p.match_re(re2).map(fn { (p, s2) => (p, s1 + s2) })
       })
     Capture(_, _) => abort("Capture is not allowed in ParserBuf")
+    Named(_) => abort("Named is not allowed in ParserBuf")
   }
 }
 
@@ -257,7 +258,10 @@ fn regex_nonleftrec(self : ParserBuf) -> (ParserBuf, Regex)? {
       .step()
       .regex()
       .bind(fn { (p, re) => p.match_str(")").map(fn(p) { (p, re) }) })
-    (Some('e'), _) => p.match_str("eof").map(fn(p) { (p, EOF) })
+    (Some('A'..='Z' | 'a'..='z'), _) => 
+      p.identifier().map(fn { (p, name) => if name == "eof" { (p, EOF) } else {
+        (p, Named(name))
+      } })
     (Some('_'), _) => Some((p.step(), Underscore))
     _ => None
   }
@@ -399,6 +403,15 @@ fn code_block(self : ParserBuf) -> (ParserBuf, CodeBlock)? {
   })
 }
 
+fn named_regex(self : ParserBuf) -> (ParserBuf, (String, Regex))? {
+  guard let Some(p) = self.skip_ws().match_str("let") else { _ => None }
+  guard let Some((p, name)) = p.skip_ws().identifier() else { _ => None }
+  guard let Some(p) = p.skip_ws().match_str("=") else { _ => None }
+  guard let Some((p, re)) = p.regex() else { _ => None }
+  guard let Some(p) = p.skip_ws().match_str(";") else { _ => None }
+  Some((p, (name, re)))
+}
+
 ///|
 fn rule(self : ParserBuf) -> (ParserBuf, Rule)? {
   guard let Some(p) = self.skip_ws().match_str("rule") else { _ => None }
@@ -428,9 +441,10 @@ fn rule(self : ParserBuf) -> (ParserBuf, Rule)? {
 ///|
 pub fn lex(self : ParserBuf) -> (ParserBuf, Lex)? {
   guard let Some((p, header)) = self.code_block() else { _ => None }
+  let (p, named_regexes) = p.repeat_match(named_regex)
   let (p, rules) = p.repeat_match(rule)
   guard let Some((p, trailer)) = p.code_block() else { _ => None }
-  Some((p, { header, rules, trailer }))
+  Some((p, { header, named_regexes, rules, trailer }))
 }
 
 // utils funcs
