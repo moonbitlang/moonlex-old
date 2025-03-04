@@ -1,4 +1,12 @@
 ///|
+pub fn is_empty[N](self : Tree[N]) -> Bool {
+  match self {
+    Empty => true
+    Node(..) => false
+  }
+}
+
+///|
 pub fn contains[N : @bounded_enum.T](self : Tree[N], x : N) -> Bool {
   match self {
     Empty => false

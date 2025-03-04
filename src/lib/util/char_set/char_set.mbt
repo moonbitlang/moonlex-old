@@ -25,13 +25,18 @@ pub fn from_string(x : String) -> CharSet {
 }
 
 ///|
-pub fn slice(self : CharSet, min? : Char, max? : Char) -> CharSet {
-  self._.slice(min?, max?)
+pub fn is_empty(self : CharSet) -> Bool {
+  @diet.is_empty(self._)
 }
 
 ///|
 pub fn contains(self : CharSet, x : Char) -> Bool {
   @diet.contains(self._, x)
+}
+
+///|
+pub fn slice(self : CharSet, min? : Char, max? : Char) -> CharSet {
+  self._.slice(min?, max?)
 }
 
 ///|
