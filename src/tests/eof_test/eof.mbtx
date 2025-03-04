@@ -1,5 +1,5 @@
 {
-enum Token {
+priv enum Token {
   PERCENT
   PERCENT_EOF
   NON_PERCENT

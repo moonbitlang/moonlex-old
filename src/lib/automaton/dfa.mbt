@@ -6,7 +6,7 @@ pub(all) type TagAction Array[Array[Int]] derive(Show) // indexed by tag_id, ran
 // tag_i <- tag_{mat[tag][i]}, tag_{-1} = cur_pos
 
 ///|
-type TagState Array[Int?] derive(Eq, Show) // indexed by tag_id
+priv type TagState Array[Int?] derive(Eq, Show) // indexed by tag_id
 
 ///|
 impl Hash for TagState with hash_combine(self, hasher) {

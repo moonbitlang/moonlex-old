@@ -356,7 +356,7 @@ fn var_definition(self : ParserBuf) -> (ParserBuf, VarDefinition)? {
       .skip_ws()
       .match_str(":")
       .bind(fn(p) {
-        guard let Some((p, ty)) = p.ty() else { _ => return None }
+        guard p.ty() is Some((p, ty)) else { return None }
         Some((p, { identifier, ty }))
       })
   })
@@ -409,46 +409,44 @@ fn code_block(self : ParserBuf) -> (ParserBuf, CodeBlock)? {
 
 ///|
 fn named_regex(self : ParserBuf) -> (ParserBuf, (String, Regex))? {
-  guard let Some(p) = self.skip_ws().match_str("let") else { _ => None }
-  guard let Some((p, name)) = p.skip_ws().identifier() else { _ => None }
-  guard let Some(p) = p.skip_ws().match_str("=") else { _ => None }
-  guard let Some((p, re)) = p.regex() else { _ => None }
-  guard let Some(p) = p.skip_ws().match_str(";") else { _ => None }
+  guard self.skip_ws().match_str("let") is Some(p) else { None }
+  guard p.skip_ws().identifier() is Some((p, name)) else { None }
+  guard p.skip_ws().match_str("=") is Some(p) else { None }
+  guard p.regex() is Some((p, re)) else { None }
+  guard p.skip_ws().match_str(";") is Some(p) else { None }
   Some((p, (name, re)))
 }
 
 ///|
 fn rule(self : ParserBuf) -> (ParserBuf, Rule)? {
-  guard let Some(p) = self.skip_ws().match_str("rule") else { _ => None }
-  guard let Some((p, name)) = p.skip_ws().identifier() else { _ => None }
-  guard let Some(p) = p.skip_ws().match_str("(") else { _ => None }
+  guard self.skip_ws().match_str("rule") is Some(p) else { None }
+  guard p.skip_ws().identifier() is Some((p, name)) else { None }
+  guard p.skip_ws().match_str("(") is Some(p) else { None }
   let (p, vars) = p.repeat_match(fn(p) {
-    guard let Some((p, var)) = p.var_definition() else { _ => None }
-    guard let Some((p, _)) = p.skip_ws().match_re(Option(ReStr(","))) else {
-      _ => None
-    }
+    guard p.var_definition() is Some((p, var)) else { None }
+    guard p.skip_ws().match_re(Option(ReStr(","))) is Some((p, _)) else { None }
     Some((p, var))
   })
-  guard let Some(p) = p.match_str_array([")", "->"]) else { _ => None }
-  guard let Some((p, return_type)) = p.ty() else { _ => None }
-  guard let Some(p) = p.match_str_array(["{", "parse", "{"]) else { _ => None }
+  guard p.match_str_array([")", "->"]) is Some(p) else { None }
+  guard p.ty() is Some((p, return_type)) else { None }
+  guard p.match_str_array(["{", "parse", "{"]) is Some(p) else { None }
   let (p, patterns) = p.repeat_match(fn(p) {
     let p = p.skip_ws()
-    guard let Some((p, re)) = p.regex() else { _ => None }
-    guard let Some(p) = p.skip_ws().match_str("=>") else { _ => None }
-    guard let Some((p, code_block)) = p.code_block() else { _ => None }
+    guard p.regex() is Some((p, re)) else { None }
+    guard p.skip_ws().match_str("=>") is Some(p) else { None }
+    guard p.code_block() is Some((p, code_block)) else { None }
     Some((p, (re, code_block)))
   })
-  guard let Some(p) = p.match_str_array(["}", "}"]) else { _ => None }
+  guard p.match_str_array(["}", "}"]) is Some(p) else { None }
   Some((p, { name, vars, return_type, patterns }))
 }
 
 ///|
 pub fn lex(self : ParserBuf) -> (ParserBuf, Lex)? {
-  guard let Some((p, header)) = self.code_block() else { _ => None }
+  guard self.code_block() is Some((p, header)) else { None }
   let (p, named_regexes) = p.repeat_match(named_regex)
   let (p, rules) = p.repeat_match(rule)
-  guard let Some((p, trailer)) = p.code_block() else { _ => None }
+  guard p.code_block() is Some((p, trailer)) else { None }
   Some((p, { header, named_regexes, rules, trailer }))
 }
 

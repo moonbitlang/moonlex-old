@@ -1,7 +1,7 @@
 ///|
 fn simple_rule(re_str : String) -> @type.Rule {
   let parser_buf = @parser.ParserBuf::from_string(re_str)
-  guard let Some((_, re)) = parser_buf.regex() else { _ => abort("") }
+  guard parser_buf.regex() is Some((_, re))
   { name: "", return_type: "", vars: [], patterns: [(re, "")] }
 }
 

@@ -83,11 +83,9 @@ pub fn run(self : LexEngine, lexbuf : Lexbuf) -> (Int, Array[(Int, Int)]) {
     match b {
       Some((p, state, tagState)) => {
         lexbuf.pos = p
-        let captures = self.end_nodes[state].unwrap().1.map(
-          fn {
-            ((b_t, b_r), (e_t, e_r)) => (tagState[b_t][b_r], tagState[e_t][e_r])
-          },
-        )
+        let captures = self.end_nodes[state].unwrap().1.map(fn {
+          ((b_t, b_r), (e_t, e_r)) => (tagState[b_t][b_r], tagState[e_t][e_r])
+        })
         break (index, captures)
       }
       None => ()

@@ -100,7 +100,7 @@ pub fn run(self : LexEngine, lexbuf : Lexbuf) -> (Int, Array[(Int, Int)]) {
 
 
 
-enum Token {
+priv enum Token {
    PERCENT
    PERCENT_EOF
    NON_PERCENT

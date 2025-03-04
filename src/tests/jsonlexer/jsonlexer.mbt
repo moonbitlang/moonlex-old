@@ -100,7 +100,7 @@ pub fn run(self : LexEngine, lexbuf : Lexbuf) -> (Int, Array[(Int, Int)]) {
 
 
 
-enum Token {
+priv enum Token {
    WHITESPACE
    NUMBER(String)
    STRING(String)
@@ -115,7 +115,7 @@ enum Token {
    NULL
  } derive(ToJson)
 
-type! LexError {
+pub type! LexError {
    EndOfFile
    UnexpectedEndOfFile
    Unrecognized(String)
