@@ -9,7 +9,7 @@ typealias Tag = Int
 
 ///|
 pub(all) struct NFA {
-  graph : Array[Map[Symbol, Array[(Int, Tag?)]]] // indexed by node_id * char
+  graph : Array[NFANode]
   end_nodes : Map[Int, Int] // from node_id to pattern_id
   code_blocks : Array[CodeBlock] // indexed by pattern_id
   captures : Array[Array[(String, (Tag, Tag))]] // indexed_by pattern_id
@@ -18,9 +18,31 @@ pub(all) struct NFA {
 } derive(Show)
 
 ///|
+pub(all) struct NFANode {
+  num : Int
+  mut eps : @immut/sorted_set.T[(NFANode, Tag?)]
+  mut trans : Array[(Char, @immut/sorted_set.T[(NFANode, Tag?)])]
+} derive(Show)
+
+///|
+pub impl Eq for NFANode with op_equal(self, other) {
+  self.num == other.num
+}
+
+///|
+pub impl Compare for NFANode with compare(self, other) {
+  self.num.compare(other.num)
+}
+
+///|
+pub impl Hash for NFANode with hash_combine(self, hasher) {
+  hasher.combine_int(self.num)
+}
+
+///|
 fn NFA::new_nfa() -> NFA {
   {
-    graph: [Map::new()],
+    graph: [NFANode::{ num: 0, eps: @immut/sorted_set.new(), trans: [] }],
     code_blocks: [],
     end_nodes: Map::new(),
     captures: [],
@@ -51,29 +73,34 @@ pub fn NFA::from_rule(rule : Rule) -> NFA {
 }
 
 ///|
-fn new_node(self : NFA) -> Int {
+fn new_node(self : NFA) -> NFANode {
   let new_id = self.node_count
   self.node_count += 1
-  self.graph.push(Map::new())
+  let node = NFANode::{ num: new_id, eps: @immut/sorted_set.new(), trans: [] }
+  self.graph.push(node)
   guard new_id + 1 == self.graph.length()
-  new_id
+  node
 }
 
 ///|
 fn add_edge(
   self : NFA,
-  from : Int,
+  from : NFANode,
   s : Symbol,
   tag~ : Tag? = None,
-  to : Int
+  to : NFANode
 ) -> Unit {
-  self.graph[from].get_or_init(s, fn() { [] }).push((to, tag))
+  ignore(self)
+  match s {
+    Eps => from.eps = from.eps.add((to, tag))
+    EChar(c) => from.trans.push((c, @immut/sorted_set.singleton((to, tag))))
+  }
 }
 
 ///|
 fn register_regex(
   self : NFA,
-  node : Int,
+  node : NFANode,
   re : Regex,
   code_block : CodeBlock,
   name2tag : (String) -> (Tag, Tag)
@@ -81,16 +108,16 @@ fn register_regex(
   let final_ = self.register_regex_rec(node, re, name2tag)
   let id = self.code_blocks.length()
   self.code_blocks.push(code_block)
-  self.end_nodes.set(final_, id)
+  self.end_nodes.set(final_.num, id)
 }
 
 ///|
 fn register_regex_rec(
   self : NFA,
-  node : Int,
+  node : NFANode,
   re : Regex,
   name2tag : (String) -> (Tag, Tag)
-) -> Int {
+) -> NFANode {
   // return the final_ point of re for convience in building
   match re {
     Underscore => {
@@ -174,10 +201,10 @@ fn register_regex_rec(
 
 ///|
 fn get_eps_closure(self : NFA) -> Array[@immut/hashmap.T[Int, @bitset.T]] {
-  Array::makei(self.node_count, fn(x) {
+  Array::map(self.graph, fn(x) {
     let empty_bits = @bitset.new(self.tag_count)
     let result = Map::from_array([(x, empty_bits)])
-    fn get_bits(n : Int) -> @bitset.T {
+    fn get_bits(n : NFANode) -> @bitset.T {
       result.get_or_default(n, empty_bits)
     }
 
@@ -185,7 +212,7 @@ fn get_eps_closure(self : NFA) -> Array[@immut/hashmap.T[Int, @bitset.T]] {
     while not(queue.is_empty()) {
       let o = queue.unsafe_pop()
       let o_bits = get_bits(o)
-      for e in self.graph[o].get_or_default(Eps, []) {
+      for e in o.eps {
         let (u, tag) = e
         let mut new_u_bits = get_bits(u).union(o_bits)
         if not(tag.is_empty()) {
@@ -198,6 +225,6 @@ fn get_eps_closure(self : NFA) -> Array[@immut/hashmap.T[Int, @bitset.T]] {
         }
       }
     }
-    @immut/hashmap.from_iter(result.iter())
+    @immut/hashmap.from_iter(result.iter().map(fn { (k, v) => (k.num, v) }))
   })
 }
