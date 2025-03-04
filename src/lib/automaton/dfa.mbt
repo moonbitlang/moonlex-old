@@ -202,20 +202,7 @@ fn DFA::from_nfa(nfa : NFA) -> DFA {
         let (nfa_node, tag_state) = p
         nfa_node.trans
         .iter()
-        .map(fn {
-          (cset, (target, tag)) =>
-            (
-              cset,
-              (
-                target,
-                tag_state,
-                match tag {
-                  None => None
-                  Some(tag) => Some(tag)
-                },
-              ),
-            )
-        })
+        .map(fn { (cset, (target, tag)) => (cset, (target, tag_state, tag)) })
       })
 
     // Merge char_sets by target
