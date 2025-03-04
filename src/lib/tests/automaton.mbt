@@ -17,14 +17,12 @@ fn nfa2dots(nfa : @automaton.NFA, name~ : String = "nfa") -> DotGraph {
       dots.add_edge(from=node.num, to=target.0.num, edge_info=repr(edge_info))
     }
     for edge in node.trans {
-      let (ch, targets) = edge
-      for target in targets {
-        let mut edge_info = "\{ch}"
-        if not(target.1.is_empty()) {
-          edge_info = edge_info + "/\{target.1.unwrap()}"
-        }
-        dots.add_edge(from=node.num, to=target.0.num, edge_info=repr(edge_info))
+      let (ch, target) = edge
+      let mut edge_info = "\{ch}"
+      if not(target.1.is_empty()) {
+        edge_info = edge_info + "/\{target.1.unwrap()}"
       }
+      dots.add_edge(from=node.num, to=target.0.num, edge_info=repr(edge_info))
     }
     let end_node = nfa.end_nodes.get(node.num)
     if end_node.is_empty() {

@@ -202,26 +202,23 @@ fn DFA::from_nfa(nfa : NFA) -> DFA {
     for node in get_nodes(cur_state) {
       let node_tagState = cur_state[node].unwrap()
       for tran in nfa.graph[node].trans {
-        let (c, targets) = tran
+        let (c, (step_node, tag)) = tran
         let mut state_map = next_states[c].or_else(fn() { @immut/hashmap.new() })
-        for pair in targets {
-          let (step_node, tag) = pair // tag == None
-          guard tag.is_empty() else {
-            // only eps-edge has tag
-            abort("error")
+        guard tag.is_empty() else {
+          // only eps-edge has tag
+          abort("error")
+        }
+        let step_tagState = node_tagState
+        for pair in eps_closure[step_node.num] {
+          let (eps_node, bits) = pair
+          let upd_tagState = step_tagState.copy().update_by_tags(bits)
+          let old_tagState = state_map[eps_node]
+          let new_tagState = if old_tagState.is_empty() {
+            upd_tagState
+          } else {
+            tagState_min(upd_tagState, old_tagState.unwrap())
           }
-          let step_tagState = node_tagState
-          for pair in eps_closure[step_node.num] {
-            let (eps_node, bits) = pair
-            let upd_tagState = step_tagState.copy().update_by_tags(bits)
-            let old_tagState = state_map[eps_node]
-            let new_tagState = if old_tagState.is_empty() {
-              upd_tagState
-            } else {
-              tagState_min(upd_tagState, old_tagState.unwrap())
-            }
-            state_map = state_map.add(eps_node, new_tagState)
-          }
+          state_map = state_map.add(eps_node, new_tagState)
         }
         next_states.set(c, state_map)
       }
