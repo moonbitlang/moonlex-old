@@ -46,7 +46,7 @@ pub(all) struct LexEngine {
 
 ///|
 pub fn run(self : LexEngine, lexbuf : Lexbuf) -> (Int, Array[(Int, Int)]) {
-   let mut state = 1
+   let mut state = 0
    let mut tagState : Array[Array[Int]] = []
    let backtrace = Array::make(self.code_blocks_n, None)
    for tag in self.start_tags {
@@ -55,7 +55,7 @@ pub fn run(self : LexEngine, lexbuf : Lexbuf) -> (Int, Array[(Int, Int)]) {
      }
      tagState[tag].push(lexbuf.pos)
    }
-   while state != 0 {
+   while state != -1 {
      match self.end_nodes[state] {
        Some(t) => backtrace[t.0] = Some((lexbuf.pos, state, tagState))
        _ => ()
@@ -106,42 +106,37 @@ let lex_is_number_tag_action_0 : Array[Array[Int]] = []
 
 fn lex_is_number_state_0(input : LexInput) -> (LexState, LexTagAction) {
    match input {
-     _ => (0, [])
+     1..=47 => (3, lex_is_number_tag_action_0)
+     48 => (1, lex_is_number_tag_action_0)
+     49..=57 => (2, lex_is_number_tag_action_0)
+     58..=127 => (3, lex_is_number_tag_action_0)
+     _ => (-1, [])
    }
  }
 fn lex_is_number_state_1(input : LexInput) -> (LexState, LexTagAction) {
    match input {
-     1..=47 => (4, lex_is_number_tag_action_0)
-     48 => (2, lex_is_number_tag_action_0)
-     49..=57 => (3, lex_is_number_tag_action_0)
-     58..=127 => (4, lex_is_number_tag_action_0)
-     _ => (0, [])
+     _ => (-1, [])
    }
  }
 fn lex_is_number_state_2(input : LexInput) -> (LexState, LexTagAction) {
    match input {
-     _ => (0, [])
+     48..=57 => (4, lex_is_number_tag_action_0)
+     _ => (-1, [])
    }
  }
 fn lex_is_number_state_3(input : LexInput) -> (LexState, LexTagAction) {
    match input {
-     48..=57 => (5, lex_is_number_tag_action_0)
-     _ => (0, [])
+     _ => (-1, [])
    }
  }
 fn lex_is_number_state_4(input : LexInput) -> (LexState, LexTagAction) {
    match input {
-     _ => (0, [])
-   }
- }
-fn lex_is_number_state_5(input : LexInput) -> (LexState, LexTagAction) {
-   match input {
-     48..=57 => (5, lex_is_number_tag_action_0)
-     _ => (0, [])
+     48..=57 => (4, lex_is_number_tag_action_0)
+     _ => (-1, [])
    }
  }
 
-let __mbtlex_engine_lex_is_number: LexEngine = { graph: [lex_is_number_state_0, lex_is_number_state_1, lex_is_number_state_2, lex_is_number_state_3, lex_is_number_state_4, lex_is_number_state_5, ], end_nodes: [None, None, Some((0, [])), Some((0, [])), Some((1, [])), Some((0, []))], start_tags: [], code_blocks_n: 2 }
+let __mbtlex_engine_lex_is_number: LexEngine = { graph: [lex_is_number_state_0, lex_is_number_state_1, lex_is_number_state_2, lex_is_number_state_3, lex_is_number_state_4, ], end_nodes: [None, Some((0, [])), Some((0, [])), Some((1, [])), Some((0, []))], start_tags: [], code_blocks_n: 2 }
 fn lex_is_number( lexbuf : Lexbuf ) ->  Bool  {
  match __mbtlex_engine_lex_is_number.run(lexbuf) {
  (0, __mbtlex_captures) => {

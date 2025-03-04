@@ -133,7 +133,7 @@ fn codegen_rule(rule : Rule) -> String {
     }
     if trans.size() < 128 {
       states_code.write_string(
-        $|    _ => (0, [])
+        $|    _ => (-1, [])
         $|
         ,
       )

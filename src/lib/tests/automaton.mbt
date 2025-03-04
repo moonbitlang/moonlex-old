@@ -8,29 +8,34 @@ fn simple_rule(re_str : String) -> @type.Rule {
 ///|
 fn nfa2dots(nfa : @automaton.NFA, name~ : String = "nfa") -> DotGraph {
   let dots = DotGraph::new(name~)
-  for node, edges in nfa.graph {
-    for edge in edges {
+  for node in nfa.graph {
+    for target in node.eps {
+      let mut edge_info = "ε"
+      if not(target.1.is_empty()) {
+        edge_info = edge_info + "/\{target.1.unwrap()}"
+      }
+      dots.add_edge(from=node.num, to=target.0.num, edge_info=repr(edge_info))
+    }
+    for edge in node.trans {
       let (ch, targets) = edge
       for target in targets {
-        let mut edge_info = match ch {
-          EChar(c) => "\{c}"
-          Eps => "ε"
-        }
+        let mut edge_info = "\{ch}"
         if not(target.1.is_empty()) {
           edge_info = edge_info + "/\{target.1.unwrap()}"
         }
-        dots.add_edge(from=node, to=target.0, edge_info="\"\{edge_info}\"")
+        dots.add_edge(from=node.num, to=target.0.num, edge_info=repr(edge_info))
       }
     }
-    if node == 0 {
-      continue
-    }
-    let end_node = nfa.end_nodes.get(node)
+    let end_node = nfa.end_nodes.get(node.num)
     if end_node.is_empty() {
-      dots.set_node(node~, nodeType=Normal)
+      dots.set_node(node=node.num, nodeType=Normal)
     } else {
       let pattern = end_node.unwrap()
-      dots.set_node(node~, nodeType=Accepted, label="\"\{node}(\{pattern})\"")
+      dots.set_node(
+        node=node.num,
+        nodeType=Accepted,
+        label=repr("\{node.num}(\{pattern})"),
+      )
     }
   }
   dots
@@ -82,10 +87,7 @@ fn dfa2dots(dfa : @automaton.DFA, name~ : String = "dfa") -> DotGraph {
       if action._.length() != 0 {
         edge_info = edge_info + "\{action._}"
       }
-      dots.add_edge(from=node, to=target, edge_info="\"\{edge_info}\"")
-    }
-    if node == 0 {
-      continue
+      dots.add_edge(from=node, to=target, edge_info=repr(edge_info))
     }
     let end_node = dfa.end_nodes.get(node)
     if end_node.is_empty() {
@@ -96,7 +98,7 @@ fn dfa2dots(dfa : @automaton.DFA, name~ : String = "dfa") -> DotGraph {
       if not(tags.is_empty()) {
         label = label + "/\{tags}"
       }
-      dots.set_node(node~, nodeType=Accepted, label="\"\{label}\"")
+      dots.set_node(node~, nodeType=Accepted, label=repr(label))
     }
   }
   dots

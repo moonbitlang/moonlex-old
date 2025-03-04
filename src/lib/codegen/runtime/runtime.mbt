@@ -45,7 +45,7 @@ pub(all) struct LexEngine {
 
 ///|
 pub fn run(self : LexEngine, lexbuf : Lexbuf) -> (Int, Array[(Int, Int)]) {
-  let mut state = 1
+  let mut state = 0
   let mut tagState : Array[Array[Int]] = []
   let backtrace = Array::make(self.code_blocks_n, None)
   for tag in self.start_tags {
@@ -54,7 +54,7 @@ pub fn run(self : LexEngine, lexbuf : Lexbuf) -> (Int, Array[(Int, Int)]) {
     }
     tagState[tag].push(lexbuf.pos)
   }
-  while state != 0 {
+  while state != -1 {
     match self.end_nodes[state] {
       Some(t) => backtrace[t.0] = Some((lexbuf.pos, state, tagState))
       _ => ()
