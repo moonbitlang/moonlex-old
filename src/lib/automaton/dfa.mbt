@@ -14,6 +14,11 @@ impl Hash for TagState with hash_combine(self, hasher) {
 }
 
 ///|
+impl Compare for TagState with compare(self, other) {
+  self._.compare(other._)
+}
+
+///|
 fn TagState::new(size : Int) -> TagState {
   Array::make(size, None)
 }
@@ -167,10 +172,6 @@ fn register_node(self : DFA, nfa : NFA, node : Int, os : State) -> Unit {
 
 ///|
 fn DFA::from_nfa(nfa : NFA) -> DFA {
-  fn get_nodes(state : State) -> Iter[NFANode] {
-    state.iter().map(fn(p) { p.0 })
-  }
-
   let eps_closure = nfa.get_eps_closure()
   let initial = eps_closure[0]
   let initial_state = initial
@@ -194,34 +195,87 @@ fn DFA::from_nfa(nfa : NFA) -> DFA {
     })
   }
 
-  fn transitions(cur_state : State) -> Array[(Char, State)] {
-    let next_states : Map[Char, State] = Map::new()
-    for nfa_node in get_nodes(cur_state) {
-      let node_tagState = cur_state[nfa_node].unwrap()
-      for tran in nfa_node.trans {
-        let (cset, (step_node, tag)) = tran
-        for c in cset {
-          let mut state_map = next_states[c].or_else(fn() {
-            @immut/hashmap.new()
-          })
-          guard tag.is_empty() else {
-            // only eps-edge has tag
-            abort("error")
-          }
-          let step_tagState = node_tagState
-          for pair in eps_closure[step_node.num] {
-            let (eps_node, bits) = pair
-            let upd_tagState = step_tagState.copy().update_by_tags(bits)
-            let old_tagState = state_map[eps_node]
-            let new_tagState = if old_tagState.is_empty() {
-              upd_tagState
-            } else {
-              tagState_min(upd_tagState, old_tagState.unwrap())
-            }
-            state_map = state_map.add(eps_node, new_tagState)
-          }
-          next_states.set(c, state_map)
+  fn transitions(cur_state : State) -> Array[(@char_set.T, State)] {
+    let nfa_trans = cur_state
+      .iter()
+      .flat_map(fn(p) {
+        let (nfa_node, tag_state) = p
+        nfa_node.trans
+        .iter()
+        .map(fn {
+          (cset, (target, tag)) =>
+            (
+              cset,
+              (
+                target,
+                tag_state,
+                match tag {
+                  None => None
+                  Some(tag) => Some(tag)
+                },
+              ),
+            )
+        })
+      })
+
+    // Merge char_sets by target
+    let char_set_by_nfa_target = {}
+    for nfa_tran in nfa_trans {
+      let (cset, target) = nfa_tran
+      match char_set_by_nfa_target[target] {
+        None => char_set_by_nfa_target[target] = cset
+        Some(old_cset) => char_set_by_nfa_target[target] = old_cset + cset
+      }
+    }
+
+    // Split char_sets to disjoint sets
+    let mut nfa_trans = []
+    let mut all_char_set = @char_set.empty()
+    for target, char_set in char_set_by_nfa_target {
+      let targets = @immut/sorted_set.singleton(target)
+      let new_nfa_trans = []
+      fn add_tran(cset : @char_set.T, targets) {
+        if not(cset.is_empty()) {
+          new_nfa_trans.push((cset, targets))
         }
+      }
+
+      add_tran(char_set - all_char_set, targets)
+      for nfa_tran in nfa_trans {
+        let (old_cset, old_targets) = nfa_tran
+        add_tran(old_cset & char_set, old_targets + targets)
+        add_tran(old_cset - char_set, old_targets)
+      }
+      all_char_set = all_char_set + char_set
+      nfa_trans = new_nfa_trans
+    }
+
+    // Compute next states
+    let next_states : Map[@char_set.T, State] = Map::new()
+    for tran in nfa_trans {
+      let (cset, targets) = tran
+      for target in targets {
+        let (step_node, from_tagState, tag) = target
+        let mut state_map = next_states[cset].or_else(fn() {
+          @immut/hashmap.new()
+        })
+        guard tag.is_empty() else {
+          // only eps-edge has tag
+          abort("error")
+        }
+        let step_tagState = from_tagState
+        for pair in eps_closure[step_node.num] {
+          let (eps_node, bits) = pair
+          let upd_tagState = step_tagState.copy().update_by_tags(bits)
+          let old_tagState = state_map[eps_node]
+          let new_tagState = if old_tagState.is_empty() {
+            upd_tagState
+          } else {
+            tagState_min(upd_tagState, old_tagState.unwrap())
+          }
+          state_map = state_map.add(eps_node, new_tagState)
+        }
+        next_states[cset] = state_map
       }
     }
     next_states.iter().to_array()
@@ -233,10 +287,10 @@ fn DFA::from_nfa(nfa : NFA) -> DFA {
     let from_n = node_map.get(cur_state).unwrap()
     let trans = transitions(cur_state)
     for tran in trans {
-      let (ch, state) = tran
+      let (cset, state) = tran
       let (state, action) = state_canonicalize(state, nfa.tag_count)
       let to_n = get_id(state)
-      dfa.add_edge(from_n, @char_set.singleton(ch), action, to_n)
+      dfa.add_edge(from_n, cset, action, to_n)
     }
   }
   dfa

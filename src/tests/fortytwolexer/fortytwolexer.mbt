@@ -109,11 +109,11 @@ let scan_newline_tag_action_1 : Array[Array[Int]] = [scan_newline_tag_action_row
 
 fn scan_newline_state_0(input : LexInput) -> (LexState, LexTagAction) {
    match input {
-     1..=9 => (1, scan_newline_tag_action_0)
-     10 => (2, scan_newline_tag_action_1)
-     11..=12 => (1, scan_newline_tag_action_0)
-     13 => (3, scan_newline_tag_action_1)
-     14..=127 => (1, scan_newline_tag_action_0)
+     1..=9 => (3, scan_newline_tag_action_0)
+     10 => (1, scan_newline_tag_action_1)
+     11..=12 => (3, scan_newline_tag_action_0)
+     13 => (2, scan_newline_tag_action_1)
+     14..=127 => (3, scan_newline_tag_action_0)
      _ => (-1, [])
    }
  }
@@ -124,13 +124,13 @@ fn scan_newline_state_1(input : LexInput) -> (LexState, LexTagAction) {
  }
 fn scan_newline_state_2(input : LexInput) -> (LexState, LexTagAction) {
    match input {
+     10 => (5, scan_newline_tag_action_1)
+     13 => (4, scan_newline_tag_action_1)
      _ => (-1, [])
    }
  }
 fn scan_newline_state_3(input : LexInput) -> (LexState, LexTagAction) {
    match input {
-     10 => (4, scan_newline_tag_action_1)
-     13 => (5, scan_newline_tag_action_1)
      _ => (-1, [])
    }
  }
@@ -145,7 +145,7 @@ fn scan_newline_state_5(input : LexInput) -> (LexState, LexTagAction) {
    }
  }
 
-let __mbtlex_engine_scan_newline: LexEngine = { graph: [scan_newline_state_0, scan_newline_state_1, scan_newline_state_2, scan_newline_state_3, scan_newline_state_4, scan_newline_state_5, ], end_nodes: [Some((2, [])), Some((1, [])), Some((0, [((0, 0), (1, 0))])), Some((0, [((0, 0), (1, 0))])), Some((0, [((0, 0), (1, 0))])), Some((0, [((0, 0), (1, 0))]))], start_tags: [0], code_blocks_n: 3 }
+let __mbtlex_engine_scan_newline: LexEngine = { graph: [scan_newline_state_0, scan_newline_state_1, scan_newline_state_2, scan_newline_state_3, scan_newline_state_4, scan_newline_state_5, ], end_nodes: [Some((2, [])), Some((0, [((0, 0), (1, 0))])), Some((0, [((0, 0), (1, 0))])), Some((1, [])), Some((0, [((0, 0), (1, 0))])), Some((0, [((0, 0), (1, 0))]))], start_tags: [0], code_blocks_n: 3 }
 fn scan_newline( lexbuf : Lexbuf ) ->  Int  {
  match __mbtlex_engine_scan_newline.run(lexbuf) {
  (0, __mbtlex_captures) => {

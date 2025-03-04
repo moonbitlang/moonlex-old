@@ -111,16 +111,15 @@ let token_tag_action_0 : Array[Array[Int]] = []
 
 fn token_state_0(input : LexInput) -> (LexState, LexTagAction) {
    match input {
-     0 => (3, token_tag_action_0)
+     0 => (1, token_tag_action_0)
      1..=36 => (2, token_tag_action_0)
-     37 => (1, token_tag_action_0)
+     37 => (3, token_tag_action_0)
      38..=127 => (2, token_tag_action_0)
      _ => panic()
    }
  }
 fn token_state_1(input : LexInput) -> (LexState, LexTagAction) {
    match input {
-     0 => (4, token_tag_action_0)
      _ => (-1, [])
    }
  }
@@ -131,6 +130,7 @@ fn token_state_2(input : LexInput) -> (LexState, LexTagAction) {
  }
 fn token_state_3(input : LexInput) -> (LexState, LexTagAction) {
    match input {
+     0 => (4, token_tag_action_0)
      _ => (-1, [])
    }
  }
@@ -140,7 +140,7 @@ fn token_state_4(input : LexInput) -> (LexState, LexTagAction) {
    }
  }
 
-let __mbtlex_engine_token: LexEngine = { graph: [token_state_0, token_state_1, token_state_2, token_state_3, token_state_4, ], end_nodes: [None, Some((1, [])), Some((2, [])), Some((3, [])), Some((0, []))], start_tags: [], code_blocks_n: 4 }
+let __mbtlex_engine_token: LexEngine = { graph: [token_state_0, token_state_1, token_state_2, token_state_3, token_state_4, ], end_nodes: [None, Some((3, [])), Some((2, [])), Some((1, [])), Some((0, []))], start_tags: [], code_blocks_n: 4 }
 fn token( lexbuf : Lexbuf ) ->  Token  {
  match __mbtlex_engine_token.run(lexbuf) {
  (0, __mbtlex_captures) => {
