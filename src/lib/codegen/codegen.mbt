@@ -34,42 +34,33 @@ fn rewrite_codeblock(
 
 ///|
 fn group_trans(
-  trans : Map[Char, (Int, @automaton.TagAction)]
+  trans : Array[(@char_set.CharSet, (Int, @automaton.TagAction))]
 ) -> Array[((Int, Int), (Int, Array[Array[Int]]))] {
-  let result = Array::new()
-  let mut first_char = -1
-  let mut last_char = -1
-  let mut last_target : (Int, Array[Array[Int]]) = (0, [])
-  fn add(char : Int, target : (Int, Array[Array[Int]])) {
-    if target != last_target {
-      if last_char != -1 {
-        result.push(((first_char, last_char), last_target))
-      }
-      last_target = target
-      first_char = char
+  let char_set_by_state = {}
+  let tag_action_by_state = {}
+  for tran in trans {
+    let (char_set, (next_state, tag_action)) = tran
+    tag_action_by_state[next_state] = tag_action
+    match char_set_by_state[next_state] {
+      None => char_set_by_state[next_state] = char_set
+      Some(existing_char_set) =>
+        char_set_by_state[next_state] = char_set.union(existing_char_set)
     }
   }
-
-  fn flush() {
-    if last_char != -1 {
-      result.push(((first_char, last_char), last_target))
-    }
-  }
-
-  for char in 0..<128 {
-    match trans[Char::from_int(char)] {
-      None => {
-        add(char, (0, []))
-        last_char = -1
-        first_char = char + 1
+  let result = char_set_by_state
+    .iter()
+    .flat_map(fn {
+      (state, char_set) => {
+        let action = tag_action_by_state[state].unwrap()
+        char_set
+        .iter_ranges()
+        .map(fn {
+          (min, max) => ((min.to_int(), max.to_int()), (state, action._))
+        })
       }
-      Some((target, tag_action)) => {
-        add(char, (target, tag_action._))
-        last_char = char
-      }
-    }
-  }
-  flush()
+    })
+    .to_array()
+  result.sort()
   result
 }
 
@@ -131,15 +122,19 @@ fn codegen_rule(rule : Rule) -> String {
         )
       }
     }
-    if trans.size() < 128 {
+    let covered_char_set = trans
+      .iter()
+      .map(fn(it) { it.0 })
+      .fold(init=@char_set.empty(), fn(a, b) { a.union(b) })
+    if (@char_set.range('\x00', '\x7F') - covered_char_set).is_empty() {
       states_code.write_string(
-        $|    _ => (-1, [])
+        $|    _ => panic()
         $|
         ,
       )
     } else {
       states_code.write_string(
-        $|    _ => panic()
+        $|    _ => (-1, [])
         $|
         ,
       )

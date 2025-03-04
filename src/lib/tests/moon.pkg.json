@@ -2,6 +2,7 @@
   "import": [
     "moonbitlang/lex/lib/type",
     "moonbitlang/lex/lib/automaton",
-    "moonbitlang/lex/lib/parser"
+    "moonbitlang/lex/lib/parser",
+    "moonbitlang/lex/lib/util/char_set"
   ]
 }

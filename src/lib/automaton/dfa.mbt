@@ -61,7 +61,7 @@ fn tagState_min(self : TagState, other : TagState) -> TagState {
 
 ///|
 pub(all) struct DFA {
-  graph : Array[Map[Char, (Int, TagAction)]] // indexed by node_id
+  graph : Array[Array[(@char_set.T, (Int, TagAction))]] // indexed by node_id
   end_nodes : Map[Int, (Int, Array[((Tag, Int), (Tag, Int))])]
   // (pattern_id, [(begin_tag, rank), (end_tag, rank))])
   code_blocks : Array[CodeBlock] // indexed by pattern_id
@@ -90,7 +90,7 @@ fn DFA::new(
 fn DFA::new_node(self : DFA) -> Int {
   let id = self.node_count
   self.node_count += 1
-  self.graph.push(Map::new())
+  self.graph.push([])
   id
 }
 
@@ -98,11 +98,11 @@ fn DFA::new_node(self : DFA) -> Int {
 fn DFA::add_edge(
   self : DFA,
   from : Int,
-  e : Char,
+  e : @char_set.T,
   action : TagAction,
   to : Int
 ) -> Unit {
-  self.graph[from].set(e, (to, action))
+  self.graph[from].push((e, (to, action)))
 }
 
 ///|
@@ -194,10 +194,7 @@ fn DFA::from_nfa(nfa : NFA) -> DFA {
     })
   }
 
-  let _ = get_id(initial_state)
-  while not(queue.is_empty()) {
-    let cur_state = queue.pop().unwrap()
-    let from_n = node_map.get(cur_state).unwrap()
+  fn transitions(cur_state : State) -> Array[(Char, State)] {
     let next_states : Map[Char, State] = Map::new()
     for nfa_node in get_nodes(cur_state) {
       let node_tagState = cur_state[nfa_node].unwrap()
@@ -223,10 +220,19 @@ fn DFA::from_nfa(nfa : NFA) -> DFA {
         next_states.set(c, state_map)
       }
     }
-    for ch, state in next_states {
+    next_states.iter().to_array()
+  }
+
+  let _ = get_id(initial_state)
+  while not(queue.is_empty()) {
+    let cur_state = queue.pop().unwrap()
+    let from_n = node_map.get(cur_state).unwrap()
+    let trans = transitions(cur_state)
+    for tran in trans {
+      let (ch, state) = tran
       let (state, action) = state_canonicalize(state, nfa.tag_count)
       let to_n = get_id(state)
-      dfa.add_edge(from_n, ch, action, to_n)
+      dfa.add_edge(from_n, @char_set.singleton(ch), action, to_n)
     }
   }
   dfa

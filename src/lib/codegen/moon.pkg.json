@@ -2,7 +2,8 @@
   "import": [
     "moonbitlang/lex/lib/type",
     "moonbitlang/lex/lib/automaton",
-    "moonbitlang/lex/lib/codegen/internal/codeblock_parser"
+    "moonbitlang/lex/lib/codegen/internal/codeblock_parser",
+    "moonbitlang/lex/lib/util/char_set"
   ],
   "pre-build": [
     {
