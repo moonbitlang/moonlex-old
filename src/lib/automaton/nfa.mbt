@@ -200,7 +200,7 @@ fn register_regex_rec(
 }
 
 ///|
-fn get_eps_closure(self : NFA) -> Array[@immut/hashmap.T[Int, @bitset.T]] {
+fn get_eps_closure(self : NFA) -> Array[@immut/hashmap.T[NFANode, @bitset.T]] {
   Array::map(self.graph, fn(x) {
     let empty_bits = @bitset.new(self.tag_count)
     let result = Map::from_array([(x, empty_bits)])
@@ -225,6 +225,6 @@ fn get_eps_closure(self : NFA) -> Array[@immut/hashmap.T[Int, @bitset.T]] {
         }
       }
     }
-    @immut/hashmap.from_iter(result.iter().map(fn { (k, v) => (k.num, v) }))
+    @immut/hashmap.from_iter(result.iter())
   })
 }

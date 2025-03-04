@@ -106,7 +106,7 @@ fn DFA::add_edge(
 }
 
 ///|
-typealias State = @immut/hashmap.T[Int, TagState]
+typealias State = @immut/hashmap.T[NFANode, TagState]
 
 ///|
 fn state_canonicalize(state : State, tag_count : Int) -> (State, TagAction) {
@@ -145,13 +145,13 @@ fn state_canonicalize(state : State, tag_count : Int) -> (State, TagAction) {
 fn register_node(self : DFA, nfa : NFA, node : Int, os : State) -> Unit {
   let code_blocks = os
     .iter()
-    .filter_map(fn(x) { nfa.end_nodes.get(x.0) })
+    .filter_map(fn(x) { nfa.end_nodes.get(x.0.num) })
     .collect()
   guard not(code_blocks.is_empty()) else { return () }
   let min_code_block = code_blocks.fold(init=code_blocks[0], @math.minimum)
   let end_nodes = os
     .iter()
-    .filter(fn(x) { nfa.end_nodes.get(x.0) == Some(min_code_block) })
+    .filter(fn(x) { nfa.end_nodes.get(x.0.num) == Some(min_code_block) })
     .to_array()
   guard end_nodes.length() == 1 else {
     // only one node to one exact code_block in nfa
@@ -167,7 +167,7 @@ fn register_node(self : DFA, nfa : NFA, node : Int, os : State) -> Unit {
 
 ///|
 fn DFA::from_nfa(nfa : NFA) -> DFA {
-  fn get_nodes(state : State) -> Iter[Int] {
+  fn get_nodes(state : State) -> Iter[NFANode] {
     state.iter().map(fn(p) { p.0 })
   }
 
@@ -199,9 +199,9 @@ fn DFA::from_nfa(nfa : NFA) -> DFA {
     let cur_state = queue.pop().unwrap()
     let from_n = node_map.get(cur_state).unwrap()
     let next_states : Map[Char, State] = Map::new()
-    for node in get_nodes(cur_state) {
-      let node_tagState = cur_state[node].unwrap()
-      for tran in nfa.graph[node].trans {
+    for nfa_node in get_nodes(cur_state) {
+      let node_tagState = cur_state[nfa_node].unwrap()
+      for tran in nfa_node.trans {
         let (c, (step_node, tag)) = tran
         let mut state_map = next_states[c].or_else(fn() { @immut/hashmap.new() })
         guard tag.is_empty() else {
