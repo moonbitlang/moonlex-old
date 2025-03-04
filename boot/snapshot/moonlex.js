@@ -177,11 +177,11 @@ function $64$moonbitlang$47$lex$47$lib$47$util$47$diet$46$Tree$Node$9$(param0, p
   this._4 = param4;
 }
 $64$moonbitlang$47$lex$47$lib$47$util$47$diet$46$Tree$Node$9$.prototype.$tag = 1;
-const $64$moonbitlang$47$lex$47$lib$47$automaton$46$Symbol$Eps = { $tag: 0 };
-function $64$moonbitlang$47$lex$47$lib$47$automaton$46$Symbol$EChar(param0) {
+const $64$moonbitlang$47$lex$47$lib$47$automaton$46$Input$Eps = { $tag: 0 };
+function $64$moonbitlang$47$lex$47$lib$47$automaton$46$Input$EChar(param0) {
   this._0 = param0;
 }
-$64$moonbitlang$47$lex$47$lib$47$automaton$46$Symbol$EChar.prototype.$tag = 1;
+$64$moonbitlang$47$lex$47$lib$47$automaton$46$Input$EChar.prototype.$tag = 1;
 function $64$moonbitlang$47$lex$47$lib$47$codegen$47$internal$47$codeblock_parser$46$SubstItemDesc$StartPosOf(param0) {
   this._0 = param0;
 }
@@ -7781,8 +7781,8 @@ function moonbitlang$lex$lib$util$bitset$$Bitset$set(self, index, value) {
 function moonbitlang$lex$lib$util$bitset$$Bitset$union(self, other) {
   return self.len !== other.len ? moonbitlang$core$builtin$$abort$69$("") : { bits: moonbitlang$core$array$$FixedArray$makei$8$(self.bits.length, (i) => self.bits[i] | other.bits[i]), len: self.len };
 }
-function moonbitlang$core$builtin$$Eq$op_equal$33$(_x_247, _x_248) {
-  return moonbitlang$core$builtin$$Eq$op_equal$128$(_x_247, _x_248);
+function moonbitlang$core$builtin$$Eq$op_equal$33$(_x_246, _x_247) {
+  return moonbitlang$core$builtin$$Eq$op_equal$128$(_x_246, _x_247);
 }
 function moonbitlang$core$builtin$$Hash$hash_combine$33$(self, hasher) {
   moonbitlang$core$array$$Array$each$18$(self, (x) => {
@@ -7972,9 +7972,9 @@ function moonbitlang$lex$lib$automaton$$NFA$get_eps_closure(self) {
 }
 function moonbitlang$lex$lib$automaton$$from_nfa$46$get_id$137$(_env, state) {
   const node_map = _env._3;
-  const nfa = _env._2;
-  const queue = _env._1;
-  const dfa = _env._0;
+  const dfa = _env._2;
+  const nfa = _env._1;
+  const queue = _env._0;
   return moonbitlang$core$builtin$$Map$get_or_init$93$(node_map, state, () => {
     const node = moonbitlang$lex$lib$automaton$$DFA$new_node(dfa);
     moonbitlang$lex$lib$automaton$$DFA$register_node(dfa, nfa, node, state);
@@ -8001,7 +8001,7 @@ function moonbitlang$lex$lib$automaton$$DFA$from_nfa(nfa) {
   const dfa = moonbitlang$lex$lib$automaton$$DFA$new(nfa.code_blocks, captures, _x$2);
   const node_map = moonbitlang$core$builtin$$Map$new$93$(moonbitlang$core$builtin$$Map$new$46$capacity$46$default$93$());
   const queue = moonbitlang$core$queue$$new$17$();
-  const _env = { _0: dfa, _1: queue, _2: nfa, _3: node_map };
+  const _env = { _0: queue, _1: nfa, _2: dfa, _3: node_map };
   moonbitlang$lex$lib$automaton$$from_nfa$46$get_id$137$(_env, _x);
   while (true) {
     if (!moonbitlang$core$queue$$T$is_empty$17$(queue)) {
@@ -8022,22 +8022,26 @@ function moonbitlang$lex$lib$automaton$$DFA$from_nfa(nfa) {
             const _x$4 = tran._1;
             const _x$5 = _x$4._0;
             const _x$6 = _x$4._1;
-            const state_map = { val: moonbitlang$core$option$$Option$or_else$17$(moonbitlang$core$builtin$$Map$op_get$92$(next_states, _x$3), () => moonbitlang$core$immut$hashmap$$new$27$()) };
-            if (moonbitlang$core$option$$Option$is_empty$8$(_x$6)) {
-              const _bind$4 = moonbitlang$core$immut$hashmap$$T$iter$26$(moonbitlang$core$array$$Array$op_get$16$(eps_closure, _x$5.num));
-              _bind$4((pair) => {
-                const _x$7 = pair._0;
-                const _x$8 = pair._1;
-                const upd_tagState = moonbitlang$lex$lib$automaton$$TagState$update_by_tags(moonbitlang$lex$lib$automaton$$TagState$copy(node_tagState), _x$8);
-                const old_tagState = moonbitlang$core$immut$hashmap$$T$op_get$27$(state_map.val, _x$7);
-                const new_tagState = moonbitlang$core$option$$Option$is_empty$33$(old_tagState) ? upd_tagState : moonbitlang$lex$lib$automaton$$TagState$tagState_min(upd_tagState, moonbitlang$core$option$$Option$unwrap$33$(old_tagState));
-                state_map.val = moonbitlang$core$immut$hashmap$$T$add$27$(state_map.val, _x$7, new_tagState);
-                return 1;
-              });
-              moonbitlang$core$builtin$$Map$set$92$(next_states, _x$3, state_map.val);
-            } else {
-              moonbitlang$core$builtin$$abort$6$("error");
-            }
+            const _bind$4 = moonbitlang$lex$lib$util$char_set$$CharSet$iter(_x$3);
+            _bind$4((c) => {
+              const state_map = { val: moonbitlang$core$option$$Option$or_else$17$(moonbitlang$core$builtin$$Map$op_get$92$(next_states, c), () => moonbitlang$core$immut$hashmap$$new$27$()) };
+              if (moonbitlang$core$option$$Option$is_empty$8$(_x$6)) {
+                const _bind$5 = moonbitlang$core$immut$hashmap$$T$iter$26$(moonbitlang$core$array$$Array$op_get$16$(eps_closure, _x$5.num));
+                _bind$5((pair) => {
+                  const _x$7 = pair._0;
+                  const _x$8 = pair._1;
+                  const upd_tagState = moonbitlang$lex$lib$automaton$$TagState$update_by_tags(moonbitlang$lex$lib$automaton$$TagState$copy(node_tagState), _x$8);
+                  const old_tagState = moonbitlang$core$immut$hashmap$$T$op_get$27$(state_map.val, _x$7);
+                  const new_tagState = moonbitlang$core$option$$Option$is_empty$33$(old_tagState) ? upd_tagState : moonbitlang$lex$lib$automaton$$TagState$tagState_min(upd_tagState, moonbitlang$core$option$$Option$unwrap$33$(old_tagState));
+                  state_map.val = moonbitlang$core$immut$hashmap$$T$add$27$(state_map.val, _x$7, new_tagState);
+                  return 1;
+                });
+                moonbitlang$core$builtin$$Map$set$92$(next_states, c, state_map.val);
+              } else {
+                moonbitlang$core$builtin$$abort$6$("error");
+              }
+              return 1;
+            });
             _tmp = _i + 1 | 0;
             continue;
           } else {
@@ -8110,29 +8114,19 @@ function moonbitlang$lex$lib$automaton$$NFA$register_regex_rec(self, node, re, n
     switch (re$2.$tag) {
       case 0: {
         const next_node = moonbitlang$lex$lib$automaton$$NFA$new_node(self$2);
-        let _tmp$5 = 1;
-        while (true) {
-          const c = _tmp$5;
-          if (c < 128) {
-            moonbitlang$lex$lib$automaton$$NFA$add_edge(self$2, node$2, new $64$moonbitlang$47$lex$47$lib$47$automaton$46$Symbol$EChar(c), moonbitlang$lex$lib$automaton$$NFA$add_edge$46$tag$46$default(), next_node);
-            _tmp$5 = c + 1 | 0;
-            continue;
-          } else {
-            break;
-          }
-        }
+        moonbitlang$lex$lib$automaton$$NFA$add_edge(self$2, node$2, new $64$moonbitlang$47$lex$47$lib$47$automaton$46$Input$EChar(moonbitlang$lex$lib$util$char_set$$range(1, 127)), moonbitlang$lex$lib$automaton$$NFA$add_edge$46$tag$46$default(), next_node);
         return next_node;
       }
       case 1: {
         const next_node$2 = moonbitlang$lex$lib$automaton$$NFA$new_node(self$2);
-        moonbitlang$lex$lib$automaton$$NFA$add_edge(self$2, node$2, new $64$moonbitlang$47$lex$47$lib$47$automaton$46$Symbol$EChar(0), moonbitlang$lex$lib$automaton$$NFA$add_edge$46$tag$46$default(), next_node$2);
+        moonbitlang$lex$lib$automaton$$NFA$add_edge(self$2, node$2, new $64$moonbitlang$47$lex$47$lib$47$automaton$46$Input$EChar(moonbitlang$lex$lib$util$char_set$$singleton(0)), moonbitlang$lex$lib$automaton$$NFA$add_edge$46$tag$46$default(), next_node$2);
         return next_node$2;
       }
       case 3: {
         const _ReChar = re$2;
         const _x = _ReChar._0;
         const next_node$3 = moonbitlang$lex$lib$automaton$$NFA$new_node(self$2);
-        moonbitlang$lex$lib$automaton$$NFA$add_edge(self$2, node$2, new $64$moonbitlang$47$lex$47$lib$47$automaton$46$Symbol$EChar(_x), moonbitlang$lex$lib$automaton$$NFA$add_edge$46$tag$46$default(), next_node$3);
+        moonbitlang$lex$lib$automaton$$NFA$add_edge(self$2, node$2, new $64$moonbitlang$47$lex$47$lib$47$automaton$46$Input$EChar(moonbitlang$lex$lib$util$char_set$$singleton(_x)), moonbitlang$lex$lib$automaton$$NFA$add_edge$46$tag$46$default(), next_node$3);
         return next_node$3;
       }
       case 2: {
@@ -8143,7 +8137,7 @@ function moonbitlang$lex$lib$automaton$$NFA$register_regex_rec(self, node, re, n
         const _bind = moonbitlang$core$string$$String$iter(_x$2);
         _bind((c) => {
           next_node$4.val = moonbitlang$lex$lib$automaton$$NFA$new_node(self$2);
-          moonbitlang$lex$lib$automaton$$NFA$add_edge(self$2, last_node.val, new $64$moonbitlang$47$lex$47$lib$47$automaton$46$Symbol$EChar(c), moonbitlang$lex$lib$automaton$$NFA$add_edge$46$tag$46$default(), next_node$4.val);
+          moonbitlang$lex$lib$automaton$$NFA$add_edge(self$2, last_node.val, new $64$moonbitlang$47$lex$47$lib$47$automaton$46$Input$EChar(moonbitlang$lex$lib$util$char_set$$singleton(c)), moonbitlang$lex$lib$automaton$$NFA$add_edge$46$tag$46$default(), next_node$4.val);
           last_node.val = next_node$4.val;
           return 1;
         });
@@ -8153,11 +8147,7 @@ function moonbitlang$lex$lib$automaton$$NFA$register_regex_rec(self, node, re, n
         const _CharSet = re$2;
         const _x$3 = _CharSet._0;
         const next_node$5 = moonbitlang$lex$lib$automaton$$NFA$new_node(self$2);
-        const _bind$2 = moonbitlang$lex$lib$util$char_set$$CharSet$iter(moonbitlang$lex$lib$util$char_set$$CharSet$land(_x$3, moonbitlang$lex$lib$util$char_set$$range(1, 127)));
-        _bind$2((c) => {
-          moonbitlang$lex$lib$automaton$$NFA$add_edge(self$2, node$2, new $64$moonbitlang$47$lex$47$lib$47$automaton$46$Symbol$EChar(c), moonbitlang$lex$lib$automaton$$NFA$add_edge$46$tag$46$default(), next_node$5);
-          return 1;
-        });
+        moonbitlang$lex$lib$automaton$$NFA$add_edge(self$2, node$2, new $64$moonbitlang$47$lex$47$lib$47$automaton$46$Input$EChar(moonbitlang$lex$lib$util$char_set$$CharSet$land(_x$3, moonbitlang$lex$lib$util$char_set$$range(1, 127))), moonbitlang$lex$lib$automaton$$NFA$add_edge$46$tag$46$default(), next_node$5);
         return next_node$5;
       }
       case 6: {
@@ -8166,9 +8156,9 @@ function moonbitlang$lex$lib$automaton$$NFA$register_regex_rec(self, node, re, n
         const new_node = moonbitlang$lex$lib$automaton$$NFA$new_node(self$2);
         const final_ = moonbitlang$lex$lib$automaton$$NFA$register_regex_rec(self$2, new_node, _x$4, name2tag$2);
         const new_final = moonbitlang$lex$lib$automaton$$NFA$new_node(self$2);
-        moonbitlang$lex$lib$automaton$$NFA$add_edge(self$2, node$2, $64$moonbitlang$47$lex$47$lib$47$automaton$46$Symbol$Eps, moonbitlang$lex$lib$automaton$$NFA$add_edge$46$tag$46$default(), new_node);
-        moonbitlang$lex$lib$automaton$$NFA$add_edge(self$2, final_, $64$moonbitlang$47$lex$47$lib$47$automaton$46$Symbol$Eps, moonbitlang$lex$lib$automaton$$NFA$add_edge$46$tag$46$default(), new_final);
-        moonbitlang$lex$lib$automaton$$NFA$add_edge(self$2, node$2, $64$moonbitlang$47$lex$47$lib$47$automaton$46$Symbol$Eps, moonbitlang$lex$lib$automaton$$NFA$add_edge$46$tag$46$default(), new_final);
+        moonbitlang$lex$lib$automaton$$NFA$add_edge(self$2, node$2, $64$moonbitlang$47$lex$47$lib$47$automaton$46$Input$Eps, moonbitlang$lex$lib$automaton$$NFA$add_edge$46$tag$46$default(), new_node);
+        moonbitlang$lex$lib$automaton$$NFA$add_edge(self$2, final_, $64$moonbitlang$47$lex$47$lib$47$automaton$46$Input$Eps, moonbitlang$lex$lib$automaton$$NFA$add_edge$46$tag$46$default(), new_final);
+        moonbitlang$lex$lib$automaton$$NFA$add_edge(self$2, node$2, $64$moonbitlang$47$lex$47$lib$47$automaton$46$Input$Eps, moonbitlang$lex$lib$automaton$$NFA$add_edge$46$tag$46$default(), new_final);
         return new_final;
       }
       case 5: {
@@ -8177,9 +8167,9 @@ function moonbitlang$lex$lib$automaton$$NFA$register_regex_rec(self, node, re, n
         const new_node$2 = moonbitlang$lex$lib$automaton$$NFA$new_node(self$2);
         const final_$2 = moonbitlang$lex$lib$automaton$$NFA$register_regex_rec(self$2, new_node$2, _x$5, name2tag$2);
         const new_final$2 = moonbitlang$lex$lib$automaton$$NFA$new_node(self$2);
-        moonbitlang$lex$lib$automaton$$NFA$add_edge(self$2, node$2, $64$moonbitlang$47$lex$47$lib$47$automaton$46$Symbol$Eps, moonbitlang$lex$lib$automaton$$NFA$add_edge$46$tag$46$default(), new_node$2);
-        moonbitlang$lex$lib$automaton$$NFA$add_edge(self$2, final_$2, $64$moonbitlang$47$lex$47$lib$47$automaton$46$Symbol$Eps, moonbitlang$lex$lib$automaton$$NFA$add_edge$46$tag$46$default(), new_final$2);
-        moonbitlang$lex$lib$automaton$$NFA$add_edge(self$2, new_final$2, $64$moonbitlang$47$lex$47$lib$47$automaton$46$Symbol$Eps, moonbitlang$lex$lib$automaton$$NFA$add_edge$46$tag$46$default(), node$2);
+        moonbitlang$lex$lib$automaton$$NFA$add_edge(self$2, node$2, $64$moonbitlang$47$lex$47$lib$47$automaton$46$Input$Eps, moonbitlang$lex$lib$automaton$$NFA$add_edge$46$tag$46$default(), new_node$2);
+        moonbitlang$lex$lib$automaton$$NFA$add_edge(self$2, final_$2, $64$moonbitlang$47$lex$47$lib$47$automaton$46$Input$Eps, moonbitlang$lex$lib$automaton$$NFA$add_edge$46$tag$46$default(), new_final$2);
+        moonbitlang$lex$lib$automaton$$NFA$add_edge(self$2, new_final$2, $64$moonbitlang$47$lex$47$lib$47$automaton$46$Input$Eps, moonbitlang$lex$lib$automaton$$NFA$add_edge$46$tag$46$default(), node$2);
         return new_final$2;
       }
       case 8: {
@@ -8198,8 +8188,8 @@ function moonbitlang$lex$lib$automaton$$NFA$register_regex_rec(self, node, re, n
         const final_1 = moonbitlang$lex$lib$automaton$$NFA$register_regex_rec(self$2, node$2, _x$8, name2tag$2);
         const final_2 = moonbitlang$lex$lib$automaton$$NFA$register_regex_rec(self$2, node$2, _x$9, name2tag$2);
         const final_$3 = moonbitlang$lex$lib$automaton$$NFA$new_node(self$2);
-        moonbitlang$lex$lib$automaton$$NFA$add_edge(self$2, final_1, $64$moonbitlang$47$lex$47$lib$47$automaton$46$Symbol$Eps, moonbitlang$lex$lib$automaton$$NFA$add_edge$46$tag$46$default(), final_$3);
-        moonbitlang$lex$lib$automaton$$NFA$add_edge(self$2, final_2, $64$moonbitlang$47$lex$47$lib$47$automaton$46$Symbol$Eps, moonbitlang$lex$lib$automaton$$NFA$add_edge$46$tag$46$default(), final_$3);
+        moonbitlang$lex$lib$automaton$$NFA$add_edge(self$2, final_1, $64$moonbitlang$47$lex$47$lib$47$automaton$46$Input$Eps, moonbitlang$lex$lib$automaton$$NFA$add_edge$46$tag$46$default(), final_$3);
+        moonbitlang$lex$lib$automaton$$NFA$add_edge(self$2, final_2, $64$moonbitlang$47$lex$47$lib$47$automaton$46$Input$Eps, moonbitlang$lex$lib$automaton$$NFA$add_edge$46$tag$46$default(), final_$3);
         return final_$3;
       }
       case 9: {
@@ -8209,11 +8199,11 @@ function moonbitlang$lex$lib$automaton$$NFA$register_regex_rec(self, node, re, n
         const start = moonbitlang$lex$lib$automaton$$NFA$new_node(self$2);
         const final_$4 = moonbitlang$lex$lib$automaton$$NFA$new_node(self$2);
         const tail = moonbitlang$lex$lib$automaton$$NFA$register_regex_rec(self$2, start, _x$10, name2tag$2);
-        const _bind$3 = name2tag$2(_x$11);
-        const _x$12 = _bind$3._0;
-        const _x$13 = _bind$3._1;
-        moonbitlang$lex$lib$automaton$$NFA$add_edge(self$2, node$2, $64$moonbitlang$47$lex$47$lib$47$automaton$46$Symbol$Eps, _x$12, start);
-        moonbitlang$lex$lib$automaton$$NFA$add_edge(self$2, tail, $64$moonbitlang$47$lex$47$lib$47$automaton$46$Symbol$Eps, _x$13, final_$4);
+        const _bind$2 = name2tag$2(_x$11);
+        const _x$12 = _bind$2._0;
+        const _x$13 = _bind$2._1;
+        moonbitlang$lex$lib$automaton$$NFA$add_edge(self$2, node$2, $64$moonbitlang$47$lex$47$lib$47$automaton$46$Input$Eps, _x$12, start);
+        moonbitlang$lex$lib$automaton$$NFA$add_edge(self$2, tail, $64$moonbitlang$47$lex$47$lib$47$automaton$46$Input$Eps, _x$13, final_$4);
         return final_$4;
       }
       default: {
@@ -9393,9 +9383,9 @@ function Yoorkin$trie$$T$lookup$141$(self, path) {
 }
 function Yoorkin$trie$$T$add$141$(self, path, value) {
   const _bind = moonbitlang$core$string$$String$to_array(path);
-  return Yoorkin$trie$$add$46$aux$47$3592(value, { buf: _bind, start: 0, len: _bind.length }, self);
+  return Yoorkin$trie$$add$46$aux$47$3590(value, { buf: _bind, start: 0, len: _bind.length }, self);
 }
-function Yoorkin$trie$$add$46$aux$47$3592(value, _param1, _param2) {
+function Yoorkin$trie$$add$46$aux$47$3590(value, _param1, _param2) {
   if (_param1.len === 0) {
     return { value: value, forks: _param2.forks };
   } else {
@@ -9405,7 +9395,7 @@ function Yoorkin$trie$$add$46$aux$47$3592(value, _param1, _param2) {
     const _some = _param1.len - 0 | 0;
     const _x$2 = { buf: _tmp, start: _tmp$2, len: _some - 1 | 0 };
     const subtree = moonbitlang$core$option$$Option$or$47$(moonbitlang$core$immut$sorted_map$$T$op_get$25$(_param2.forks, _x), { value: undefined, forks: moonbitlang$core$immut$sorted_map$$new$25$() });
-    return { value: _param2.value, forks: moonbitlang$core$immut$sorted_map$$T$add$25$(_param2.forks, _x, Yoorkin$trie$$add$46$aux$47$3592(value, _x$2, subtree)) };
+    return { value: _param2.value, forks: moonbitlang$core$immut$sorted_map$$T$add$25$(_param2.forks, _x, Yoorkin$trie$$add$46$aux$47$3590(value, _x$2, subtree)) };
   }
 }
 function Yoorkin$trie$$empty$141$() {

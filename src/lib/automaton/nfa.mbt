@@ -1,7 +1,7 @@
 ///|
-pub(all) enum Symbol {
+pub(all) enum Input {
   Eps
-  EChar(Char)
+  EChar(@char_set.T)
 } derive(Eq, Hash, Show)
 
 ///|
@@ -21,7 +21,7 @@ pub(all) struct NFA {
 pub(all) struct NFANode {
   num : Int
   mut eps : @immut/sorted_set.T[(NFANode, Tag?)]
-  mut trans : Array[(Char, (NFANode, Tag?))]
+  mut trans : Array[(@char_set.T, (NFANode, Tag?))]
 } derive(Show)
 
 ///|
@@ -86,7 +86,7 @@ fn new_node(self : NFA) -> NFANode {
 fn add_edge(
   self : NFA,
   from : NFANode,
-  s : Symbol,
+  s : Input,
   tag~ : Tag? = None,
   to : NFANode
 ) -> Unit {
@@ -122,20 +122,18 @@ fn register_regex_rec(
   match re {
     Underscore => {
       let next_node = self.new_node()
-      for c = 1; c < 128; c = c + 1 {
-        self.add_edge(node, EChar(Char::from_int(c)), next_node)
-      }
+      self.add_edge(node, EChar(@char_set.range('\x01', '\x7f')), next_node)
       next_node
     }
     EOF => {
       let next_node = self.new_node()
       // eof is treated as \0 currently
-      self.add_edge(node, EChar('\x00'), next_node)
+      self.add_edge(node, EChar(@char_set.singleton('\x00')), next_node)
       next_node
     }
     ReChar(c) => {
       let next_node = self.new_node()
-      self.add_edge(node, EChar(c), next_node)
+      self.add_edge(node, EChar(@char_set.singleton(c)), next_node)
       next_node
     }
     ReStr(s) => {
@@ -143,7 +141,7 @@ fn register_regex_rec(
       let mut last_node = node
       for c in s {
         next_node = self.new_node()
-        self.add_edge(last_node, EChar(c), next_node)
+        self.add_edge(last_node, EChar(@char_set.singleton(c)), next_node)
         last_node = next_node
       } else {
         next_node
@@ -151,9 +149,11 @@ fn register_regex_rec(
     }
     CharSet(cset) => {
       let next_node = self.new_node()
-      for c in cset & @char_set.range('\x01', '\x7f') {
-        self.add_edge(node, EChar(c), next_node)
-      }
+      self.add_edge(
+        node,
+        EChar(cset & @char_set.range('\x01', '\x7f')),
+        next_node,
+      )
       next_node
     }
     Option(re) => {
