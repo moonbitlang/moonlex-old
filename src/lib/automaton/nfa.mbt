@@ -93,7 +93,16 @@ fn add_edge(
   ignore(self)
   match s {
     Eps => from.eps = from.eps.add((to, tag))
-    EChar(c) => from.trans.push((c, @immut/sorted_set.singleton((to, tag))))
+    EChar(c) =>
+      // TODO: Just `from.trans.push((c, @immut/sorted_set.singleton((to, tag))))`
+      // is enough once we added canonicalization to trans
+      match from.trans.search_by(fn { (k, _) => k == c }) {
+        None => from.trans.push((c, @immut/sorted_set.singleton((to, tag))))
+        Some(index) => {
+          let (c, targets) = from.trans[index]
+          from.trans[index] = (c, targets.add((to, tag)))
+        }
+      }
   }
 }
 
