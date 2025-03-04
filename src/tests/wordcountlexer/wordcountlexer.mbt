@@ -46,7 +46,7 @@ pub(all) struct LexEngine {
 
 ///|
 pub fn run(self : LexEngine, lexbuf : Lexbuf) -> (Int, Array[(Int, Int)]) {
-   let mut state = 1
+   let mut state = 0
    let mut tagState : Array[Array[Int]] = []
    let backtrace = Array::make(self.code_blocks_n, None)
    for tag in self.start_tags {
@@ -55,7 +55,7 @@ pub fn run(self : LexEngine, lexbuf : Lexbuf) -> (Int, Array[(Int, Int)]) {
      }
      tagState[tag].push(lexbuf.pos)
    }
-   while state != 0 {
+   while state != -1 {
      match self.end_nodes[state] {
        Some(t) => backtrace[t.0] = Some((lexbuf.pos, state, tagState))
        _ => ()
@@ -112,48 +112,43 @@ let count_tag_action_0 : Array[Array[Int]] = [count_tag_action_row_1, count_tag_
 
 fn count_state_0(input : LexInput) -> (LexState, LexTagAction) {
    match input {
-     _ => (0, [])
+     1..=8 => (2, count_tag_action_0)
+     9 => (3, count_tag_action_1)
+     10 => (1, count_tag_action_1)
+     11..=31 => (2, count_tag_action_0)
+     32 => (3, count_tag_action_1)
+     33..=127 => (2, count_tag_action_0)
+     _ => (-1, [])
    }
  }
 fn count_state_1(input : LexInput) -> (LexState, LexTagAction) {
    match input {
-     1..=8 => (2, count_tag_action_0)
-     9 => (4, count_tag_action_1)
-     10 => (3, count_tag_action_1)
-     11..=31 => (2, count_tag_action_0)
-     32 => (4, count_tag_action_1)
-     33..=127 => (2, count_tag_action_0)
-     _ => (0, [])
+     _ => (-1, [])
    }
  }
 fn count_state_2(input : LexInput) -> (LexState, LexTagAction) {
    match input {
-     1..=8 => (5, count_tag_action_0)
-     11..=31 => (5, count_tag_action_0)
-     33..=127 => (5, count_tag_action_0)
-     _ => (0, [])
+     1..=8 => (4, count_tag_action_0)
+     11..=31 => (4, count_tag_action_0)
+     33..=127 => (4, count_tag_action_0)
+     _ => (-1, [])
    }
  }
 fn count_state_3(input : LexInput) -> (LexState, LexTagAction) {
    match input {
-     _ => (0, [])
+     _ => (-1, [])
    }
  }
 fn count_state_4(input : LexInput) -> (LexState, LexTagAction) {
    match input {
-     _ => (0, [])
-   }
- }
-fn count_state_5(input : LexInput) -> (LexState, LexTagAction) {
-   match input {
-     1..=8 => (5, count_tag_action_0)
-     11..=31 => (5, count_tag_action_0)
-     33..=127 => (5, count_tag_action_0)
-     _ => (0, [])
+     1..=8 => (4, count_tag_action_0)
+     11..=31 => (4, count_tag_action_0)
+     33..=127 => (4, count_tag_action_0)
+     _ => (-1, [])
    }
  }
 
-let __mbtlex_engine_count: LexEngine = { graph: [count_state_0, count_state_1, count_state_2, count_state_3, count_state_4, count_state_5, ], end_nodes: [None, Some((3, [])), Some((1, [((0, 0), (1, 0))])), Some((0, [])), Some((2, [])), Some((1, [((0, 0), (1, 0))]))], start_tags: [0], code_blocks_n: 4 }
+let __mbtlex_engine_count: LexEngine = { graph: [count_state_0, count_state_1, count_state_2, count_state_3, count_state_4, ], end_nodes: [Some((3, [])), Some((0, [])), Some((1, [((0, 0), (1, 0))])), Some((2, [])), Some((1, [((0, 0), (1, 0))]))], start_tags: [0], code_blocks_n: 4 }
 fn count( lines :  Int, words :  Int, chars :  Int, lexbuf : Lexbuf ) ->  (Int, Int, Int)  {
  match __mbtlex_engine_count.run(lexbuf) {
  (0, __mbtlex_captures) => {

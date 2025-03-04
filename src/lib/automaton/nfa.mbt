@@ -42,11 +42,11 @@ pub impl Hash for NFANode with hash_combine(self, hasher) {
 ///|
 fn NFA::new_nfa() -> NFA {
   {
-    graph: [NFANode::{ num: 0, eps: @immut/sorted_set.new(), trans: [] }],
+    graph: [],
     code_blocks: [],
     end_nodes: Map::new(),
     captures: [],
-    node_count: 1,
+    node_count: 0,
     tag_count: 0,
   }
 }

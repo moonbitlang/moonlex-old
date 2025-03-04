@@ -26,9 +26,6 @@ fn nfa2dots(nfa : @automaton.NFA, name~ : String = "nfa") -> DotGraph {
         dots.add_edge(from=node.num, to=target.0.num, edge_info=repr(edge_info))
       }
     }
-    if node.num == 0 {
-      continue
-    }
     let end_node = nfa.end_nodes.get(node.num)
     if end_node.is_empty() {
       dots.set_node(node=node.num, nodeType=Normal)
@@ -91,9 +88,6 @@ fn dfa2dots(dfa : @automaton.DFA, name~ : String = "dfa") -> DotGraph {
         edge_info = edge_info + "\{action._}"
       }
       dots.add_edge(from=node, to=target, edge_info=repr(edge_info))
-    }
-    if node == 0 {
-      continue
     }
     let end_node = dfa.end_nodes.get(node)
     if end_node.is_empty() {

@@ -46,7 +46,7 @@ pub(all) struct LexEngine {
 
 ///|
 pub fn run(self : LexEngine, lexbuf : Lexbuf) -> (Int, Array[(Int, Int)]) {
-   let mut state = 1
+   let mut state = 0
    let mut tagState : Array[Array[Int]] = []
    let backtrace = Array::make(self.code_blocks_n, None)
    for tag in self.start_tags {
@@ -55,7 +55,7 @@ pub fn run(self : LexEngine, lexbuf : Lexbuf) -> (Int, Array[(Int, Int)]) {
      }
      tagState[tag].push(lexbuf.pos)
    }
-   while state != 0 {
+   while state != -1 {
      match self.end_nodes[state] {
        Some(t) => backtrace[t.0] = Some((lexbuf.pos, state, tagState))
        _ => ()
@@ -110,37 +110,32 @@ let test_func_tag_action_0 : Array[Array[Int]] = [test_func_tag_action_row_0, te
 
 fn test_func_state_0(input : LexInput) -> (LexState, LexTagAction) {
    match input {
-     _ => (0, [])
+     97 => (1, test_func_tag_action_0)
+     _ => (-1, [])
    }
  }
 fn test_func_state_1(input : LexInput) -> (LexState, LexTagAction) {
    match input {
-     97 => (2, test_func_tag_action_0)
-     _ => (0, [])
+     97..=98 => (2, test_func_tag_action_1)
+     _ => (-1, [])
    }
  }
 fn test_func_state_2(input : LexInput) -> (LexState, LexTagAction) {
    match input {
-     97..=98 => (3, test_func_tag_action_1)
-     _ => (0, [])
+     97 => (3, test_func_tag_action_0)
+     98 => (2, test_func_tag_action_1)
+     _ => (-1, [])
    }
  }
 fn test_func_state_3(input : LexInput) -> (LexState, LexTagAction) {
    match input {
-     97 => (4, test_func_tag_action_0)
-     98 => (3, test_func_tag_action_1)
-     _ => (0, [])
-   }
- }
-fn test_func_state_4(input : LexInput) -> (LexState, LexTagAction) {
-   match input {
-     97 => (4, test_func_tag_action_0)
-     98 => (3, test_func_tag_action_1)
-     _ => (0, [])
+     97 => (3, test_func_tag_action_0)
+     98 => (2, test_func_tag_action_1)
+     _ => (-1, [])
    }
  }
 
-let __mbtlex_engine_test_func: LexEngine = { graph: [test_func_state_0, test_func_state_1, test_func_state_2, test_func_state_3, test_func_state_4, ], end_nodes: [None, None, Some((0, [((0, 0), (1, 0))])), None, Some((0, [((0, 0), (1, 0))]))], start_tags: [0], code_blocks_n: 1 }
+let __mbtlex_engine_test_func: LexEngine = { graph: [test_func_state_0, test_func_state_1, test_func_state_2, test_func_state_3, ], end_nodes: [None, Some((0, [((0, 0), (1, 0))])), None, Some((0, [((0, 0), (1, 0))]))], start_tags: [0], code_blocks_n: 1 }
 fn test_func( lexbuf : Lexbuf ) ->  String  {
  match __mbtlex_engine_test_func.run(lexbuf) {
  (0, __mbtlex_captures) => {
