@@ -1,7 +1,7 @@
 ///|
 test "parse regex" {
   let parser_buf = ParserBuf::from_string(
-    "(\"x\"*|'\"'+) ['a'- 'z' '_' ] [^ 'a' 'b'] eof '\'' '\r' '\x00'",
+    "(\"x\"*|'\"'+) ['a'- 'z' '_' ] [^ 'a' 'b'] eof '\\'' '\\r' '\\x00'",
   )
   let result = parser_buf.regex().map(fn { (_, r) => r })
   @json.inspect!(result, content=[

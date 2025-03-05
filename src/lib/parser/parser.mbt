@@ -142,9 +142,9 @@ let hex_digit_re : Regex = Alter(
 ///|
 let char_re : Regex = Concat(
   ReChar('\''),
-  Alter(
-    Concat(Underscore, ReChar('\'')),
-    Concat(
+  Concat(
+    Alter(
+      CharSet(@eof_char_set.of_array(['\'', '\\']).negated()),
       Concat(
         ReChar('\\'),
         Alter(
@@ -152,8 +152,8 @@ let char_re : Regex = Concat(
           Underscore,
         ),
       ),
-      ReChar('\''),
     ),
+    ReChar('\''),
   ),
 )
 
