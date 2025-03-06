@@ -49,7 +49,7 @@ fn union_aux[N : @bounded_enum.T](t1 : Tree[N], t2 : Tree[N]) -> Tree[N] {
       Empty => (t1.min, Empty)
       Node(_) => {
         let ((min, max), l3) = split_rightmost(l)
-        if N::succ(max) == t1.min {
+        if max < N::upper_bound() && N::succ(max) == t1.min {
           (min, l3)
         } else {
           (t1.min, l)
@@ -65,7 +65,7 @@ fn union_aux[N : @bounded_enum.T](t1 : Tree[N], t2 : Tree[N]) -> Tree[N] {
       Empty => (t1.max, Empty)
       Node(_) => {
         let ((min, max), r3) = split_leftmost(r)
-        if N::pred(min) == t1.max {
+        if min > N::lower_bound() && N::pred(min) == t1.max {
           (max, r3)
         } else {
           (t1.max, r)

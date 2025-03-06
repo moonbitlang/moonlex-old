@@ -7071,7 +7071,7 @@ function moonbitlang$lex$lib$util$diet$$union_aux$1$(t1, t2) {
           const _x$2 = _x._0;
           const _x$3 = _x._1;
           const _x$4 = _bind$2._1;
-          _bind = moonbitlang$core$builtin$$Eq$op_equal$1$(moonbitlang$lex$lib$util$bounded_enum$$BoundedEnum$succ$1$(_x$3), _Node._3) ? { _0: _x$2, _1: _x$4 } : { _0: _Node._3, _1: l };
+          _bind = moonbitlang$core$builtin$$op_lt$1$(_x$3, moonbitlang$lex$lib$util$bounded_enum$$BoundedEnum$upper_bound$1$()) && moonbitlang$core$builtin$$Eq$op_equal$1$(moonbitlang$lex$lib$util$bounded_enum$$BoundedEnum$succ$1$(_x$3), _Node._3) ? { _0: _x$2, _1: _x$4 } : { _0: _Node._3, _1: l };
         }
       }
       const _x = _bind._0;
@@ -7089,7 +7089,7 @@ function moonbitlang$lex$lib$util$diet$$union_aux$1$(t1, t2) {
           const _x$4 = _x$3._0;
           const _x$5 = _x$3._1;
           const _x$6 = _bind$3._1;
-          _bind$2 = moonbitlang$core$builtin$$Eq$op_equal$1$(moonbitlang$lex$lib$util$bounded_enum$$BoundedEnum$pred$1$(_x$4), _Node._4) ? { _0: _x$5, _1: _x$6 } : { _0: _Node._4, _1: r };
+          _bind$2 = moonbitlang$core$builtin$$op_gt$1$(_x$4, moonbitlang$lex$lib$util$bounded_enum$$BoundedEnum$lower_bound$1$()) && moonbitlang$core$builtin$$Eq$op_equal$1$(moonbitlang$lex$lib$util$bounded_enum$$BoundedEnum$pred$1$(_x$4), _Node._4) ? { _0: _x$5, _1: _x$6 } : { _0: _Node._4, _1: r };
         }
       }
       const _x$3 = _bind$2._0;
