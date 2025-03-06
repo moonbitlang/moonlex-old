@@ -1,69 +1,708 @@
 ///|
-test "parse regex" {
-  let parser_buf = ParserBuf::from_string(
-    "(\"x\"*|'\"'+) ['a'- 'z' '_' ] [^ 'a' 'b'] eof '\\'' '\\r' '\\x00'",
-  )
-  let result = parser_buf.regex().map(fn { (_, r) => r })
-  @json.inspect!(result, content=[
-    {
-      "$tag": "Concat",
-      "0": {
-        "$tag": "Concat",
-        "0": {
+test {
+  let lex = parse_lex_from_string!(lexer_src)
+  @json.inspect!(lex, content={
+    "header": "",
+    "named_regexes": [
+      [
+        "ws",
+        {
+          "$tag": "Repetition",
+          "0": { "$tag": "CharSet", "0": [[9, 10], [13, 13], [32, 32]] },
+        },
+      ],
+      ["hex_digit", { "$tag": "CharSet", "0": [[48, 57], [65, 70], [97, 102]] }],
+      [
+        "lc_ident",
+        {
           "$tag": "Concat",
-          "0": {
-            "$tag": "Concat",
+          "0": { "$tag": "CharSet", "0": [[95, 95], [97, 122]] },
+          "1": {
+            "$tag": "Option",
             "0": {
-              "$tag": "Concat",
+              "$tag": "Repetition",
               "0": {
+                "$tag": "CharSet",
+                "0": [[48, 57], [65, 90], [95, 95], [97, 122]],
+              },
+            },
+          },
+        },
+      ],
+    ],
+    "rules": [
+      {
+        "name": "token",
+        "return_type": "Token",
+        "params": "",
+        "patterns": [
+          [{ "$tag": "Named", "0": "ws" }, " token(lexbuf) "],
+          [
+            {
+              "$tag": "Concat",
+              "0": { "$tag": "ReStr", "0": "//" },
+              "1": {
                 "$tag": "Concat",
                 "0": {
-                  "$tag": "Alter",
+                  "$tag": "Option",
+                  "0": {
+                    "$tag": "Repetition",
+                    "0": { "$tag": "CharSet", "0": [[0, 9], [11, 1114111]] },
+                  },
+                },
+                "1": { "$tag": "Option", "0": { "$tag": "ReChar", "0": "\n" } },
+              },
+            },
+            " token(lexbuf) ",
+          ],
+          [{ "$tag": "EOF" }, " EOI "],
+          [{ "$tag": "ReStr", "0": "eof" }, " EOF "],
+          [
+            {
+              "$tag": "Concat",
+              "0": { "$tag": "ReStr", "0": "rule" },
+              "1": {
+                "$tag": "Concat",
+                "0": { "$tag": "Named", "0": "ws" },
+                "1": {
+                  "$tag": "Concat",
+                  "0": {
+                    "$tag": "Capture",
+                    "0": { "$tag": "Named", "0": "lc_ident" },
+                    "1": "t",
+                  },
+                  "1": {
+                    "$tag": "Concat",
+                    "0": {
+                      "$tag": "Option",
+                      "0": { "$tag": "Named", "0": "ws" },
+                    },
+                    "1": {
+                      "$tag": "Concat",
+                      "0": { "$tag": "ReStr", "0": "(" },
+                      "1": {
+                        "$tag": "Option",
+                        "0": { "$tag": "Named", "0": "ws" },
+                      },
+                    },
+                  },
+                },
+              },
+            },
+            "\n      let buffer1 = StringBuilder::new()\n      let buffer2 = StringBuilder::new()\n      code_rparen(buffer1, lexbuf)\n      arrow_code_lbrace(buffer2, lexbuf)\n      RULE_LC_IDENT_LPAREN_CODE_RPAREN_ARROW_CODE_LBRACE((t, buffer1.to_string(), buffer2.to_string()))\n    ",
+          ],
+          [
+            {
+              "$tag": "Concat",
+              "0": { "$tag": "ReStr", "0": "parse" },
+              "1": {
+                "$tag": "Concat",
+                "0": { "$tag": "Option", "0": { "$tag": "Named", "0": "ws" } },
+                "1": { "$tag": "ReStr", "0": "{" },
+              },
+            },
+            " PARSE_LBRACE ",
+          ],
+          [{ "$tag": "ReStr", "0": "let" }, " LET "],
+          [{ "$tag": "ReStr", "0": "as" }, " AS "],
+          [{ "$tag": "ReStr", "0": "=>" }, " FAT_ARROW "],
+          [{ "$tag": "ReStr", "0": "_" }, " UNDERSCORE "],
+          [
+            { "$tag": "ReStr", "0": "{" },
+            " \n      let buffer = StringBuilder::new()\n      code_rbrace(buffer, lexbuf)\n      LBRACE_CODE_RBRACE(buffer.to_string())\n    ",
+          ],
+          [{ "$tag": "ReStr", "0": "}" }, " RBRACE "],
+          [{ "$tag": "ReStr", "0": "(" }, " LPAREN "],
+          [{ "$tag": "ReStr", "0": ")" }, " RPAREN "],
+          [{ "$tag": "ReStr", "0": "[" }, " LBRACKET "],
+          [{ "$tag": "ReStr", "0": "]" }, " RBRACKET "],
+          [{ "$tag": "ReStr", "0": "=" }, " EQ "],
+          [{ "$tag": "ReStr", "0": ";" }, " SEMICOLON "],
+          [{ "$tag": "ReStr", "0": "|" }, " BAR "],
+          [{ "$tag": "ReStr", "0": "*" }, " STAR "],
+          [{ "$tag": "ReStr", "0": "+" }, " PLUS "],
+          [{ "$tag": "ReStr", "0": "?" }, " QUESTION "],
+          [{ "$tag": "ReStr", "0": "-" }, " MINUS "],
+          [{ "$tag": "ReStr", "0": "^" }, " CARET "],
+          [
+            {
+              "$tag": "Concat",
+              "0": { "$tag": "ReChar", "0": "'" },
+              "1": {
+                "$tag": "Concat",
+                "0": {
+                  "$tag": "Capture",
+                  "0": {
+                    "$tag": "CharSet",
+                    "0": [[0, 38], [40, 91], [93, 1114111]],
+                  },
+                  "1": "t",
+                },
+                "1": { "$tag": "ReChar", "0": "'" },
+              },
+            },
+            " CHAR(t[:][0]) ",
+          ],
+          [
+            {
+              "$tag": "Concat",
+              "0": { "$tag": "ReChar", "0": "'" },
+              "1": {
+                "$tag": "Concat",
+                "0": { "$tag": "ReChar", "0": "\\" },
+                "1": {
+                  "$tag": "Concat",
+                  "0": { "$tag": "ReChar", "0": "b" },
+                  "1": { "$tag": "ReChar", "0": "'" },
+                },
+              },
+            },
+            " CHAR('\\x08') ",
+          ],
+          [
+            {
+              "$tag": "Concat",
+              "0": { "$tag": "ReChar", "0": "'" },
+              "1": {
+                "$tag": "Concat",
+                "0": { "$tag": "ReChar", "0": "\\" },
+                "1": {
+                  "$tag": "Concat",
+                  "0": { "$tag": "ReChar", "0": "t" },
+                  "1": { "$tag": "ReChar", "0": "'" },
+                },
+              },
+            },
+            " CHAR('\\x09') ",
+          ],
+          [
+            {
+              "$tag": "Concat",
+              "0": { "$tag": "ReChar", "0": "'" },
+              "1": {
+                "$tag": "Concat",
+                "0": { "$tag": "ReChar", "0": "\\" },
+                "1": {
+                  "$tag": "Concat",
+                  "0": { "$tag": "ReChar", "0": "v" },
+                  "1": { "$tag": "ReChar", "0": "'" },
+                },
+              },
+            },
+            " CHAR('\\x0b') ",
+          ],
+          [
+            {
+              "$tag": "Concat",
+              "0": { "$tag": "ReChar", "0": "'" },
+              "1": {
+                "$tag": "Concat",
+                "0": { "$tag": "ReChar", "0": "\\" },
+                "1": {
+                  "$tag": "Concat",
+                  "0": { "$tag": "ReChar", "0": "r" },
+                  "1": { "$tag": "ReChar", "0": "'" },
+                },
+              },
+            },
+            " CHAR('\\x0d') ",
+          ],
+          [
+            {
+              "$tag": "Concat",
+              "0": { "$tag": "ReChar", "0": "'" },
+              "1": {
+                "$tag": "Concat",
+                "0": { "$tag": "ReChar", "0": "\\" },
+                "1": {
+                  "$tag": "Concat",
+                  "0": { "$tag": "ReChar", "0": "n" },
+                  "1": { "$tag": "ReChar", "0": "'" },
+                },
+              },
+            },
+            " CHAR('\\x0a') ",
+          ],
+          [
+            {
+              "$tag": "Concat",
+              "0": { "$tag": "ReChar", "0": "'" },
+              "1": {
+                "$tag": "Concat",
+                "0": { "$tag": "ReChar", "0": "\\" },
+                "1": {
+                  "$tag": "Concat",
+                  "0": { "$tag": "ReChar", "0": "\\" },
+                  "1": { "$tag": "ReChar", "0": "'" },
+                },
+              },
+            },
+            " CHAR('\\\\') ",
+          ],
+          [
+            {
+              "$tag": "Concat",
+              "0": { "$tag": "ReChar", "0": "'" },
+              "1": {
+                "$tag": "Concat",
+                "0": { "$tag": "ReChar", "0": "\\" },
+                "1": {
+                  "$tag": "Concat",
+                  "0": { "$tag": "ReChar", "0": "'" },
+                  "1": { "$tag": "ReChar", "0": "'" },
+                },
+              },
+            },
+            " CHAR('\\'') ",
+          ],
+          [
+            {
+              "$tag": "Concat",
+              "0": { "$tag": "ReChar", "0": "'" },
+              "1": {
+                "$tag": "Concat",
+                "0": { "$tag": "ReChar", "0": "\\" },
+                "1": {
+                  "$tag": "Concat",
+                  "0": { "$tag": "ReChar", "0": "x" },
+                  "1": {
+                    "$tag": "Concat",
+                    "0": {
+                      "$tag": "Capture",
+                      "0": {
+                        "$tag": "Concat",
+                        "0": { "$tag": "Named", "0": "hex_digit" },
+                        "1": { "$tag": "Named", "0": "hex_digit" },
+                      },
+                      "1": "t",
+                    },
+                    "1": { "$tag": "ReChar", "0": "'" },
+                  },
+                },
+              },
+            },
+            "\n      let code = @strconv.parse_int?(t, base=16).unwrap()\n      CHAR(Char::from_int(code))\n    ",
+          ],
+          [
+            {
+              "$tag": "Concat",
+              "0": { "$tag": "ReChar", "0": "'" },
+              "1": {
+                "$tag": "Concat",
+                "0": { "$tag": "ReChar", "0": "\\" },
+                "1": {
+                  "$tag": "Concat",
+                  "0": { "$tag": "ReChar", "0": "u" },
+                  "1": {
+                    "$tag": "Concat",
+                    "0": {
+                      "$tag": "Capture",
+                      "0": {
+                        "$tag": "Concat",
+                        "0": { "$tag": "Named", "0": "hex_digit" },
+                        "1": {
+                          "$tag": "Concat",
+                          "0": { "$tag": "Named", "0": "hex_digit" },
+                          "1": {
+                            "$tag": "Concat",
+                            "0": { "$tag": "Named", "0": "hex_digit" },
+                            "1": { "$tag": "Named", "0": "hex_digit" },
+                          },
+                        },
+                      },
+                      "1": "t",
+                    },
+                    "1": { "$tag": "ReChar", "0": "'" },
+                  },
+                },
+              },
+            },
+            "\n      let code = @strconv.parse_int?(t, base=16).unwrap()\n      CHAR(Char::from_int(code))\n    ",
+          ],
+          [
+            {
+              "$tag": "Concat",
+              "0": { "$tag": "ReChar", "0": "'" },
+              "1": {
+                "$tag": "Concat",
+                "0": { "$tag": "ReChar", "0": "\\" },
+                "1": {
+                  "$tag": "Concat",
+                  "0": { "$tag": "ReChar", "0": "u" },
+                  "1": {
+                    "$tag": "Concat",
+                    "0": { "$tag": "ReChar", "0": "{" },
+                    "1": {
+                      "$tag": "Concat",
+                      "0": {
+                        "$tag": "Capture",
+                        "0": {
+                          "$tag": "Repetition",
+                          "0": { "$tag": "Named", "0": "hex_digit" },
+                        },
+                        "1": "t",
+                      },
+                      "1": {
+                        "$tag": "Concat",
+                        "0": { "$tag": "ReChar", "0": "}" },
+                        "1": { "$tag": "ReChar", "0": "'" },
+                      },
+                    },
+                  },
+                },
+              },
+            },
+            "\n      let code = @strconv.parse_int?(t, base=16).unwrap()\n      CHAR(Char::from_int(code))\n    ",
+          ],
+          [
+            { "$tag": "ReChar", "0": "\"" },
+            "\n      let buffer = StringBuilder::new()\n      string_inner_rquote(buffer, lexbuf)\n      STRING(buffer.to_string())\n    ",
+          ],
+          [
+            {
+              "$tag": "Capture",
+              "0": { "$tag": "Named", "0": "lc_ident" },
+              "1": "t",
+            },
+            " LC_IDENT(t) ",
+          ],
+        ],
+      },
+      {
+        "name": "string_inner_rquote",
+        "return_type": "Unit",
+        "params": "buffer : StringBuilder",
+        "patterns": [
+          [{ "$tag": "ReChar", "0": "\"" }, " () "],
+          [
+            {
+              "$tag": "Concat",
+              "0": { "$tag": "ReChar", "0": "\\" },
+              "1": { "$tag": "ReChar", "0": "b" },
+            },
+            "\n      buffer.write_char('\\x08')\n      string_inner_rquote(buffer, lexbuf)\n    ",
+          ],
+          [
+            {
+              "$tag": "Concat",
+              "0": { "$tag": "ReChar", "0": "\\" },
+              "1": { "$tag": "ReChar", "0": "t" },
+            },
+            "\n      buffer.write_char('\\x09')\n      string_inner_rquote(buffer, lexbuf)\n    ",
+          ],
+          [
+            {
+              "$tag": "Concat",
+              "0": { "$tag": "ReChar", "0": "\\" },
+              "1": { "$tag": "ReChar", "0": "v" },
+            },
+            "\n      buffer.write_char('\\x0b')\n      string_inner_rquote(buffer, lexbuf)\n    ",
+          ],
+          [
+            {
+              "$tag": "Concat",
+              "0": { "$tag": "ReChar", "0": "\\" },
+              "1": { "$tag": "ReChar", "0": "r" },
+            },
+            "\n      buffer.write_char('\\x0d')\n      string_inner_rquote(buffer, lexbuf)\n    ",
+          ],
+          [
+            {
+              "$tag": "Concat",
+              "0": { "$tag": "ReChar", "0": "\\" },
+              "1": { "$tag": "ReChar", "0": "n" },
+            },
+            "\n      buffer.write_char('\\x0a')\n      string_inner_rquote(buffer, lexbuf)\n    ",
+          ],
+          [
+            {
+              "$tag": "Concat",
+              "0": { "$tag": "ReChar", "0": "\\" },
+              "1": { "$tag": "ReChar", "0": "\\" },
+            },
+            "\n      buffer.write_char('\\x5c')\n      string_inner_rquote(buffer, lexbuf)\n    ",
+          ],
+          [
+            {
+              "$tag": "Concat",
+              "0": { "$tag": "ReChar", "0": "\\" },
+              "1": { "$tag": "ReChar", "0": "\"" },
+            },
+            "\n      buffer.write_char('\\x22')\n      string_inner_rquote(buffer, lexbuf)\n    ",
+          ],
+          [
+            {
+              "$tag": "Concat",
+              "0": { "$tag": "ReChar", "0": "\\" },
+              "1": {
+                "$tag": "Concat",
+                "0": { "$tag": "ReChar", "0": "x" },
+                "1": {
+                  "$tag": "Concat",
+                  "0": {
+                    "$tag": "Capture",
+                    "0": {
+                      "$tag": "Concat",
+                      "0": { "$tag": "Named", "0": "hex_digit" },
+                      "1": { "$tag": "Named", "0": "hex_digit" },
+                    },
+                    "1": "t",
+                  },
+                  "1": { "$tag": "ReChar", "0": "'" },
+                },
+              },
+            },
+            "\n      let code = @strconv.parse_int?(t, base=16).unwrap()\n      buffer.write_char(Char::from_int(code))\n    ",
+          ],
+          [
+            {
+              "$tag": "Concat",
+              "0": { "$tag": "ReChar", "0": "\\" },
+              "1": {
+                "$tag": "Concat",
+                "0": { "$tag": "ReChar", "0": "u" },
+                "1": {
+                  "$tag": "Concat",
+                  "0": {
+                    "$tag": "Capture",
+                    "0": {
+                      "$tag": "Concat",
+                      "0": { "$tag": "Named", "0": "hex_digit" },
+                      "1": {
+                        "$tag": "Concat",
+                        "0": { "$tag": "Named", "0": "hex_digit" },
+                        "1": {
+                          "$tag": "Concat",
+                          "0": { "$tag": "Named", "0": "hex_digit" },
+                          "1": { "$tag": "Named", "0": "hex_digit" },
+                        },
+                      },
+                    },
+                    "1": "t",
+                  },
+                  "1": { "$tag": "ReChar", "0": "'" },
+                },
+              },
+            },
+            "\n      let code = @strconv.parse_int?(t, base=16).unwrap()\n      buffer.write_char(Char::from_int(code))\n    ",
+          ],
+          [
+            {
+              "$tag": "Concat",
+              "0": { "$tag": "ReChar", "0": "\\" },
+              "1": {
+                "$tag": "Concat",
+                "0": { "$tag": "ReChar", "0": "u" },
+                "1": {
+                  "$tag": "Concat",
+                  "0": { "$tag": "ReChar", "0": "{" },
+                  "1": {
+                    "$tag": "Concat",
+                    "0": {
+                      "$tag": "Capture",
+                      "0": {
+                        "$tag": "Repetition",
+                        "0": { "$tag": "Named", "0": "hex_digit" },
+                      },
+                      "1": "t",
+                    },
+                    "1": {
+                      "$tag": "Concat",
+                      "0": { "$tag": "ReChar", "0": "}" },
+                      "1": { "$tag": "ReChar", "0": "'" },
+                    },
+                  },
+                },
+              },
+            },
+            "\n      let code = @strconv.parse_int?(t, base=16).unwrap()\n      buffer.write_char(Char::from_int(code))\n    ",
+          ],
+          [
+            { "$tag": "Capture", "0": { "$tag": "Underscore" }, "1": "t" },
+            "\n      buffer.write_string(t)\n      string_inner_rquote(buffer, lexbuf)\n    ",
+          ],
+          [{ "$tag": "EOF" }, " abort(\"Unexpected end of input\") "],
+        ],
+      },
+      {
+        "name": "code_rparen",
+        "return_type": "Unit",
+        "params": "buffer : StringBuilder",
+        "patterns": [
+          [{ "$tag": "ReStr", "0": ")" }, " () "],
+          [
+            { "$tag": "ReStr", "0": "(" },
+            "\n      buffer.write_string(\"(\")\n      code_rparen(buffer, lexbuf)\n      buffer.write_string(\")\")\n      code_rparen(buffer, lexbuf)\n    ",
+          ],
+          [
+            { "$tag": "Capture", "0": { "$tag": "Underscore" }, "1": "t" },
+            "\n      buffer.write_string(t)\n      code_rparen(buffer, lexbuf)\n    ",
+          ],
+          [{ "$tag": "EOF" }, " abort(\"Unexpected end of input\") "],
+        ],
+      },
+      {
+        "name": "arrow_code_lbrace",
+        "return_type": "Unit",
+        "params": "buffer : StringBuilder",
+        "patterns": [
+          [
+            {
+              "$tag": "Concat",
+              "0": { "$tag": "Option", "0": { "$tag": "Named", "0": "ws" } },
+              "1": {
+                "$tag": "Concat",
+                "0": { "$tag": "ReStr", "0": "->" },
+                "1": {
+                  "$tag": "Concat",
+                  "0": { "$tag": "Option", "0": { "$tag": "Named", "0": "ws" } },
+                  "1": {
+                    "$tag": "Concat",
+                    "0": {
+                      "$tag": "Capture",
+                      "0": {
+                        "$tag": "Concat",
+                        "0": {
+                          "$tag": "CharSet",
+                          "0": [
+                            [0, 8],
+                            [11, 12],
+                            [14, 31],
+                            [33, 122],
+                            [124, 1114111],
+                          ],
+                        },
+                        "1": {
+                          "$tag": "Option",
+                          "0": {
+                            "$tag": "Repetition",
+                            "0": {
+                              "$tag": "Concat",
+                              "0": {
+                                "$tag": "Option",
+                                "0": { "$tag": "Named", "0": "ws" },
+                              },
+                              "1": {
+                                "$tag": "CharSet",
+                                "0": [
+                                  [0, 8],
+                                  [11, 12],
+                                  [14, 31],
+                                  [33, 122],
+                                  [124, 1114111],
+                                ],
+                              },
+                            },
+                          },
+                        },
+                      },
+                      "1": "t",
+                    },
+                    "1": {
+                      "$tag": "Concat",
+                      "0": {
+                        "$tag": "Option",
+                        "0": { "$tag": "Named", "0": "ws" },
+                      },
+                      "1": { "$tag": "ReStr", "0": "{" },
+                    },
+                  },
+                },
+              },
+            },
+            "\n      buffer.write_string(t)\n    ",
+          ],
+        ],
+      },
+      {
+        "name": "code_rbrace",
+        "return_type": "Unit",
+        "params": "buffer : StringBuilder",
+        "patterns": [
+          [
+            {
+              "$tag": "Capture",
+              "0": {
+                "$tag": "Concat",
+                "0": { "$tag": "ReStr", "0": "//" },
+                "1": {
+                  "$tag": "Concat",
+                  "0": {
+                    "$tag": "Repetition",
+                    "0": { "$tag": "CharSet", "0": [[0, 9], [11, 1114111]] },
+                  },
+                  "1": { "$tag": "ReChar", "0": "\n" },
+                },
+              },
+              "1": "t",
+            },
+            "\n      buffer.write_string(t)\n      code_rbrace(buffer, lexbuf)\n    ",
+          ],
+          [
+            {
+              "$tag": "Capture",
+              "0": {
+                "$tag": "Concat",
+                "0": { "$tag": "ReChar", "0": "\"" },
+                "1": {
+                  "$tag": "Concat",
                   "0": {
                     "$tag": "Option",
                     "0": {
                       "$tag": "Repetition",
-                      "0": { "$tag": "ReStr", "0": "x" },
+                      "0": {
+                        "$tag": "Alter",
+                        "0": {
+                          "$tag": "CharSet",
+                          "0": [[0, 33], [35, 91], [93, 1114111]],
+                        },
+                        "1": {
+                          "$tag": "Concat",
+                          "0": { "$tag": "ReChar", "0": "\\" },
+                          "1": { "$tag": "Underscore" },
+                        },
+                      },
                     },
                   },
-                  "1": {
-                    "$tag": "Repetition",
-                    "0": { "$tag": "ReChar", "0": "\"" },
-                  },
+                  "1": { "$tag": "ReChar", "0": "\"" },
                 },
-                "1": { "$tag": "CharSet", "0": [[95, 95], [97, 122]] },
               },
-              "1": { "$tag": "CharSet", "0": [[0, 96], [99, 1114111]] },
+              "1": "t",
             },
-            "1": { "$tag": "EOF" },
-          },
-          "1": { "$tag": "ReChar", "0": "'" },
-        },
-        "1": { "$tag": "ReChar", "0": "\r" },
+            "\n      buffer.write_string(t)\n      code_rbrace(buffer, lexbuf)\n    ",
+          ],
+          [
+            {
+              "$tag": "Capture",
+              "0": {
+                "$tag": "Concat",
+                "0": { "$tag": "ReChar", "0": "'" },
+                "1": {
+                  "$tag": "Concat",
+                  "0": {
+                    "$tag": "CharSet",
+                    "0": [[0, 38], [40, 91], [93, 1114111]],
+                  },
+                  "1": { "$tag": "ReChar", "0": "'" },
+                },
+              },
+              "1": "t",
+            },
+            "\n      buffer.write_string(t)\n      code_rbrace(buffer, lexbuf)\n    ",
+          ],
+          [
+            { "$tag": "ReStr", "0": "{" },
+            "\n      buffer.write_string(\"{\")\n      code_rbrace(buffer, lexbuf)\n      buffer.write_string(\"}\")\n      code_rbrace(buffer, lexbuf)\n    ",
+          ],
+          [{ "$tag": "ReStr", "0": "}" }, " () "],
+          [
+            { "$tag": "Capture", "0": { "$tag": "Underscore" }, "1": "t" },
+            "\n      buffer.write_string(t)\n      code_rbrace(buffer, lexbuf)\n    ",
+          ],
+          [{ "$tag": "EOF" }, " abort(\"Unexpected end of input\") "],
+        ],
       },
-      "1": { "$tag": "ReChar", "0": "\u0000" },
-    },
-  ])
-}
-
-///|
-test "parse var_definition" {
-  let parser_buf = ParserBuf::from_string(
-    "jian123___ : Array[(Int, Array[B, C])])",
-  )
-  let result = parser_buf.var_definition().map(fn { (_, r) => r })
-  let correct : VarDefinition? = Some({
-    identifier: "jian123___",
-    ty: " Array[(Int, Array[B, C])]",
+    ],
+    "trailer": "",
   })
-  if result != correct {
-    fail!("parse var_definition fail")
-  }
-}
-
-///|
-test "parse codeblock" {
-  let parser_buf = ParserBuf::from_string("{asdsad {\"}\"} asdas {xx}} xxx")
-  let result = parser_buf.code_block().map(fn { (_, r) => r })
-  @json.inspect!(result, content=["asdsad {\"}\"} asdas {xx}"])
 }

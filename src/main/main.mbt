@@ -27,8 +27,14 @@ fn main {
   }
   guard input_file.val != "" else { abort("Input file is required") }
   let lexer_spec_src = @fs.read_file_to_string?(input_file.val).unwrap()
-  let parser_buf = @parser.ParserBuf::from_string(lexer_spec_src)
-  guard parser_buf.lex() is Some((_, lex))
+  let lex = try {
+    @parser.parse_lex_from_string!(lexer_spec_src)
+  } catch {
+    err => {
+      println(err)
+      panic()
+    }
+  }
   let lex = lex.eliminate_named()
   let output = @codegen.codegen_lex(lex)
   if output_file.val == "" {
