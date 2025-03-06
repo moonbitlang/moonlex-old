@@ -336,10 +336,10 @@ fn yy_action_22(_last_pos : Position, _args : ArrayView[(YYObj, Position, Positi
   guard _args[0].0 is YYObj__String__String__String_(_dollar1)
   guard _args[2].0 is YYObj__immut_list_T___type_Regex___type_CodeBlock__(_dollar3)
   YYObj__type_Rule({(); 
-    let (name, params, return_type) = _dollar1
-    let patterns = _dollar3.to_array()
-    { name, params, return_type, patterns }
-  })
+                                          let (name, params, return_type) = _dollar1
+                                          let patterns = _dollar3.to_array()
+                                          { name, params, return_type, patterns }
+                                        })
 }
 
 fn yy_action_23(_last_pos : Position, _args : ArrayView[(YYObj, Position, Position)]) -> YYObj {
@@ -409,8 +409,8 @@ fn yy_action_35(_last_pos : Position, _args : ArrayView[(YYObj, Position, Positi
   guard _args[2].0 is YYObj__immut_list_T__type_Rule_(_dollar3)
   guard _args[3].0 is YYObj_String(_dollar4)
   YYObj__type_Lex({(); 
-    { header: _dollar1, named_regexes: _dollar2.to_array(), rules: _dollar3.to_array(), trailer: _dollar4 }
-  })
+                                          { header: _dollar1, named_regexes: _dollar2.to_array(), rules: _dollar3.to_array(), trailer: _dollar4 }
+                                        })
 }
 
 fn yy_action_36(_last_pos : Position, _args : ArrayView[(YYObj, Position, Position)]) -> YYObj {
@@ -430,8 +430,8 @@ fn yy_action_38(_last_pos : Position, _args : ArrayView[(YYObj, Position, Positi
 
 fn yy_action_39(_last_pos : Position, _args : ArrayView[(YYObj, Position, Position)]) -> YYObj {
   YYObj__type_Lex({(); 
-    { header: "", named_regexes: [], rules: [],  trailer: "" }
-  })
+                                          { header: "", named_regexes: [], rules: [],  trailer: "" }
+                                        })
 }
 
 fn yy_action_40(_last_pos : Position, _args : ArrayView[(YYObj, Position, Position)]) -> YYObj {
