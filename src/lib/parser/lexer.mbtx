@@ -41,22 +41,22 @@ rule token() -> Token {
     "-" => { MINUS }
     "^" => { CARET }
     '\'' ([^ '\'' '\\'] as t) '\'' => { CHAR(t[:][0]) }
-    '\'' '\\' 'b' '\'' => { CHAR('\x08') }
-    '\'' '\\' 't' '\'' => { CHAR('\x09') }
-    '\'' '\\' 'v' '\'' => { CHAR('\x0b') }
-    '\'' '\\' 'r' '\'' => { CHAR('\x0d') }
-    '\'' '\\' 'n' '\'' => { CHAR('\x0a') }
-    '\'' '\\' '\\' '\'' => { CHAR('\\') }
-    '\'' '\\' '\'' '\'' => { CHAR('\'') }
-    '\'' '\\' 'x' ((hex_digit hex_digit) as t) '\'' => {
+    '\'' "\\b" '\'' => { CHAR('\x08') }
+    '\'' "\\t" '\'' => { CHAR('\t') }
+    '\'' "\\v" '\'' => { CHAR('\x0b') }
+    '\'' "\\r" '\'' => { CHAR('\r') }
+    '\'' "\\n" '\'' => { CHAR('\n') }
+    '\'' "\\\\" '\'' => { CHAR('\\') }
+    '\'' "\\'" '\'' => { CHAR('\'') }
+    '\'' "\\x" ((hex_digit hex_digit) as t) '\'' => {
       let code = @strconv.parse_int?(t, base=16).unwrap()
       CHAR(Char::from_int(code))
     }
-    '\'' '\\' 'u' ((hex_digit hex_digit hex_digit hex_digit) as t) '\'' => {
+    '\'' "\\u" ((hex_digit hex_digit hex_digit hex_digit) as t) '\'' => {
       let code = @strconv.parse_int?(t, base=16).unwrap()
       CHAR(Char::from_int(code))
     }
-    '\'' '\\' 'u' '{' (hex_digit+ as t) '}' '\'' => {
+    '\'' "\\u{" (hex_digit+ as t) '}' '\'' => {
       let code = @strconv.parse_int?(t, base=16).unwrap()
       CHAR(Char::from_int(code))
     }
@@ -72,43 +72,43 @@ rule token() -> Token {
 rule string_inner_rquote(buffer : StringBuilder) -> Unit {
   parse {
     '"' => { () }
-    '\\' 'b' => {
+    "\\b" => {
       buffer.write_char('\x08')
       string_inner_rquote(buffer, lexbuf)
     }
-    '\\' 't' => {
-      buffer.write_char('\x09')
+    "\\t" => {
+      buffer.write_char('\t')
       string_inner_rquote(buffer, lexbuf)
     }
-    '\\' 'v' => {
+    "\\v" => {
       buffer.write_char('\x0b')
       string_inner_rquote(buffer, lexbuf)
     }
-    '\\' 'r' => {
-      buffer.write_char('\x0d')
+    "\\r" => {
+      buffer.write_char('\r')
       string_inner_rquote(buffer, lexbuf)
     }
-    '\\' 'n' => {
-      buffer.write_char('\x0a')
+    "\\n" => {
+      buffer.write_char('\n')
       string_inner_rquote(buffer, lexbuf)
     }
-    '\\' '\\' => {
-      buffer.write_char('\x5c')
+    "\\\\" => {
+      buffer.write_char('\\')
       string_inner_rquote(buffer, lexbuf)
     }
-    '\\' '\x22' => {
-      buffer.write_char('\x22')
+    "\\\"" => {
+      buffer.write_char('"')
       string_inner_rquote(buffer, lexbuf)
     }
-    '\\' 'x' ((hex_digit hex_digit) as t) '\'' => {
+    "\\x" ((hex_digit hex_digit) as t) '\'' => {
       let code = @strconv.parse_int?(t, base=16).unwrap()
       buffer.write_char(Char::from_int(code))
     }
-    '\\' 'u' ((hex_digit hex_digit hex_digit hex_digit) as t) '\'' => {
+    "\\u" ((hex_digit hex_digit hex_digit hex_digit) as t) '\'' => {
       let code = @strconv.parse_int?(t, base=16).unwrap()
       buffer.write_char(Char::from_int(code))
     }
-    '\\' 'u' '{' (hex_digit+ as t) '}' '\'' => {
+    "\\u{" (hex_digit+ as t) '}' '\'' => {
       let code = @strconv.parse_int?(t, base=16).unwrap()
       buffer.write_char(Char::from_int(code))
     }

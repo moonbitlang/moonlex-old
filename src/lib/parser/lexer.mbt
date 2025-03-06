@@ -904,16 +904,16 @@ fn token( lexbuf : Lexbuf ) -> Token {
  CHAR('\x08') 
     }
     (26, __mbtlex_captures) => {
- CHAR('\x09') 
+ CHAR('\t') 
     }
     (27, __mbtlex_captures) => {
  CHAR('\x0b') 
     }
     (28, __mbtlex_captures) => {
- CHAR('\x0d') 
+ CHAR('\r') 
     }
     (29, __mbtlex_captures) => {
- CHAR('\x0a') 
+ CHAR('\n') 
     }
     (30, __mbtlex_captures) => {
  CHAR('\\') 
@@ -1171,7 +1171,7 @@ fn string_inner_rquote( buffer : StringBuilder, lexbuf : Lexbuf ) -> Unit {
     }
     (2, __mbtlex_captures) => {
 
-      buffer.write_char('\x09')
+      buffer.write_char('\t')
       string_inner_rquote(buffer, lexbuf)
     
     }
@@ -1183,25 +1183,25 @@ fn string_inner_rquote( buffer : StringBuilder, lexbuf : Lexbuf ) -> Unit {
     }
     (4, __mbtlex_captures) => {
 
-      buffer.write_char('\x0d')
+      buffer.write_char('\r')
       string_inner_rquote(buffer, lexbuf)
     
     }
     (5, __mbtlex_captures) => {
 
-      buffer.write_char('\x0a')
+      buffer.write_char('\n')
       string_inner_rquote(buffer, lexbuf)
     
     }
     (6, __mbtlex_captures) => {
 
-      buffer.write_char('\x5c')
+      buffer.write_char('\\')
       string_inner_rquote(buffer, lexbuf)
     
     }
     (7, __mbtlex_captures) => {
 
-      buffer.write_char('\x22')
+      buffer.write_char('"')
       string_inner_rquote(buffer, lexbuf)
     
     }

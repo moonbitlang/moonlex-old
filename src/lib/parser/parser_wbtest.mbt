@@ -149,12 +149,8 @@ test {
               "0": { "$tag": "ReChar", "0": "'" },
               "1": {
                 "$tag": "Concat",
-                "0": { "$tag": "ReChar", "0": "\\" },
-                "1": {
-                  "$tag": "Concat",
-                  "0": { "$tag": "ReChar", "0": "b" },
-                  "1": { "$tag": "ReChar", "0": "'" },
-                },
+                "0": { "$tag": "ReStr", "0": "\\b" },
+                "1": { "$tag": "ReChar", "0": "'" },
               },
             },
             " CHAR('\\x08') ",
@@ -165,15 +161,11 @@ test {
               "0": { "$tag": "ReChar", "0": "'" },
               "1": {
                 "$tag": "Concat",
-                "0": { "$tag": "ReChar", "0": "\\" },
-                "1": {
-                  "$tag": "Concat",
-                  "0": { "$tag": "ReChar", "0": "t" },
-                  "1": { "$tag": "ReChar", "0": "'" },
-                },
+                "0": { "$tag": "ReStr", "0": "\\t" },
+                "1": { "$tag": "ReChar", "0": "'" },
               },
             },
-            " CHAR('\\x09') ",
+            " CHAR('\\t') ",
           ],
           [
             {
@@ -181,12 +173,8 @@ test {
               "0": { "$tag": "ReChar", "0": "'" },
               "1": {
                 "$tag": "Concat",
-                "0": { "$tag": "ReChar", "0": "\\" },
-                "1": {
-                  "$tag": "Concat",
-                  "0": { "$tag": "ReChar", "0": "v" },
-                  "1": { "$tag": "ReChar", "0": "'" },
-                },
+                "0": { "$tag": "ReStr", "0": "\\v" },
+                "1": { "$tag": "ReChar", "0": "'" },
               },
             },
             " CHAR('\\x0b') ",
@@ -197,15 +185,11 @@ test {
               "0": { "$tag": "ReChar", "0": "'" },
               "1": {
                 "$tag": "Concat",
-                "0": { "$tag": "ReChar", "0": "\\" },
-                "1": {
-                  "$tag": "Concat",
-                  "0": { "$tag": "ReChar", "0": "r" },
-                  "1": { "$tag": "ReChar", "0": "'" },
-                },
+                "0": { "$tag": "ReStr", "0": "\\r" },
+                "1": { "$tag": "ReChar", "0": "'" },
               },
             },
-            " CHAR('\\x0d') ",
+            " CHAR('\\r') ",
           ],
           [
             {
@@ -213,15 +197,11 @@ test {
               "0": { "$tag": "ReChar", "0": "'" },
               "1": {
                 "$tag": "Concat",
-                "0": { "$tag": "ReChar", "0": "\\" },
-                "1": {
-                  "$tag": "Concat",
-                  "0": { "$tag": "ReChar", "0": "n" },
-                  "1": { "$tag": "ReChar", "0": "'" },
-                },
+                "0": { "$tag": "ReStr", "0": "\\n" },
+                "1": { "$tag": "ReChar", "0": "'" },
               },
             },
-            " CHAR('\\x0a') ",
+            " CHAR('\\n') ",
           ],
           [
             {
@@ -229,12 +209,8 @@ test {
               "0": { "$tag": "ReChar", "0": "'" },
               "1": {
                 "$tag": "Concat",
-                "0": { "$tag": "ReChar", "0": "\\" },
-                "1": {
-                  "$tag": "Concat",
-                  "0": { "$tag": "ReChar", "0": "\\" },
-                  "1": { "$tag": "ReChar", "0": "'" },
-                },
+                "0": { "$tag": "ReStr", "0": "\\\\" },
+                "1": { "$tag": "ReChar", "0": "'" },
               },
             },
             " CHAR('\\\\') ",
@@ -245,12 +221,8 @@ test {
               "0": { "$tag": "ReChar", "0": "'" },
               "1": {
                 "$tag": "Concat",
-                "0": { "$tag": "ReChar", "0": "\\" },
-                "1": {
-                  "$tag": "Concat",
-                  "0": { "$tag": "ReChar", "0": "'" },
-                  "1": { "$tag": "ReChar", "0": "'" },
-                },
+                "0": { "$tag": "ReStr", "0": "\\'" },
+                "1": { "$tag": "ReChar", "0": "'" },
               },
             },
             " CHAR('\\'') ",
@@ -261,23 +233,19 @@ test {
               "0": { "$tag": "ReChar", "0": "'" },
               "1": {
                 "$tag": "Concat",
-                "0": { "$tag": "ReChar", "0": "\\" },
+                "0": { "$tag": "ReStr", "0": "\\x" },
                 "1": {
                   "$tag": "Concat",
-                  "0": { "$tag": "ReChar", "0": "x" },
-                  "1": {
-                    "$tag": "Concat",
+                  "0": {
+                    "$tag": "Capture",
                     "0": {
-                      "$tag": "Capture",
-                      "0": {
-                        "$tag": "Concat",
-                        "0": { "$tag": "Named", "0": "hex_digit" },
-                        "1": { "$tag": "Named", "0": "hex_digit" },
-                      },
-                      "1": "t",
+                      "$tag": "Concat",
+                      "0": { "$tag": "Named", "0": "hex_digit" },
+                      "1": { "$tag": "Named", "0": "hex_digit" },
                     },
-                    "1": { "$tag": "ReChar", "0": "'" },
+                    "1": "t",
                   },
+                  "1": { "$tag": "ReChar", "0": "'" },
                 },
               },
             },
@@ -289,31 +257,27 @@ test {
               "0": { "$tag": "ReChar", "0": "'" },
               "1": {
                 "$tag": "Concat",
-                "0": { "$tag": "ReChar", "0": "\\" },
+                "0": { "$tag": "ReStr", "0": "\\u" },
                 "1": {
                   "$tag": "Concat",
-                  "0": { "$tag": "ReChar", "0": "u" },
-                  "1": {
-                    "$tag": "Concat",
+                  "0": {
+                    "$tag": "Capture",
                     "0": {
-                      "$tag": "Capture",
-                      "0": {
+                      "$tag": "Concat",
+                      "0": { "$tag": "Named", "0": "hex_digit" },
+                      "1": {
                         "$tag": "Concat",
                         "0": { "$tag": "Named", "0": "hex_digit" },
                         "1": {
                           "$tag": "Concat",
                           "0": { "$tag": "Named", "0": "hex_digit" },
-                          "1": {
-                            "$tag": "Concat",
-                            "0": { "$tag": "Named", "0": "hex_digit" },
-                            "1": { "$tag": "Named", "0": "hex_digit" },
-                          },
+                          "1": { "$tag": "Named", "0": "hex_digit" },
                         },
                       },
-                      "1": "t",
                     },
-                    "1": { "$tag": "ReChar", "0": "'" },
+                    "1": "t",
                   },
+                  "1": { "$tag": "ReChar", "0": "'" },
                 },
               },
             },
@@ -325,29 +289,21 @@ test {
               "0": { "$tag": "ReChar", "0": "'" },
               "1": {
                 "$tag": "Concat",
-                "0": { "$tag": "ReChar", "0": "\\" },
+                "0": { "$tag": "ReStr", "0": "\\u{" },
                 "1": {
                   "$tag": "Concat",
-                  "0": { "$tag": "ReChar", "0": "u" },
+                  "0": {
+                    "$tag": "Capture",
+                    "0": {
+                      "$tag": "Repetition",
+                      "0": { "$tag": "Named", "0": "hex_digit" },
+                    },
+                    "1": "t",
+                  },
                   "1": {
                     "$tag": "Concat",
-                    "0": { "$tag": "ReChar", "0": "{" },
-                    "1": {
-                      "$tag": "Concat",
-                      "0": {
-                        "$tag": "Capture",
-                        "0": {
-                          "$tag": "Repetition",
-                          "0": { "$tag": "Named", "0": "hex_digit" },
-                        },
-                        "1": "t",
-                      },
-                      "1": {
-                        "$tag": "Concat",
-                        "0": { "$tag": "ReChar", "0": "}" },
-                        "1": { "$tag": "ReChar", "0": "'" },
-                      },
-                    },
+                    "0": { "$tag": "ReChar", "0": "}" },
+                    "1": { "$tag": "ReChar", "0": "'" },
                   },
                 },
               },
@@ -375,81 +331,49 @@ test {
         "patterns": [
           [{ "$tag": "ReChar", "0": "\"" }, " () "],
           [
-            {
-              "$tag": "Concat",
-              "0": { "$tag": "ReChar", "0": "\\" },
-              "1": { "$tag": "ReChar", "0": "b" },
-            },
+            { "$tag": "ReStr", "0": "\\b" },
             "\n      buffer.write_char('\\x08')\n      string_inner_rquote(buffer, lexbuf)\n    ",
           ],
           [
-            {
-              "$tag": "Concat",
-              "0": { "$tag": "ReChar", "0": "\\" },
-              "1": { "$tag": "ReChar", "0": "t" },
-            },
-            "\n      buffer.write_char('\\x09')\n      string_inner_rquote(buffer, lexbuf)\n    ",
+            { "$tag": "ReStr", "0": "\\t" },
+            "\n      buffer.write_char('\\t')\n      string_inner_rquote(buffer, lexbuf)\n    ",
           ],
           [
-            {
-              "$tag": "Concat",
-              "0": { "$tag": "ReChar", "0": "\\" },
-              "1": { "$tag": "ReChar", "0": "v" },
-            },
+            { "$tag": "ReStr", "0": "\\v" },
             "\n      buffer.write_char('\\x0b')\n      string_inner_rquote(buffer, lexbuf)\n    ",
           ],
           [
-            {
-              "$tag": "Concat",
-              "0": { "$tag": "ReChar", "0": "\\" },
-              "1": { "$tag": "ReChar", "0": "r" },
-            },
-            "\n      buffer.write_char('\\x0d')\n      string_inner_rquote(buffer, lexbuf)\n    ",
+            { "$tag": "ReStr", "0": "\\r" },
+            "\n      buffer.write_char('\\r')\n      string_inner_rquote(buffer, lexbuf)\n    ",
+          ],
+          [
+            { "$tag": "ReStr", "0": "\\n" },
+            "\n      buffer.write_char('\\n')\n      string_inner_rquote(buffer, lexbuf)\n    ",
+          ],
+          [
+            { "$tag": "ReStr", "0": "\\\\" },
+            "\n      buffer.write_char('\\\\')\n      string_inner_rquote(buffer, lexbuf)\n    ",
+          ],
+          [
+            { "$tag": "ReStr", "0": "\\\"" },
+            "\n      buffer.write_char('\"')\n      string_inner_rquote(buffer, lexbuf)\n    ",
           ],
           [
             {
               "$tag": "Concat",
-              "0": { "$tag": "ReChar", "0": "\\" },
-              "1": { "$tag": "ReChar", "0": "n" },
-            },
-            "\n      buffer.write_char('\\x0a')\n      string_inner_rquote(buffer, lexbuf)\n    ",
-          ],
-          [
-            {
-              "$tag": "Concat",
-              "0": { "$tag": "ReChar", "0": "\\" },
-              "1": { "$tag": "ReChar", "0": "\\" },
-            },
-            "\n      buffer.write_char('\\x5c')\n      string_inner_rquote(buffer, lexbuf)\n    ",
-          ],
-          [
-            {
-              "$tag": "Concat",
-              "0": { "$tag": "ReChar", "0": "\\" },
-              "1": { "$tag": "ReChar", "0": "\"" },
-            },
-            "\n      buffer.write_char('\\x22')\n      string_inner_rquote(buffer, lexbuf)\n    ",
-          ],
-          [
-            {
-              "$tag": "Concat",
-              "0": { "$tag": "ReChar", "0": "\\" },
+              "0": { "$tag": "ReStr", "0": "\\x" },
               "1": {
                 "$tag": "Concat",
-                "0": { "$tag": "ReChar", "0": "x" },
-                "1": {
-                  "$tag": "Concat",
+                "0": {
+                  "$tag": "Capture",
                   "0": {
-                    "$tag": "Capture",
-                    "0": {
-                      "$tag": "Concat",
-                      "0": { "$tag": "Named", "0": "hex_digit" },
-                      "1": { "$tag": "Named", "0": "hex_digit" },
-                    },
-                    "1": "t",
+                    "$tag": "Concat",
+                    "0": { "$tag": "Named", "0": "hex_digit" },
+                    "1": { "$tag": "Named", "0": "hex_digit" },
                   },
-                  "1": { "$tag": "ReChar", "0": "'" },
+                  "1": "t",
                 },
+                "1": { "$tag": "ReChar", "0": "'" },
               },
             },
             "\n      let code = @strconv.parse_int?(t, base=16).unwrap()\n      buffer.write_char(Char::from_int(code))\n    ",
@@ -457,31 +381,27 @@ test {
           [
             {
               "$tag": "Concat",
-              "0": { "$tag": "ReChar", "0": "\\" },
+              "0": { "$tag": "ReStr", "0": "\\u" },
               "1": {
                 "$tag": "Concat",
-                "0": { "$tag": "ReChar", "0": "u" },
-                "1": {
-                  "$tag": "Concat",
+                "0": {
+                  "$tag": "Capture",
                   "0": {
-                    "$tag": "Capture",
-                    "0": {
+                    "$tag": "Concat",
+                    "0": { "$tag": "Named", "0": "hex_digit" },
+                    "1": {
                       "$tag": "Concat",
                       "0": { "$tag": "Named", "0": "hex_digit" },
                       "1": {
                         "$tag": "Concat",
                         "0": { "$tag": "Named", "0": "hex_digit" },
-                        "1": {
-                          "$tag": "Concat",
-                          "0": { "$tag": "Named", "0": "hex_digit" },
-                          "1": { "$tag": "Named", "0": "hex_digit" },
-                        },
+                        "1": { "$tag": "Named", "0": "hex_digit" },
                       },
                     },
-                    "1": "t",
                   },
-                  "1": { "$tag": "ReChar", "0": "'" },
+                  "1": "t",
                 },
+                "1": { "$tag": "ReChar", "0": "'" },
               },
             },
             "\n      let code = @strconv.parse_int?(t, base=16).unwrap()\n      buffer.write_char(Char::from_int(code))\n    ",
@@ -489,29 +409,21 @@ test {
           [
             {
               "$tag": "Concat",
-              "0": { "$tag": "ReChar", "0": "\\" },
+              "0": { "$tag": "ReStr", "0": "\\u{" },
               "1": {
                 "$tag": "Concat",
-                "0": { "$tag": "ReChar", "0": "u" },
+                "0": {
+                  "$tag": "Capture",
+                  "0": {
+                    "$tag": "Repetition",
+                    "0": { "$tag": "Named", "0": "hex_digit" },
+                  },
+                  "1": "t",
+                },
                 "1": {
                   "$tag": "Concat",
-                  "0": { "$tag": "ReChar", "0": "{" },
-                  "1": {
-                    "$tag": "Concat",
-                    "0": {
-                      "$tag": "Capture",
-                      "0": {
-                        "$tag": "Repetition",
-                        "0": { "$tag": "Named", "0": "hex_digit" },
-                      },
-                      "1": "t",
-                    },
-                    "1": {
-                      "$tag": "Concat",
-                      "0": { "$tag": "ReChar", "0": "}" },
-                      "1": { "$tag": "ReChar", "0": "'" },
-                    },
-                  },
+                  "0": { "$tag": "ReChar", "0": "}" },
+                  "1": { "$tag": "ReChar", "0": "'" },
                 },
               },
             },
