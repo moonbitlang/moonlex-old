@@ -23,7 +23,7 @@ fn slice_util[N : @bounded_enum.T](self : Tree[N], x : N) -> Tree[N] {
       } else if x < t.min {
         slice_util(t.left, x)
       } else {
-        balance(t.min, x, t.left, t.right)
+        balance(t.min, x, t.left, Empty)
       }
   }
 }

@@ -6889,7 +6889,7 @@ function moonbitlang$lex$lib$util$diet$$Tree$slice_util$1$(self, x) {
           _tmp = _Node._0;
           continue;
         } else {
-          return moonbitlang$lex$lib$util$diet$$balance$1$(_Node._3, x$2, _Node._0, _Node._1);
+          return moonbitlang$lex$lib$util$diet$$balance$1$(_Node._3, x$2, _Node._0, $64$moonbitlang$47$lex$47$lib$47$util$47$diet$46$Tree$Empty$10$);
         }
       }
     }
