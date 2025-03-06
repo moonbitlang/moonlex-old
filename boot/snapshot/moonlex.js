@@ -4971,21 +4971,21 @@ function moonbitlang$core$option$$Option$unwrap$64$(self) {
     return _x;
   }
 }
-function moonbitlang$core$option$$Option$unwrap$4$(self) {
-  if (self === undefined) {
-    return $panic();
-  } else {
-    const _Some = self;
-    const _x = _Some;
-    return _x;
-  }
-}
 function moonbitlang$core$option$$Option$unwrap$110$(self) {
   if (self.$tag === 0) {
     return $panic();
   } else {
     const _Some = self;
     const _x = _Some._0;
+    return _x;
+  }
+}
+function moonbitlang$core$option$$Option$unwrap$4$(self) {
+  if (self === undefined) {
+    return $panic();
+  } else {
+    const _Some = self;
+    const _x = _Some;
     return _x;
   }
 }
@@ -6508,23 +6508,6 @@ function moonbitlang$core$array$$Array$split_at$77$(self, index) {
     moonbitlang$core$builtin$$UninitializedArray$unsafe_blit$77$(v2, 0, self, index, self.length - index | 0);
   }
   return { _0: v1, _1: v2 };
-}
-function moonbitlang$core$array$$Array$contains$5$(self, value) {
-  const _len = self.length;
-  let _tmp = 0;
-  while (true) {
-    const _i = _tmp;
-    if (_i < _len) {
-      const v = self[_i];
-      if (v === value) {
-        return true;
-      }
-      _tmp = _i + 1 | 0;
-      continue;
-    } else {
-      return false;
-    }
-  }
 }
 function moonbitlang$core$array$$Array$flatten$4$(self) {
   let len = 0;
@@ -9645,9 +9628,9 @@ function moonbitlang$lex$lib$codegen$internal$codeblock_parser$$parse_codeblock(
   return subst;
 }
 function moonbitlang$lex$lib$codegen$$group_trans$46$42$func$152$(_env, _p) {
-  const _x = _env._2;
+  const action = _env._2;
   const _bind = _env._1;
-  const action = _env._0;
+  const _x = _env._0;
   return _bind((_p$2) => {
     const _x$2 = _p$2._0;
     const _x$3 = _p$2._1;
@@ -9707,7 +9690,7 @@ function moonbitlang$lex$lib$codegen$$group_trans(trans) {
     const _x$2 = _p$2._1;
     const action = moonbitlang$core$option$$Option$unwrap$110$(moonbitlang$core$builtin$$Map$op_get$97$(tag_action_by_state, _x));
     const _bind$2 = moonbitlang$lex$lib$util$eof_char_set$$EofCharSet$iter_ranges(_x$2);
-    const _env = { _0: action, _1: _bind$2, _2: _x };
+    const _env = { _0: _x, _1: _bind$2, _2: action };
     return moonbitlang$lex$lib$codegen$$group_trans$46$42$func$152$(_env, _p);
   }));
   moonbitlang$core$array$$Array$sort$13$(result);
@@ -9887,10 +9870,10 @@ function moonbitlang$lex$lib$codegen$$codegen_rule(rule) {
   const _tmp$8 = moonbitlang$core$string$$String$concat(_lhs, ", ");
   const _lhs$2 = [_tmp$7, _tmp$8, ")", "->", rule.return_type, "{"];
   const _tmp$9 = moonbitlang$core$string$$String$concat(_lhs$2, " ");
-  const _lhs$3 = moonbitlang$core$array$$Array$flatten$4$([[`match ${moonbitlang$core$builtin$$Show$to_string$4$(engine)}.run(lexbuf) {`], moonbitlang$core$array$$Array$makei$4$(dfa.code_blocks.length, (i) => {
+  const _lhs$3 = moonbitlang$core$array$$Array$flatten$4$([[`  match ${moonbitlang$core$builtin$$Show$to_string$4$(engine)}.run(lexbuf) {`], moonbitlang$core$array$$Array$makei$4$(dfa.code_blocks.length, (i) => {
     const codeblock = moonbitlang$core$array$$Array$op_get$4$(dfa.code_blocks, i);
     const subst = moonbitlang$lex$lib$codegen$internal$codeblock_parser$$parse_codeblock(codeblock);
-    const _lhs$4 = moonbitlang$core$array$$Array$flatten$4$([[`(${moonbitlang$core$builtin$$Show$to_string$9$(i)}, __mbtlex_captures) => {`], moonbitlang$core$array$$Array$mapi$140$(moonbitlang$core$array$$Array$op_get$89$(dfa.captures, i), (i$2, name) => {
+    const _lhs$4 = moonbitlang$core$array$$Array$flatten$4$([[`    (${moonbitlang$core$builtin$$Show$to_string$9$(i)}, __mbtlex_captures) => {`], moonbitlang$core$array$$Array$mapi$140$(moonbitlang$core$array$$Array$op_get$89$(dfa.captures, i), (i$2, name) => {
       let inject_ignore;
       let _tmp$10;
       let _return_value;
@@ -9937,91 +9920,19 @@ function moonbitlang$lex$lib$codegen$$codegen_rule(rule) {
       } else {
         inject_ignore = "";
       }
-      return `let (_start_pos_of_${moonbitlang$core$builtin$$Show$to_string$4$(name)}, _end_pos_of_${moonbitlang$core$builtin$$Show$to_string$4$(name)}) = __mbtlex_captures[${moonbitlang$core$builtin$$Show$to_string$9$(i$2)}]\nlet ${moonbitlang$core$builtin$$Show$to_string$4$(name)}: String = lexbuf.substring(_start_pos_of_${moonbitlang$core$builtin$$Show$to_string$4$(name)}, _end_pos_of_${moonbitlang$core$builtin$$Show$to_string$4$(name)})\n${moonbitlang$core$builtin$$Show$to_string$4$(inject_ignore)}`;
-    }), [moonbitlang$lex$lib$codegen$$rewrite_codeblock(codeblock, subst)], ["}"]]);
+      return `  let (_start_pos_of_${moonbitlang$core$builtin$$Show$to_string$4$(name)}, _end_pos_of_${moonbitlang$core$builtin$$Show$to_string$4$(name)}) = __mbtlex_captures[${moonbitlang$core$builtin$$Show$to_string$9$(i$2)}]\n  let ${moonbitlang$core$builtin$$Show$to_string$4$(name)}: String = lexbuf.substring(_start_pos_of_${moonbitlang$core$builtin$$Show$to_string$4$(name)}, _end_pos_of_${moonbitlang$core$builtin$$Show$to_string$4$(name)})\n  ${moonbitlang$core$builtin$$Show$to_string$4$(inject_ignore)}`;
+    }), [moonbitlang$lex$lib$codegen$$rewrite_codeblock(codeblock, subst)], ["    }"]]);
     return moonbitlang$core$string$$String$concat(_lhs$4, "\n");
-  }), ["_ => abort(\"lex: fail to match\")"], ["}"]]);
+  }), ["    _ => abort(\"lex: fail to match\")"], ["  }"]]);
   const _lhs$4 = [_tmp$3, _tmp$4, _tmp$5, _tmp$6, _tmp$9, moonbitlang$core$string$$String$concat(_lhs$3, "\n"), "}"];
   return moonbitlang$core$string$$String$concat(_lhs$4, "\n");
-}
-function moonbitlang$lex$lib$codegen$$fix_indent(code) {
-  const code$2 = `\n${code}`;
-  let ptr = 0;
-  let indent_count = 0;
-  const buf = moonbitlang$core$builtin$$StringBuilder$new(code$2.length);
-  while (true) {
-    if (ptr < code$2.length) {
-      const ch = code$2.charCodeAt(ptr);
-      ptr = ptr + 1 | 0;
-      moonbitlang$core$builtin$$Logger$write_char$3$(buf, ch);
-      switch (ch) {
-        case 10: {
-          if (indent_count === 0) {
-            while (true) {
-              if (ptr < code$2.length && moonbitlang$core$array$$Array$contains$5$([9, 32], code$2.charCodeAt(ptr))) {
-                ptr = ptr + 1 | 0;
-                continue;
-              } else {
-                break;
-              }
-            }
-          } else {
-            moonbitlang$core$builtin$$Logger$write_char$3$(buf, 32);
-          }
-          break;
-        }
-        case 123: {
-          indent_count = indent_count + 1 | 0;
-          break;
-        }
-        case 125: {
-          indent_count = indent_count - 1 | 0;
-          break;
-        }
-        case 92: {
-          if (ptr < code$2.length) {
-            moonbitlang$core$builtin$$Logger$write_char$3$(buf, code$2.charCodeAt(ptr));
-            ptr = ptr + 1 | 0;
-          }
-          break;
-        }
-        case 34: {
-          while (true) {
-            if (ptr < code$2.length) {
-              const ch$2 = code$2.charCodeAt(ptr);
-              moonbitlang$core$builtin$$Logger$write_char$3$(buf, code$2.charCodeAt(ptr));
-              if (code$2.charCodeAt(ptr) === 92) {
-                if ((ptr + 1 | 0) < code$2.length) {
-                  moonbitlang$core$builtin$$Logger$write_char$3$(buf, code$2.charCodeAt(ptr + 1 | 0));
-                }
-                ptr = ptr + 2 | 0;
-              } else {
-                ptr = ptr + 1 | 0;
-              }
-              if (ch$2 === 34) {
-                break;
-              }
-              continue;
-            } else {
-              break;
-            }
-          }
-          break;
-        }
-      }
-      continue;
-    } else {
-      break;
-    }
-  }
-  return moonbitlang$core$builtin$$StringBuilder$to_string(buf);
 }
 function moonbitlang$lex$lib$codegen$$codegen_lex(lex) {
   const _tmp = lex.header;
   const _lhs = moonbitlang$core$array$$Array$map$131$(lex.rules, moonbitlang$lex$lib$codegen$$codegen_rule);
   const _tmp$2 = moonbitlang$core$string$$String$concat(_lhs, "\n");
   const _lhs$2 = [moonbitlang$lex$lib$codegen$$runtime, _tmp, _tmp$2, lex.trailer];
-  return moonbitlang$lex$lib$codegen$$fix_indent(moonbitlang$core$string$$String$concat(_lhs$2, "\n\n"));
+  return moonbitlang$core$string$$String$concat(_lhs$2, "\n\n");
 }
 function Yoorkin$trie$$T$lookup$154$(self, path) {
   const _bind = moonbitlang$core$string$$String$to_array(path);
@@ -10053,9 +9964,9 @@ function Yoorkin$trie$$T$lookup$154$(self, path) {
 }
 function Yoorkin$trie$$T$add$154$(self, path, value) {
   const _bind = moonbitlang$core$string$$String$to_array(path);
-  return Yoorkin$trie$$add$46$aux$47$3886(value, { buf: _bind, start: 0, len: _bind.length }, self);
+  return Yoorkin$trie$$add$46$aux$47$3870(value, { buf: _bind, start: 0, len: _bind.length }, self);
 }
-function Yoorkin$trie$$add$46$aux$47$3886(value, _param1, _param2) {
+function Yoorkin$trie$$add$46$aux$47$3870(value, _param1, _param2) {
   if (_param1.len === 0) {
     return { value: value, forks: _param2.forks };
   } else {
@@ -10065,7 +9976,7 @@ function Yoorkin$trie$$add$46$aux$47$3886(value, _param1, _param2) {
     const _some = _param1.len - 0 | 0;
     const _x$2 = { buf: _tmp, start: _tmp$2, len: _some - 1 | 0 };
     const subtree = moonbitlang$core$option$$Option$or$51$(moonbitlang$core$immut$sorted_map$$T$op_get$29$(_param2.forks, _x), { value: undefined, forks: moonbitlang$core$immut$sorted_map$$new$29$() });
-    return { value: _param2.value, forks: moonbitlang$core$immut$sorted_map$$T$add$29$(_param2.forks, _x, Yoorkin$trie$$add$46$aux$47$3886(value, _x$2, subtree)) };
+    return { value: _param2.value, forks: moonbitlang$core$immut$sorted_map$$T$add$29$(_param2.forks, _x, Yoorkin$trie$$add$46$aux$47$3870(value, _x$2, subtree)) };
   }
 }
 function Yoorkin$trie$$empty$154$() {
