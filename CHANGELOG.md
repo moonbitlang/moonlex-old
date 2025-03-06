@@ -1,6 +1,14 @@
+## 0.2.0
+
+- Internal: Rewrite the parser in moonlex/moonyacc.
+    - `'''` now invalid syntax for character.
+    - `'\\'` now can be safely used in character.
+    - String literal now support escape sequence.
+    - Support named regex, eg. `let digit = ['0'-'9'];`.
+
 ## 0.1.8
 
-- Internal: fix DIET data structure
+- Internal: Fix DIET data structure
 
 ## 0.1.6
 
