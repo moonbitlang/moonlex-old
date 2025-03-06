@@ -7,7 +7,6 @@ pub fn codegen_lex(lex : Lex) -> String {
     lex.trailer,
   ]
   |> String::concat(separator="\n\n")
-  |> fix_indent
 }
 
 ///|
@@ -204,7 +203,7 @@ fn codegen_rule(rule : Rule) -> String {
     ]
     |> String::concat(separator=" "),
     [
-      ["match \{engine}.run(lexbuf) {"],
+      ["  match \{engine}.run(lexbuf) {"],
       Array::makei(dfa.code_blocks.length(), fn(i) {
         let codeblock = dfa.code_blocks[i]
         let subst = @codeblock_parser.parse_codeblock(codeblock)
@@ -218,81 +217,29 @@ fn codegen_rule(rule : Rule) -> String {
         }
 
         [
-          ["(\{i}, __mbtlex_captures) => {"],
+          ["    (\{i}, __mbtlex_captures) => {"],
           dfa.captures[i].mapi(fn(i, name) {
             let inject_ignore = if name_used_in_subst(name) {
               "ignore(\{name})"
             } else {
               ""
             }
-            $|let (_start_pos_of_\{name}, _end_pos_of_\{name}) = __mbtlex_captures[\{i}]
-            $|let \{name}: String = lexbuf.substring(_start_pos_of_\{name}, _end_pos_of_\{name})
-            $|\{inject_ignore}
+            $|  let (_start_pos_of_\{name}, _end_pos_of_\{name}) = __mbtlex_captures[\{i}]
+            $|  let \{name}: String = lexbuf.substring(_start_pos_of_\{name}, _end_pos_of_\{name})
+            $|  \{inject_ignore}
           }),
           [rewrite_codeblock(codeblock, subst)],
-          ["}"],
+          ["    }"],
         ]
         |> Array::flatten()
         |> String::concat(separator="\n")
       }),
-      ["_ => abort(\"lex: fail to match\")"],
-      ["}"],
+      ["    _ => abort(\"lex: fail to match\")"],
+      ["  }"],
     ]
     |> Array::flatten()
     |> String::concat(separator="\n"),
     "}",
   ]
   |> String::concat(separator="\n")
-}
-
-///|
-fn fix_indent(code : String) -> String {
-  // fix indent for the generated code
-  // since moonbit require the toplevel definition at the head of line 
-  // and the others not
-
-  let code = "\n" + code
-  let mut ptr = 0
-  let mut indent_count = 0
-  let buf = StringBuilder::new(size_hint=code.length())
-  while ptr < code.length() {
-    let ch = code[ptr]
-    ptr += 1
-    buf.write_char(ch)
-    match ch {
-      '\n' =>
-        if indent_count == 0 {
-          while ptr < code.length() && ['\t', ' '].contains(code.get(ptr)) {
-            ptr += 1
-          }
-        } else {
-          buf.write_char(' ')
-        }
-      '{' => indent_count += 1
-      '}' => indent_count -= 1
-      '\\' =>
-        if ptr < code.length() {
-          buf.write_char(code.get(ptr))
-          ptr += 1
-        }
-      '\"' =>
-        while ptr < code.length() {
-          let ch = code.get(ptr)
-          buf.write_char(code.get(ptr))
-          if code.get(ptr) == '\\' {
-            if ptr + 1 < code.length() {
-              buf.write_char(code.get(ptr + 1))
-            }
-            ptr += 2
-          } else {
-            ptr += 1
-          }
-          if ch == '\"' {
-            break
-          }
-        }
-      _ => ()
-    }
-  }
-  buf.to_string()
 }
