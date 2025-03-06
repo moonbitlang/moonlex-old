@@ -77,21 +77,15 @@ fn get_capture_names_rec(self : Regex) -> Iter[String] {
 }
 
 ///|
-pub(all) struct VarDefinition {
-  identifier : String
-  ty : String
-} derive(Show, Eq)
-
-///|
 pub typealias CodeBlock = String
 
 ///|
 pub(all) struct Rule {
   name : String
   return_type : String
-  vars : Array[VarDefinition]
+  params : String
   patterns : Array[(Regex, CodeBlock)]
-} derive(Show)
+} derive(Show, ToJson)
 
 ///|
 pub(all) struct Lex {
@@ -99,7 +93,7 @@ pub(all) struct Lex {
   named_regexes : Array[(String, Regex)]
   rules : Array[Rule]
   trailer : CodeBlock
-} derive(Show)
+} derive(Show, ToJson)
 
 ///|
 pub fn eliminate_named(self : Lex) -> Lex {
@@ -130,7 +124,7 @@ pub fn eliminate_named(self : Lex) -> Lex {
       Rule::{
         name: rule.name,
         return_type: rule.return_type,
-        vars: rule.vars,
+        params: rule.params,
         patterns: rule.patterns.map(fn(pattern) {
           let (re, code) = pattern
           (eliminate_named_regex(re), code)

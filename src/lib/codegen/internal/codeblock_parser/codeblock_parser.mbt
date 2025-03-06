@@ -389,7 +389,7 @@ fn scan_codeblock_rbrace_state_26(input : LexInput) -> (LexState, LexTagAction) 
 }
 
 let __mbtlex_engine_scan_codeblock_rbrace: LexEngine = { graph: [scan_codeblock_rbrace_state_0, scan_codeblock_rbrace_state_1, scan_codeblock_rbrace_state_2, scan_codeblock_rbrace_state_3, scan_codeblock_rbrace_state_4, scan_codeblock_rbrace_state_5, scan_codeblock_rbrace_state_6, scan_codeblock_rbrace_state_7, scan_codeblock_rbrace_state_8, scan_codeblock_rbrace_state_9, scan_codeblock_rbrace_state_10, scan_codeblock_rbrace_state_11, scan_codeblock_rbrace_state_12, scan_codeblock_rbrace_state_13, scan_codeblock_rbrace_state_14, scan_codeblock_rbrace_state_15, scan_codeblock_rbrace_state_16, scan_codeblock_rbrace_state_17, scan_codeblock_rbrace_state_18, scan_codeblock_rbrace_state_19, scan_codeblock_rbrace_state_20, scan_codeblock_rbrace_state_21, scan_codeblock_rbrace_state_22, scan_codeblock_rbrace_state_23, scan_codeblock_rbrace_state_24, scan_codeblock_rbrace_state_25, scan_codeblock_rbrace_state_26, ], end_nodes: [Some((5, [])), Some((4, [])), Some((4, [])), Some((1, [])), Some((0, [])), Some((3, [])), Some((3, [])), Some((3, [])), Some((3, [])), Some((3, [])), Some((3, [])), Some((3, [])), Some((3, [])), Some((3, [])), Some((3, [])), Some((3, [])), Some((3, [])), Some((3, [])), Some((3, [])), None, Some((3, [])), None, None, Some((3, [])), None, None, Some((2, [((0, 0), (1, 0)), ((2, 0), (3, 0)), ((4, 0), (5, 0))]))], start_tags: [0], code_blocks_n: 6 }
-fn scan_codeblock_rbrace( subst :  Array[SubstItem], lexbuf : Lexbuf ) ->  Unit  {
+fn scan_codeblock_rbrace( subst : Array[SubstItem], lexbuf : Lexbuf ) -> Unit {
   match __mbtlex_engine_scan_codeblock_rbrace.run(lexbuf) {
     (0, __mbtlex_captures) => {
 

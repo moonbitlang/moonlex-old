@@ -109,22 +109,21 @@ let scan_newline_tag_action_1 : Array[Array[Int]] = [scan_newline_tag_action_row
 fn scan_newline_state_0(input : LexInput) -> (LexState, LexTagAction) {
   match input {
     0..=9 => (3, scan_newline_tag_action_0)
-    10 => (1, scan_newline_tag_action_1)
+    10 => (2, scan_newline_tag_action_1)
     11..=12 => (3, scan_newline_tag_action_0)
-    13 => (2, scan_newline_tag_action_1)
+    13 => (1, scan_newline_tag_action_1)
     14..=1114111 => (3, scan_newline_tag_action_0)
     _ => (-1, [])
   }
 }
 fn scan_newline_state_1(input : LexInput) -> (LexState, LexTagAction) {
   match input {
+    10 => (4, scan_newline_tag_action_1)
     _ => (-1, [])
   }
 }
 fn scan_newline_state_2(input : LexInput) -> (LexState, LexTagAction) {
   match input {
-    10 => (5, scan_newline_tag_action_1)
-    13 => (4, scan_newline_tag_action_1)
     _ => (-1, [])
   }
 }
@@ -138,14 +137,9 @@ fn scan_newline_state_4(input : LexInput) -> (LexState, LexTagAction) {
     _ => (-1, [])
   }
 }
-fn scan_newline_state_5(input : LexInput) -> (LexState, LexTagAction) {
-  match input {
-    _ => (-1, [])
-  }
-}
 
-let __mbtlex_engine_scan_newline: LexEngine = { graph: [scan_newline_state_0, scan_newline_state_1, scan_newline_state_2, scan_newline_state_3, scan_newline_state_4, scan_newline_state_5, ], end_nodes: [Some((2, [])), Some((0, [((0, 0), (1, 0))])), Some((0, [((0, 0), (1, 0))])), Some((1, [])), Some((0, [((0, 0), (1, 0))])), Some((0, [((0, 0), (1, 0))]))], start_tags: [0], code_blocks_n: 3 }
-fn scan_newline( lexbuf : Lexbuf ) ->  Int  {
+let __mbtlex_engine_scan_newline: LexEngine = { graph: [scan_newline_state_0, scan_newline_state_1, scan_newline_state_2, scan_newline_state_3, scan_newline_state_4, ], end_nodes: [Some((2, [])), Some((0, [((0, 0), (1, 0))])), Some((0, [((0, 0), (1, 0))])), Some((1, [])), Some((0, [((0, 0), (1, 0))]))], start_tags: [0], code_blocks_n: 3 }
+fn scan_newline( lexbuf : Lexbuf ) -> Int {
   match __mbtlex_engine_scan_newline.run(lexbuf) {
     (0, __mbtlex_captures) => {
   let (_start_pos_of_t, _end_pos_of_t) = __mbtlex_captures[0]

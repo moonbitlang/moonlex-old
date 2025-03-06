@@ -134,7 +134,7 @@ fn lex_is_number_state_4(input : LexInput) -> (LexState, LexTagAction) {
 }
 
 let __mbtlex_engine_lex_is_number: LexEngine = { graph: [lex_is_number_state_0, lex_is_number_state_1, lex_is_number_state_2, lex_is_number_state_3, lex_is_number_state_4, ], end_nodes: [None, Some((1, [])), Some((0, [])), Some((0, [])), Some((0, []))], start_tags: [], code_blocks_n: 2 }
-fn lex_is_number( lexbuf : Lexbuf ) ->  Bool  {
+fn lex_is_number( lexbuf : Lexbuf ) -> Bool {
   match __mbtlex_engine_lex_is_number.run(lexbuf) {
     (0, __mbtlex_captures) => {
  true 

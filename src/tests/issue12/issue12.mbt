@@ -133,7 +133,7 @@ fn test_func_state_3(input : LexInput) -> (LexState, LexTagAction) {
 }
 
 let __mbtlex_engine_test_func: LexEngine = { graph: [test_func_state_0, test_func_state_1, test_func_state_2, test_func_state_3, ], end_nodes: [None, Some((0, [((0, 0), (1, 0))])), None, Some((0, [((0, 0), (1, 0))]))], start_tags: [0], code_blocks_n: 1 }
-fn test_func( lexbuf : Lexbuf ) ->  String  {
+fn test_func( lexbuf : Lexbuf ) -> String {
   match __mbtlex_engine_test_func.run(lexbuf) {
     (0, __mbtlex_captures) => {
   let (_start_pos_of_t2, _end_pos_of_t2) = __mbtlex_captures[0]
