@@ -33,8 +33,7 @@ test {
     "rules": [
       {
         "name": "token",
-        "return_type": "Token",
-        "params": "",
+        "signature": "token(lexbuf : Lexbuf) -> Token ",
         "patterns": [
           [{ "$tag": "Named", "0": "ws" }, " token(lexbuf) "],
           [
@@ -68,8 +67,22 @@ test {
                   "$tag": "Concat",
                   "0": {
                     "$tag": "Capture",
-                    "0": { "$tag": "Named", "0": "lc_ident" },
-                    "1": "t",
+                    "0": {
+                      "$tag": "Concat",
+                      "0": {
+                        "$tag": "Capture",
+                        "0": { "$tag": "Named", "0": "lc_ident" },
+                        "1": "t1",
+                      },
+                      "1": {
+                        "$tag": "Repetition",
+                        "0": {
+                          "$tag": "CharSet",
+                          "0": [[0, 122], [124, 1114111]],
+                        },
+                      },
+                    },
+                    "1": "t2",
                   },
                   "1": {
                     "$tag": "Concat",
@@ -77,19 +90,12 @@ test {
                       "$tag": "Option",
                       "0": { "$tag": "Named", "0": "ws" },
                     },
-                    "1": {
-                      "$tag": "Concat",
-                      "0": { "$tag": "ReStr", "0": "(" },
-                      "1": {
-                        "$tag": "Option",
-                        "0": { "$tag": "Named", "0": "ws" },
-                      },
-                    },
+                    "1": { "$tag": "ReChar", "0": "{" },
                   },
                 },
               },
             },
-            "\n      let buffer1 = StringBuilder::new()\n      let buffer2 = StringBuilder::new()\n      code_rparen(buffer1, lexbuf)\n      arrow_code_lbrace(buffer2, lexbuf)\n      RULE_LC_IDENT_LPAREN_CODE_RPAREN_ARROW_CODE_LBRACE((t, buffer1.to_string(), buffer2.to_string()))\n    ",
+            "\n      RULE_LC_IDENT_LPAREN_CODE_RPAREN_ARROW_CODE_LBRACE((t1, t2))\n    ",
           ],
           [
             {
@@ -326,8 +332,7 @@ test {
       },
       {
         "name": "string_inner_rquote",
-        "return_type": "Unit",
-        "params": "buffer : StringBuilder",
+        "signature": "string_inner_rquote(buffer : StringBuilder, lexbuf : Lexbuf) -> Unit ",
         "patterns": [
           [{ "$tag": "ReChar", "0": "\"" }, " () "],
           [
@@ -437,99 +442,8 @@ test {
         ],
       },
       {
-        "name": "code_rparen",
-        "return_type": "Unit",
-        "params": "buffer : StringBuilder",
-        "patterns": [
-          [{ "$tag": "ReStr", "0": ")" }, " () "],
-          [
-            { "$tag": "ReStr", "0": "(" },
-            "\n      buffer.write_string(\"(\")\n      code_rparen(buffer, lexbuf)\n      buffer.write_string(\")\")\n      code_rparen(buffer, lexbuf)\n    ",
-          ],
-          [
-            { "$tag": "Capture", "0": { "$tag": "Underscore" }, "1": "t" },
-            "\n      buffer.write_string(t)\n      code_rparen(buffer, lexbuf)\n    ",
-          ],
-          [{ "$tag": "EOF" }, " abort(\"Unexpected end of input\") "],
-        ],
-      },
-      {
-        "name": "arrow_code_lbrace",
-        "return_type": "Unit",
-        "params": "buffer : StringBuilder",
-        "patterns": [
-          [
-            {
-              "$tag": "Concat",
-              "0": { "$tag": "Option", "0": { "$tag": "Named", "0": "ws" } },
-              "1": {
-                "$tag": "Concat",
-                "0": { "$tag": "ReStr", "0": "->" },
-                "1": {
-                  "$tag": "Concat",
-                  "0": { "$tag": "Option", "0": { "$tag": "Named", "0": "ws" } },
-                  "1": {
-                    "$tag": "Concat",
-                    "0": {
-                      "$tag": "Capture",
-                      "0": {
-                        "$tag": "Concat",
-                        "0": {
-                          "$tag": "CharSet",
-                          "0": [
-                            [0, 8],
-                            [11, 12],
-                            [14, 31],
-                            [33, 122],
-                            [124, 1114111],
-                          ],
-                        },
-                        "1": {
-                          "$tag": "Option",
-                          "0": {
-                            "$tag": "Repetition",
-                            "0": {
-                              "$tag": "Concat",
-                              "0": {
-                                "$tag": "Option",
-                                "0": { "$tag": "Named", "0": "ws" },
-                              },
-                              "1": {
-                                "$tag": "CharSet",
-                                "0": [
-                                  [0, 8],
-                                  [11, 12],
-                                  [14, 31],
-                                  [33, 122],
-                                  [124, 1114111],
-                                ],
-                              },
-                            },
-                          },
-                        },
-                      },
-                      "1": "t",
-                    },
-                    "1": {
-                      "$tag": "Concat",
-                      "0": {
-                        "$tag": "Option",
-                        "0": { "$tag": "Named", "0": "ws" },
-                      },
-                      "1": { "$tag": "ReStr", "0": "{" },
-                    },
-                  },
-                },
-              },
-            },
-            "\n      buffer.write_string(t)\n    ",
-          ],
-        ],
-      },
-      {
         "name": "code_rbrace",
-        "return_type": "Unit",
-        "params": "buffer : StringBuilder",
+        "signature": "code_rbrace(buffer : StringBuilder, lexbuf : Lexbuf) -> Unit ",
         "patterns": [
           [
             {

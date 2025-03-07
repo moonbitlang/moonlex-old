@@ -24,7 +24,7 @@
 %token MINUS        "-"
 %token CARET        "^"
 
-%token<(String, String, String)> RULE_LC_IDENT_LPAREN_CODE_RPAREN_ARROW_CODE_LBRACE
+%token<(String, String)> RULE_LC_IDENT_LPAREN_CODE_RPAREN_ARROW_CODE_LBRACE
 %token<String> LBRACE_CODE_RBRACE
 %token<String> LC_IDENT
 %token<Char> CHAR
@@ -77,9 +77,7 @@ nonempty_rule_list -> @immut/list.T[@type.Rule]
 rule -> @type.Rule
   : RULE_LC_IDENT_LPAREN_CODE_RPAREN_ARROW_CODE_LBRACE "parse {" rule_item_list "}" "}" 
                                         {
-                                          let (name, params, return_type) = $1
-                                          let patterns = $3.to_array()
-                                          { name, params, return_type, patterns }
+                                          { name: $1.0, signature: $1.1, patterns: $3.to_array() }
                                         }
   ;
 

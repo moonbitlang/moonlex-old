@@ -5,13 +5,6 @@
     "moonbitlang/lex/lib/codegen/internal/codeblock_parser",
     "moonbitlang/lex/lib/util/eof_char_set"
   ],
-  "pre-build": [
-    {
-      "input": ["runtime/runtime.mbt"],
-      "output": ["runtime.mbt"],
-      "command": ":embed --name runtime -i $input -o $output"
-    }
-  ],
   "test-import": [
     "moonbitlang/lex/lib/parser"
   ]

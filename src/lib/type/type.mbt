@@ -82,8 +82,7 @@ pub typealias CodeBlock = String
 ///|
 pub(all) struct Rule {
   name : String
-  return_type : String
-  params : String
+  signature : String
   patterns : Array[(Regex, CodeBlock)]
 } derive(Show, ToJson)
 
@@ -101,7 +100,7 @@ pub fn eliminate_named(self : Lex) -> Lex {
   let named_regexes = Map::from_array(self.named_regexes)
   fn eliminate_named_regex(re : Regex) -> Regex {
     match re {
-      Underscore | EOF | ReStr(_) | ReChar(_) | CharSet(_)  => re
+      Underscore | EOF | ReStr(_) | ReChar(_) | CharSet(_) => re
       Repetition(re) => Repetition(eliminate_named_regex(re))
       Option(re) => Option(eliminate_named_regex(re))
       Alter(re1, re2) =>
@@ -123,8 +122,7 @@ pub fn eliminate_named(self : Lex) -> Lex {
     rules: self.rules.map(fn(rule) {
       Rule::{
         name: rule.name,
-        return_type: rule.return_type,
-        params: rule.params,
+        signature: rule.signature,
         patterns: rule.patterns.map(fn(pattern) {
           let (re, code) = pattern
           (eliminate_named_regex(re), code)

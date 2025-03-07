@@ -21,7 +21,7 @@ pub(all) enum Token {
   QUESTION
   MINUS
   CARET
-  RULE_LC_IDENT_LPAREN_CODE_RPAREN_ARROW_CODE_LBRACE((String, String, String))
+  RULE_LC_IDENT_LPAREN_CODE_RPAREN_ARROW_CODE_LBRACE((String, String))
   LBRACE_CODE_RBRACE(String)
   LC_IDENT(String)
   CHAR(Char)
@@ -138,9 +138,9 @@ priv type! YYObj__type_Regex @type.Regex
 
 priv type! YYObj__eof_char_set_T @eof_char_set.T
 
-priv type! YYObj__String___type_Regex_ (String, @type.Regex)
+priv type! YYObj__String__String_ (String, String)
 
-priv type! YYObj__String__String__String_ (String, String, String)
+priv type! YYObj__String___type_Regex_ (String, @type.Regex)
 
 priv type! YYObj__immut_list_T__type_Rule_ @immut/list.T[@type.Rule]
 
@@ -333,12 +333,10 @@ fn yy_action_21(_last_pos : Position, _args : ArrayView[(YYObj, Position, Positi
 }
 
 fn yy_action_22(_last_pos : Position, _args : ArrayView[(YYObj, Position, Position)]) -> YYObj {
-  guard _args[0].0 is YYObj__String__String__String_(_dollar1)
+  guard _args[0].0 is YYObj__String__String_(_dollar1)
   guard _args[2].0 is YYObj__immut_list_T___type_Regex___type_CodeBlock__(_dollar3)
   YYObj__type_Rule({(); 
-                                          let (name, params, return_type) = _dollar1
-                                          let patterns = _dollar3.to_array()
-                                          { name, params, return_type, patterns }
+                                          { name: _dollar1.0, signature: _dollar1.1, patterns: _dollar3.to_array() }
                                         })
 }
 
@@ -461,7 +459,7 @@ fn yy_input(token : Token, _start_pos : Position, _end_pos : Position) -> (YYSym
     QUESTION => (T_QUESTION, YYObj_Void)
     MINUS => (T_MINUS, YYObj_Void)
     CARET => (T_CARET, YYObj_Void)
-    RULE_LC_IDENT_LPAREN_CODE_RPAREN_ARROW_CODE_LBRACE(data) => (T_RULE_LC_IDENT_LPAREN_CODE_RPAREN_ARROW_CODE_LBRACE, YYObj__String__String__String_(data))
+    RULE_LC_IDENT_LPAREN_CODE_RPAREN_ARROW_CODE_LBRACE(data) => (T_RULE_LC_IDENT_LPAREN_CODE_RPAREN_ARROW_CODE_LBRACE, YYObj__String__String_(data))
     LBRACE_CODE_RBRACE(data) => (T_LBRACE_CODE_RBRACE, YYObj_String(data))
     LC_IDENT(data) => (T_LC_IDENT, YYObj_String(data))
     CHAR(data) => (T_CHAR, YYObj_Char(data))

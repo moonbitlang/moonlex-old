@@ -140,7 +140,7 @@ fn token_state_4(input : LexInput) -> (LexState, LexTagAction) {
 }
 
 let __mbtlex_engine_token: LexEngine = { graph: [token_state_0, token_state_1, token_state_2, token_state_3, token_state_4, ], end_nodes: [None, Some((3, [])), Some((2, [])), Some((1, [])), Some((0, []))], start_tags: [], code_blocks_n: 4 }
-fn token( lexbuf : Lexbuf ) -> Token {
+fn token(lexbuf : Lexbuf) -> Token  {
   match __mbtlex_engine_token.run(lexbuf) {
     (0, __mbtlex_captures) => {
  PERCENT_EOF 

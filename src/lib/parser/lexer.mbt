@@ -101,27 +101,35 @@ pub fn run(self : LexEngine, lexbuf : Lexbuf) -> (Int, Array[(Int, Int)]) {
 let token_tag_action_row_0 : Array[Int] = []
 let token_tag_action_row_1 : Array[Int] = [-1]
 let token_tag_action_row_2 : Array[Int] = [0]
+let token_tag_action_row_4 : Array[Int] = [1]
+let token_tag_action_row_3 : Array[Int] = [-1, 0]
+let token_tag_action_row_5 : Array[Int] = [0, 1]
 
-let token_tag_action_0 : Array[Array[Int]] = [token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0]
-let token_tag_action_1 : Array[Array[Int]] = [token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_1, token_tag_action_row_0]
-let token_tag_action_3 : Array[Array[Int]] = [token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_2, token_tag_action_row_1]
-let token_tag_action_10 : Array[Array[Int]] = [token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_1, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0]
-let token_tag_action_12 : Array[Array[Int]] = [token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_2, token_tag_action_row_1, token_tag_action_row_0, token_tag_action_row_0]
-let token_tag_action_15 : Array[Array[Int]] = [token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_2, token_tag_action_row_2, token_tag_action_row_0, token_tag_action_row_0]
-let token_tag_action_6 : Array[Array[Int]] = [token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_1, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0]
-let token_tag_action_9 : Array[Array[Int]] = [token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_2, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0]
-let token_tag_action_17 : Array[Array[Int]] = [token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_2, token_tag_action_row_1, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0]
-let token_tag_action_19 : Array[Array[Int]] = [token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_2, token_tag_action_row_2, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0]
-let token_tag_action_7 : Array[Array[Int]] = [token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_1, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0]
-let token_tag_action_8 : Array[Array[Int]] = [token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_2, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0]
-let token_tag_action_11 : Array[Array[Int]] = [token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_2, token_tag_action_row_1, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0]
-let token_tag_action_14 : Array[Array[Int]] = [token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_2, token_tag_action_row_2, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0]
-let token_tag_action_2 : Array[Array[Int]] = [token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_1, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0]
-let token_tag_action_4 : Array[Array[Int]] = [token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_2, token_tag_action_row_1, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0]
-let token_tag_action_5 : Array[Array[Int]] = [token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_2, token_tag_action_row_2, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0]
-let token_tag_action_13 : Array[Array[Int]] = [token_tag_action_row_1, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0]
-let token_tag_action_16 : Array[Array[Int]] = [token_tag_action_row_2, token_tag_action_row_1, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0]
-let token_tag_action_18 : Array[Array[Int]] = [token_tag_action_row_2, token_tag_action_row_2, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0]
+let token_tag_action_0 : Array[Array[Int]] = [token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0]
+let token_tag_action_1 : Array[Array[Int]] = [token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_1, token_tag_action_row_0]
+let token_tag_action_3 : Array[Array[Int]] = [token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_2, token_tag_action_row_1]
+let token_tag_action_10 : Array[Array[Int]] = [token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_1, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0]
+let token_tag_action_12 : Array[Array[Int]] = [token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_2, token_tag_action_row_1, token_tag_action_row_0, token_tag_action_row_0]
+let token_tag_action_15 : Array[Array[Int]] = [token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_2, token_tag_action_row_2, token_tag_action_row_0, token_tag_action_row_0]
+let token_tag_action_6 : Array[Array[Int]] = [token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_1, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0]
+let token_tag_action_9 : Array[Array[Int]] = [token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_2, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0]
+let token_tag_action_17 : Array[Array[Int]] = [token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_2, token_tag_action_row_1, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0]
+let token_tag_action_20 : Array[Array[Int]] = [token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_2, token_tag_action_row_2, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0]
+let token_tag_action_7 : Array[Array[Int]] = [token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_1, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0]
+let token_tag_action_8 : Array[Array[Int]] = [token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_2, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0]
+let token_tag_action_11 : Array[Array[Int]] = [token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_2, token_tag_action_row_1, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0]
+let token_tag_action_14 : Array[Array[Int]] = [token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_2, token_tag_action_row_2, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0]
+let token_tag_action_2 : Array[Array[Int]] = [token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_1, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0]
+let token_tag_action_4 : Array[Array[Int]] = [token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_2, token_tag_action_row_1, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0]
+let token_tag_action_5 : Array[Array[Int]] = [token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_2, token_tag_action_row_2, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0]
+let token_tag_action_13 : Array[Array[Int]] = [token_tag_action_row_1, token_tag_action_row_0, token_tag_action_row_1, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0]
+let token_tag_action_16 : Array[Array[Int]] = [token_tag_action_row_2, token_tag_action_row_1, token_tag_action_row_2, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0]
+let token_tag_action_18 : Array[Array[Int]] = [token_tag_action_row_2, token_tag_action_row_2, token_tag_action_row_2, token_tag_action_row_1, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0]
+let token_tag_action_24 : Array[Array[Int]] = [token_tag_action_row_2, token_tag_action_row_2, token_tag_action_row_2, token_tag_action_row_2, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0]
+let token_tag_action_23 : Array[Array[Int]] = [token_tag_action_row_2, token_tag_action_row_2, token_tag_action_row_2, token_tag_action_row_3, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0]
+let token_tag_action_22 : Array[Array[Int]] = [token_tag_action_row_2, token_tag_action_row_4, token_tag_action_row_2, token_tag_action_row_2, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0]
+let token_tag_action_19 : Array[Array[Int]] = [token_tag_action_row_2, token_tag_action_row_3, token_tag_action_row_2, token_tag_action_row_1, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0]
+let token_tag_action_21 : Array[Array[Int]] = [token_tag_action_row_2, token_tag_action_row_5, token_tag_action_row_2, token_tag_action_row_3, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0]
 
 fn token_state_0(input : LexInput) -> (LexState, LexTagAction) {
   match input {
@@ -740,20 +748,21 @@ fn token_state_74(input : LexInput) -> (LexState, LexTagAction) {
 }
 fn token_state_75(input : LexInput) -> (LexState, LexTagAction) {
   match input {
-    9..=10 => (80, token_tag_action_18)
-    13 => (80, token_tag_action_18)
-    32 => (80, token_tag_action_18)
-    40 => (79, token_tag_action_18)
-    48..=57 => (78, token_tag_action_16)
-    65..=90 => (78, token_tag_action_16)
-    95 => (78, token_tag_action_16)
-    97..=122 => (78, token_tag_action_16)
+    0..=47 => (79, token_tag_action_18)
+    48..=57 => (78, token_tag_action_19)
+    58..=64 => (79, token_tag_action_18)
+    65..=90 => (78, token_tag_action_19)
+    91..=94 => (79, token_tag_action_18)
+    95 => (78, token_tag_action_19)
+    96 => (79, token_tag_action_18)
+    97..=122 => (78, token_tag_action_19)
+    124..=1114111 => (79, token_tag_action_18)
     _ => (-1, [])
   }
 }
 fn token_state_76(input : LexInput) -> (LexState, LexTagAction) {
   match input {
-    39 => (81, token_tag_action_19)
+    39 => (80, token_tag_action_20)
     _ => (-1, [])
   }
 }
@@ -764,31 +773,41 @@ fn token_state_77(input : LexInput) -> (LexState, LexTagAction) {
 }
 fn token_state_78(input : LexInput) -> (LexState, LexTagAction) {
   match input {
-    9..=10 => (80, token_tag_action_18)
-    13 => (80, token_tag_action_18)
-    32 => (80, token_tag_action_18)
-    40 => (79, token_tag_action_18)
-    48..=57 => (78, token_tag_action_16)
-    65..=90 => (78, token_tag_action_16)
-    95 => (78, token_tag_action_16)
-    97..=122 => (78, token_tag_action_16)
+    0..=8 => (79, token_tag_action_18)
+    9..=10 => (82, token_tag_action_21)
+    11..=12 => (79, token_tag_action_18)
+    13 => (82, token_tag_action_21)
+    14..=31 => (79, token_tag_action_18)
+    32 => (82, token_tag_action_21)
+    33..=47 => (79, token_tag_action_18)
+    48..=57 => (78, token_tag_action_19)
+    58..=64 => (79, token_tag_action_18)
+    65..=90 => (78, token_tag_action_19)
+    91..=94 => (79, token_tag_action_18)
+    95 => (78, token_tag_action_19)
+    96 => (79, token_tag_action_18)
+    97..=122 => (78, token_tag_action_19)
+    123 => (81, token_tag_action_22)
+    124..=1114111 => (79, token_tag_action_18)
     _ => (-1, [])
   }
 }
 fn token_state_79(input : LexInput) -> (LexState, LexTagAction) {
   match input {
-    9..=10 => (82, token_tag_action_18)
-    13 => (82, token_tag_action_18)
-    32 => (82, token_tag_action_18)
+    0..=8 => (79, token_tag_action_18)
+    9..=10 => (83, token_tag_action_23)
+    11..=12 => (79, token_tag_action_18)
+    13 => (83, token_tag_action_23)
+    14..=31 => (79, token_tag_action_18)
+    32 => (83, token_tag_action_23)
+    33..=122 => (79, token_tag_action_18)
+    123 => (81, token_tag_action_24)
+    124..=1114111 => (79, token_tag_action_18)
     _ => (-1, [])
   }
 }
 fn token_state_80(input : LexInput) -> (LexState, LexTagAction) {
   match input {
-    9..=10 => (80, token_tag_action_18)
-    13 => (80, token_tag_action_18)
-    32 => (80, token_tag_action_18)
-    40 => (79, token_tag_action_18)
     _ => (-1, [])
   }
 }
@@ -799,15 +818,35 @@ fn token_state_81(input : LexInput) -> (LexState, LexTagAction) {
 }
 fn token_state_82(input : LexInput) -> (LexState, LexTagAction) {
   match input {
-    9..=10 => (82, token_tag_action_18)
-    13 => (82, token_tag_action_18)
-    32 => (82, token_tag_action_18)
+    0..=8 => (79, token_tag_action_18)
+    9..=10 => (83, token_tag_action_23)
+    11..=12 => (79, token_tag_action_18)
+    13 => (83, token_tag_action_23)
+    14..=31 => (79, token_tag_action_18)
+    32 => (83, token_tag_action_23)
+    33..=122 => (79, token_tag_action_18)
+    123 => (81, token_tag_action_24)
+    124..=1114111 => (79, token_tag_action_18)
+    _ => (-1, [])
+  }
+}
+fn token_state_83(input : LexInput) -> (LexState, LexTagAction) {
+  match input {
+    0..=8 => (79, token_tag_action_18)
+    9..=10 => (83, token_tag_action_23)
+    11..=12 => (79, token_tag_action_18)
+    13 => (83, token_tag_action_23)
+    14..=31 => (79, token_tag_action_18)
+    32 => (83, token_tag_action_23)
+    33..=122 => (79, token_tag_action_18)
+    123 => (81, token_tag_action_24)
+    124..=1114111 => (79, token_tag_action_18)
     _ => (-1, [])
   }
 }
 
-let __mbtlex_engine_token: LexEngine = { graph: [token_state_0, token_state_1, token_state_2, token_state_3, token_state_4, token_state_5, token_state_6, token_state_7, token_state_8, token_state_9, token_state_10, token_state_11, token_state_12, token_state_13, token_state_14, token_state_15, token_state_16, token_state_17, token_state_18, token_state_19, token_state_20, token_state_21, token_state_22, token_state_23, token_state_24, token_state_25, token_state_26, token_state_27, token_state_28, token_state_29, token_state_30, token_state_31, token_state_32, token_state_33, token_state_34, token_state_35, token_state_36, token_state_37, token_state_38, token_state_39, token_state_40, token_state_41, token_state_42, token_state_43, token_state_44, token_state_45, token_state_46, token_state_47, token_state_48, token_state_49, token_state_50, token_state_51, token_state_52, token_state_53, token_state_54, token_state_55, token_state_56, token_state_57, token_state_58, token_state_59, token_state_60, token_state_61, token_state_62, token_state_63, token_state_64, token_state_65, token_state_66, token_state_67, token_state_68, token_state_69, token_state_70, token_state_71, token_state_72, token_state_73, token_state_74, token_state_75, token_state_76, token_state_77, token_state_78, token_state_79, token_state_80, token_state_81, token_state_82, ], end_nodes: [None, Some((36, [((10, 0), (11, 0))])), Some((0, [])), Some((35, [])), None, Some((23, [])), Some((22, [])), Some((21, [])), Some((20, [])), Some((19, [])), Some((18, [])), Some((17, [])), Some((15, [])), Some((14, [])), Some((13, [])), Some((12, [])), Some((11, [])), Some((10, [])), Some((9, [])), Some((16, [])), Some((36, [((10, 0), (11, 0))])), Some((36, [((10, 0), (11, 0))])), Some((36, [((10, 0), (11, 0))])), Some((36, [((10, 0), (11, 0))])), Some((36, [((10, 0), (11, 0))])), Some((2, [])), None, Some((36, [((10, 0), (11, 0))])), None, None, Some((8, [])), Some((7, [])), Some((36, [((10, 0), (11, 0))])), Some((36, [((10, 0), (11, 0))])), Some((36, [((10, 0), (11, 0))])), Some((36, [((10, 0), (11, 0))])), Some((1, [])), Some((24, [((2, 0), (3, 0))])), None, None, None, None, None, None, None, None, None, Some((6, [])), Some((36, [((10, 0), (11, 0))])), Some((36, [((10, 0), (11, 0))])), Some((3, [])), Some((1, [])), Some((1, [])), Some((31, [])), Some((27, [])), Some((30, [])), Some((29, [])), Some((28, [])), Some((26, [])), None, Some((25, [])), None, None, Some((36, [((10, 0), (11, 0))])), Some((36, [((10, 0), (11, 0))])), None, None, None, Some((36, [((10, 0), (11, 0))])), None, Some((32, [((4, 0), (5, 0))])), None, None, None, Some((5, [])), None, None, Some((34, [((8, 0), (9, 0))])), None, Some((4, [((0, 0), (1, 0))])), None, Some((33, [((6, 0), (7, 0))])), Some((4, [((0, 0), (1, 0))]))], start_tags: [10], code_blocks_n: 37 }
-fn token( lexbuf : Lexbuf ) -> Token {
+let __mbtlex_engine_token: LexEngine = { graph: [token_state_0, token_state_1, token_state_2, token_state_3, token_state_4, token_state_5, token_state_6, token_state_7, token_state_8, token_state_9, token_state_10, token_state_11, token_state_12, token_state_13, token_state_14, token_state_15, token_state_16, token_state_17, token_state_18, token_state_19, token_state_20, token_state_21, token_state_22, token_state_23, token_state_24, token_state_25, token_state_26, token_state_27, token_state_28, token_state_29, token_state_30, token_state_31, token_state_32, token_state_33, token_state_34, token_state_35, token_state_36, token_state_37, token_state_38, token_state_39, token_state_40, token_state_41, token_state_42, token_state_43, token_state_44, token_state_45, token_state_46, token_state_47, token_state_48, token_state_49, token_state_50, token_state_51, token_state_52, token_state_53, token_state_54, token_state_55, token_state_56, token_state_57, token_state_58, token_state_59, token_state_60, token_state_61, token_state_62, token_state_63, token_state_64, token_state_65, token_state_66, token_state_67, token_state_68, token_state_69, token_state_70, token_state_71, token_state_72, token_state_73, token_state_74, token_state_75, token_state_76, token_state_77, token_state_78, token_state_79, token_state_80, token_state_81, token_state_82, token_state_83, ], end_nodes: [None, Some((36, [((12, 0), (13, 0))])), Some((0, [])), Some((35, [])), None, Some((23, [])), Some((22, [])), Some((21, [])), Some((20, [])), Some((19, [])), Some((18, [])), Some((17, [])), Some((15, [])), Some((14, [])), Some((13, [])), Some((12, [])), Some((11, [])), Some((10, [])), Some((9, [])), Some((16, [])), Some((36, [((12, 0), (13, 0))])), Some((36, [((12, 0), (13, 0))])), Some((36, [((12, 0), (13, 0))])), Some((36, [((12, 0), (13, 0))])), Some((36, [((12, 0), (13, 0))])), Some((2, [])), None, Some((36, [((12, 0), (13, 0))])), None, None, Some((8, [])), Some((7, [])), Some((36, [((12, 0), (13, 0))])), Some((36, [((12, 0), (13, 0))])), Some((36, [((12, 0), (13, 0))])), Some((36, [((12, 0), (13, 0))])), Some((1, [])), Some((24, [((4, 0), (5, 0))])), None, None, None, None, None, None, None, None, None, Some((6, [])), Some((36, [((12, 0), (13, 0))])), Some((36, [((12, 0), (13, 0))])), Some((3, [])), Some((1, [])), Some((1, [])), Some((31, [])), Some((27, [])), Some((30, [])), Some((29, [])), Some((28, [])), Some((26, [])), None, Some((25, [])), None, None, Some((36, [((12, 0), (13, 0))])), Some((36, [((12, 0), (13, 0))])), None, None, None, Some((36, [((12, 0), (13, 0))])), None, Some((32, [((6, 0), (7, 0))])), None, None, None, Some((5, [])), None, None, Some((34, [((10, 0), (11, 0))])), None, None, Some((33, [((8, 0), (9, 0))])), Some((4, [((0, 0), (1, 0)), ((2, 0), (3, 0))])), None, None], start_tags: [12], code_blocks_n: 37 }
+fn token(lexbuf : Lexbuf) -> Token  {
   match __mbtlex_engine_token.run(lexbuf) {
     (0, __mbtlex_captures) => {
  token(lexbuf) 
@@ -822,15 +861,14 @@ fn token( lexbuf : Lexbuf ) -> Token {
  EOF 
     }
     (4, __mbtlex_captures) => {
-  let (_start_pos_of_t, _end_pos_of_t) = __mbtlex_captures[0]
-  let t: String = lexbuf.substring(_start_pos_of_t, _end_pos_of_t)
+  let (_start_pos_of_t1, _end_pos_of_t1) = __mbtlex_captures[0]
+  let t1: String = lexbuf.substring(_start_pos_of_t1, _end_pos_of_t1)
+  
+  let (_start_pos_of_t2, _end_pos_of_t2) = __mbtlex_captures[1]
+  let t2: String = lexbuf.substring(_start_pos_of_t2, _end_pos_of_t2)
   
 
-      let buffer1 = StringBuilder::new()
-      let buffer2 = StringBuilder::new()
-      code_rparen(buffer1, lexbuf)
-      arrow_code_lbrace(buffer2, lexbuf)
-      RULE_LC_IDENT_LPAREN_CODE_RPAREN_ARROW_CODE_LBRACE((t, buffer1.to_string(), buffer2.to_string()))
+      RULE_LC_IDENT_LPAREN_CODE_RPAREN_ARROW_CODE_LBRACE((t1, t2))
     
     }
     (5, __mbtlex_captures) => {
@@ -1158,7 +1196,7 @@ fn string_inner_rquote_state_25(input : LexInput) -> (LexState, LexTagAction) {
 }
 
 let __mbtlex_engine_string_inner_rquote: LexEngine = { graph: [string_inner_rquote_state_0, string_inner_rquote_state_1, string_inner_rquote_state_2, string_inner_rquote_state_3, string_inner_rquote_state_4, string_inner_rquote_state_5, string_inner_rquote_state_6, string_inner_rquote_state_7, string_inner_rquote_state_8, string_inner_rquote_state_9, string_inner_rquote_state_10, string_inner_rquote_state_11, string_inner_rquote_state_12, string_inner_rquote_state_13, string_inner_rquote_state_14, string_inner_rquote_state_15, string_inner_rquote_state_16, string_inner_rquote_state_17, string_inner_rquote_state_18, string_inner_rquote_state_19, string_inner_rquote_state_20, string_inner_rquote_state_21, string_inner_rquote_state_22, string_inner_rquote_state_23, string_inner_rquote_state_24, string_inner_rquote_state_25, ], end_nodes: [None, Some((11, [((6, 0), (7, 0))])), Some((12, [])), Some((11, [((6, 0), (7, 0))])), Some((0, [])), Some((7, [])), Some((1, [])), Some((5, [])), None, Some((4, [])), Some((2, [])), Some((6, [])), Some((3, [])), None, None, None, None, None, None, None, Some((8, [((0, 0), (1, 0))])), None, None, Some((10, [((4, 0), (5, 0))])), None, Some((9, [((2, 0), (3, 0))]))], start_tags: [6], code_blocks_n: 13 }
-fn string_inner_rquote( buffer : StringBuilder, lexbuf : Lexbuf ) -> Unit {
+fn string_inner_rquote(buffer : StringBuilder, lexbuf : Lexbuf) -> Unit  {
   match __mbtlex_engine_string_inner_rquote.run(lexbuf) {
     (0, __mbtlex_captures) => {
  () 
@@ -1243,194 +1281,6 @@ fn string_inner_rquote( buffer : StringBuilder, lexbuf : Lexbuf ) -> Unit {
     }
     (12, __mbtlex_captures) => {
  abort("Unexpected end of input") 
-    }
-    _ => abort("lex: fail to match")
-  }
-}
-let code_rparen_tag_action_row_0 : Array[Int] = []
-let code_rparen_tag_action_row_2 : Array[Int] = [-1]
-let code_rparen_tag_action_row_1 : Array[Int] = [0]
-
-let code_rparen_tag_action_0 : Array[Array[Int]] = [code_rparen_tag_action_row_0, code_rparen_tag_action_row_0]
-let code_rparen_tag_action_1 : Array[Array[Int]] = [code_rparen_tag_action_row_1, code_rparen_tag_action_row_2]
-
-fn code_rparen_state_0(input : LexInput) -> (LexState, LexTagAction) {
-  match input {
-    -1 => (2, code_rparen_tag_action_0)
-    0..=39 => (1, code_rparen_tag_action_1)
-    40 => (3, code_rparen_tag_action_1)
-    41 => (4, code_rparen_tag_action_1)
-    42..=1114111 => (1, code_rparen_tag_action_1)
-    _ => (-1, [])
-  }
-}
-fn code_rparen_state_1(input : LexInput) -> (LexState, LexTagAction) {
-  match input {
-    _ => (-1, [])
-  }
-}
-fn code_rparen_state_2(input : LexInput) -> (LexState, LexTagAction) {
-  match input {
-    _ => (-1, [])
-  }
-}
-fn code_rparen_state_3(input : LexInput) -> (LexState, LexTagAction) {
-  match input {
-    _ => (-1, [])
-  }
-}
-fn code_rparen_state_4(input : LexInput) -> (LexState, LexTagAction) {
-  match input {
-    _ => (-1, [])
-  }
-}
-
-let __mbtlex_engine_code_rparen: LexEngine = { graph: [code_rparen_state_0, code_rparen_state_1, code_rparen_state_2, code_rparen_state_3, code_rparen_state_4, ], end_nodes: [None, Some((2, [((0, 0), (1, 0))])), Some((3, [])), Some((1, [])), Some((0, []))], start_tags: [0], code_blocks_n: 4 }
-fn code_rparen( buffer : StringBuilder, lexbuf : Lexbuf ) -> Unit {
-  match __mbtlex_engine_code_rparen.run(lexbuf) {
-    (0, __mbtlex_captures) => {
- () 
-    }
-    (1, __mbtlex_captures) => {
-
-      buffer.write_string("(")
-      code_rparen(buffer, lexbuf)
-      buffer.write_string(")")
-      code_rparen(buffer, lexbuf)
-    
-    }
-    (2, __mbtlex_captures) => {
-  let (_start_pos_of_t, _end_pos_of_t) = __mbtlex_captures[0]
-  let t: String = lexbuf.substring(_start_pos_of_t, _end_pos_of_t)
-  
-
-      buffer.write_string(t)
-      code_rparen(buffer, lexbuf)
-    
-    }
-    (3, __mbtlex_captures) => {
- abort("Unexpected end of input") 
-    }
-    _ => abort("lex: fail to match")
-  }
-}
-let arrow_code_lbrace_tag_action_row_0 : Array[Int] = []
-let arrow_code_lbrace_tag_action_row_1 : Array[Int] = [-1]
-let arrow_code_lbrace_tag_action_row_2 : Array[Int] = [0]
-
-let arrow_code_lbrace_tag_action_0 : Array[Array[Int]] = [arrow_code_lbrace_tag_action_row_0, arrow_code_lbrace_tag_action_row_0]
-let arrow_code_lbrace_tag_action_1 : Array[Array[Int]] = [arrow_code_lbrace_tag_action_row_1, arrow_code_lbrace_tag_action_row_0]
-let arrow_code_lbrace_tag_action_2 : Array[Array[Int]] = [arrow_code_lbrace_tag_action_row_2, arrow_code_lbrace_tag_action_row_1]
-let arrow_code_lbrace_tag_action_3 : Array[Array[Int]] = [arrow_code_lbrace_tag_action_row_2, arrow_code_lbrace_tag_action_row_2]
-
-fn arrow_code_lbrace_state_0(input : LexInput) -> (LexState, LexTagAction) {
-  match input {
-    9..=10 => (1, arrow_code_lbrace_tag_action_0)
-    13 => (1, arrow_code_lbrace_tag_action_0)
-    32 => (1, arrow_code_lbrace_tag_action_0)
-    45 => (2, arrow_code_lbrace_tag_action_0)
-    _ => (-1, [])
-  }
-}
-fn arrow_code_lbrace_state_1(input : LexInput) -> (LexState, LexTagAction) {
-  match input {
-    9..=10 => (1, arrow_code_lbrace_tag_action_0)
-    13 => (1, arrow_code_lbrace_tag_action_0)
-    32 => (1, arrow_code_lbrace_tag_action_0)
-    45 => (2, arrow_code_lbrace_tag_action_0)
-    _ => (-1, [])
-  }
-}
-fn arrow_code_lbrace_state_2(input : LexInput) -> (LexState, LexTagAction) {
-  match input {
-    62 => (3, arrow_code_lbrace_tag_action_1)
-    _ => (-1, [])
-  }
-}
-fn arrow_code_lbrace_state_3(input : LexInput) -> (LexState, LexTagAction) {
-  match input {
-    0..=8 => (4, arrow_code_lbrace_tag_action_2)
-    9..=10 => (5, arrow_code_lbrace_tag_action_1)
-    11..=12 => (4, arrow_code_lbrace_tag_action_2)
-    13 => (5, arrow_code_lbrace_tag_action_1)
-    14..=31 => (4, arrow_code_lbrace_tag_action_2)
-    32 => (5, arrow_code_lbrace_tag_action_1)
-    33..=122 => (4, arrow_code_lbrace_tag_action_2)
-    124..=1114111 => (4, arrow_code_lbrace_tag_action_2)
-    _ => (-1, [])
-  }
-}
-fn arrow_code_lbrace_state_4(input : LexInput) -> (LexState, LexTagAction) {
-  match input {
-    0..=8 => (7, arrow_code_lbrace_tag_action_2)
-    9..=10 => (8, arrow_code_lbrace_tag_action_3)
-    11..=12 => (7, arrow_code_lbrace_tag_action_2)
-    13 => (8, arrow_code_lbrace_tag_action_3)
-    14..=31 => (7, arrow_code_lbrace_tag_action_2)
-    32 => (8, arrow_code_lbrace_tag_action_3)
-    33..=122 => (7, arrow_code_lbrace_tag_action_2)
-    123 => (6, arrow_code_lbrace_tag_action_3)
-    124..=1114111 => (7, arrow_code_lbrace_tag_action_2)
-    _ => (-1, [])
-  }
-}
-fn arrow_code_lbrace_state_5(input : LexInput) -> (LexState, LexTagAction) {
-  match input {
-    0..=8 => (4, arrow_code_lbrace_tag_action_2)
-    9..=10 => (5, arrow_code_lbrace_tag_action_1)
-    11..=12 => (4, arrow_code_lbrace_tag_action_2)
-    13 => (5, arrow_code_lbrace_tag_action_1)
-    14..=31 => (4, arrow_code_lbrace_tag_action_2)
-    32 => (5, arrow_code_lbrace_tag_action_1)
-    33..=122 => (4, arrow_code_lbrace_tag_action_2)
-    124..=1114111 => (4, arrow_code_lbrace_tag_action_2)
-    _ => (-1, [])
-  }
-}
-fn arrow_code_lbrace_state_6(input : LexInput) -> (LexState, LexTagAction) {
-  match input {
-    _ => (-1, [])
-  }
-}
-fn arrow_code_lbrace_state_7(input : LexInput) -> (LexState, LexTagAction) {
-  match input {
-    0..=8 => (7, arrow_code_lbrace_tag_action_2)
-    9..=10 => (8, arrow_code_lbrace_tag_action_3)
-    11..=12 => (7, arrow_code_lbrace_tag_action_2)
-    13 => (8, arrow_code_lbrace_tag_action_3)
-    14..=31 => (7, arrow_code_lbrace_tag_action_2)
-    32 => (8, arrow_code_lbrace_tag_action_3)
-    33..=122 => (7, arrow_code_lbrace_tag_action_2)
-    123 => (6, arrow_code_lbrace_tag_action_3)
-    124..=1114111 => (7, arrow_code_lbrace_tag_action_2)
-    _ => (-1, [])
-  }
-}
-fn arrow_code_lbrace_state_8(input : LexInput) -> (LexState, LexTagAction) {
-  match input {
-    0..=8 => (7, arrow_code_lbrace_tag_action_2)
-    9..=10 => (8, arrow_code_lbrace_tag_action_3)
-    11..=12 => (7, arrow_code_lbrace_tag_action_2)
-    13 => (8, arrow_code_lbrace_tag_action_3)
-    14..=31 => (7, arrow_code_lbrace_tag_action_2)
-    32 => (8, arrow_code_lbrace_tag_action_3)
-    33..=122 => (7, arrow_code_lbrace_tag_action_2)
-    123 => (6, arrow_code_lbrace_tag_action_3)
-    124..=1114111 => (7, arrow_code_lbrace_tag_action_2)
-    _ => (-1, [])
-  }
-}
-
-let __mbtlex_engine_arrow_code_lbrace: LexEngine = { graph: [arrow_code_lbrace_state_0, arrow_code_lbrace_state_1, arrow_code_lbrace_state_2, arrow_code_lbrace_state_3, arrow_code_lbrace_state_4, arrow_code_lbrace_state_5, arrow_code_lbrace_state_6, arrow_code_lbrace_state_7, arrow_code_lbrace_state_8, ], end_nodes: [None, None, None, None, None, None, Some((0, [((0, 0), (1, 0))])), None, None], start_tags: [], code_blocks_n: 1 }
-fn arrow_code_lbrace( buffer : StringBuilder, lexbuf : Lexbuf ) -> Unit {
-  match __mbtlex_engine_arrow_code_lbrace.run(lexbuf) {
-    (0, __mbtlex_captures) => {
-  let (_start_pos_of_t, _end_pos_of_t) = __mbtlex_captures[0]
-  let t: String = lexbuf.substring(_start_pos_of_t, _end_pos_of_t)
-  
-
-      buffer.write_string(t)
-    
     }
     _ => abort("lex: fail to match")
   }
@@ -1576,7 +1426,7 @@ fn code_rbrace_state_16(input : LexInput) -> (LexState, LexTagAction) {
 }
 
 let __mbtlex_engine_code_rbrace: LexEngine = { graph: [code_rbrace_state_0, code_rbrace_state_1, code_rbrace_state_2, code_rbrace_state_3, code_rbrace_state_4, code_rbrace_state_5, code_rbrace_state_6, code_rbrace_state_7, code_rbrace_state_8, code_rbrace_state_9, code_rbrace_state_10, code_rbrace_state_11, code_rbrace_state_12, code_rbrace_state_13, code_rbrace_state_14, code_rbrace_state_15, code_rbrace_state_16, ], end_nodes: [None, Some((6, [])), Some((3, [])), Some((4, [])), Some((5, [((6, 0), (7, 0))])), Some((5, [((6, 0), (7, 0))])), Some((5, [((6, 0), (7, 0))])), Some((5, [((6, 0), (7, 0))])), None, None, None, None, Some((1, [((2, 0), (3, 0))])), None, Some((2, [((4, 0), (5, 0))])), None, Some((0, [((0, 0), (1, 0))]))], start_tags: [0, 2, 4, 6], code_blocks_n: 7 }
-fn code_rbrace( buffer : StringBuilder, lexbuf : Lexbuf ) -> Unit {
+fn code_rbrace(buffer : StringBuilder, lexbuf : Lexbuf) -> Unit  {
   match __mbtlex_engine_code_rbrace.run(lexbuf) {
     (0, __mbtlex_captures) => {
   let (_start_pos_of_t, _end_pos_of_t) = __mbtlex_captures[0]

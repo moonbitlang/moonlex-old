@@ -54,10 +54,10 @@ function Error$moonbitlang$47$lex$47$lib$47$parser$46$YYObj_String$46$YYObj_Stri
   this._0 = param0;
 }
 Error$moonbitlang$47$lex$47$lib$47$parser$46$YYObj_String$46$YYObj_String.prototype.$tag = 4;
-function Error$moonbitlang$47$lex$47$lib$47$parser$46$YYObj__String__String__String_$46$YYObj__String__String__String_(param0) {
+function Error$moonbitlang$47$lex$47$lib$47$parser$46$YYObj__String__String_$46$YYObj__String__String_(param0) {
   this._0 = param0;
 }
-Error$moonbitlang$47$lex$47$lib$47$parser$46$YYObj__String__String__String_$46$YYObj__String__String__String_.prototype.$tag = 3;
+Error$moonbitlang$47$lex$47$lib$47$parser$46$YYObj__String__String_$46$YYObj__String__String_.prototype.$tag = 3;
 const Error$moonbitlang$47$lex$47$lib$47$parser$46$YYObj_Void$46$YYObj_Void = { $tag: 2 };
 function Error$moonbitlang$47$lex$47$lib$47$parser$46$ParseError$46$UnexpectedToken(param0, param1, param2) {
   this._0 = param0;
@@ -484,15 +484,12 @@ const moonbitlang$core$immut$internal$sparse_array$$empty_bitset = 0;
 const moonbitlang$lex$lib$parser$$token_tag_action_row_0 = [];
 const moonbitlang$lex$lib$parser$$token_tag_action_row_1 = [-1];
 const moonbitlang$lex$lib$parser$$token_tag_action_row_2 = [0];
-const moonbitlang$lex$lib$parser$$arrow_code_lbrace_tag_action_row_0 = [];
-const moonbitlang$lex$lib$parser$$arrow_code_lbrace_tag_action_row_1 = [-1];
-const moonbitlang$lex$lib$parser$$arrow_code_lbrace_tag_action_row_2 = [0];
+const moonbitlang$lex$lib$parser$$token_tag_action_row_4 = [1];
+const moonbitlang$lex$lib$parser$$token_tag_action_row_3 = [-1, 0];
+const moonbitlang$lex$lib$parser$$token_tag_action_row_5 = [0, 1];
 const moonbitlang$lex$lib$parser$$code_rbrace_tag_action_row_0 = [];
 const moonbitlang$lex$lib$parser$$code_rbrace_tag_action_row_1 = [0];
 const moonbitlang$lex$lib$parser$$code_rbrace_tag_action_row_2 = [-1];
-const moonbitlang$lex$lib$parser$$code_rparen_tag_action_row_0 = [];
-const moonbitlang$lex$lib$parser$$code_rparen_tag_action_row_1 = [0];
-const moonbitlang$lex$lib$parser$$code_rparen_tag_action_row_2 = [-1];
 const moonbitlang$lex$lib$parser$$string_inner_rquote_tag_action_row_0 = [];
 const moonbitlang$lex$lib$parser$$string_inner_rquote_tag_action_row_1 = [0];
 const moonbitlang$lex$lib$parser$$string_inner_rquote_tag_action_row_2 = [-1];
@@ -501,11 +498,6 @@ const moonbitlang$lex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbra
 const moonbitlang$lex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_row_1 = [0];
 const moonbitlang$lex$lib$codegen$$runtime = "///|\nstruct Lexbuf {\n  content : String\n  mut pos : Int\n}\n\n///|\npub fn Lexbuf::from_string(content : String) -> Lexbuf {\n  { content, pos: 0 }\n}\n\n// NOTE: MoonBit do have unboxed Option[Char] optimization\n///|\nfn next(self : Lexbuf) -> Char? {\n  if self.pos < self.content.length() {\n    let ch = self.content[self.pos]\n    self.pos += 1\n    Some(ch)\n  } else {\n    None\n  }\n}\n\n///|\nfn substring(self : Lexbuf, start : Int, end : Int) -> String {\n  self.content.substring(start~, end~)\n}\n\n///|\ntypealias LexTagAction = Array[Array[Int]]\n\n///|\ntypealias LexState = Int\n\n///|\ntypealias LexInput = Int\n\n///|\npub(all) struct LexEngine {\n  graph : Array[(LexState) -> (LexState, LexTagAction)]\n  end_nodes : Array[(Int, Array[((Int, Int), (Int, Int))])?]\n  start_tags : Array[Int]\n  code_blocks_n : Int\n}\n\n///|\npub fn run(self : LexEngine, lexbuf : Lexbuf) -> (Int, Array[(Int, Int)]) {\n  let mut state = 0\n  let mut tagState : Array[Array[Int]] = []\n  let backtrace = Array::make(self.code_blocks_n, None)\n  for tag in self.start_tags {\n    while tagState.length() <= tag {\n      tagState.push([])\n    }\n    tagState[tag].push(lexbuf.pos)\n  }\n  while state != -1 {\n    match self.end_nodes[state] {\n      Some(t) => backtrace[t.0] = Some((lexbuf.pos, state, tagState))\n      _ => ()\n    }\n    let b = match lexbuf.next() {\n      Some(b) => b.to_int()\n      None => -1\n    }\n    let next = self.graph[state](b)\n    state = next.0\n    let new_tagState : Array[Array[Int]] = []\n    for i = 0; i < next.1.length(); i = i + 1 {\n      new_tagState.push([])\n      for j = 0; j < next.1[i].length(); j = j + 1 {\n        let t = next.1[i][j]\n        if t == -1 {\n          new_tagState[i].push(lexbuf.pos)\n        } else {\n          new_tagState[i].push(tagState[i][t])\n        }\n      }\n    }\n    tagState = new_tagState\n  }\n  for index, b in backtrace {\n    match b {\n      Some((p, state, tagState)) => {\n        lexbuf.pos = p\n        let captures = self.end_nodes[state].unwrap().1.map(fn {\n          ((b_t, b_r), (e_t, e_r)) => (tagState[b_t][b_r], tagState[e_t][e_r])\n        })\n        break (index, captures)\n      }\n      None => ()\n    }\n  } else {\n    (self.code_blocks_n, [])\n  }\n}\n";
 const moonbitlang$lex$main$$_init$42$46$usage$0$ = "Usage: moonlex [options] <input-file>";
-const moonbitlang$lex$lib$parser$$arrow_code_lbrace_tag_action_2 = [moonbitlang$lex$lib$parser$$arrow_code_lbrace_tag_action_row_2, moonbitlang$lex$lib$parser$$arrow_code_lbrace_tag_action_row_1];
-const moonbitlang$lex$lib$parser$$arrow_code_lbrace_tag_action_1 = [moonbitlang$lex$lib$parser$$arrow_code_lbrace_tag_action_row_1, moonbitlang$lex$lib$parser$$arrow_code_lbrace_tag_action_row_0];
-const moonbitlang$lex$lib$parser$$arrow_code_lbrace_tag_action_3 = [moonbitlang$lex$lib$parser$$arrow_code_lbrace_tag_action_row_2, moonbitlang$lex$lib$parser$$arrow_code_lbrace_tag_action_row_2];
-const moonbitlang$lex$lib$parser$$arrow_code_lbrace_tag_action_0 = [moonbitlang$lex$lib$parser$$arrow_code_lbrace_tag_action_row_0, moonbitlang$lex$lib$parser$$arrow_code_lbrace_tag_action_row_0];
-const moonbitlang$lex$lib$parser$$__mbtlex_engine_arrow_code_lbrace = { graph: [moonbitlang$lex$lib$parser$$arrow_code_lbrace_state_0, moonbitlang$lex$lib$parser$$arrow_code_lbrace_state_1, moonbitlang$lex$lib$parser$$arrow_code_lbrace_state_2, moonbitlang$lex$lib$parser$$arrow_code_lbrace_state_3, moonbitlang$lex$lib$parser$$arrow_code_lbrace_state_4, moonbitlang$lex$lib$parser$$arrow_code_lbrace_state_5, moonbitlang$lex$lib$parser$$arrow_code_lbrace_state_6, moonbitlang$lex$lib$parser$$arrow_code_lbrace_state_7, moonbitlang$lex$lib$parser$$arrow_code_lbrace_state_8], end_nodes: [undefined, undefined, undefined, undefined, undefined, undefined, { _0: 0, _1: [{ _0: { _0: 0, _1: 0 }, _1: { _0: 1, _1: 0 } }] }, undefined, undefined], start_tags: [], code_blocks_n: 1 };
 const moonbitlang$lex$lib$parser$$string_inner_rquote_tag_action_11 = [moonbitlang$lex$lib$parser$$string_inner_rquote_tag_action_row_0, moonbitlang$lex$lib$parser$$string_inner_rquote_tag_action_row_0, moonbitlang$lex$lib$parser$$string_inner_rquote_tag_action_row_1, moonbitlang$lex$lib$parser$$string_inner_rquote_tag_action_row_2, moonbitlang$lex$lib$parser$$string_inner_rquote_tag_action_row_0, moonbitlang$lex$lib$parser$$string_inner_rquote_tag_action_row_0, moonbitlang$lex$lib$parser$$string_inner_rquote_tag_action_row_0, moonbitlang$lex$lib$parser$$string_inner_rquote_tag_action_row_0];
 const moonbitlang$lex$lib$parser$$string_inner_rquote_tag_action_10 = [moonbitlang$lex$lib$parser$$string_inner_rquote_tag_action_row_0, moonbitlang$lex$lib$parser$$string_inner_rquote_tag_action_row_0, moonbitlang$lex$lib$parser$$string_inner_rquote_tag_action_row_0, moonbitlang$lex$lib$parser$$string_inner_rquote_tag_action_row_0, moonbitlang$lex$lib$parser$$string_inner_rquote_tag_action_row_1, moonbitlang$lex$lib$parser$$string_inner_rquote_tag_action_row_1, moonbitlang$lex$lib$parser$$string_inner_rquote_tag_action_row_0, moonbitlang$lex$lib$parser$$string_inner_rquote_tag_action_row_0];
 const moonbitlang$lex$lib$parser$$string_inner_rquote_tag_action_5 = [moonbitlang$lex$lib$parser$$string_inner_rquote_tag_action_row_0, moonbitlang$lex$lib$parser$$string_inner_rquote_tag_action_row_0, moonbitlang$lex$lib$parser$$string_inner_rquote_tag_action_row_1, moonbitlang$lex$lib$parser$$string_inner_rquote_tag_action_row_0, moonbitlang$lex$lib$parser$$string_inner_rquote_tag_action_row_0, moonbitlang$lex$lib$parser$$string_inner_rquote_tag_action_row_0, moonbitlang$lex$lib$parser$$string_inner_rquote_tag_action_row_0, moonbitlang$lex$lib$parser$$string_inner_rquote_tag_action_row_0];
@@ -520,30 +512,32 @@ const moonbitlang$lex$lib$parser$$string_inner_rquote_tag_action_3 = [moonbitlan
 const moonbitlang$lex$lib$parser$$string_inner_rquote_tag_action_7 = [moonbitlang$lex$lib$parser$$string_inner_rquote_tag_action_row_1, moonbitlang$lex$lib$parser$$string_inner_rquote_tag_action_row_2, moonbitlang$lex$lib$parser$$string_inner_rquote_tag_action_row_0, moonbitlang$lex$lib$parser$$string_inner_rquote_tag_action_row_0, moonbitlang$lex$lib$parser$$string_inner_rquote_tag_action_row_0, moonbitlang$lex$lib$parser$$string_inner_rquote_tag_action_row_0, moonbitlang$lex$lib$parser$$string_inner_rquote_tag_action_row_0, moonbitlang$lex$lib$parser$$string_inner_rquote_tag_action_row_0];
 const moonbitlang$lex$lib$parser$$string_inner_rquote_tag_action_9 = [moonbitlang$lex$lib$parser$$string_inner_rquote_tag_action_row_1, moonbitlang$lex$lib$parser$$string_inner_rquote_tag_action_row_1, moonbitlang$lex$lib$parser$$string_inner_rquote_tag_action_row_0, moonbitlang$lex$lib$parser$$string_inner_rquote_tag_action_row_0, moonbitlang$lex$lib$parser$$string_inner_rquote_tag_action_row_0, moonbitlang$lex$lib$parser$$string_inner_rquote_tag_action_row_0, moonbitlang$lex$lib$parser$$string_inner_rquote_tag_action_row_0, moonbitlang$lex$lib$parser$$string_inner_rquote_tag_action_row_0];
 const moonbitlang$lex$lib$parser$$__mbtlex_engine_string_inner_rquote = { graph: [moonbitlang$lex$lib$parser$$string_inner_rquote_state_0, moonbitlang$lex$lib$parser$$string_inner_rquote_state_1, moonbitlang$lex$lib$parser$$string_inner_rquote_state_2, moonbitlang$lex$lib$parser$$string_inner_rquote_state_3, moonbitlang$lex$lib$parser$$string_inner_rquote_state_4, moonbitlang$lex$lib$parser$$string_inner_rquote_state_5, moonbitlang$lex$lib$parser$$string_inner_rquote_state_6, moonbitlang$lex$lib$parser$$string_inner_rquote_state_7, moonbitlang$lex$lib$parser$$string_inner_rquote_state_8, moonbitlang$lex$lib$parser$$string_inner_rquote_state_9, moonbitlang$lex$lib$parser$$string_inner_rquote_state_10, moonbitlang$lex$lib$parser$$string_inner_rquote_state_11, moonbitlang$lex$lib$parser$$string_inner_rquote_state_12, moonbitlang$lex$lib$parser$$string_inner_rquote_state_13, moonbitlang$lex$lib$parser$$string_inner_rquote_state_14, moonbitlang$lex$lib$parser$$string_inner_rquote_state_15, moonbitlang$lex$lib$parser$$string_inner_rquote_state_16, moonbitlang$lex$lib$parser$$string_inner_rquote_state_17, moonbitlang$lex$lib$parser$$string_inner_rquote_state_18, moonbitlang$lex$lib$parser$$string_inner_rquote_state_19, moonbitlang$lex$lib$parser$$string_inner_rquote_state_20, moonbitlang$lex$lib$parser$$string_inner_rquote_state_21, moonbitlang$lex$lib$parser$$string_inner_rquote_state_22, moonbitlang$lex$lib$parser$$string_inner_rquote_state_23, moonbitlang$lex$lib$parser$$string_inner_rquote_state_24, moonbitlang$lex$lib$parser$$string_inner_rquote_state_25], end_nodes: [undefined, { _0: 11, _1: [{ _0: { _0: 6, _1: 0 }, _1: { _0: 7, _1: 0 } }] }, { _0: 12, _1: [] }, { _0: 11, _1: [{ _0: { _0: 6, _1: 0 }, _1: { _0: 7, _1: 0 } }] }, { _0: 0, _1: [] }, { _0: 7, _1: [] }, { _0: 1, _1: [] }, { _0: 5, _1: [] }, undefined, { _0: 4, _1: [] }, { _0: 2, _1: [] }, { _0: 6, _1: [] }, { _0: 3, _1: [] }, undefined, undefined, undefined, undefined, undefined, undefined, undefined, { _0: 8, _1: [{ _0: { _0: 0, _1: 0 }, _1: { _0: 1, _1: 0 } }] }, undefined, undefined, { _0: 10, _1: [{ _0: { _0: 4, _1: 0 }, _1: { _0: 5, _1: 0 } }] }, undefined, { _0: 9, _1: [{ _0: { _0: 2, _1: 0 }, _1: { _0: 3, _1: 0 } }] }], start_tags: [6], code_blocks_n: 13 };
-const moonbitlang$lex$lib$parser$$token_tag_action_3 = [moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_2, moonbitlang$lex$lib$parser$$token_tag_action_row_1];
-const moonbitlang$lex$lib$parser$$token_tag_action_9 = [moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_2, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0];
-const moonbitlang$lex$lib$parser$$token_tag_action_0 = [moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0];
-const moonbitlang$lex$lib$parser$$token_tag_action_18 = [moonbitlang$lex$lib$parser$$token_tag_action_row_2, moonbitlang$lex$lib$parser$$token_tag_action_row_2, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0];
-const moonbitlang$lex$lib$parser$$token_tag_action_19 = [moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_2, moonbitlang$lex$lib$parser$$token_tag_action_row_2, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0];
-const moonbitlang$lex$lib$parser$$token_tag_action_12 = [moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_2, moonbitlang$lex$lib$parser$$token_tag_action_row_1, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0];
-const moonbitlang$lex$lib$parser$$token_tag_action_2 = [moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_1, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0];
-const moonbitlang$lex$lib$parser$$token_tag_action_1 = [moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_1, moonbitlang$lex$lib$parser$$token_tag_action_row_0];
-const moonbitlang$lex$lib$parser$$token_tag_action_15 = [moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_2, moonbitlang$lex$lib$parser$$token_tag_action_row_2, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0];
-const moonbitlang$lex$lib$parser$$token_tag_action_11 = [moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_2, moonbitlang$lex$lib$parser$$token_tag_action_row_1, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0];
-const moonbitlang$lex$lib$parser$$token_tag_action_4 = [moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_2, moonbitlang$lex$lib$parser$$token_tag_action_row_1, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0];
-const moonbitlang$lex$lib$parser$$token_tag_action_16 = [moonbitlang$lex$lib$parser$$token_tag_action_row_2, moonbitlang$lex$lib$parser$$token_tag_action_row_1, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0];
-const moonbitlang$lex$lib$parser$$token_tag_action_8 = [moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_2, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0];
-const moonbitlang$lex$lib$parser$$token_tag_action_13 = [moonbitlang$lex$lib$parser$$token_tag_action_row_1, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0];
-const moonbitlang$lex$lib$parser$$token_tag_action_17 = [moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_2, moonbitlang$lex$lib$parser$$token_tag_action_row_1, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0];
-const moonbitlang$lex$lib$parser$$token_tag_action_7 = [moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_1, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0];
-const moonbitlang$lex$lib$parser$$token_tag_action_6 = [moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_1, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0];
-const moonbitlang$lex$lib$parser$$token_tag_action_10 = [moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_1, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0];
-const moonbitlang$lex$lib$parser$$token_tag_action_5 = [moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_2, moonbitlang$lex$lib$parser$$token_tag_action_row_2, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0];
-const moonbitlang$lex$lib$parser$$token_tag_action_14 = [moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_2, moonbitlang$lex$lib$parser$$token_tag_action_row_2, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0];
-const moonbitlang$lex$lib$parser$$__mbtlex_engine_token = { graph: [moonbitlang$lex$lib$parser$$token_state_0, moonbitlang$lex$lib$parser$$token_state_1, moonbitlang$lex$lib$parser$$token_state_2, moonbitlang$lex$lib$parser$$token_state_3, moonbitlang$lex$lib$parser$$token_state_4, moonbitlang$lex$lib$parser$$token_state_5, moonbitlang$lex$lib$parser$$token_state_6, moonbitlang$lex$lib$parser$$token_state_7, moonbitlang$lex$lib$parser$$token_state_8, moonbitlang$lex$lib$parser$$token_state_9, moonbitlang$lex$lib$parser$$token_state_10, moonbitlang$lex$lib$parser$$token_state_11, moonbitlang$lex$lib$parser$$token_state_12, moonbitlang$lex$lib$parser$$token_state_13, moonbitlang$lex$lib$parser$$token_state_14, moonbitlang$lex$lib$parser$$token_state_15, moonbitlang$lex$lib$parser$$token_state_16, moonbitlang$lex$lib$parser$$token_state_17, moonbitlang$lex$lib$parser$$token_state_18, moonbitlang$lex$lib$parser$$token_state_19, moonbitlang$lex$lib$parser$$token_state_20, moonbitlang$lex$lib$parser$$token_state_21, moonbitlang$lex$lib$parser$$token_state_22, moonbitlang$lex$lib$parser$$token_state_23, moonbitlang$lex$lib$parser$$token_state_24, moonbitlang$lex$lib$parser$$token_state_25, moonbitlang$lex$lib$parser$$token_state_26, moonbitlang$lex$lib$parser$$token_state_27, moonbitlang$lex$lib$parser$$token_state_28, moonbitlang$lex$lib$parser$$token_state_29, moonbitlang$lex$lib$parser$$token_state_30, moonbitlang$lex$lib$parser$$token_state_31, moonbitlang$lex$lib$parser$$token_state_32, moonbitlang$lex$lib$parser$$token_state_33, moonbitlang$lex$lib$parser$$token_state_34, moonbitlang$lex$lib$parser$$token_state_35, moonbitlang$lex$lib$parser$$token_state_36, moonbitlang$lex$lib$parser$$token_state_37, moonbitlang$lex$lib$parser$$token_state_38, moonbitlang$lex$lib$parser$$token_state_39, moonbitlang$lex$lib$parser$$token_state_40, moonbitlang$lex$lib$parser$$token_state_41, moonbitlang$lex$lib$parser$$token_state_42, moonbitlang$lex$lib$parser$$token_state_43, moonbitlang$lex$lib$parser$$token_state_44, moonbitlang$lex$lib$parser$$token_state_45, moonbitlang$lex$lib$parser$$token_state_46, moonbitlang$lex$lib$parser$$token_state_47, moonbitlang$lex$lib$parser$$token_state_48, moonbitlang$lex$lib$parser$$token_state_49, moonbitlang$lex$lib$parser$$token_state_50, moonbitlang$lex$lib$parser$$token_state_51, moonbitlang$lex$lib$parser$$token_state_52, moonbitlang$lex$lib$parser$$token_state_53, moonbitlang$lex$lib$parser$$token_state_54, moonbitlang$lex$lib$parser$$token_state_55, moonbitlang$lex$lib$parser$$token_state_56, moonbitlang$lex$lib$parser$$token_state_57, moonbitlang$lex$lib$parser$$token_state_58, moonbitlang$lex$lib$parser$$token_state_59, moonbitlang$lex$lib$parser$$token_state_60, moonbitlang$lex$lib$parser$$token_state_61, moonbitlang$lex$lib$parser$$token_state_62, moonbitlang$lex$lib$parser$$token_state_63, moonbitlang$lex$lib$parser$$token_state_64, moonbitlang$lex$lib$parser$$token_state_65, moonbitlang$lex$lib$parser$$token_state_66, moonbitlang$lex$lib$parser$$token_state_67, moonbitlang$lex$lib$parser$$token_state_68, moonbitlang$lex$lib$parser$$token_state_69, moonbitlang$lex$lib$parser$$token_state_70, moonbitlang$lex$lib$parser$$token_state_71, moonbitlang$lex$lib$parser$$token_state_72, moonbitlang$lex$lib$parser$$token_state_73, moonbitlang$lex$lib$parser$$token_state_74, moonbitlang$lex$lib$parser$$token_state_75, moonbitlang$lex$lib$parser$$token_state_76, moonbitlang$lex$lib$parser$$token_state_77, moonbitlang$lex$lib$parser$$token_state_78, moonbitlang$lex$lib$parser$$token_state_79, moonbitlang$lex$lib$parser$$token_state_80, moonbitlang$lex$lib$parser$$token_state_81, moonbitlang$lex$lib$parser$$token_state_82], end_nodes: [undefined, { _0: 36, _1: [{ _0: { _0: 10, _1: 0 }, _1: { _0: 11, _1: 0 } }] }, { _0: 0, _1: [] }, { _0: 35, _1: [] }, undefined, { _0: 23, _1: [] }, { _0: 22, _1: [] }, { _0: 21, _1: [] }, { _0: 20, _1: [] }, { _0: 19, _1: [] }, { _0: 18, _1: [] }, { _0: 17, _1: [] }, { _0: 15, _1: [] }, { _0: 14, _1: [] }, { _0: 13, _1: [] }, { _0: 12, _1: [] }, { _0: 11, _1: [] }, { _0: 10, _1: [] }, { _0: 9, _1: [] }, { _0: 16, _1: [] }, { _0: 36, _1: [{ _0: { _0: 10, _1: 0 }, _1: { _0: 11, _1: 0 } }] }, { _0: 36, _1: [{ _0: { _0: 10, _1: 0 }, _1: { _0: 11, _1: 0 } }] }, { _0: 36, _1: [{ _0: { _0: 10, _1: 0 }, _1: { _0: 11, _1: 0 } }] }, { _0: 36, _1: [{ _0: { _0: 10, _1: 0 }, _1: { _0: 11, _1: 0 } }] }, { _0: 36, _1: [{ _0: { _0: 10, _1: 0 }, _1: { _0: 11, _1: 0 } }] }, { _0: 2, _1: [] }, undefined, { _0: 36, _1: [{ _0: { _0: 10, _1: 0 }, _1: { _0: 11, _1: 0 } }] }, undefined, undefined, { _0: 8, _1: [] }, { _0: 7, _1: [] }, { _0: 36, _1: [{ _0: { _0: 10, _1: 0 }, _1: { _0: 11, _1: 0 } }] }, { _0: 36, _1: [{ _0: { _0: 10, _1: 0 }, _1: { _0: 11, _1: 0 } }] }, { _0: 36, _1: [{ _0: { _0: 10, _1: 0 }, _1: { _0: 11, _1: 0 } }] }, { _0: 36, _1: [{ _0: { _0: 10, _1: 0 }, _1: { _0: 11, _1: 0 } }] }, { _0: 1, _1: [] }, { _0: 24, _1: [{ _0: { _0: 2, _1: 0 }, _1: { _0: 3, _1: 0 } }] }, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, { _0: 6, _1: [] }, { _0: 36, _1: [{ _0: { _0: 10, _1: 0 }, _1: { _0: 11, _1: 0 } }] }, { _0: 36, _1: [{ _0: { _0: 10, _1: 0 }, _1: { _0: 11, _1: 0 } }] }, { _0: 3, _1: [] }, { _0: 1, _1: [] }, { _0: 1, _1: [] }, { _0: 31, _1: [] }, { _0: 27, _1: [] }, { _0: 30, _1: [] }, { _0: 29, _1: [] }, { _0: 28, _1: [] }, { _0: 26, _1: [] }, undefined, { _0: 25, _1: [] }, undefined, undefined, { _0: 36, _1: [{ _0: { _0: 10, _1: 0 }, _1: { _0: 11, _1: 0 } }] }, { _0: 36, _1: [{ _0: { _0: 10, _1: 0 }, _1: { _0: 11, _1: 0 } }] }, undefined, undefined, undefined, { _0: 36, _1: [{ _0: { _0: 10, _1: 0 }, _1: { _0: 11, _1: 0 } }] }, undefined, { _0: 32, _1: [{ _0: { _0: 4, _1: 0 }, _1: { _0: 5, _1: 0 } }] }, undefined, undefined, undefined, { _0: 5, _1: [] }, undefined, undefined, { _0: 34, _1: [{ _0: { _0: 8, _1: 0 }, _1: { _0: 9, _1: 0 } }] }, undefined, { _0: 4, _1: [{ _0: { _0: 0, _1: 0 }, _1: { _0: 1, _1: 0 } }] }, undefined, { _0: 33, _1: [{ _0: { _0: 6, _1: 0 }, _1: { _0: 7, _1: 0 } }] }, { _0: 4, _1: [{ _0: { _0: 0, _1: 0 }, _1: { _0: 1, _1: 0 } }] }], start_tags: [10], code_blocks_n: 37 };
-const moonbitlang$lex$lib$parser$$code_rparen_tag_action_1 = [moonbitlang$lex$lib$parser$$code_rparen_tag_action_row_1, moonbitlang$lex$lib$parser$$code_rparen_tag_action_row_2];
-const moonbitlang$lex$lib$parser$$code_rparen_tag_action_0 = [moonbitlang$lex$lib$parser$$code_rparen_tag_action_row_0, moonbitlang$lex$lib$parser$$code_rparen_tag_action_row_0];
-const moonbitlang$lex$lib$parser$$__mbtlex_engine_code_rparen = { graph: [moonbitlang$lex$lib$parser$$code_rparen_state_0, moonbitlang$lex$lib$parser$$code_rparen_state_1, moonbitlang$lex$lib$parser$$code_rparen_state_2, moonbitlang$lex$lib$parser$$code_rparen_state_3, moonbitlang$lex$lib$parser$$code_rparen_state_4], end_nodes: [undefined, { _0: 2, _1: [{ _0: { _0: 0, _1: 0 }, _1: { _0: 1, _1: 0 } }] }, { _0: 3, _1: [] }, { _0: 1, _1: [] }, { _0: 0, _1: [] }], start_tags: [0], code_blocks_n: 4 };
+const moonbitlang$lex$lib$parser$$token_tag_action_3 = [moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_2, moonbitlang$lex$lib$parser$$token_tag_action_row_1];
+const moonbitlang$lex$lib$parser$$token_tag_action_9 = [moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_2, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0];
+const moonbitlang$lex$lib$parser$$token_tag_action_0 = [moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0];
+const moonbitlang$lex$lib$parser$$token_tag_action_23 = [moonbitlang$lex$lib$parser$$token_tag_action_row_2, moonbitlang$lex$lib$parser$$token_tag_action_row_2, moonbitlang$lex$lib$parser$$token_tag_action_row_2, moonbitlang$lex$lib$parser$$token_tag_action_row_3, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0];
+const moonbitlang$lex$lib$parser$$token_tag_action_18 = [moonbitlang$lex$lib$parser$$token_tag_action_row_2, moonbitlang$lex$lib$parser$$token_tag_action_row_2, moonbitlang$lex$lib$parser$$token_tag_action_row_2, moonbitlang$lex$lib$parser$$token_tag_action_row_1, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0];
+const moonbitlang$lex$lib$parser$$token_tag_action_24 = [moonbitlang$lex$lib$parser$$token_tag_action_row_2, moonbitlang$lex$lib$parser$$token_tag_action_row_2, moonbitlang$lex$lib$parser$$token_tag_action_row_2, moonbitlang$lex$lib$parser$$token_tag_action_row_2, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0];
+const moonbitlang$lex$lib$parser$$token_tag_action_20 = [moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_2, moonbitlang$lex$lib$parser$$token_tag_action_row_2, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0];
+const moonbitlang$lex$lib$parser$$token_tag_action_12 = [moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_2, moonbitlang$lex$lib$parser$$token_tag_action_row_1, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0];
+const moonbitlang$lex$lib$parser$$token_tag_action_2 = [moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_1, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0];
+const moonbitlang$lex$lib$parser$$token_tag_action_1 = [moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_1, moonbitlang$lex$lib$parser$$token_tag_action_row_0];
+const moonbitlang$lex$lib$parser$$token_tag_action_15 = [moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_2, moonbitlang$lex$lib$parser$$token_tag_action_row_2, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0];
+const moonbitlang$lex$lib$parser$$token_tag_action_11 = [moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_2, moonbitlang$lex$lib$parser$$token_tag_action_row_1, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0];
+const moonbitlang$lex$lib$parser$$token_tag_action_4 = [moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_2, moonbitlang$lex$lib$parser$$token_tag_action_row_1, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0];
+const moonbitlang$lex$lib$parser$$token_tag_action_19 = [moonbitlang$lex$lib$parser$$token_tag_action_row_2, moonbitlang$lex$lib$parser$$token_tag_action_row_3, moonbitlang$lex$lib$parser$$token_tag_action_row_2, moonbitlang$lex$lib$parser$$token_tag_action_row_1, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0];
+const moonbitlang$lex$lib$parser$$token_tag_action_8 = [moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_2, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0];
+const moonbitlang$lex$lib$parser$$token_tag_action_13 = [moonbitlang$lex$lib$parser$$token_tag_action_row_1, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_1, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0];
+const moonbitlang$lex$lib$parser$$token_tag_action_17 = [moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_2, moonbitlang$lex$lib$parser$$token_tag_action_row_1, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0];
+const moonbitlang$lex$lib$parser$$token_tag_action_7 = [moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_1, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0];
+const moonbitlang$lex$lib$parser$$token_tag_action_6 = [moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_1, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0];
+const moonbitlang$lex$lib$parser$$token_tag_action_10 = [moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_1, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0];
+const moonbitlang$lex$lib$parser$$token_tag_action_5 = [moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_2, moonbitlang$lex$lib$parser$$token_tag_action_row_2, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0];
+const moonbitlang$lex$lib$parser$$token_tag_action_16 = [moonbitlang$lex$lib$parser$$token_tag_action_row_2, moonbitlang$lex$lib$parser$$token_tag_action_row_1, moonbitlang$lex$lib$parser$$token_tag_action_row_2, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0];
+const moonbitlang$lex$lib$parser$$token_tag_action_14 = [moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_2, moonbitlang$lex$lib$parser$$token_tag_action_row_2, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0];
+const moonbitlang$lex$lib$parser$$token_tag_action_21 = [moonbitlang$lex$lib$parser$$token_tag_action_row_2, moonbitlang$lex$lib$parser$$token_tag_action_row_5, moonbitlang$lex$lib$parser$$token_tag_action_row_2, moonbitlang$lex$lib$parser$$token_tag_action_row_3, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0];
+const moonbitlang$lex$lib$parser$$token_tag_action_22 = [moonbitlang$lex$lib$parser$$token_tag_action_row_2, moonbitlang$lex$lib$parser$$token_tag_action_row_4, moonbitlang$lex$lib$parser$$token_tag_action_row_2, moonbitlang$lex$lib$parser$$token_tag_action_row_2, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0, moonbitlang$lex$lib$parser$$token_tag_action_row_0];
+const moonbitlang$lex$lib$parser$$__mbtlex_engine_token = { graph: [moonbitlang$lex$lib$parser$$token_state_0, moonbitlang$lex$lib$parser$$token_state_1, moonbitlang$lex$lib$parser$$token_state_2, moonbitlang$lex$lib$parser$$token_state_3, moonbitlang$lex$lib$parser$$token_state_4, moonbitlang$lex$lib$parser$$token_state_5, moonbitlang$lex$lib$parser$$token_state_6, moonbitlang$lex$lib$parser$$token_state_7, moonbitlang$lex$lib$parser$$token_state_8, moonbitlang$lex$lib$parser$$token_state_9, moonbitlang$lex$lib$parser$$token_state_10, moonbitlang$lex$lib$parser$$token_state_11, moonbitlang$lex$lib$parser$$token_state_12, moonbitlang$lex$lib$parser$$token_state_13, moonbitlang$lex$lib$parser$$token_state_14, moonbitlang$lex$lib$parser$$token_state_15, moonbitlang$lex$lib$parser$$token_state_16, moonbitlang$lex$lib$parser$$token_state_17, moonbitlang$lex$lib$parser$$token_state_18, moonbitlang$lex$lib$parser$$token_state_19, moonbitlang$lex$lib$parser$$token_state_20, moonbitlang$lex$lib$parser$$token_state_21, moonbitlang$lex$lib$parser$$token_state_22, moonbitlang$lex$lib$parser$$token_state_23, moonbitlang$lex$lib$parser$$token_state_24, moonbitlang$lex$lib$parser$$token_state_25, moonbitlang$lex$lib$parser$$token_state_26, moonbitlang$lex$lib$parser$$token_state_27, moonbitlang$lex$lib$parser$$token_state_28, moonbitlang$lex$lib$parser$$token_state_29, moonbitlang$lex$lib$parser$$token_state_30, moonbitlang$lex$lib$parser$$token_state_31, moonbitlang$lex$lib$parser$$token_state_32, moonbitlang$lex$lib$parser$$token_state_33, moonbitlang$lex$lib$parser$$token_state_34, moonbitlang$lex$lib$parser$$token_state_35, moonbitlang$lex$lib$parser$$token_state_36, moonbitlang$lex$lib$parser$$token_state_37, moonbitlang$lex$lib$parser$$token_state_38, moonbitlang$lex$lib$parser$$token_state_39, moonbitlang$lex$lib$parser$$token_state_40, moonbitlang$lex$lib$parser$$token_state_41, moonbitlang$lex$lib$parser$$token_state_42, moonbitlang$lex$lib$parser$$token_state_43, moonbitlang$lex$lib$parser$$token_state_44, moonbitlang$lex$lib$parser$$token_state_45, moonbitlang$lex$lib$parser$$token_state_46, moonbitlang$lex$lib$parser$$token_state_47, moonbitlang$lex$lib$parser$$token_state_48, moonbitlang$lex$lib$parser$$token_state_49, moonbitlang$lex$lib$parser$$token_state_50, moonbitlang$lex$lib$parser$$token_state_51, moonbitlang$lex$lib$parser$$token_state_52, moonbitlang$lex$lib$parser$$token_state_53, moonbitlang$lex$lib$parser$$token_state_54, moonbitlang$lex$lib$parser$$token_state_55, moonbitlang$lex$lib$parser$$token_state_56, moonbitlang$lex$lib$parser$$token_state_57, moonbitlang$lex$lib$parser$$token_state_58, moonbitlang$lex$lib$parser$$token_state_59, moonbitlang$lex$lib$parser$$token_state_60, moonbitlang$lex$lib$parser$$token_state_61, moonbitlang$lex$lib$parser$$token_state_62, moonbitlang$lex$lib$parser$$token_state_63, moonbitlang$lex$lib$parser$$token_state_64, moonbitlang$lex$lib$parser$$token_state_65, moonbitlang$lex$lib$parser$$token_state_66, moonbitlang$lex$lib$parser$$token_state_67, moonbitlang$lex$lib$parser$$token_state_68, moonbitlang$lex$lib$parser$$token_state_69, moonbitlang$lex$lib$parser$$token_state_70, moonbitlang$lex$lib$parser$$token_state_71, moonbitlang$lex$lib$parser$$token_state_72, moonbitlang$lex$lib$parser$$token_state_73, moonbitlang$lex$lib$parser$$token_state_74, moonbitlang$lex$lib$parser$$token_state_75, moonbitlang$lex$lib$parser$$token_state_76, moonbitlang$lex$lib$parser$$token_state_77, moonbitlang$lex$lib$parser$$token_state_78, moonbitlang$lex$lib$parser$$token_state_79, moonbitlang$lex$lib$parser$$token_state_80, moonbitlang$lex$lib$parser$$token_state_81, moonbitlang$lex$lib$parser$$token_state_82, moonbitlang$lex$lib$parser$$token_state_83], end_nodes: [undefined, { _0: 36, _1: [{ _0: { _0: 12, _1: 0 }, _1: { _0: 13, _1: 0 } }] }, { _0: 0, _1: [] }, { _0: 35, _1: [] }, undefined, { _0: 23, _1: [] }, { _0: 22, _1: [] }, { _0: 21, _1: [] }, { _0: 20, _1: [] }, { _0: 19, _1: [] }, { _0: 18, _1: [] }, { _0: 17, _1: [] }, { _0: 15, _1: [] }, { _0: 14, _1: [] }, { _0: 13, _1: [] }, { _0: 12, _1: [] }, { _0: 11, _1: [] }, { _0: 10, _1: [] }, { _0: 9, _1: [] }, { _0: 16, _1: [] }, { _0: 36, _1: [{ _0: { _0: 12, _1: 0 }, _1: { _0: 13, _1: 0 } }] }, { _0: 36, _1: [{ _0: { _0: 12, _1: 0 }, _1: { _0: 13, _1: 0 } }] }, { _0: 36, _1: [{ _0: { _0: 12, _1: 0 }, _1: { _0: 13, _1: 0 } }] }, { _0: 36, _1: [{ _0: { _0: 12, _1: 0 }, _1: { _0: 13, _1: 0 } }] }, { _0: 36, _1: [{ _0: { _0: 12, _1: 0 }, _1: { _0: 13, _1: 0 } }] }, { _0: 2, _1: [] }, undefined, { _0: 36, _1: [{ _0: { _0: 12, _1: 0 }, _1: { _0: 13, _1: 0 } }] }, undefined, undefined, { _0: 8, _1: [] }, { _0: 7, _1: [] }, { _0: 36, _1: [{ _0: { _0: 12, _1: 0 }, _1: { _0: 13, _1: 0 } }] }, { _0: 36, _1: [{ _0: { _0: 12, _1: 0 }, _1: { _0: 13, _1: 0 } }] }, { _0: 36, _1: [{ _0: { _0: 12, _1: 0 }, _1: { _0: 13, _1: 0 } }] }, { _0: 36, _1: [{ _0: { _0: 12, _1: 0 }, _1: { _0: 13, _1: 0 } }] }, { _0: 1, _1: [] }, { _0: 24, _1: [{ _0: { _0: 4, _1: 0 }, _1: { _0: 5, _1: 0 } }] }, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, { _0: 6, _1: [] }, { _0: 36, _1: [{ _0: { _0: 12, _1: 0 }, _1: { _0: 13, _1: 0 } }] }, { _0: 36, _1: [{ _0: { _0: 12, _1: 0 }, _1: { _0: 13, _1: 0 } }] }, { _0: 3, _1: [] }, { _0: 1, _1: [] }, { _0: 1, _1: [] }, { _0: 31, _1: [] }, { _0: 27, _1: [] }, { _0: 30, _1: [] }, { _0: 29, _1: [] }, { _0: 28, _1: [] }, { _0: 26, _1: [] }, undefined, { _0: 25, _1: [] }, undefined, undefined, { _0: 36, _1: [{ _0: { _0: 12, _1: 0 }, _1: { _0: 13, _1: 0 } }] }, { _0: 36, _1: [{ _0: { _0: 12, _1: 0 }, _1: { _0: 13, _1: 0 } }] }, undefined, undefined, undefined, { _0: 36, _1: [{ _0: { _0: 12, _1: 0 }, _1: { _0: 13, _1: 0 } }] }, undefined, { _0: 32, _1: [{ _0: { _0: 6, _1: 0 }, _1: { _0: 7, _1: 0 } }] }, undefined, undefined, undefined, { _0: 5, _1: [] }, undefined, undefined, { _0: 34, _1: [{ _0: { _0: 10, _1: 0 }, _1: { _0: 11, _1: 0 } }] }, undefined, undefined, { _0: 33, _1: [{ _0: { _0: 8, _1: 0 }, _1: { _0: 9, _1: 0 } }] }, { _0: 4, _1: [{ _0: { _0: 0, _1: 0 }, _1: { _0: 1, _1: 0 } }, { _0: { _0: 2, _1: 0 }, _1: { _0: 3, _1: 0 } }] }, undefined, undefined], start_tags: [12], code_blocks_n: 37 };
 const moonbitlang$lex$lib$parser$$code_rbrace_tag_action_6 = [moonbitlang$lex$lib$parser$$code_rbrace_tag_action_row_0, moonbitlang$lex$lib$parser$$code_rbrace_tag_action_row_0, moonbitlang$lex$lib$parser$$code_rbrace_tag_action_row_0, moonbitlang$lex$lib$parser$$code_rbrace_tag_action_row_0, moonbitlang$lex$lib$parser$$code_rbrace_tag_action_row_1, moonbitlang$lex$lib$parser$$code_rbrace_tag_action_row_0, moonbitlang$lex$lib$parser$$code_rbrace_tag_action_row_0, moonbitlang$lex$lib$parser$$code_rbrace_tag_action_row_0];
 const moonbitlang$lex$lib$parser$$code_rbrace_tag_action_5 = [moonbitlang$lex$lib$parser$$code_rbrace_tag_action_row_1, moonbitlang$lex$lib$parser$$code_rbrace_tag_action_row_0, moonbitlang$lex$lib$parser$$code_rbrace_tag_action_row_0, moonbitlang$lex$lib$parser$$code_rbrace_tag_action_row_0, moonbitlang$lex$lib$parser$$code_rbrace_tag_action_row_0, moonbitlang$lex$lib$parser$$code_rbrace_tag_action_row_0, moonbitlang$lex$lib$parser$$code_rbrace_tag_action_row_0, moonbitlang$lex$lib$parser$$code_rbrace_tag_action_row_0];
 const moonbitlang$lex$lib$parser$$code_rbrace_tag_action_8 = [moonbitlang$lex$lib$parser$$code_rbrace_tag_action_row_0, moonbitlang$lex$lib$parser$$code_rbrace_tag_action_row_0, moonbitlang$lex$lib$parser$$code_rbrace_tag_action_row_1, moonbitlang$lex$lib$parser$$code_rbrace_tag_action_row_2, moonbitlang$lex$lib$parser$$code_rbrace_tag_action_row_0, moonbitlang$lex$lib$parser$$code_rbrace_tag_action_row_0, moonbitlang$lex$lib$parser$$code_rbrace_tag_action_row_0, moonbitlang$lex$lib$parser$$code_rbrace_tag_action_row_0];
@@ -1278,70 +1272,6 @@ function moonbitlang$core$string$$String$to_array(self) {
   });
   return _acc.val;
 }
-function moonbitlang$core$string$$String$contains_char(self, c) {
-  return moonbitlang$core$builtin$$Iter$any$11$(moonbitlang$core$string$$String$iter(self), (ch) => ch === c);
-}
-function moonbitlang$core$string$$String$trim_end(self, trim_set) {
-  const len = self.length;
-  let _tmp = len - 1 | 0;
-  while (true) {
-    const i = _tmp;
-    if (i >= 0) {
-      const c2 = self.charCodeAt(i);
-      if (moonbitlang$core$string$$is_trailing_surrogate(c2) && (i - 1 | 0) >= 0) {
-        const c1 = self.charCodeAt(i - 1 | 0);
-        if (moonbitlang$core$string$$is_leading_surrogate(c1)) {
-          const ch = moonbitlang$core$string$$code_point_of_surrogate_pair(c1, c2);
-          if (moonbitlang$core$string$$String$contains_char(trim_set, ch)) {
-            _tmp = i - 2 | 0;
-            continue;
-          } else {
-            return moonbitlang$core$string$$String$substring(self, moonbitlang$core$string$$String$substring$46$start$46$default(), i + 1 | 0);
-          }
-        }
-      }
-      if (!moonbitlang$core$string$$String$contains_char(trim_set, self.charCodeAt(i))) {
-        return moonbitlang$core$string$$String$substring(self, moonbitlang$core$string$$String$substring$46$start$46$default(), i + 1 | 0);
-      }
-      _tmp = i - 1 | 0;
-      continue;
-    } else {
-      return "";
-    }
-  }
-}
-function moonbitlang$core$string$$String$trim_start(self, trim_set) {
-  const len = self.length;
-  let _tmp = 0;
-  while (true) {
-    const i = _tmp;
-    if (i < len) {
-      const c1 = self.charCodeAt(i);
-      if (moonbitlang$core$string$$is_leading_surrogate(c1) && (i + 1 | 0) < len) {
-        const c2 = self.charCodeAt(i + 1 | 0);
-        if (moonbitlang$core$string$$is_trailing_surrogate(c2)) {
-          const ch = moonbitlang$core$string$$code_point_of_surrogate_pair(c1, c2);
-          if (moonbitlang$core$string$$String$contains_char(trim_set, ch)) {
-            _tmp = i + 2 | 0;
-            continue;
-          } else {
-            return moonbitlang$core$string$$String$substring(self, i, undefined);
-          }
-        }
-      }
-      if (!moonbitlang$core$string$$String$contains_char(trim_set, self.charCodeAt(i))) {
-        return moonbitlang$core$string$$String$substring(self, i, undefined);
-      }
-      _tmp = i + 1 | 0;
-      continue;
-    } else {
-      return "";
-    }
-  }
-}
-function moonbitlang$core$string$$String$trim(self, trim_set) {
-  return self === "" || trim_set === "" ? self : moonbitlang$core$string$$String$trim_end(moonbitlang$core$string$$String$trim_start(self, trim_set), trim_set);
-}
 function moonbitlang$core$result$$Result$unwrap$13$(self) {
   if (self.$tag === 1) {
     const _Ok = self;
@@ -1518,21 +1448,21 @@ function moonbitlang$core$sorted_set$$T$to_array$5$(self) {
     const arr = moonbitlang$core$array$$Array$make$5$(self.size, padding);
     const i = { val: 0 };
     const _env = { _0: arr, _1: i };
-    moonbitlang$core$sorted_set$$to_array$46$dfs$47$256(_env, self.root);
+    moonbitlang$core$sorted_set$$to_array$46$dfs$47$235(_env, self.root);
     return arr;
   }
 }
-function moonbitlang$core$sorted_set$$to_array$46$dfs$47$256(_env, root) {
+function moonbitlang$core$sorted_set$$to_array$46$dfs$47$235(_env, root) {
   const i = _env._1;
   const arr = _env._0;
   if (root === undefined) {
   } else {
     const _Some = root;
     const _x = _Some;
-    moonbitlang$core$sorted_set$$to_array$46$dfs$47$256(_env, _x.left);
+    moonbitlang$core$sorted_set$$to_array$46$dfs$47$235(_env, _x.left);
     moonbitlang$core$array$$Array$op_set$5$(arr, i.val, _x.value);
     i.val = i.val + 1 | 0;
-    moonbitlang$core$sorted_set$$to_array$46$dfs$47$256(_env, _x.right);
+    moonbitlang$core$sorted_set$$to_array$46$dfs$47$235(_env, _x.right);
   }
 }
 function moonbitlang$core$sorted_set$$from_iter$5$(iter) {
@@ -1602,11 +1532,11 @@ function moonbitlang$core$array$$choose_pivot$6$(arr) {
     const c = Math.imul(len / 4 | 0, 3) | 0;
     const _env = { _0: swaps, _1: arr };
     if (len > 50) {
-      moonbitlang$core$array$$choose_pivot$46$sort_3$47$289(_env, a - 1 | 0, a, a + 1 | 0);
-      moonbitlang$core$array$$choose_pivot$46$sort_3$47$289(_env, b - 1 | 0, b, b + 1 | 0);
-      moonbitlang$core$array$$choose_pivot$46$sort_3$47$289(_env, c - 1 | 0, c, c + 1 | 0);
+      moonbitlang$core$array$$choose_pivot$46$sort_3$47$268(_env, a - 1 | 0, a, a + 1 | 0);
+      moonbitlang$core$array$$choose_pivot$46$sort_3$47$268(_env, b - 1 | 0, b, b + 1 | 0);
+      moonbitlang$core$array$$choose_pivot$46$sort_3$47$268(_env, c - 1 | 0, c, c + 1 | 0);
     }
-    moonbitlang$core$array$$choose_pivot$46$sort_3$47$289(_env, a, b, c);
+    moonbitlang$core$array$$choose_pivot$46$sort_3$47$268(_env, a, b, c);
   }
   if (swaps.val === 12) {
     moonbitlang$core$array$$ArrayView$rev_inplace$6$(arr);
@@ -1615,7 +1545,7 @@ function moonbitlang$core$array$$choose_pivot$6$(arr) {
     return { _0: b, _1: swaps.val === 0 };
   }
 }
-function moonbitlang$core$array$$choose_pivot$46$sort_2$47$288(_env, a, b) {
+function moonbitlang$core$array$$choose_pivot$46$sort_2$47$267(_env, a, b) {
   const arr = _env._1;
   const swaps = _env._0;
   if (moonbitlang$core$builtin$$op_gt$6$(moonbitlang$core$array$$ArrayView$op_get$6$(arr, a), moonbitlang$core$array$$ArrayView$op_get$6$(arr, b))) {
@@ -1626,10 +1556,10 @@ function moonbitlang$core$array$$choose_pivot$46$sort_2$47$288(_env, a, b) {
     return;
   }
 }
-function moonbitlang$core$array$$choose_pivot$46$sort_3$47$289(_env, a, b, c) {
-  moonbitlang$core$array$$choose_pivot$46$sort_2$47$288(_env, a, b);
-  moonbitlang$core$array$$choose_pivot$46$sort_2$47$288(_env, b, c);
-  moonbitlang$core$array$$choose_pivot$46$sort_2$47$288(_env, a, b);
+function moonbitlang$core$array$$choose_pivot$46$sort_3$47$268(_env, a, b, c) {
+  moonbitlang$core$array$$choose_pivot$46$sort_2$47$267(_env, a, b);
+  moonbitlang$core$array$$choose_pivot$46$sort_2$47$267(_env, b, c);
+  moonbitlang$core$array$$choose_pivot$46$sort_2$47$267(_env, a, b);
 }
 function moonbitlang$core$array$$choose_pivot$19$(arr) {
   const len = moonbitlang$core$array$$ArrayView$length$19$(arr);
@@ -1640,11 +1570,11 @@ function moonbitlang$core$array$$choose_pivot$19$(arr) {
     const c = Math.imul(len / 4 | 0, 3) | 0;
     const _env = { _0: swaps, _1: arr };
     if (len > 50) {
-      moonbitlang$core$array$$choose_pivot$46$sort_3$47$307(_env, a - 1 | 0, a, a + 1 | 0);
-      moonbitlang$core$array$$choose_pivot$46$sort_3$47$307(_env, b - 1 | 0, b, b + 1 | 0);
-      moonbitlang$core$array$$choose_pivot$46$sort_3$47$307(_env, c - 1 | 0, c, c + 1 | 0);
+      moonbitlang$core$array$$choose_pivot$46$sort_3$47$286(_env, a - 1 | 0, a, a + 1 | 0);
+      moonbitlang$core$array$$choose_pivot$46$sort_3$47$286(_env, b - 1 | 0, b, b + 1 | 0);
+      moonbitlang$core$array$$choose_pivot$46$sort_3$47$286(_env, c - 1 | 0, c, c + 1 | 0);
     }
-    moonbitlang$core$array$$choose_pivot$46$sort_3$47$307(_env, a, b, c);
+    moonbitlang$core$array$$choose_pivot$46$sort_3$47$286(_env, a, b, c);
   }
   if (swaps.val === 12) {
     moonbitlang$core$array$$ArrayView$rev_inplace$19$(arr);
@@ -1653,7 +1583,7 @@ function moonbitlang$core$array$$choose_pivot$19$(arr) {
     return { _0: b, _1: swaps.val === 0 };
   }
 }
-function moonbitlang$core$array$$choose_pivot$46$sort_2$47$306(_env, a, b) {
+function moonbitlang$core$array$$choose_pivot$46$sort_2$47$285(_env, a, b) {
   const arr = _env._1;
   const swaps = _env._0;
   if (moonbitlang$core$builtin$$op_gt$19$(moonbitlang$core$array$$ArrayView$op_get$19$(arr, a), moonbitlang$core$array$$ArrayView$op_get$19$(arr, b))) {
@@ -1664,10 +1594,10 @@ function moonbitlang$core$array$$choose_pivot$46$sort_2$47$306(_env, a, b) {
     return;
   }
 }
-function moonbitlang$core$array$$choose_pivot$46$sort_3$47$307(_env, a, b, c) {
-  moonbitlang$core$array$$choose_pivot$46$sort_2$47$306(_env, a, b);
-  moonbitlang$core$array$$choose_pivot$46$sort_2$47$306(_env, b, c);
-  moonbitlang$core$array$$choose_pivot$46$sort_2$47$306(_env, a, b);
+function moonbitlang$core$array$$choose_pivot$46$sort_3$47$286(_env, a, b, c) {
+  moonbitlang$core$array$$choose_pivot$46$sort_2$47$285(_env, a, b);
+  moonbitlang$core$array$$choose_pivot$46$sort_2$47$285(_env, b, c);
+  moonbitlang$core$array$$choose_pivot$46$sort_2$47$285(_env, a, b);
 }
 function moonbitlang$core$array$$sift_down$6$(arr, index) {
   let index$2 = index;
@@ -2982,7 +2912,7 @@ function moonbitlang$core$immut$hashmap$$Bucket$add$40$(self, key, value) {
 function moonbitlang$core$immut$hashmap$$T$add_with_hash$39$(self, key, depth, hash, value) {
   switch (self.$tag) {
     case 0: {
-      return moonbitlang$core$immut$hashmap$$add_with_hash$46$make_leaf$47$832(depth, key, hash, value);
+      return moonbitlang$core$immut$hashmap$$add_with_hash$46$make_leaf$47$811(depth, key, hash, value);
     }
     case 1: {
       const _Leaf = self;
@@ -3001,7 +2931,7 @@ function moonbitlang$core$immut$hashmap$$T$add_with_hash$39$(self, key, depth, h
       const idx = hash & 31;
       const _bind = moonbitlang$core$immut$internal$sparse_array$$SparseArray$op_get$23$(_x$4, idx);
       if (_bind === undefined) {
-        const child = moonbitlang$core$immut$hashmap$$add_with_hash$46$make_leaf$47$832(depth + 5 | 0, key, hash >>> 5 | 0, value);
+        const child = moonbitlang$core$immut$hashmap$$add_with_hash$46$make_leaf$47$811(depth + 5 | 0, key, hash >>> 5 | 0, value);
         return new $64$moonbitlang$47$core$47$immut$47$hashmap$46$T$Branch$8$(moonbitlang$core$immut$internal$sparse_array$$SparseArray$add$23$(_x$4, idx, child));
       } else {
         const _Some = _bind;
@@ -3012,19 +2942,19 @@ function moonbitlang$core$immut$hashmap$$T$add_with_hash$39$(self, key, depth, h
     }
   }
 }
-function moonbitlang$core$immut$hashmap$$add_with_hash$46$make_leaf$47$832(depth, key, hash, value) {
+function moonbitlang$core$immut$hashmap$$add_with_hash$46$make_leaf$47$811(depth, key, hash, value) {
   if (depth >= 32) {
     return new $64$moonbitlang$47$core$47$immut$47$hashmap$46$T$Leaf$8$(key, value);
   } else {
     const idx = hash & 31;
-    const child = moonbitlang$core$immut$hashmap$$add_with_hash$46$make_leaf$47$832(depth + 5 | 0, key, hash >>> 5 | 0, value);
+    const child = moonbitlang$core$immut$hashmap$$add_with_hash$46$make_leaf$47$811(depth + 5 | 0, key, hash >>> 5 | 0, value);
     return new $64$moonbitlang$47$core$47$immut$47$hashmap$46$T$Branch$8$(moonbitlang$core$immut$internal$sparse_array$$singleton$23$(idx, child));
   }
 }
 function moonbitlang$core$immut$hashmap$$T$add_with_hash$40$(self, key, depth, hash, value) {
   switch (self.$tag) {
     case 0: {
-      return moonbitlang$core$immut$hashmap$$add_with_hash$46$make_leaf$47$857(depth, key, hash, value);
+      return moonbitlang$core$immut$hashmap$$add_with_hash$46$make_leaf$47$836(depth, key, hash, value);
     }
     case 1: {
       const _Leaf = self;
@@ -3043,7 +2973,7 @@ function moonbitlang$core$immut$hashmap$$T$add_with_hash$40$(self, key, depth, h
       const idx = hash & 31;
       const _bind = moonbitlang$core$immut$internal$sparse_array$$SparseArray$op_get$24$(_x$4, idx);
       if (_bind === undefined) {
-        const child = moonbitlang$core$immut$hashmap$$add_with_hash$46$make_leaf$47$857(depth + 5 | 0, key, hash >>> 5 | 0, value);
+        const child = moonbitlang$core$immut$hashmap$$add_with_hash$46$make_leaf$47$836(depth + 5 | 0, key, hash >>> 5 | 0, value);
         return new $64$moonbitlang$47$core$47$immut$47$hashmap$46$T$Branch$9$(moonbitlang$core$immut$internal$sparse_array$$SparseArray$add$24$(_x$4, idx, child));
       } else {
         const _Some = _bind;
@@ -3054,12 +2984,12 @@ function moonbitlang$core$immut$hashmap$$T$add_with_hash$40$(self, key, depth, h
     }
   }
 }
-function moonbitlang$core$immut$hashmap$$add_with_hash$46$make_leaf$47$857(depth, key, hash, value) {
+function moonbitlang$core$immut$hashmap$$add_with_hash$46$make_leaf$47$836(depth, key, hash, value) {
   if (depth >= 32) {
     return new $64$moonbitlang$47$core$47$immut$47$hashmap$46$T$Leaf$9$(key, value);
   } else {
     const idx = hash & 31;
-    const child = moonbitlang$core$immut$hashmap$$add_with_hash$46$make_leaf$47$857(depth + 5 | 0, key, hash >>> 5 | 0, value);
+    const child = moonbitlang$core$immut$hashmap$$add_with_hash$46$make_leaf$47$836(depth + 5 | 0, key, hash >>> 5 | 0, value);
     return new $64$moonbitlang$47$core$47$immut$47$hashmap$46$T$Branch$9$(moonbitlang$core$immut$internal$sparse_array$$singleton$24$(idx, child));
   }
 }
@@ -4022,9 +3952,6 @@ function moonbitlang$core$builtin$$StringBuilder$to_string(self) {
 function moonbitlang$core$builtin$$op_notequal$17$(x, y) {
   return !moonbitlang$core$builtin$$Eq$op_equal$80$(x, y);
 }
-function moonbitlang$core$builtin$$op_notequal$33$(x, y) {
-  return !moonbitlang$core$builtin$$Eq$op_equal$33$(x, y);
-}
 function moonbitlang$core$builtin$$op_notequal$46$(x, y) {
   return !moonbitlang$core$builtin$$Eq$op_equal$46$(x, y);
 }
@@ -4215,9 +4142,6 @@ function moonbitlang$core$string$$String$substring(self, start, end) {
     end$2 = _x;
   }
   return start >= 0 && (start <= end$2 && end$2 <= len) ? self.substring(start, end$2) : $panic();
-}
-function moonbitlang$core$string$$String$substring$46$start$46$default() {
-  return 0;
 }
 function moonbitlang$core$char$$Char$op_sub(self, that) {
   return self - that | 0;
@@ -7706,10 +7630,6 @@ function moonbitlang$core$builtin$$Iter$run$27$(self, f) {
   const _func = self;
   return _func(f);
 }
-function moonbitlang$core$builtin$$Iter$run$11$(self, f) {
-  const _func = self;
-  return _func(f);
-}
 function moonbitlang$core$builtin$$Iter$run$28$(self, f) {
   const _func = self;
   return _func(f);
@@ -7717,9 +7637,6 @@ function moonbitlang$core$builtin$$Iter$run$28$(self, f) {
 function moonbitlang$core$builtin$$Iter$run$115$(self, f) {
   const _func = self;
   return _func(f);
-}
-function moonbitlang$core$builtin$$Iter$any$11$(self, f) {
-  return moonbitlang$core$builtin$$op_notequal$33$(moonbitlang$core$builtin$$Iter$run$11$(self, (k) => f(k) ? 0 : 1), 1);
 }
 function moonbitlang$core$builtin$$Iter$empty$6$() {
   return (_param3) => 1;
@@ -8504,7 +8421,7 @@ function moonbitlang$lex$lib$type$$eliminate_named$46$eliminate_named_regex$145$
 function moonbitlang$lex$lib$type$$Lex$eliminate_named(self) {
   if (!moonbitlang$core$array$$Array$is_empty$37$(self.named_regexes)) {
     const named_regexes = moonbitlang$core$builtin$$Map$from_array$102$(self.named_regexes);
-    return { header: self.header, named_regexes: [], rules: moonbitlang$core$array$$Array$map$131$(self.rules, (rule) => ({ name: rule.name, return_type: rule.return_type, params: rule.params, patterns: moonbitlang$core$array$$Array$map$130$(rule.patterns, (pattern) => {
+    return { header: self.header, named_regexes: [], rules: moonbitlang$core$array$$Array$map$131$(self.rules, (rule) => ({ name: rule.name, signature: rule.signature, patterns: moonbitlang$core$array$$Array$map$130$(rule.patterns, (pattern) => {
       const _x = pattern._0;
       const _x$2 = pattern._1;
       return { _0: moonbitlang$lex$lib$type$$eliminate_named$46$eliminate_named_regex$145$(named_regexes, _x), _1: _x$2 };
@@ -8513,155 +8430,152 @@ function moonbitlang$lex$lib$type$$Lex$eliminate_named(self) {
     return self;
   }
 }
-function moonbitlang$core$builtin$$Show$output$85$(_x_631, _x_632) {
-  const _UnexpectedToken = _x_631;
+function moonbitlang$core$builtin$$Show$output$85$(_x_598, _x_599) {
+  const _UnexpectedToken = _x_598;
   const _x = _UnexpectedToken._0;
   const _x$2 = _UnexpectedToken._1;
   const _x$3 = _UnexpectedToken._2;
   const _x$4 = _x$2._0;
   const _x$5 = _x$2._1;
-  _x_632.method_0(_x_632.self, "UnexpectedToken(");
-  moonbitlang$core$builtin$$Logger$write_object$73$(_x_632, _x);
-  _x_632.method_0(_x_632.self, ", ");
-  _x_632.method_0(_x_632.self, "(");
-  moonbitlang$core$builtin$$Logger$write_object$4$(_x_632, _x$4);
-  _x_632.method_0(_x_632.self, ", ");
-  moonbitlang$core$builtin$$Logger$write_object$4$(_x_632, _x$5);
-  _x_632.method_0(_x_632.self, ")");
-  const self = _x_632;
+  _x_599.method_0(_x_599.self, "UnexpectedToken(");
+  moonbitlang$core$builtin$$Logger$write_object$73$(_x_599, _x);
+  _x_599.method_0(_x_599.self, ", ");
+  _x_599.method_0(_x_599.self, "(");
+  moonbitlang$core$builtin$$Logger$write_object$4$(_x_599, _x$4);
+  _x_599.method_0(_x_599.self, ", ");
+  moonbitlang$core$builtin$$Logger$write_object$4$(_x_599, _x$5);
+  _x_599.method_0(_x_599.self, ")");
+  const self = _x_599;
   self.method_0(self.self, ", ");
   moonbitlang$core$builtin$$Logger$write_object$71$(self, _x$3);
   self.method_0(self.self, ")");
 }
-function moonbitlang$core$builtin$$Show$output$73$(_x_611, _x_612) {
-  switch (_x_611.$tag) {
+function moonbitlang$core$builtin$$Show$output$73$(_x_580, _x_581) {
+  switch (_x_580.$tag) {
     case 0: {
-      _x_612.method_0(_x_612.self, "EOI");
+      _x_581.method_0(_x_581.self, "EOI");
       return;
     }
     case 1: {
-      _x_612.method_0(_x_612.self, "EOF");
+      _x_581.method_0(_x_581.self, "EOF");
       return;
     }
     case 2: {
-      _x_612.method_0(_x_612.self, "PARSE_LBRACE");
+      _x_581.method_0(_x_581.self, "PARSE_LBRACE");
       return;
     }
     case 3: {
-      _x_612.method_0(_x_612.self, "LET");
+      _x_581.method_0(_x_581.self, "LET");
       return;
     }
     case 4: {
-      _x_612.method_0(_x_612.self, "AS");
+      _x_581.method_0(_x_581.self, "AS");
       return;
     }
     case 5: {
-      _x_612.method_0(_x_612.self, "UNDERSCORE");
+      _x_581.method_0(_x_581.self, "UNDERSCORE");
       return;
     }
     case 6: {
-      _x_612.method_0(_x_612.self, "RBRACE");
+      _x_581.method_0(_x_581.self, "RBRACE");
       return;
     }
     case 7: {
-      _x_612.method_0(_x_612.self, "LPAREN");
+      _x_581.method_0(_x_581.self, "LPAREN");
       return;
     }
     case 8: {
-      _x_612.method_0(_x_612.self, "RPAREN");
+      _x_581.method_0(_x_581.self, "RPAREN");
       return;
     }
     case 9: {
-      _x_612.method_0(_x_612.self, "LBRACKET");
+      _x_581.method_0(_x_581.self, "LBRACKET");
       return;
     }
     case 10: {
-      _x_612.method_0(_x_612.self, "RBRACKET");
+      _x_581.method_0(_x_581.self, "RBRACKET");
       return;
     }
     case 11: {
-      _x_612.method_0(_x_612.self, "EQ");
+      _x_581.method_0(_x_581.self, "EQ");
       return;
     }
     case 12: {
-      _x_612.method_0(_x_612.self, "SEMICOLON");
+      _x_581.method_0(_x_581.self, "SEMICOLON");
       return;
     }
     case 13: {
-      _x_612.method_0(_x_612.self, "FAT_ARROW");
+      _x_581.method_0(_x_581.self, "FAT_ARROW");
       return;
     }
     case 14: {
-      _x_612.method_0(_x_612.self, "BAR");
+      _x_581.method_0(_x_581.self, "BAR");
       return;
     }
     case 15: {
-      _x_612.method_0(_x_612.self, "STAR");
+      _x_581.method_0(_x_581.self, "STAR");
       return;
     }
     case 16: {
-      _x_612.method_0(_x_612.self, "PLUS");
+      _x_581.method_0(_x_581.self, "PLUS");
       return;
     }
     case 17: {
-      _x_612.method_0(_x_612.self, "QUESTION");
+      _x_581.method_0(_x_581.self, "QUESTION");
       return;
     }
     case 18: {
-      _x_612.method_0(_x_612.self, "MINUS");
+      _x_581.method_0(_x_581.self, "MINUS");
       return;
     }
     case 19: {
-      _x_612.method_0(_x_612.self, "CARET");
+      _x_581.method_0(_x_581.self, "CARET");
       return;
     }
     case 20: {
-      const _RULE_LC_IDENT_LPAREN_CODE_RPAREN_ARROW_CODE_LBRACE = _x_611;
+      const _RULE_LC_IDENT_LPAREN_CODE_RPAREN_ARROW_CODE_LBRACE = _x_580;
       const _x = _RULE_LC_IDENT_LPAREN_CODE_RPAREN_ARROW_CODE_LBRACE._0;
       const _x$2 = _x._0;
       const _x$3 = _x._1;
-      const _x$4 = _x._2;
-      _x_612.method_0(_x_612.self, "RULE_LC_IDENT_LPAREN_CODE_RPAREN_ARROW_CODE_LBRACE(");
-      _x_612.method_0(_x_612.self, "(");
-      moonbitlang$core$builtin$$Logger$write_object$6$(_x_612, _x$2);
-      _x_612.method_0(_x_612.self, ", ");
-      moonbitlang$core$builtin$$Logger$write_object$6$(_x_612, _x$3);
-      _x_612.method_0(_x_612.self, ", ");
-      moonbitlang$core$builtin$$Logger$write_object$6$(_x_612, _x$4);
-      _x_612.method_0(_x_612.self, ")");
-      _x_612.method_0(_x_612.self, ")");
+      _x_581.method_0(_x_581.self, "RULE_LC_IDENT_LPAREN_CODE_RPAREN_ARROW_CODE_LBRACE(");
+      _x_581.method_0(_x_581.self, "(");
+      moonbitlang$core$builtin$$Logger$write_object$6$(_x_581, _x$2);
+      _x_581.method_0(_x_581.self, ", ");
+      moonbitlang$core$builtin$$Logger$write_object$6$(_x_581, _x$3);
+      _x_581.method_0(_x_581.self, ")");
+      _x_581.method_0(_x_581.self, ")");
       return;
     }
     case 21: {
-      const _LBRACE_CODE_RBRACE = _x_611;
-      const _x$5 = _LBRACE_CODE_RBRACE._0;
-      _x_612.method_0(_x_612.self, "LBRACE_CODE_RBRACE(");
-      moonbitlang$core$builtin$$Logger$write_object$6$(_x_612, _x$5);
-      _x_612.method_0(_x_612.self, ")");
+      const _LBRACE_CODE_RBRACE = _x_580;
+      const _x$4 = _LBRACE_CODE_RBRACE._0;
+      _x_581.method_0(_x_581.self, "LBRACE_CODE_RBRACE(");
+      moonbitlang$core$builtin$$Logger$write_object$6$(_x_581, _x$4);
+      _x_581.method_0(_x_581.self, ")");
       return;
     }
     case 22: {
-      const _LC_IDENT = _x_611;
-      const _x$6 = _LC_IDENT._0;
-      _x_612.method_0(_x_612.self, "LC_IDENT(");
-      moonbitlang$core$builtin$$Logger$write_object$6$(_x_612, _x$6);
-      _x_612.method_0(_x_612.self, ")");
+      const _LC_IDENT = _x_580;
+      const _x$5 = _LC_IDENT._0;
+      _x_581.method_0(_x_581.self, "LC_IDENT(");
+      moonbitlang$core$builtin$$Logger$write_object$6$(_x_581, _x$5);
+      _x_581.method_0(_x_581.self, ")");
       return;
     }
     case 23: {
-      const _CHAR = _x_611;
-      const _x$7 = _CHAR._0;
-      _x_612.method_0(_x_612.self, "CHAR(");
-      moonbitlang$core$builtin$$Logger$write_object$11$(_x_612, _x$7);
-      _x_612.method_0(_x_612.self, ")");
+      const _CHAR = _x_580;
+      const _x$6 = _CHAR._0;
+      _x_581.method_0(_x_581.self, "CHAR(");
+      moonbitlang$core$builtin$$Logger$write_object$11$(_x_581, _x$6);
+      _x_581.method_0(_x_581.self, ")");
       return;
     }
     default: {
-      const _STRING = _x_611;
-      const _x$8 = _STRING._0;
-      _x_612.method_0(_x_612.self, "STRING(");
-      moonbitlang$core$builtin$$Logger$write_object$6$(_x_612, _x$8);
-      _x_612.method_0(_x_612.self, ")");
+      const _STRING = _x_580;
+      const _x$7 = _STRING._0;
+      _x_581.method_0(_x_581.self, "STRING(");
+      moonbitlang$core$builtin$$Logger$write_object$6$(_x_581, _x$7);
+      _x_581.method_0(_x_581.self, ")");
       return;
     }
   }
@@ -9795,30 +9709,31 @@ function moonbitlang$lex$lib$parser$$token_state_74(input) {
   return { _0: -1, _1: [] };
 }
 function moonbitlang$lex$lib$parser$$token_state_75(input) {
-  if (9 <= input && input <= 10) {
-    return { _0: 80, _1: moonbitlang$lex$lib$parser$$token_tag_action_18 };
+  if (0 <= input && input <= 47) {
+    return { _0: 79, _1: moonbitlang$lex$lib$parser$$token_tag_action_18 };
   } else {
-    switch (input) {
-      case 13: {
-        return { _0: 80, _1: moonbitlang$lex$lib$parser$$token_tag_action_18 };
-      }
-      case 32: {
-        return { _0: 80, _1: moonbitlang$lex$lib$parser$$token_tag_action_18 };
-      }
-      case 40: {
+    if (48 <= input && input <= 57) {
+      return { _0: 78, _1: moonbitlang$lex$lib$parser$$token_tag_action_19 };
+    } else {
+      if (58 <= input && input <= 64) {
         return { _0: 79, _1: moonbitlang$lex$lib$parser$$token_tag_action_18 };
-      }
-      default: {
-        if (48 <= input && input <= 57) {
-          return { _0: 78, _1: moonbitlang$lex$lib$parser$$token_tag_action_16 };
+      } else {
+        if (65 <= input && input <= 90) {
+          return { _0: 78, _1: moonbitlang$lex$lib$parser$$token_tag_action_19 };
         } else {
-          if (65 <= input && input <= 90) {
-            return { _0: 78, _1: moonbitlang$lex$lib$parser$$token_tag_action_16 };
+          if (91 <= input && input <= 94) {
+            return { _0: 79, _1: moonbitlang$lex$lib$parser$$token_tag_action_18 };
           } else {
-            if (input === 95) {
-              return { _0: 78, _1: moonbitlang$lex$lib$parser$$token_tag_action_16 };
-            } else {
-              return 97 <= input && input <= 122 ? { _0: 78, _1: moonbitlang$lex$lib$parser$$token_tag_action_16 } : { _0: -1, _1: [] };
+            switch (input) {
+              case 95: {
+                return { _0: 78, _1: moonbitlang$lex$lib$parser$$token_tag_action_19 };
+              }
+              case 96: {
+                return { _0: 79, _1: moonbitlang$lex$lib$parser$$token_tag_action_18 };
+              }
+              default: {
+                return 97 <= input && input <= 122 ? { _0: 78, _1: moonbitlang$lex$lib$parser$$token_tag_action_19 } : 124 <= input && input <= 1114111 ? { _0: 79, _1: moonbitlang$lex$lib$parser$$token_tag_action_18 } : { _0: -1, _1: [] };
+              }
             }
           }
         }
@@ -9828,7 +9743,7 @@ function moonbitlang$lex$lib$parser$$token_state_75(input) {
 }
 function moonbitlang$lex$lib$parser$$token_state_76(input) {
   if (input === 39) {
-    return { _0: 81, _1: moonbitlang$lex$lib$parser$$token_tag_action_19 };
+    return { _0: 80, _1: moonbitlang$lex$lib$parser$$token_tag_action_20 };
   } else {
     return { _0: -1, _1: [] };
   }
@@ -9837,30 +9752,63 @@ function moonbitlang$lex$lib$parser$$token_state_77(input) {
   return { _0: -1, _1: [] };
 }
 function moonbitlang$lex$lib$parser$$token_state_78(input) {
-  if (9 <= input && input <= 10) {
-    return { _0: 80, _1: moonbitlang$lex$lib$parser$$token_tag_action_18 };
+  if (0 <= input && input <= 8) {
+    return { _0: 79, _1: moonbitlang$lex$lib$parser$$token_tag_action_18 };
   } else {
-    switch (input) {
-      case 13: {
-        return { _0: 80, _1: moonbitlang$lex$lib$parser$$token_tag_action_18 };
-      }
-      case 32: {
-        return { _0: 80, _1: moonbitlang$lex$lib$parser$$token_tag_action_18 };
-      }
-      case 40: {
+    if (9 <= input && input <= 10) {
+      return { _0: 82, _1: moonbitlang$lex$lib$parser$$token_tag_action_21 };
+    } else {
+      if (11 <= input && input <= 12) {
         return { _0: 79, _1: moonbitlang$lex$lib$parser$$token_tag_action_18 };
-      }
-      default: {
-        if (48 <= input && input <= 57) {
-          return { _0: 78, _1: moonbitlang$lex$lib$parser$$token_tag_action_16 };
+      } else {
+        if (input === 13) {
+          return { _0: 82, _1: moonbitlang$lex$lib$parser$$token_tag_action_21 };
         } else {
-          if (65 <= input && input <= 90) {
-            return { _0: 78, _1: moonbitlang$lex$lib$parser$$token_tag_action_16 };
+          if (14 <= input && input <= 31) {
+            return { _0: 79, _1: moonbitlang$lex$lib$parser$$token_tag_action_18 };
           } else {
-            if (input === 95) {
-              return { _0: 78, _1: moonbitlang$lex$lib$parser$$token_tag_action_16 };
+            if (input === 32) {
+              return { _0: 82, _1: moonbitlang$lex$lib$parser$$token_tag_action_21 };
             } else {
-              return 97 <= input && input <= 122 ? { _0: 78, _1: moonbitlang$lex$lib$parser$$token_tag_action_16 } : { _0: -1, _1: [] };
+              if (33 <= input && input <= 47) {
+                return { _0: 79, _1: moonbitlang$lex$lib$parser$$token_tag_action_18 };
+              } else {
+                if (48 <= input && input <= 57) {
+                  return { _0: 78, _1: moonbitlang$lex$lib$parser$$token_tag_action_19 };
+                } else {
+                  if (58 <= input && input <= 64) {
+                    return { _0: 79, _1: moonbitlang$lex$lib$parser$$token_tag_action_18 };
+                  } else {
+                    if (65 <= input && input <= 90) {
+                      return { _0: 78, _1: moonbitlang$lex$lib$parser$$token_tag_action_19 };
+                    } else {
+                      if (91 <= input && input <= 94) {
+                        return { _0: 79, _1: moonbitlang$lex$lib$parser$$token_tag_action_18 };
+                      } else {
+                        switch (input) {
+                          case 95: {
+                            return { _0: 78, _1: moonbitlang$lex$lib$parser$$token_tag_action_19 };
+                          }
+                          case 96: {
+                            return { _0: 79, _1: moonbitlang$lex$lib$parser$$token_tag_action_18 };
+                          }
+                          default: {
+                            if (97 <= input && input <= 122) {
+                              return { _0: 78, _1: moonbitlang$lex$lib$parser$$token_tag_action_19 };
+                            } else {
+                              if (input === 123) {
+                                return { _0: 81, _1: moonbitlang$lex$lib$parser$$token_tag_action_22 };
+                              } else {
+                                return 124 <= input && input <= 1114111 ? { _0: 79, _1: moonbitlang$lex$lib$parser$$token_tag_action_18 } : { _0: -1, _1: [] };
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
             }
           }
         }
@@ -9869,162 +9817,72 @@ function moonbitlang$lex$lib$parser$$token_state_78(input) {
   }
 }
 function moonbitlang$lex$lib$parser$$token_state_79(input) {
-  if (9 <= input && input <= 10) {
-    return { _0: 82, _1: moonbitlang$lex$lib$parser$$token_tag_action_18 };
+  if (0 <= input && input <= 8) {
+    return { _0: 79, _1: moonbitlang$lex$lib$parser$$token_tag_action_18 };
   } else {
-    switch (input) {
-      case 13: {
-        return { _0: 82, _1: moonbitlang$lex$lib$parser$$token_tag_action_18 };
-      }
-      case 32: {
-        return { _0: 82, _1: moonbitlang$lex$lib$parser$$token_tag_action_18 };
-      }
-      default: {
-        return { _0: -1, _1: [] };
+    if (9 <= input && input <= 10) {
+      return { _0: 83, _1: moonbitlang$lex$lib$parser$$token_tag_action_23 };
+    } else {
+      if (11 <= input && input <= 12) {
+        return { _0: 79, _1: moonbitlang$lex$lib$parser$$token_tag_action_18 };
+      } else {
+        if (input === 13) {
+          return { _0: 83, _1: moonbitlang$lex$lib$parser$$token_tag_action_23 };
+        } else {
+          if (14 <= input && input <= 31) {
+            return { _0: 79, _1: moonbitlang$lex$lib$parser$$token_tag_action_18 };
+          } else {
+            if (input === 32) {
+              return { _0: 83, _1: moonbitlang$lex$lib$parser$$token_tag_action_23 };
+            } else {
+              if (33 <= input && input <= 122) {
+                return { _0: 79, _1: moonbitlang$lex$lib$parser$$token_tag_action_18 };
+              } else {
+                if (input === 123) {
+                  return { _0: 81, _1: moonbitlang$lex$lib$parser$$token_tag_action_24 };
+                } else {
+                  return 124 <= input && input <= 1114111 ? { _0: 79, _1: moonbitlang$lex$lib$parser$$token_tag_action_18 } : { _0: -1, _1: [] };
+                }
+              }
+            }
+          }
+        }
       }
     }
   }
 }
 function moonbitlang$lex$lib$parser$$token_state_80(input) {
-  if (9 <= input && input <= 10) {
-    return { _0: 80, _1: moonbitlang$lex$lib$parser$$token_tag_action_18 };
-  } else {
-    switch (input) {
-      case 13: {
-        return { _0: 80, _1: moonbitlang$lex$lib$parser$$token_tag_action_18 };
-      }
-      case 32: {
-        return { _0: 80, _1: moonbitlang$lex$lib$parser$$token_tag_action_18 };
-      }
-      case 40: {
-        return { _0: 79, _1: moonbitlang$lex$lib$parser$$token_tag_action_18 };
-      }
-      default: {
-        return { _0: -1, _1: [] };
-      }
-    }
-  }
+  return { _0: -1, _1: [] };
 }
 function moonbitlang$lex$lib$parser$$token_state_81(input) {
   return { _0: -1, _1: [] };
 }
 function moonbitlang$lex$lib$parser$$token_state_82(input) {
-  if (9 <= input && input <= 10) {
-    return { _0: 82, _1: moonbitlang$lex$lib$parser$$token_tag_action_18 };
-  } else {
-    switch (input) {
-      case 13: {
-        return { _0: 82, _1: moonbitlang$lex$lib$parser$$token_tag_action_18 };
-      }
-      case 32: {
-        return { _0: 82, _1: moonbitlang$lex$lib$parser$$token_tag_action_18 };
-      }
-      default: {
-        return { _0: -1, _1: [] };
-      }
-    }
-  }
-}
-function moonbitlang$lex$lib$parser$$arrow_code_lbrace_state_0(input) {
-  if (9 <= input && input <= 10) {
-    return { _0: 1, _1: moonbitlang$lex$lib$parser$$arrow_code_lbrace_tag_action_0 };
-  } else {
-    switch (input) {
-      case 13: {
-        return { _0: 1, _1: moonbitlang$lex$lib$parser$$arrow_code_lbrace_tag_action_0 };
-      }
-      case 32: {
-        return { _0: 1, _1: moonbitlang$lex$lib$parser$$arrow_code_lbrace_tag_action_0 };
-      }
-      case 45: {
-        return { _0: 2, _1: moonbitlang$lex$lib$parser$$arrow_code_lbrace_tag_action_0 };
-      }
-      default: {
-        return { _0: -1, _1: [] };
-      }
-    }
-  }
-}
-function moonbitlang$lex$lib$parser$$arrow_code_lbrace_state_1(input) {
-  if (9 <= input && input <= 10) {
-    return { _0: 1, _1: moonbitlang$lex$lib$parser$$arrow_code_lbrace_tag_action_0 };
-  } else {
-    switch (input) {
-      case 13: {
-        return { _0: 1, _1: moonbitlang$lex$lib$parser$$arrow_code_lbrace_tag_action_0 };
-      }
-      case 32: {
-        return { _0: 1, _1: moonbitlang$lex$lib$parser$$arrow_code_lbrace_tag_action_0 };
-      }
-      case 45: {
-        return { _0: 2, _1: moonbitlang$lex$lib$parser$$arrow_code_lbrace_tag_action_0 };
-      }
-      default: {
-        return { _0: -1, _1: [] };
-      }
-    }
-  }
-}
-function moonbitlang$lex$lib$parser$$arrow_code_lbrace_state_2(input) {
-  if (input === 62) {
-    return { _0: 3, _1: moonbitlang$lex$lib$parser$$arrow_code_lbrace_tag_action_1 };
-  } else {
-    return { _0: -1, _1: [] };
-  }
-}
-function moonbitlang$lex$lib$parser$$arrow_code_lbrace_state_3(input) {
   if (0 <= input && input <= 8) {
-    return { _0: 4, _1: moonbitlang$lex$lib$parser$$arrow_code_lbrace_tag_action_2 };
+    return { _0: 79, _1: moonbitlang$lex$lib$parser$$token_tag_action_18 };
   } else {
     if (9 <= input && input <= 10) {
-      return { _0: 5, _1: moonbitlang$lex$lib$parser$$arrow_code_lbrace_tag_action_1 };
+      return { _0: 83, _1: moonbitlang$lex$lib$parser$$token_tag_action_23 };
     } else {
       if (11 <= input && input <= 12) {
-        return { _0: 4, _1: moonbitlang$lex$lib$parser$$arrow_code_lbrace_tag_action_2 };
+        return { _0: 79, _1: moonbitlang$lex$lib$parser$$token_tag_action_18 };
       } else {
         if (input === 13) {
-          return { _0: 5, _1: moonbitlang$lex$lib$parser$$arrow_code_lbrace_tag_action_1 };
+          return { _0: 83, _1: moonbitlang$lex$lib$parser$$token_tag_action_23 };
         } else {
           if (14 <= input && input <= 31) {
-            return { _0: 4, _1: moonbitlang$lex$lib$parser$$arrow_code_lbrace_tag_action_2 };
+            return { _0: 79, _1: moonbitlang$lex$lib$parser$$token_tag_action_18 };
           } else {
             if (input === 32) {
-              return { _0: 5, _1: moonbitlang$lex$lib$parser$$arrow_code_lbrace_tag_action_1 };
-            } else {
-              return 33 <= input && input <= 122 ? { _0: 4, _1: moonbitlang$lex$lib$parser$$arrow_code_lbrace_tag_action_2 } : 124 <= input && input <= 1114111 ? { _0: 4, _1: moonbitlang$lex$lib$parser$$arrow_code_lbrace_tag_action_2 } : { _0: -1, _1: [] };
-            }
-          }
-        }
-      }
-    }
-  }
-}
-function moonbitlang$lex$lib$parser$$arrow_code_lbrace_state_4(input) {
-  if (0 <= input && input <= 8) {
-    return { _0: 7, _1: moonbitlang$lex$lib$parser$$arrow_code_lbrace_tag_action_2 };
-  } else {
-    if (9 <= input && input <= 10) {
-      return { _0: 8, _1: moonbitlang$lex$lib$parser$$arrow_code_lbrace_tag_action_3 };
-    } else {
-      if (11 <= input && input <= 12) {
-        return { _0: 7, _1: moonbitlang$lex$lib$parser$$arrow_code_lbrace_tag_action_2 };
-      } else {
-        if (input === 13) {
-          return { _0: 8, _1: moonbitlang$lex$lib$parser$$arrow_code_lbrace_tag_action_3 };
-        } else {
-          if (14 <= input && input <= 31) {
-            return { _0: 7, _1: moonbitlang$lex$lib$parser$$arrow_code_lbrace_tag_action_2 };
-          } else {
-            if (input === 32) {
-              return { _0: 8, _1: moonbitlang$lex$lib$parser$$arrow_code_lbrace_tag_action_3 };
+              return { _0: 83, _1: moonbitlang$lex$lib$parser$$token_tag_action_23 };
             } else {
               if (33 <= input && input <= 122) {
-                return { _0: 7, _1: moonbitlang$lex$lib$parser$$arrow_code_lbrace_tag_action_2 };
+                return { _0: 79, _1: moonbitlang$lex$lib$parser$$token_tag_action_18 };
               } else {
                 if (input === 123) {
-                  return { _0: 6, _1: moonbitlang$lex$lib$parser$$arrow_code_lbrace_tag_action_3 };
+                  return { _0: 81, _1: moonbitlang$lex$lib$parser$$token_tag_action_24 };
                 } else {
-                  return 124 <= input && input <= 1114111 ? { _0: 7, _1: moonbitlang$lex$lib$parser$$arrow_code_lbrace_tag_action_2 } : { _0: -1, _1: [] };
+                  return 124 <= input && input <= 1114111 ? { _0: 79, _1: moonbitlang$lex$lib$parser$$token_tag_action_18 } : { _0: -1, _1: [] };
                 }
               }
             }
@@ -10034,62 +9892,32 @@ function moonbitlang$lex$lib$parser$$arrow_code_lbrace_state_4(input) {
     }
   }
 }
-function moonbitlang$lex$lib$parser$$arrow_code_lbrace_state_5(input) {
+function moonbitlang$lex$lib$parser$$token_state_83(input) {
   if (0 <= input && input <= 8) {
-    return { _0: 4, _1: moonbitlang$lex$lib$parser$$arrow_code_lbrace_tag_action_2 };
+    return { _0: 79, _1: moonbitlang$lex$lib$parser$$token_tag_action_18 };
   } else {
     if (9 <= input && input <= 10) {
-      return { _0: 5, _1: moonbitlang$lex$lib$parser$$arrow_code_lbrace_tag_action_1 };
+      return { _0: 83, _1: moonbitlang$lex$lib$parser$$token_tag_action_23 };
     } else {
       if (11 <= input && input <= 12) {
-        return { _0: 4, _1: moonbitlang$lex$lib$parser$$arrow_code_lbrace_tag_action_2 };
+        return { _0: 79, _1: moonbitlang$lex$lib$parser$$token_tag_action_18 };
       } else {
         if (input === 13) {
-          return { _0: 5, _1: moonbitlang$lex$lib$parser$$arrow_code_lbrace_tag_action_1 };
+          return { _0: 83, _1: moonbitlang$lex$lib$parser$$token_tag_action_23 };
         } else {
           if (14 <= input && input <= 31) {
-            return { _0: 4, _1: moonbitlang$lex$lib$parser$$arrow_code_lbrace_tag_action_2 };
+            return { _0: 79, _1: moonbitlang$lex$lib$parser$$token_tag_action_18 };
           } else {
             if (input === 32) {
-              return { _0: 5, _1: moonbitlang$lex$lib$parser$$arrow_code_lbrace_tag_action_1 };
-            } else {
-              return 33 <= input && input <= 122 ? { _0: 4, _1: moonbitlang$lex$lib$parser$$arrow_code_lbrace_tag_action_2 } : 124 <= input && input <= 1114111 ? { _0: 4, _1: moonbitlang$lex$lib$parser$$arrow_code_lbrace_tag_action_2 } : { _0: -1, _1: [] };
-            }
-          }
-        }
-      }
-    }
-  }
-}
-function moonbitlang$lex$lib$parser$$arrow_code_lbrace_state_6(input) {
-  return { _0: -1, _1: [] };
-}
-function moonbitlang$lex$lib$parser$$arrow_code_lbrace_state_7(input) {
-  if (0 <= input && input <= 8) {
-    return { _0: 7, _1: moonbitlang$lex$lib$parser$$arrow_code_lbrace_tag_action_2 };
-  } else {
-    if (9 <= input && input <= 10) {
-      return { _0: 8, _1: moonbitlang$lex$lib$parser$$arrow_code_lbrace_tag_action_3 };
-    } else {
-      if (11 <= input && input <= 12) {
-        return { _0: 7, _1: moonbitlang$lex$lib$parser$$arrow_code_lbrace_tag_action_2 };
-      } else {
-        if (input === 13) {
-          return { _0: 8, _1: moonbitlang$lex$lib$parser$$arrow_code_lbrace_tag_action_3 };
-        } else {
-          if (14 <= input && input <= 31) {
-            return { _0: 7, _1: moonbitlang$lex$lib$parser$$arrow_code_lbrace_tag_action_2 };
-          } else {
-            if (input === 32) {
-              return { _0: 8, _1: moonbitlang$lex$lib$parser$$arrow_code_lbrace_tag_action_3 };
+              return { _0: 83, _1: moonbitlang$lex$lib$parser$$token_tag_action_23 };
             } else {
               if (33 <= input && input <= 122) {
-                return { _0: 7, _1: moonbitlang$lex$lib$parser$$arrow_code_lbrace_tag_action_2 };
+                return { _0: 79, _1: moonbitlang$lex$lib$parser$$token_tag_action_18 };
               } else {
                 if (input === 123) {
-                  return { _0: 6, _1: moonbitlang$lex$lib$parser$$arrow_code_lbrace_tag_action_3 };
+                  return { _0: 81, _1: moonbitlang$lex$lib$parser$$token_tag_action_24 };
                 } else {
-                  return 124 <= input && input <= 1114111 ? { _0: 7, _1: moonbitlang$lex$lib$parser$$arrow_code_lbrace_tag_action_2 } : { _0: -1, _1: [] };
+                  return 124 <= input && input <= 1114111 ? { _0: 79, _1: moonbitlang$lex$lib$parser$$token_tag_action_18 } : { _0: -1, _1: [] };
                 }
               }
             }
@@ -10097,57 +9925,6 @@ function moonbitlang$lex$lib$parser$$arrow_code_lbrace_state_7(input) {
         }
       }
     }
-  }
-}
-function moonbitlang$lex$lib$parser$$arrow_code_lbrace_state_8(input) {
-  if (0 <= input && input <= 8) {
-    return { _0: 7, _1: moonbitlang$lex$lib$parser$$arrow_code_lbrace_tag_action_2 };
-  } else {
-    if (9 <= input && input <= 10) {
-      return { _0: 8, _1: moonbitlang$lex$lib$parser$$arrow_code_lbrace_tag_action_3 };
-    } else {
-      if (11 <= input && input <= 12) {
-        return { _0: 7, _1: moonbitlang$lex$lib$parser$$arrow_code_lbrace_tag_action_2 };
-      } else {
-        if (input === 13) {
-          return { _0: 8, _1: moonbitlang$lex$lib$parser$$arrow_code_lbrace_tag_action_3 };
-        } else {
-          if (14 <= input && input <= 31) {
-            return { _0: 7, _1: moonbitlang$lex$lib$parser$$arrow_code_lbrace_tag_action_2 };
-          } else {
-            if (input === 32) {
-              return { _0: 8, _1: moonbitlang$lex$lib$parser$$arrow_code_lbrace_tag_action_3 };
-            } else {
-              if (33 <= input && input <= 122) {
-                return { _0: 7, _1: moonbitlang$lex$lib$parser$$arrow_code_lbrace_tag_action_2 };
-              } else {
-                if (input === 123) {
-                  return { _0: 6, _1: moonbitlang$lex$lib$parser$$arrow_code_lbrace_tag_action_3 };
-                } else {
-                  return 124 <= input && input <= 1114111 ? { _0: 7, _1: moonbitlang$lex$lib$parser$$arrow_code_lbrace_tag_action_2 } : { _0: -1, _1: [] };
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-}
-function moonbitlang$lex$lib$parser$$arrow_code_lbrace(buffer, lexbuf) {
-  const _bind = moonbitlang$lex$lib$parser$$LexEngine$run(moonbitlang$lex$lib$parser$$__mbtlex_engine_arrow_code_lbrace, lexbuf);
-  const _x = _bind._0;
-  if (_x === 0) {
-    const _x$2 = _bind._1;
-    const _bind$2 = moonbitlang$core$array$$Array$op_get$61$(_x$2, 0);
-    const _x$3 = _bind$2._0;
-    const _x$4 = _bind$2._1;
-    const t = moonbitlang$lex$lib$parser$$Lexbuf$substring(lexbuf, _x$3, _x$4);
-    moonbitlang$core$builtin$$Logger$write_string$12$(buffer, t);
-    return;
-  } else {
-    moonbitlang$core$builtin$$abort$4$("lex: fail to match");
-    return;
   }
 }
 function moonbitlang$lex$lib$parser$$code_rbrace_state_0(input) {
@@ -10365,77 +10142,6 @@ function moonbitlang$lex$lib$parser$$code_rbrace(buffer, lexbuf) {
         continue _L;
       }
       case 6: {
-        moonbitlang$core$builtin$$abort$4$("Unexpected end of input");
-        return;
-      }
-      default: {
-        moonbitlang$core$builtin$$abort$4$("lex: fail to match");
-        return;
-      }
-    }
-  }
-}
-function moonbitlang$lex$lib$parser$$code_rparen_state_0(input) {
-  if (input === -1) {
-    return { _0: 2, _1: moonbitlang$lex$lib$parser$$code_rparen_tag_action_0 };
-  } else {
-    if (0 <= input && input <= 39) {
-      return { _0: 1, _1: moonbitlang$lex$lib$parser$$code_rparen_tag_action_1 };
-    } else {
-      switch (input) {
-        case 40: {
-          return { _0: 3, _1: moonbitlang$lex$lib$parser$$code_rparen_tag_action_1 };
-        }
-        case 41: {
-          return { _0: 4, _1: moonbitlang$lex$lib$parser$$code_rparen_tag_action_1 };
-        }
-        default: {
-          return 42 <= input && input <= 1114111 ? { _0: 1, _1: moonbitlang$lex$lib$parser$$code_rparen_tag_action_1 } : { _0: -1, _1: [] };
-        }
-      }
-    }
-  }
-}
-function moonbitlang$lex$lib$parser$$code_rparen_state_1(input) {
-  return { _0: -1, _1: [] };
-}
-function moonbitlang$lex$lib$parser$$code_rparen_state_2(input) {
-  return { _0: -1, _1: [] };
-}
-function moonbitlang$lex$lib$parser$$code_rparen_state_3(input) {
-  return { _0: -1, _1: [] };
-}
-function moonbitlang$lex$lib$parser$$code_rparen_state_4(input) {
-  return { _0: -1, _1: [] };
-}
-function moonbitlang$lex$lib$parser$$code_rparen(buffer, lexbuf) {
-  let _tmp = buffer;
-  let _tmp$2 = lexbuf;
-  _L: while (true) {
-    const buffer$2 = _tmp;
-    const lexbuf$2 = _tmp$2;
-    const _bind = moonbitlang$lex$lib$parser$$LexEngine$run(moonbitlang$lex$lib$parser$$__mbtlex_engine_code_rparen, lexbuf$2);
-    const _x = _bind._0;
-    switch (_x) {
-      case 0: {
-        return;
-      }
-      case 1: {
-        moonbitlang$core$builtin$$Logger$write_string$12$(buffer$2, "(");
-        moonbitlang$lex$lib$parser$$code_rparen(buffer$2, lexbuf$2);
-        moonbitlang$core$builtin$$Logger$write_string$12$(buffer$2, ")");
-        continue _L;
-      }
-      case 2: {
-        const _x$2 = _bind._1;
-        const _bind$2 = moonbitlang$core$array$$Array$op_get$61$(_x$2, 0);
-        const _x$3 = _bind$2._0;
-        const _x$4 = _bind$2._1;
-        const t = moonbitlang$lex$lib$parser$$Lexbuf$substring(lexbuf$2, _x$3, _x$4);
-        moonbitlang$core$builtin$$Logger$write_string$12$(buffer$2, t);
-        continue _L;
-      }
-      case 3: {
         moonbitlang$core$builtin$$abort$4$("Unexpected end of input");
         return;
       }
@@ -10733,12 +10439,12 @@ function moonbitlang$lex$lib$parser$$token(lexbuf) {
         const _bind$2 = moonbitlang$core$array$$Array$op_get$61$(_x$2, 0);
         const _x$3 = _bind$2._0;
         const _x$4 = _bind$2._1;
-        const t = moonbitlang$lex$lib$parser$$Lexbuf$substring(lexbuf$2, _x$3, _x$4);
-        const buffer1 = moonbitlang$core$builtin$$StringBuilder$new(moonbitlang$core$builtin$$StringBuilder$new$46$size_hint$46$default());
-        const buffer2 = moonbitlang$core$builtin$$StringBuilder$new(moonbitlang$core$builtin$$StringBuilder$new$46$size_hint$46$default());
-        moonbitlang$lex$lib$parser$$code_rparen(buffer1, lexbuf$2);
-        moonbitlang$lex$lib$parser$$arrow_code_lbrace(buffer2, lexbuf$2);
-        return new $64$moonbitlang$47$lex$47$lib$47$parser$46$Token$RULE_LC_IDENT_LPAREN_CODE_RPAREN_ARROW_CODE_LBRACE({ _0: t, _1: moonbitlang$core$builtin$$StringBuilder$to_string(buffer1), _2: moonbitlang$core$builtin$$StringBuilder$to_string(buffer2) });
+        const t1 = moonbitlang$lex$lib$parser$$Lexbuf$substring(lexbuf$2, _x$3, _x$4);
+        const _bind$3 = moonbitlang$core$array$$Array$op_get$61$(_x$2, 1);
+        const _x$5 = _bind$3._0;
+        const _x$6 = _bind$3._1;
+        const t2 = moonbitlang$lex$lib$parser$$Lexbuf$substring(lexbuf$2, _x$5, _x$6);
+        return new $64$moonbitlang$47$lex$47$lib$47$parser$46$Token$RULE_LC_IDENT_LPAREN_CODE_RPAREN_ARROW_CODE_LBRACE({ _0: t1, _1: t2 });
       }
       case 5: {
         return $64$moonbitlang$47$lex$47$lib$47$parser$46$Token$PARSE_LBRACE;
@@ -10800,12 +10506,12 @@ function moonbitlang$lex$lib$parser$$token(lexbuf) {
         return $64$moonbitlang$47$lex$47$lib$47$parser$46$Token$CARET;
       }
       case 24: {
-        const _x$5 = _bind._1;
-        const _bind$3 = moonbitlang$core$array$$Array$op_get$61$(_x$5, 0);
-        const _x$6 = _bind$3._0;
-        const _x$7 = _bind$3._1;
-        const t$2 = moonbitlang$lex$lib$parser$$Lexbuf$substring(lexbuf$2, _x$6, _x$7);
-        return new $64$moonbitlang$47$lex$47$lib$47$parser$46$Token$CHAR(moonbitlang$core$string$$StringView$op_get(moonbitlang$core$string$$String$op_as_view(t$2, moonbitlang$core$string$$String$op_as_view$46$start$46$default(), undefined), 0));
+        const _x$7 = _bind._1;
+        const _bind$4 = moonbitlang$core$array$$Array$op_get$61$(_x$7, 0);
+        const _x$8 = _bind$4._0;
+        const _x$9 = _bind$4._1;
+        const t = moonbitlang$lex$lib$parser$$Lexbuf$substring(lexbuf$2, _x$8, _x$9);
+        return new $64$moonbitlang$47$lex$47$lib$47$parser$46$Token$CHAR(moonbitlang$core$string$$StringView$op_get(moonbitlang$core$string$$String$op_as_view(t, moonbitlang$core$string$$String$op_as_view$46$start$46$default(), undefined), 0));
       }
       case 25: {
         return new $64$moonbitlang$47$lex$47$lib$47$parser$46$Token$CHAR(8);
@@ -10829,30 +10535,30 @@ function moonbitlang$lex$lib$parser$$token(lexbuf) {
         return new $64$moonbitlang$47$lex$47$lib$47$parser$46$Token$CHAR(39);
       }
       case 32: {
-        const _x$8 = _bind._1;
-        const _bind$4 = moonbitlang$core$array$$Array$op_get$61$(_x$8, 0);
-        const _x$9 = _bind$4._0;
-        const _x$10 = _bind$4._1;
-        const t$3 = moonbitlang$lex$lib$parser$$Lexbuf$substring(lexbuf$2, _x$9, _x$10);
-        const code = moonbitlang$core$result$$Result$unwrap$13$(moonbitlang$core$strconv$$parse_int(t$3, 16));
+        const _x$10 = _bind._1;
+        const _bind$5 = moonbitlang$core$array$$Array$op_get$61$(_x$10, 0);
+        const _x$11 = _bind$5._0;
+        const _x$12 = _bind$5._1;
+        const t$2 = moonbitlang$lex$lib$parser$$Lexbuf$substring(lexbuf$2, _x$11, _x$12);
+        const code = moonbitlang$core$result$$Result$unwrap$13$(moonbitlang$core$strconv$$parse_int(t$2, 16));
         return new $64$moonbitlang$47$lex$47$lib$47$parser$46$Token$CHAR(code);
       }
       case 33: {
-        const _x$11 = _bind._1;
-        const _bind$5 = moonbitlang$core$array$$Array$op_get$61$(_x$11, 0);
-        const _x$12 = _bind$5._0;
-        const _x$13 = _bind$5._1;
-        const t$4 = moonbitlang$lex$lib$parser$$Lexbuf$substring(lexbuf$2, _x$12, _x$13);
-        const code$2 = moonbitlang$core$result$$Result$unwrap$13$(moonbitlang$core$strconv$$parse_int(t$4, 16));
+        const _x$13 = _bind._1;
+        const _bind$6 = moonbitlang$core$array$$Array$op_get$61$(_x$13, 0);
+        const _x$14 = _bind$6._0;
+        const _x$15 = _bind$6._1;
+        const t$3 = moonbitlang$lex$lib$parser$$Lexbuf$substring(lexbuf$2, _x$14, _x$15);
+        const code$2 = moonbitlang$core$result$$Result$unwrap$13$(moonbitlang$core$strconv$$parse_int(t$3, 16));
         return new $64$moonbitlang$47$lex$47$lib$47$parser$46$Token$CHAR(code$2);
       }
       case 34: {
-        const _x$14 = _bind._1;
-        const _bind$6 = moonbitlang$core$array$$Array$op_get$61$(_x$14, 0);
-        const _x$15 = _bind$6._0;
-        const _x$16 = _bind$6._1;
-        const t$5 = moonbitlang$lex$lib$parser$$Lexbuf$substring(lexbuf$2, _x$15, _x$16);
-        const code$3 = moonbitlang$core$result$$Result$unwrap$13$(moonbitlang$core$strconv$$parse_int(t$5, 16));
+        const _x$16 = _bind._1;
+        const _bind$7 = moonbitlang$core$array$$Array$op_get$61$(_x$16, 0);
+        const _x$17 = _bind$7._0;
+        const _x$18 = _bind$7._1;
+        const t$4 = moonbitlang$lex$lib$parser$$Lexbuf$substring(lexbuf$2, _x$17, _x$18);
+        const code$3 = moonbitlang$core$result$$Result$unwrap$13$(moonbitlang$core$strconv$$parse_int(t$4, 16));
         return new $64$moonbitlang$47$lex$47$lib$47$parser$46$Token$CHAR(code$3);
       }
       case 35: {
@@ -10861,12 +10567,12 @@ function moonbitlang$lex$lib$parser$$token(lexbuf) {
         return new $64$moonbitlang$47$lex$47$lib$47$parser$46$Token$STRING(moonbitlang$core$builtin$$StringBuilder$to_string(buffer$2));
       }
       case 36: {
-        const _x$17 = _bind._1;
-        const _bind$7 = moonbitlang$core$array$$Array$op_get$61$(_x$17, 0);
-        const _x$18 = _bind$7._0;
-        const _x$19 = _bind$7._1;
-        const t$6 = moonbitlang$lex$lib$parser$$Lexbuf$substring(lexbuf$2, _x$18, _x$19);
-        return new $64$moonbitlang$47$lex$47$lib$47$parser$46$Token$LC_IDENT(t$6);
+        const _x$19 = _bind._1;
+        const _bind$8 = moonbitlang$core$array$$Array$op_get$61$(_x$19, 0);
+        const _x$20 = _bind$8._0;
+        const _x$21 = _bind$8._1;
+        const t$5 = moonbitlang$lex$lib$parser$$Lexbuf$substring(lexbuf$2, _x$20, _x$21);
+        return new $64$moonbitlang$47$lex$47$lib$47$parser$46$Token$LC_IDENT(t$5);
       }
       default: {
         return moonbitlang$core$builtin$$abort$73$("lex: fail to match");
@@ -11071,7 +10777,7 @@ function moonbitlang$lex$lib$parser$$yy_input(token, _start_pos, _end_pos) {
     case 20: {
       const _RULE_LC_IDENT_LPAREN_CODE_RPAREN_ARROW_CODE_LBRACE = token;
       const _x = _RULE_LC_IDENT_LPAREN_CODE_RPAREN_ARROW_CODE_LBRACE._0;
-      return { _0: 20, _1: new Error$moonbitlang$47$lex$47$lib$47$parser$46$YYObj__String__String__String_$46$YYObj__String__String__String_(_x) };
+      return { _0: 20, _1: new Error$moonbitlang$47$lex$47$lib$47$parser$46$YYObj__String__String_$46$YYObj__String__String_(_x) };
     }
     case 21: {
       const _LBRACE_CODE_RBRACE = token;
@@ -12245,17 +11951,13 @@ function moonbitlang$lex$lib$parser$$yy_state_54(_lookahead) {
 function moonbitlang$lex$lib$parser$$yy_action_22(_last_pos, _args) {
   const _bind = moonbitlang$core$array$$ArrayView$op_get$76$(_args, 0)._0;
   if (_bind.$tag === 3) {
-    const _YYObj__String__String__String_ = _bind;
-    const _x = _YYObj__String__String__String_._0;
+    const _YYObj__String__String_ = _bind;
+    const _x = _YYObj__String__String_._0;
     const _bind$2 = moonbitlang$core$array$$ArrayView$op_get$76$(_args, 2)._0;
     if (_bind$2.$tag === 11) {
       const _YYObj__immut_list_T___type_Regex___type_CodeBlock__ = _bind$2;
       const _x$2 = _YYObj__immut_list_T___type_Regex___type_CodeBlock__._0;
-      const _x$3 = _x._0;
-      const _x$4 = _x._1;
-      const _x$5 = _x._2;
-      const patterns = moonbitlang$core$immut$list$$T$to_array$35$(_x$2);
-      return new Error$moonbitlang$47$lex$47$lib$47$parser$46$YYObj__type_Rule$46$YYObj__type_Rule({ name: _x$3, return_type: _x$5, params: _x$4, patterns: patterns });
+      return new Error$moonbitlang$47$lex$47$lib$47$parser$46$YYObj__type_Rule$46$YYObj__type_Rule({ name: _x._0, signature: _x._1, patterns: moonbitlang$core$immut$list$$T$to_array$35$(_x$2) });
     } else {
       return $panic();
     }
@@ -14194,7 +13896,7 @@ function moonbitlang$lex$lib$codegen$$codegen_rule(rule) {
   const _tmp$4 = moonbitlang$core$builtin$$StringBuilder$to_string(shared_tag_actions_code);
   const _tmp$5 = moonbitlang$core$builtin$$StringBuilder$to_string(states_code);
   const _tmp$6 = `let ${moonbitlang$core$builtin$$Show$to_string$6$(engine)}: LexEngine = { graph: ${moonbitlang$core$builtin$$Show$to_string$137$(graph_code)}, end_nodes: ${moonbitlang$core$builtin$$Show$to_string$138$(end_nodes)}, start_tags: ${moonbitlang$core$builtin$$Show$to_string$139$(start_tags)}, code_blocks_n: ${moonbitlang$core$builtin$$Show$to_string$5$(dfa.code_blocks.length)} }`;
-  const _lhs = [`fn ${moonbitlang$core$builtin$$Show$to_string$6$(rule.name)}(`, moonbitlang$core$string$$String$trim(rule.params, " \t\r\n") === "" ? "lexbuf : Lexbuf" : `${rule.params}, lexbuf : Lexbuf`, ")", "->", rule.return_type, "{"];
+  const _lhs = [`fn ${moonbitlang$core$builtin$$Show$to_string$6$(rule.signature)} {`];
   const _tmp$7 = moonbitlang$core$string$$String$concat(_lhs, " ");
   const _lhs$2 = moonbitlang$core$array$$Array$flatten$6$([[`  match ${moonbitlang$core$builtin$$Show$to_string$6$(engine)}.run(lexbuf) {`], moonbitlang$core$array$$Array$makei$6$(dfa.code_blocks.length, (i) => {
     const codeblock = moonbitlang$core$array$$Array$op_get$6$(dfa.code_blocks, i);
@@ -14290,9 +13992,9 @@ function Yoorkin$trie$$T$lookup$153$(self, path) {
 }
 function Yoorkin$trie$$T$add$153$(self, path, value) {
   const _bind = moonbitlang$core$string$$String$to_array(path);
-  return Yoorkin$trie$$add$46$aux$47$4491(value, { buf: _bind, start: 0, len: _bind.length }, self);
+  return Yoorkin$trie$$add$46$aux$47$4425(value, { buf: _bind, start: 0, len: _bind.length }, self);
 }
-function Yoorkin$trie$$add$46$aux$47$4491(value, _param1, _param2) {
+function Yoorkin$trie$$add$46$aux$47$4425(value, _param1, _param2) {
   if (_param1.len === 0) {
     return { value: value, forks: _param2.forks };
   } else {
@@ -14302,7 +14004,7 @@ function Yoorkin$trie$$add$46$aux$47$4491(value, _param1, _param2) {
     const _some = _param1.len - 0 | 0;
     const _x$2 = { buf: _tmp, start: _tmp$2, len: _some - 1 | 0 };
     const subtree = moonbitlang$core$option$$Option$or$48$(moonbitlang$core$immut$sorted_map$$T$op_get$34$(_param2.forks, _x), { value: undefined, forks: moonbitlang$core$immut$sorted_map$$new$34$() });
-    return { value: _param2.value, forks: moonbitlang$core$immut$sorted_map$$T$add$34$(_param2.forks, _x, Yoorkin$trie$$add$46$aux$47$4491(value, _x$2, subtree)) };
+    return { value: _param2.value, forks: moonbitlang$core$immut$sorted_map$$T$add$34$(_param2.forks, _x, Yoorkin$trie$$add$46$aux$47$4425(value, _x$2, subtree)) };
   }
 }
 function Yoorkin$trie$$empty$153$() {

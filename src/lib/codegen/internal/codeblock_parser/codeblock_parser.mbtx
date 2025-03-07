@@ -11,7 +11,7 @@ pub(all) struct SubstItem {
 }
 }
 
-rule scan_codeblock_rbrace(subst : Array[SubstItem]) -> Unit {
+rule scan_codeblock_rbrace(subst : Array[SubstItem], lexbuf : Lexbuf) -> Unit {
   parse {
     "{" => {
       scan_codeblock_rbrace(subst, lexbuf)

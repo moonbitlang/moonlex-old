@@ -190,19 +190,7 @@ fn codegen_rule(rule : Rule) -> String {
     shared_tag_actions_code.to_string(),
     states_code.to_string(),
     "let \{engine}: LexEngine = { graph: \{graph_code}, end_nodes: \{end_nodes}, start_tags: \{start_tags}, code_blocks_n: \{dfa.code_blocks.length()} }",
-    [
-      "fn \{rule.name}(",
-      if rule.params.trim(" \t\r\n") == "" {
-        "lexbuf : Lexbuf"
-      } else {
-        rule.params + ", lexbuf : Lexbuf"
-      },
-      ")",
-      "->",
-      rule.return_type,
-      "{",
-    ]
-    |> String::concat(separator=" "),
+    ["fn \{rule.signature} {"] |> String::concat(separator=" "),
     [
       ["  match \{engine}.run(lexbuf) {"],
       Array::makei(dfa.code_blocks.length(), fn(i) {

@@ -4,18 +4,14 @@ let ws = [' ' '\t' '\r' '\n']+;
 let hex_digit = ['0'-'9' 'A'-'F' 'a'-'f'];
 let lc_ident = ['a'-'z' '_'] ['A'-'Z' 'a'-'z' '_' '0'-'9']*;
 
-rule token() -> Token {
+rule token(lexbuf : Lexbuf) -> Token {
   parse {
     ws => { token(lexbuf) }
     "//" [^ '\n']* '\n'? => { token(lexbuf) }
     eof => { EOI }
     "eof" => { EOF }
-    "rule" ws (lc_ident as t) ws? "(" ws? => {
-      let buffer1 = StringBuilder::new()
-      let buffer2 = StringBuilder::new()
-      code_rparen(buffer1, lexbuf)
-      arrow_code_lbrace(buffer2, lexbuf)
-      RULE_LC_IDENT_LPAREN_CODE_RPAREN_ARROW_CODE_LBRACE((t, buffer1.to_string(), buffer2.to_string()))
+    "rule" ws ((lc_ident as t1) [^ '{']+ as t2) ws? '{' => {
+      RULE_LC_IDENT_LPAREN_CODE_RPAREN_ARROW_CODE_LBRACE((t1, t2))
     }
     "parse" ws? "{" => { PARSE_LBRACE }
     "let" => { LET }
@@ -69,7 +65,7 @@ rule token() -> Token {
   }
 }
 
-rule string_inner_rquote(buffer : StringBuilder) -> Unit {
+rule string_inner_rquote(buffer : StringBuilder, lexbuf : Lexbuf) -> Unit {
   parse {
     '"' => { () }
     "\\b" => {
@@ -120,32 +116,7 @@ rule string_inner_rquote(buffer : StringBuilder) -> Unit {
   }
 }
 
-rule code_rparen(buffer : StringBuilder) -> Unit {
-  parse {
-    ")" => { () }
-    "(" => {
-      buffer.write_string("(")
-      code_rparen(buffer, lexbuf)
-      buffer.write_string(")")
-      code_rparen(buffer, lexbuf)
-    }
-    _ as t => {
-      buffer.write_string(t)
-      code_rparen(buffer, lexbuf)
-    }
-    eof => { abort("Unexpected end of input") }
-  }
-}
-
-rule arrow_code_lbrace(buffer : StringBuilder) -> Unit {
-  parse {
-    ws? "->" ws? (([^ ' ' '\t' '\r' '\n' '{'] (ws? [^ ' ' '\t' '\r' '\n' '{'])*) as t) ws? "{" => {
-      buffer.write_string(t)
-    }
-  }
-}
-
-rule code_rbrace(buffer : StringBuilder) -> Unit {
+rule code_rbrace(buffer : StringBuilder, lexbuf : Lexbuf) -> Unit {
   parse {
     ("//" [^ '\n']+ '\n') as t => {
       buffer.write_string(t)

@@ -1,7 +1,7 @@
 {
 }
 
-rule scan_newline() -> Int {
+rule scan_newline(lexbuf : Lexbuf) -> Int {
   parse {
     ('\r'? '\n' | '\r') as t => {
       $startpos(t)
