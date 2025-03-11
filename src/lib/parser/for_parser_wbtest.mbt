@@ -13,13 +13,10 @@ let lexer_src : String =
   #|    ws => { token(lexbuf) }
   #|    "//" [^ '\n']* '\n'? => { token(lexbuf) }
   #|    eof => { EOI }
-  #|    "eof" => { EOF }
   #|    "rule" ws ((lc_ident as t1) [^ '{']+ as t2) ws? '{' => {
   #|      RULE_LC_IDENT_LPAREN_CODE_RPAREN_ARROW_CODE_LBRACE((t1, t2))
   #|    }
   #|    "parse" ws? "{" => { PARSE_LBRACE }
-  #|    "let" => { LET }
-  #|    "as" => { AS }
   #|    "=>" => { FAT_ARROW }
   #|    "_" => { UNDERSCORE }
   #|    "{" => { 
@@ -65,7 +62,14 @@ let lexer_src : String =
   #|      string_inner_rquote(buffer, lexbuf)
   #|      STRING(buffer.to_string())
   #|    }
-  #|    lc_ident as t => { LC_IDENT(t) }
+  #|    lc_ident as t => {
+  #|      match t {
+  #|        "eof" => EOF
+  #|        "let" => LET
+  #|        "as" => AS
+  #|        _ => LC_IDENT(t)
+  #|      }
+  #|    }
   #|  }
   #|}
   #|

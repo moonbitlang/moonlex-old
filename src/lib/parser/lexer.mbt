@@ -27,106 +27,92 @@ let token_tag_action_5 : Array[Array[Int]] = [token_tag_action_row_0, token_tag_
 let token_tag_action_13 : Array[Array[Int]] = [token_tag_action_row_1, token_tag_action_row_0, token_tag_action_row_1, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0]
 let token_tag_action_16 : Array[Array[Int]] = [token_tag_action_row_2, token_tag_action_row_1, token_tag_action_row_2, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0]
 let token_tag_action_18 : Array[Array[Int]] = [token_tag_action_row_2, token_tag_action_row_2, token_tag_action_row_2, token_tag_action_row_1, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0]
-let token_tag_action_24 : Array[Array[Int]] = [token_tag_action_row_2, token_tag_action_row_2, token_tag_action_row_2, token_tag_action_row_2, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0]
-let token_tag_action_23 : Array[Array[Int]] = [token_tag_action_row_2, token_tag_action_row_2, token_tag_action_row_2, token_tag_action_row_3, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0]
-let token_tag_action_22 : Array[Array[Int]] = [token_tag_action_row_2, token_tag_action_row_4, token_tag_action_row_2, token_tag_action_row_2, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0]
+let token_tag_action_22 : Array[Array[Int]] = [token_tag_action_row_2, token_tag_action_row_2, token_tag_action_row_2, token_tag_action_row_2, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0]
+let token_tag_action_21 : Array[Array[Int]] = [token_tag_action_row_2, token_tag_action_row_2, token_tag_action_row_2, token_tag_action_row_3, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0]
+let token_tag_action_24 : Array[Array[Int]] = [token_tag_action_row_2, token_tag_action_row_4, token_tag_action_row_2, token_tag_action_row_2, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0]
 let token_tag_action_19 : Array[Array[Int]] = [token_tag_action_row_2, token_tag_action_row_3, token_tag_action_row_2, token_tag_action_row_1, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0]
-let token_tag_action_21 : Array[Array[Int]] = [token_tag_action_row_2, token_tag_action_row_5, token_tag_action_row_2, token_tag_action_row_3, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0]
+let token_tag_action_23 : Array[Array[Int]] = [token_tag_action_row_2, token_tag_action_row_5, token_tag_action_row_2, token_tag_action_row_3, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0, token_tag_action_row_0]
 
 fn token_state_0(input : Int) -> (Int, Array[Array[Int]]) {
   match input {
-    -1 => (25, token_tag_action_0)
-    9..=10 => (2, token_tag_action_1)
-    13 => (2, token_tag_action_1)
-    32 => (2, token_tag_action_1)
-    34 => (3, token_tag_action_0)
-    39 => (4, token_tag_action_2)
-    40 => (15, token_tag_action_0)
-    41 => (14, token_tag_action_0)
-    42 => (9, token_tag_action_0)
-    43 => (8, token_tag_action_0)
-    45 => (6, token_tag_action_0)
-    47 => (26, token_tag_action_0)
-    59 => (11, token_tag_action_0)
-    61 => (19, token_tag_action_0)
-    63 => (7, token_tag_action_0)
-    91 => (13, token_tag_action_0)
-    93 => (12, token_tag_action_0)
-    94 => (5, token_tag_action_0)
-    95 => (18, token_tag_action_3)
-    97 => (20, token_tag_action_3)
-    98..=100 => (1, token_tag_action_3)
-    101 => (24, token_tag_action_3)
-    102..=107 => (1, token_tag_action_3)
-    108 => (21, token_tag_action_3)
-    109..=111 => (1, token_tag_action_3)
-    112 => (22, token_tag_action_3)
-    113 => (1, token_tag_action_3)
-    114 => (23, token_tag_action_3)
-    115..=122 => (1, token_tag_action_3)
-    123 => (17, token_tag_action_0)
-    124 => (10, token_tag_action_0)
-    125 => (16, token_tag_action_0)
+    -1 => (18, token_tag_action_0)
+    9..=10 => (1, token_tag_action_1)
+    13 => (1, token_tag_action_1)
+    32 => (1, token_tag_action_1)
+    34 => (2, token_tag_action_0)
+    39 => (3, token_tag_action_2)
+    40 => (14, token_tag_action_0)
+    41 => (13, token_tag_action_0)
+    42 => (8, token_tag_action_0)
+    43 => (7, token_tag_action_0)
+    45 => (5, token_tag_action_0)
+    47 => (19, token_tag_action_0)
+    59 => (10, token_tag_action_0)
+    61 => (17, token_tag_action_0)
+    63 => (6, token_tag_action_0)
+    91 => (12, token_tag_action_0)
+    93 => (11, token_tag_action_0)
+    94 => (4, token_tag_action_0)
+    95 => (22, token_tag_action_3)
+    97..=111 => (23, token_tag_action_3)
+    112 => (21, token_tag_action_3)
+    113 => (23, token_tag_action_3)
+    114 => (20, token_tag_action_3)
+    115..=122 => (23, token_tag_action_3)
+    123 => (16, token_tag_action_0)
+    124 => (9, token_tag_action_0)
+    125 => (15, token_tag_action_0)
     _ => (-1, [])
   }
 }
 fn token_state_1(input : Int) -> (Int, Array[Array[Int]]) {
   match input {
-    48..=57 => (27, token_tag_action_3)
-    65..=90 => (27, token_tag_action_3)
-    95 => (27, token_tag_action_3)
-    97..=122 => (27, token_tag_action_3)
+    -1 => (18, token_tag_action_0)
+    9..=10 => (1, token_tag_action_1)
+    13 => (1, token_tag_action_1)
+    32 => (1, token_tag_action_1)
+    34 => (2, token_tag_action_0)
+    39 => (3, token_tag_action_2)
+    40 => (14, token_tag_action_0)
+    41 => (13, token_tag_action_0)
+    42 => (8, token_tag_action_0)
+    43 => (7, token_tag_action_0)
+    45 => (5, token_tag_action_0)
+    47 => (19, token_tag_action_0)
+    59 => (10, token_tag_action_0)
+    61 => (17, token_tag_action_0)
+    63 => (6, token_tag_action_0)
+    91 => (12, token_tag_action_0)
+    93 => (11, token_tag_action_0)
+    94 => (4, token_tag_action_0)
+    95 => (22, token_tag_action_3)
+    97..=111 => (23, token_tag_action_3)
+    112 => (21, token_tag_action_3)
+    113 => (23, token_tag_action_3)
+    114 => (20, token_tag_action_3)
+    115..=122 => (23, token_tag_action_3)
+    123 => (16, token_tag_action_0)
+    124 => (9, token_tag_action_0)
+    125 => (15, token_tag_action_0)
     _ => (-1, [])
   }
 }
 fn token_state_2(input : Int) -> (Int, Array[Array[Int]]) {
   match input {
-    -1 => (25, token_tag_action_0)
-    9..=10 => (2, token_tag_action_1)
-    13 => (2, token_tag_action_1)
-    32 => (2, token_tag_action_1)
-    34 => (3, token_tag_action_0)
-    39 => (4, token_tag_action_2)
-    40 => (15, token_tag_action_0)
-    41 => (14, token_tag_action_0)
-    42 => (9, token_tag_action_0)
-    43 => (8, token_tag_action_0)
-    45 => (6, token_tag_action_0)
-    47 => (26, token_tag_action_0)
-    59 => (11, token_tag_action_0)
-    61 => (19, token_tag_action_0)
-    63 => (7, token_tag_action_0)
-    91 => (13, token_tag_action_0)
-    93 => (12, token_tag_action_0)
-    94 => (5, token_tag_action_0)
-    95 => (18, token_tag_action_3)
-    97 => (20, token_tag_action_3)
-    98..=100 => (1, token_tag_action_3)
-    101 => (24, token_tag_action_3)
-    102..=107 => (1, token_tag_action_3)
-    108 => (21, token_tag_action_3)
-    109..=111 => (1, token_tag_action_3)
-    112 => (22, token_tag_action_3)
-    113 => (1, token_tag_action_3)
-    114 => (23, token_tag_action_3)
-    115..=122 => (1, token_tag_action_3)
-    123 => (17, token_tag_action_0)
-    124 => (10, token_tag_action_0)
-    125 => (16, token_tag_action_0)
     _ => (-1, [])
   }
 }
 fn token_state_3(input : Int) -> (Int, Array[Array[Int]]) {
   match input {
+    0..=38 => (24, token_tag_action_4)
+    40..=91 => (24, token_tag_action_4)
+    92 => (25, token_tag_action_0)
+    93..=1114111 => (24, token_tag_action_4)
     _ => (-1, [])
   }
 }
 fn token_state_4(input : Int) -> (Int, Array[Array[Int]]) {
   match input {
-    0..=38 => (28, token_tag_action_4)
-    40..=91 => (28, token_tag_action_4)
-    92 => (29, token_tag_action_0)
-    93..=1114111 => (28, token_tag_action_4)
     _ => (-1, [])
   }
 }
@@ -192,303 +178,274 @@ fn token_state_16(input : Int) -> (Int, Array[Array[Int]]) {
 }
 fn token_state_17(input : Int) -> (Int, Array[Array[Int]]) {
   match input {
+    62 => (26, token_tag_action_0)
     _ => (-1, [])
   }
 }
 fn token_state_18(input : Int) -> (Int, Array[Array[Int]]) {
   match input {
-    48..=57 => (27, token_tag_action_3)
-    65..=90 => (27, token_tag_action_3)
-    95 => (27, token_tag_action_3)
-    97..=122 => (27, token_tag_action_3)
     _ => (-1, [])
   }
 }
 fn token_state_19(input : Int) -> (Int, Array[Array[Int]]) {
   match input {
-    62 => (30, token_tag_action_0)
+    47 => (27, token_tag_action_0)
     _ => (-1, [])
   }
 }
 fn token_state_20(input : Int) -> (Int, Array[Array[Int]]) {
   match input {
-    48..=57 => (27, token_tag_action_3)
-    65..=90 => (27, token_tag_action_3)
-    95 => (27, token_tag_action_3)
-    97..=114 => (27, token_tag_action_3)
-    115 => (31, token_tag_action_3)
-    116..=122 => (27, token_tag_action_3)
+    48..=57 => (29, token_tag_action_3)
+    65..=90 => (29, token_tag_action_3)
+    95 => (29, token_tag_action_3)
+    97..=116 => (29, token_tag_action_3)
+    117 => (28, token_tag_action_3)
+    118..=122 => (29, token_tag_action_3)
     _ => (-1, [])
   }
 }
 fn token_state_21(input : Int) -> (Int, Array[Array[Int]]) {
   match input {
-    48..=57 => (27, token_tag_action_3)
-    65..=90 => (27, token_tag_action_3)
-    95 => (27, token_tag_action_3)
-    97..=100 => (27, token_tag_action_3)
-    101 => (32, token_tag_action_3)
-    102..=122 => (27, token_tag_action_3)
+    48..=57 => (29, token_tag_action_3)
+    65..=90 => (29, token_tag_action_3)
+    95 => (29, token_tag_action_3)
+    97 => (30, token_tag_action_3)
+    98..=122 => (29, token_tag_action_3)
     _ => (-1, [])
   }
 }
 fn token_state_22(input : Int) -> (Int, Array[Array[Int]]) {
   match input {
-    48..=57 => (27, token_tag_action_3)
-    65..=90 => (27, token_tag_action_3)
-    95 => (27, token_tag_action_3)
-    97 => (33, token_tag_action_3)
-    98..=122 => (27, token_tag_action_3)
+    48..=57 => (29, token_tag_action_3)
+    65..=90 => (29, token_tag_action_3)
+    95 => (29, token_tag_action_3)
+    97..=122 => (29, token_tag_action_3)
     _ => (-1, [])
   }
 }
 fn token_state_23(input : Int) -> (Int, Array[Array[Int]]) {
   match input {
-    48..=57 => (27, token_tag_action_3)
-    65..=90 => (27, token_tag_action_3)
-    95 => (27, token_tag_action_3)
-    97..=116 => (27, token_tag_action_3)
-    117 => (34, token_tag_action_3)
-    118..=122 => (27, token_tag_action_3)
+    48..=57 => (29, token_tag_action_3)
+    65..=90 => (29, token_tag_action_3)
+    95 => (29, token_tag_action_3)
+    97..=122 => (29, token_tag_action_3)
     _ => (-1, [])
   }
 }
 fn token_state_24(input : Int) -> (Int, Array[Array[Int]]) {
   match input {
-    48..=57 => (27, token_tag_action_3)
-    65..=90 => (27, token_tag_action_3)
-    95 => (27, token_tag_action_3)
-    97..=110 => (27, token_tag_action_3)
-    111 => (35, token_tag_action_3)
-    112..=122 => (27, token_tag_action_3)
+    39 => (31, token_tag_action_5)
     _ => (-1, [])
   }
 }
 fn token_state_25(input : Int) -> (Int, Array[Array[Int]]) {
   match input {
+    39 => (35, token_tag_action_0)
+    92 => (37, token_tag_action_0)
+    98 => (36, token_tag_action_0)
+    110 => (33, token_tag_action_0)
+    114 => (38, token_tag_action_0)
+    116 => (32, token_tag_action_0)
+    117 => (39, token_tag_action_6)
+    118 => (40, token_tag_action_0)
+    120 => (34, token_tag_action_7)
     _ => (-1, [])
   }
 }
 fn token_state_26(input : Int) -> (Int, Array[Array[Int]]) {
   match input {
-    47 => (36, token_tag_action_0)
     _ => (-1, [])
   }
 }
 fn token_state_27(input : Int) -> (Int, Array[Array[Int]]) {
   match input {
-    48..=57 => (27, token_tag_action_3)
-    65..=90 => (27, token_tag_action_3)
-    95 => (27, token_tag_action_3)
-    97..=122 => (27, token_tag_action_3)
+    0..=9 => (41, token_tag_action_0)
+    10 => (42, token_tag_action_0)
+    11..=1114111 => (41, token_tag_action_0)
     _ => (-1, [])
   }
 }
 fn token_state_28(input : Int) -> (Int, Array[Array[Int]]) {
   match input {
-    39 => (37, token_tag_action_5)
+    48..=57 => (29, token_tag_action_3)
+    65..=90 => (29, token_tag_action_3)
+    95 => (29, token_tag_action_3)
+    97..=107 => (29, token_tag_action_3)
+    108 => (43, token_tag_action_3)
+    109..=122 => (29, token_tag_action_3)
     _ => (-1, [])
   }
 }
 fn token_state_29(input : Int) -> (Int, Array[Array[Int]]) {
   match input {
-    39 => (38, token_tag_action_0)
-    92 => (40, token_tag_action_0)
-    98 => (45, token_tag_action_0)
-    110 => (41, token_tag_action_0)
-    114 => (42, token_tag_action_0)
-    116 => (43, token_tag_action_0)
-    117 => (46, token_tag_action_6)
-    118 => (39, token_tag_action_0)
-    120 => (44, token_tag_action_7)
+    48..=57 => (29, token_tag_action_3)
+    65..=90 => (29, token_tag_action_3)
+    95 => (29, token_tag_action_3)
+    97..=122 => (29, token_tag_action_3)
     _ => (-1, [])
   }
 }
 fn token_state_30(input : Int) -> (Int, Array[Array[Int]]) {
   match input {
+    48..=57 => (29, token_tag_action_3)
+    65..=90 => (29, token_tag_action_3)
+    95 => (29, token_tag_action_3)
+    97..=113 => (29, token_tag_action_3)
+    114 => (44, token_tag_action_3)
+    115..=122 => (29, token_tag_action_3)
     _ => (-1, [])
   }
 }
 fn token_state_31(input : Int) -> (Int, Array[Array[Int]]) {
   match input {
-    48..=57 => (27, token_tag_action_3)
-    65..=90 => (27, token_tag_action_3)
-    95 => (27, token_tag_action_3)
-    97..=122 => (27, token_tag_action_3)
     _ => (-1, [])
   }
 }
 fn token_state_32(input : Int) -> (Int, Array[Array[Int]]) {
   match input {
-    48..=57 => (27, token_tag_action_3)
-    65..=90 => (27, token_tag_action_3)
-    95 => (27, token_tag_action_3)
-    97..=115 => (27, token_tag_action_3)
-    116 => (47, token_tag_action_3)
-    117..=122 => (27, token_tag_action_3)
+    39 => (45, token_tag_action_0)
     _ => (-1, [])
   }
 }
 fn token_state_33(input : Int) -> (Int, Array[Array[Int]]) {
   match input {
-    48..=57 => (27, token_tag_action_3)
-    65..=90 => (27, token_tag_action_3)
-    95 => (27, token_tag_action_3)
-    97..=113 => (27, token_tag_action_3)
-    114 => (48, token_tag_action_3)
-    115..=122 => (27, token_tag_action_3)
+    39 => (46, token_tag_action_0)
     _ => (-1, [])
   }
 }
 fn token_state_34(input : Int) -> (Int, Array[Array[Int]]) {
   match input {
-    48..=57 => (27, token_tag_action_3)
-    65..=90 => (27, token_tag_action_3)
-    95 => (27, token_tag_action_3)
-    97..=107 => (27, token_tag_action_3)
-    108 => (49, token_tag_action_3)
-    109..=122 => (27, token_tag_action_3)
+    48..=57 => (47, token_tag_action_8)
+    65..=70 => (47, token_tag_action_8)
+    97..=102 => (47, token_tag_action_8)
     _ => (-1, [])
   }
 }
 fn token_state_35(input : Int) -> (Int, Array[Array[Int]]) {
   match input {
-    48..=57 => (27, token_tag_action_3)
-    65..=90 => (27, token_tag_action_3)
-    95 => (27, token_tag_action_3)
-    97..=101 => (27, token_tag_action_3)
-    102 => (50, token_tag_action_3)
-    103..=122 => (27, token_tag_action_3)
+    39 => (48, token_tag_action_0)
     _ => (-1, [])
   }
 }
 fn token_state_36(input : Int) -> (Int, Array[Array[Int]]) {
   match input {
-    0..=9 => (51, token_tag_action_0)
-    10 => (52, token_tag_action_0)
-    11..=1114111 => (51, token_tag_action_0)
+    39 => (49, token_tag_action_0)
     _ => (-1, [])
   }
 }
 fn token_state_37(input : Int) -> (Int, Array[Array[Int]]) {
   match input {
+    39 => (50, token_tag_action_0)
     _ => (-1, [])
   }
 }
 fn token_state_38(input : Int) -> (Int, Array[Array[Int]]) {
   match input {
-    39 => (53, token_tag_action_0)
+    39 => (51, token_tag_action_0)
     _ => (-1, [])
   }
 }
 fn token_state_39(input : Int) -> (Int, Array[Array[Int]]) {
   match input {
-    39 => (54, token_tag_action_0)
+    48..=57 => (52, token_tag_action_9)
+    65..=70 => (52, token_tag_action_9)
+    97..=102 => (52, token_tag_action_9)
+    123 => (53, token_tag_action_10)
     _ => (-1, [])
   }
 }
 fn token_state_40(input : Int) -> (Int, Array[Array[Int]]) {
   match input {
-    39 => (55, token_tag_action_0)
+    39 => (54, token_tag_action_0)
     _ => (-1, [])
   }
 }
 fn token_state_41(input : Int) -> (Int, Array[Array[Int]]) {
   match input {
-    39 => (56, token_tag_action_0)
+    0..=9 => (41, token_tag_action_0)
+    10 => (42, token_tag_action_0)
+    11..=1114111 => (41, token_tag_action_0)
     _ => (-1, [])
   }
 }
 fn token_state_42(input : Int) -> (Int, Array[Array[Int]]) {
   match input {
-    39 => (57, token_tag_action_0)
     _ => (-1, [])
   }
 }
 fn token_state_43(input : Int) -> (Int, Array[Array[Int]]) {
   match input {
-    39 => (58, token_tag_action_0)
+    48..=57 => (29, token_tag_action_3)
+    65..=90 => (29, token_tag_action_3)
+    95 => (29, token_tag_action_3)
+    97..=100 => (29, token_tag_action_3)
+    101 => (55, token_tag_action_3)
+    102..=122 => (29, token_tag_action_3)
     _ => (-1, [])
   }
 }
 fn token_state_44(input : Int) -> (Int, Array[Array[Int]]) {
   match input {
-    48..=57 => (59, token_tag_action_8)
-    65..=70 => (59, token_tag_action_8)
-    97..=102 => (59, token_tag_action_8)
+    48..=57 => (29, token_tag_action_3)
+    65..=90 => (29, token_tag_action_3)
+    95 => (29, token_tag_action_3)
+    97..=114 => (29, token_tag_action_3)
+    115 => (56, token_tag_action_3)
+    116..=122 => (29, token_tag_action_3)
     _ => (-1, [])
   }
 }
 fn token_state_45(input : Int) -> (Int, Array[Array[Int]]) {
   match input {
-    39 => (60, token_tag_action_0)
     _ => (-1, [])
   }
 }
 fn token_state_46(input : Int) -> (Int, Array[Array[Int]]) {
   match input {
-    48..=57 => (61, token_tag_action_9)
-    65..=70 => (61, token_tag_action_9)
-    97..=102 => (61, token_tag_action_9)
-    123 => (62, token_tag_action_10)
     _ => (-1, [])
   }
 }
 fn token_state_47(input : Int) -> (Int, Array[Array[Int]]) {
   match input {
-    48..=57 => (27, token_tag_action_3)
-    65..=90 => (27, token_tag_action_3)
-    95 => (27, token_tag_action_3)
-    97..=122 => (27, token_tag_action_3)
+    48..=57 => (57, token_tag_action_11)
+    65..=70 => (57, token_tag_action_11)
+    97..=102 => (57, token_tag_action_11)
     _ => (-1, [])
   }
 }
 fn token_state_48(input : Int) -> (Int, Array[Array[Int]]) {
   match input {
-    48..=57 => (27, token_tag_action_3)
-    65..=90 => (27, token_tag_action_3)
-    95 => (27, token_tag_action_3)
-    97..=114 => (27, token_tag_action_3)
-    115 => (63, token_tag_action_3)
-    116..=122 => (27, token_tag_action_3)
     _ => (-1, [])
   }
 }
 fn token_state_49(input : Int) -> (Int, Array[Array[Int]]) {
   match input {
-    48..=57 => (27, token_tag_action_3)
-    65..=90 => (27, token_tag_action_3)
-    95 => (27, token_tag_action_3)
-    97..=100 => (27, token_tag_action_3)
-    101 => (64, token_tag_action_3)
-    102..=122 => (27, token_tag_action_3)
     _ => (-1, [])
   }
 }
 fn token_state_50(input : Int) -> (Int, Array[Array[Int]]) {
   match input {
-    48..=57 => (27, token_tag_action_3)
-    65..=90 => (27, token_tag_action_3)
-    95 => (27, token_tag_action_3)
-    97..=122 => (27, token_tag_action_3)
     _ => (-1, [])
   }
 }
 fn token_state_51(input : Int) -> (Int, Array[Array[Int]]) {
   match input {
-    0..=9 => (51, token_tag_action_0)
-    10 => (52, token_tag_action_0)
-    11..=1114111 => (51, token_tag_action_0)
     _ => (-1, [])
   }
 }
 fn token_state_52(input : Int) -> (Int, Array[Array[Int]]) {
   match input {
+    48..=57 => (58, token_tag_action_9)
+    65..=70 => (58, token_tag_action_9)
+    97..=102 => (58, token_tag_action_9)
     _ => (-1, [])
   }
 }
 fn token_state_53(input : Int) -> (Int, Array[Array[Int]]) {
   match input {
+    48..=57 => (59, token_tag_action_12)
+    65..=70 => (59, token_tag_action_12)
+    97..=102 => (59, token_tag_action_12)
     _ => (-1, [])
   }
 }
@@ -499,255 +456,206 @@ fn token_state_54(input : Int) -> (Int, Array[Array[Int]]) {
 }
 fn token_state_55(input : Int) -> (Int, Array[Array[Int]]) {
   match input {
+    9..=10 => (60, token_tag_action_13)
+    13 => (60, token_tag_action_13)
+    32 => (60, token_tag_action_13)
+    48..=57 => (29, token_tag_action_3)
+    65..=90 => (29, token_tag_action_3)
+    95 => (29, token_tag_action_3)
+    97..=122 => (29, token_tag_action_3)
     _ => (-1, [])
   }
 }
 fn token_state_56(input : Int) -> (Int, Array[Array[Int]]) {
   match input {
+    48..=57 => (29, token_tag_action_3)
+    65..=90 => (29, token_tag_action_3)
+    95 => (29, token_tag_action_3)
+    97..=100 => (29, token_tag_action_3)
+    101 => (61, token_tag_action_3)
+    102..=122 => (29, token_tag_action_3)
     _ => (-1, [])
   }
 }
 fn token_state_57(input : Int) -> (Int, Array[Array[Int]]) {
   match input {
+    39 => (62, token_tag_action_14)
     _ => (-1, [])
   }
 }
 fn token_state_58(input : Int) -> (Int, Array[Array[Int]]) {
   match input {
+    48..=57 => (63, token_tag_action_9)
+    65..=70 => (63, token_tag_action_9)
+    97..=102 => (63, token_tag_action_9)
     _ => (-1, [])
   }
 }
 fn token_state_59(input : Int) -> (Int, Array[Array[Int]]) {
   match input {
-    48..=57 => (65, token_tag_action_11)
-    65..=70 => (65, token_tag_action_11)
-    97..=102 => (65, token_tag_action_11)
+    48..=57 => (59, token_tag_action_12)
+    65..=70 => (59, token_tag_action_12)
+    97..=102 => (59, token_tag_action_12)
+    125 => (64, token_tag_action_15)
     _ => (-1, [])
   }
 }
 fn token_state_60(input : Int) -> (Int, Array[Array[Int]]) {
   match input {
+    9..=10 => (60, token_tag_action_13)
+    13 => (60, token_tag_action_13)
+    32 => (60, token_tag_action_13)
+    95 => (65, token_tag_action_16)
+    97..=122 => (65, token_tag_action_16)
     _ => (-1, [])
   }
 }
 fn token_state_61(input : Int) -> (Int, Array[Array[Int]]) {
   match input {
-    48..=57 => (66, token_tag_action_9)
-    65..=70 => (66, token_tag_action_9)
-    97..=102 => (66, token_tag_action_9)
+    9..=10 => (66, token_tag_action_0)
+    13 => (66, token_tag_action_0)
+    32 => (66, token_tag_action_0)
+    48..=57 => (29, token_tag_action_3)
+    65..=90 => (29, token_tag_action_3)
+    95 => (29, token_tag_action_3)
+    97..=122 => (29, token_tag_action_3)
+    123 => (67, token_tag_action_0)
     _ => (-1, [])
   }
 }
 fn token_state_62(input : Int) -> (Int, Array[Array[Int]]) {
   match input {
-    48..=57 => (67, token_tag_action_12)
-    65..=70 => (67, token_tag_action_12)
-    97..=102 => (67, token_tag_action_12)
     _ => (-1, [])
   }
 }
 fn token_state_63(input : Int) -> (Int, Array[Array[Int]]) {
   match input {
-    48..=57 => (27, token_tag_action_3)
-    65..=90 => (27, token_tag_action_3)
-    95 => (27, token_tag_action_3)
-    97..=100 => (27, token_tag_action_3)
-    101 => (68, token_tag_action_3)
-    102..=122 => (27, token_tag_action_3)
+    48..=57 => (68, token_tag_action_17)
+    65..=70 => (68, token_tag_action_17)
+    97..=102 => (68, token_tag_action_17)
     _ => (-1, [])
   }
 }
 fn token_state_64(input : Int) -> (Int, Array[Array[Int]]) {
   match input {
-    9..=10 => (69, token_tag_action_13)
-    13 => (69, token_tag_action_13)
-    32 => (69, token_tag_action_13)
-    48..=57 => (27, token_tag_action_3)
-    65..=90 => (27, token_tag_action_3)
-    95 => (27, token_tag_action_3)
-    97..=122 => (27, token_tag_action_3)
+    39 => (69, token_tag_action_15)
     _ => (-1, [])
   }
 }
 fn token_state_65(input : Int) -> (Int, Array[Array[Int]]) {
   match input {
-    39 => (70, token_tag_action_14)
+    0..=47 => (70, token_tag_action_18)
+    48..=57 => (71, token_tag_action_19)
+    58..=64 => (70, token_tag_action_18)
+    65..=90 => (71, token_tag_action_19)
+    91..=94 => (70, token_tag_action_18)
+    95 => (71, token_tag_action_19)
+    96 => (70, token_tag_action_18)
+    97..=122 => (71, token_tag_action_19)
+    124..=1114111 => (70, token_tag_action_18)
     _ => (-1, [])
   }
 }
 fn token_state_66(input : Int) -> (Int, Array[Array[Int]]) {
   match input {
-    48..=57 => (71, token_tag_action_9)
-    65..=70 => (71, token_tag_action_9)
-    97..=102 => (71, token_tag_action_9)
+    9..=10 => (66, token_tag_action_0)
+    13 => (66, token_tag_action_0)
+    32 => (66, token_tag_action_0)
+    123 => (67, token_tag_action_0)
     _ => (-1, [])
   }
 }
 fn token_state_67(input : Int) -> (Int, Array[Array[Int]]) {
   match input {
-    48..=57 => (67, token_tag_action_12)
-    65..=70 => (67, token_tag_action_12)
-    97..=102 => (67, token_tag_action_12)
-    125 => (72, token_tag_action_15)
     _ => (-1, [])
   }
 }
 fn token_state_68(input : Int) -> (Int, Array[Array[Int]]) {
   match input {
-    9..=10 => (73, token_tag_action_0)
-    13 => (73, token_tag_action_0)
-    32 => (73, token_tag_action_0)
-    48..=57 => (27, token_tag_action_3)
-    65..=90 => (27, token_tag_action_3)
-    95 => (27, token_tag_action_3)
-    97..=122 => (27, token_tag_action_3)
-    123 => (74, token_tag_action_0)
+    39 => (72, token_tag_action_20)
     _ => (-1, [])
   }
 }
 fn token_state_69(input : Int) -> (Int, Array[Array[Int]]) {
   match input {
-    9..=10 => (69, token_tag_action_13)
-    13 => (69, token_tag_action_13)
-    32 => (69, token_tag_action_13)
-    95 => (75, token_tag_action_16)
-    97..=122 => (75, token_tag_action_16)
     _ => (-1, [])
   }
 }
 fn token_state_70(input : Int) -> (Int, Array[Array[Int]]) {
   match input {
+    0..=8 => (70, token_tag_action_18)
+    9..=10 => (74, token_tag_action_21)
+    11..=12 => (70, token_tag_action_18)
+    13 => (74, token_tag_action_21)
+    14..=31 => (70, token_tag_action_18)
+    32 => (74, token_tag_action_21)
+    33..=122 => (70, token_tag_action_18)
+    123 => (73, token_tag_action_22)
+    124..=1114111 => (70, token_tag_action_18)
     _ => (-1, [])
   }
 }
 fn token_state_71(input : Int) -> (Int, Array[Array[Int]]) {
   match input {
-    48..=57 => (76, token_tag_action_17)
-    65..=70 => (76, token_tag_action_17)
-    97..=102 => (76, token_tag_action_17)
+    0..=8 => (70, token_tag_action_18)
+    9..=10 => (75, token_tag_action_23)
+    11..=12 => (70, token_tag_action_18)
+    13 => (75, token_tag_action_23)
+    14..=31 => (70, token_tag_action_18)
+    32 => (75, token_tag_action_23)
+    33..=47 => (70, token_tag_action_18)
+    48..=57 => (71, token_tag_action_19)
+    58..=64 => (70, token_tag_action_18)
+    65..=90 => (71, token_tag_action_19)
+    91..=94 => (70, token_tag_action_18)
+    95 => (71, token_tag_action_19)
+    96 => (70, token_tag_action_18)
+    97..=122 => (71, token_tag_action_19)
+    123 => (73, token_tag_action_24)
+    124..=1114111 => (70, token_tag_action_18)
     _ => (-1, [])
   }
 }
 fn token_state_72(input : Int) -> (Int, Array[Array[Int]]) {
   match input {
-    39 => (77, token_tag_action_15)
     _ => (-1, [])
   }
 }
 fn token_state_73(input : Int) -> (Int, Array[Array[Int]]) {
   match input {
-    9..=10 => (73, token_tag_action_0)
-    13 => (73, token_tag_action_0)
-    32 => (73, token_tag_action_0)
-    123 => (74, token_tag_action_0)
     _ => (-1, [])
   }
 }
 fn token_state_74(input : Int) -> (Int, Array[Array[Int]]) {
   match input {
+    0..=8 => (70, token_tag_action_18)
+    9..=10 => (74, token_tag_action_21)
+    11..=12 => (70, token_tag_action_18)
+    13 => (74, token_tag_action_21)
+    14..=31 => (70, token_tag_action_18)
+    32 => (74, token_tag_action_21)
+    33..=122 => (70, token_tag_action_18)
+    123 => (73, token_tag_action_22)
+    124..=1114111 => (70, token_tag_action_18)
     _ => (-1, [])
   }
 }
 fn token_state_75(input : Int) -> (Int, Array[Array[Int]]) {
   match input {
-    0..=47 => (79, token_tag_action_18)
-    48..=57 => (78, token_tag_action_19)
-    58..=64 => (79, token_tag_action_18)
-    65..=90 => (78, token_tag_action_19)
-    91..=94 => (79, token_tag_action_18)
-    95 => (78, token_tag_action_19)
-    96 => (79, token_tag_action_18)
-    97..=122 => (78, token_tag_action_19)
-    124..=1114111 => (79, token_tag_action_18)
-    _ => (-1, [])
-  }
-}
-fn token_state_76(input : Int) -> (Int, Array[Array[Int]]) {
-  match input {
-    39 => (80, token_tag_action_20)
-    _ => (-1, [])
-  }
-}
-fn token_state_77(input : Int) -> (Int, Array[Array[Int]]) {
-  match input {
-    _ => (-1, [])
-  }
-}
-fn token_state_78(input : Int) -> (Int, Array[Array[Int]]) {
-  match input {
-    0..=8 => (79, token_tag_action_18)
-    9..=10 => (82, token_tag_action_21)
-    11..=12 => (79, token_tag_action_18)
-    13 => (82, token_tag_action_21)
-    14..=31 => (79, token_tag_action_18)
-    32 => (82, token_tag_action_21)
-    33..=47 => (79, token_tag_action_18)
-    48..=57 => (78, token_tag_action_19)
-    58..=64 => (79, token_tag_action_18)
-    65..=90 => (78, token_tag_action_19)
-    91..=94 => (79, token_tag_action_18)
-    95 => (78, token_tag_action_19)
-    96 => (79, token_tag_action_18)
-    97..=122 => (78, token_tag_action_19)
-    123 => (81, token_tag_action_22)
-    124..=1114111 => (79, token_tag_action_18)
-    _ => (-1, [])
-  }
-}
-fn token_state_79(input : Int) -> (Int, Array[Array[Int]]) {
-  match input {
-    0..=8 => (79, token_tag_action_18)
-    9..=10 => (83, token_tag_action_23)
-    11..=12 => (79, token_tag_action_18)
-    13 => (83, token_tag_action_23)
-    14..=31 => (79, token_tag_action_18)
-    32 => (83, token_tag_action_23)
-    33..=122 => (79, token_tag_action_18)
-    123 => (81, token_tag_action_24)
-    124..=1114111 => (79, token_tag_action_18)
-    _ => (-1, [])
-  }
-}
-fn token_state_80(input : Int) -> (Int, Array[Array[Int]]) {
-  match input {
-    _ => (-1, [])
-  }
-}
-fn token_state_81(input : Int) -> (Int, Array[Array[Int]]) {
-  match input {
-    _ => (-1, [])
-  }
-}
-fn token_state_82(input : Int) -> (Int, Array[Array[Int]]) {
-  match input {
-    0..=8 => (79, token_tag_action_18)
-    9..=10 => (83, token_tag_action_23)
-    11..=12 => (79, token_tag_action_18)
-    13 => (83, token_tag_action_23)
-    14..=31 => (79, token_tag_action_18)
-    32 => (83, token_tag_action_23)
-    33..=122 => (79, token_tag_action_18)
-    123 => (81, token_tag_action_24)
-    124..=1114111 => (79, token_tag_action_18)
-    _ => (-1, [])
-  }
-}
-fn token_state_83(input : Int) -> (Int, Array[Array[Int]]) {
-  match input {
-    0..=8 => (79, token_tag_action_18)
-    9..=10 => (83, token_tag_action_23)
-    11..=12 => (79, token_tag_action_18)
-    13 => (83, token_tag_action_23)
-    14..=31 => (79, token_tag_action_18)
-    32 => (83, token_tag_action_23)
-    33..=122 => (79, token_tag_action_18)
-    123 => (81, token_tag_action_24)
-    124..=1114111 => (79, token_tag_action_18)
+    0..=8 => (70, token_tag_action_18)
+    9..=10 => (74, token_tag_action_21)
+    11..=12 => (70, token_tag_action_18)
+    13 => (74, token_tag_action_21)
+    14..=31 => (70, token_tag_action_18)
+    32 => (74, token_tag_action_21)
+    33..=122 => (70, token_tag_action_18)
+    123 => (73, token_tag_action_22)
+    124..=1114111 => (70, token_tag_action_18)
     _ => (-1, [])
   }
 }
 
-let __mbtlex_engine_token: @lexengine.T = { graph: [token_state_0, token_state_1, token_state_2, token_state_3, token_state_4, token_state_5, token_state_6, token_state_7, token_state_8, token_state_9, token_state_10, token_state_11, token_state_12, token_state_13, token_state_14, token_state_15, token_state_16, token_state_17, token_state_18, token_state_19, token_state_20, token_state_21, token_state_22, token_state_23, token_state_24, token_state_25, token_state_26, token_state_27, token_state_28, token_state_29, token_state_30, token_state_31, token_state_32, token_state_33, token_state_34, token_state_35, token_state_36, token_state_37, token_state_38, token_state_39, token_state_40, token_state_41, token_state_42, token_state_43, token_state_44, token_state_45, token_state_46, token_state_47, token_state_48, token_state_49, token_state_50, token_state_51, token_state_52, token_state_53, token_state_54, token_state_55, token_state_56, token_state_57, token_state_58, token_state_59, token_state_60, token_state_61, token_state_62, token_state_63, token_state_64, token_state_65, token_state_66, token_state_67, token_state_68, token_state_69, token_state_70, token_state_71, token_state_72, token_state_73, token_state_74, token_state_75, token_state_76, token_state_77, token_state_78, token_state_79, token_state_80, token_state_81, token_state_82, token_state_83, ], end_nodes: [None, Some((36, [((12, 0), (13, 0))])), Some((0, [])), Some((35, [])), None, Some((23, [])), Some((22, [])), Some((21, [])), Some((20, [])), Some((19, [])), Some((18, [])), Some((17, [])), Some((15, [])), Some((14, [])), Some((13, [])), Some((12, [])), Some((11, [])), Some((10, [])), Some((9, [])), Some((16, [])), Some((36, [((12, 0), (13, 0))])), Some((36, [((12, 0), (13, 0))])), Some((36, [((12, 0), (13, 0))])), Some((36, [((12, 0), (13, 0))])), Some((36, [((12, 0), (13, 0))])), Some((2, [])), None, Some((36, [((12, 0), (13, 0))])), None, None, Some((8, [])), Some((7, [])), Some((36, [((12, 0), (13, 0))])), Some((36, [((12, 0), (13, 0))])), Some((36, [((12, 0), (13, 0))])), Some((36, [((12, 0), (13, 0))])), Some((1, [])), Some((24, [((4, 0), (5, 0))])), None, None, None, None, None, None, None, None, None, Some((6, [])), Some((36, [((12, 0), (13, 0))])), Some((36, [((12, 0), (13, 0))])), Some((3, [])), Some((1, [])), Some((1, [])), Some((31, [])), Some((27, [])), Some((30, [])), Some((29, [])), Some((28, [])), Some((26, [])), None, Some((25, [])), None, None, Some((36, [((12, 0), (13, 0))])), Some((36, [((12, 0), (13, 0))])), None, None, None, Some((36, [((12, 0), (13, 0))])), None, Some((32, [((6, 0), (7, 0))])), None, None, None, Some((5, [])), None, None, Some((34, [((10, 0), (11, 0))])), None, None, Some((33, [((8, 0), (9, 0))])), Some((4, [((0, 0), (1, 0)), ((2, 0), (3, 0))])), None, None], start_tags: [12], code_blocks_n: 37 }
+let __mbtlex_engine_token: @lexengine.T = { graph: [token_state_0, token_state_1, token_state_2, token_state_3, token_state_4, token_state_5, token_state_6, token_state_7, token_state_8, token_state_9, token_state_10, token_state_11, token_state_12, token_state_13, token_state_14, token_state_15, token_state_16, token_state_17, token_state_18, token_state_19, token_state_20, token_state_21, token_state_22, token_state_23, token_state_24, token_state_25, token_state_26, token_state_27, token_state_28, token_state_29, token_state_30, token_state_31, token_state_32, token_state_33, token_state_34, token_state_35, token_state_36, token_state_37, token_state_38, token_state_39, token_state_40, token_state_41, token_state_42, token_state_43, token_state_44, token_state_45, token_state_46, token_state_47, token_state_48, token_state_49, token_state_50, token_state_51, token_state_52, token_state_53, token_state_54, token_state_55, token_state_56, token_state_57, token_state_58, token_state_59, token_state_60, token_state_61, token_state_62, token_state_63, token_state_64, token_state_65, token_state_66, token_state_67, token_state_68, token_state_69, token_state_70, token_state_71, token_state_72, token_state_73, token_state_74, token_state_75, ], end_nodes: [None, Some((0, [])), Some((32, [])), None, Some((20, [])), Some((19, [])), Some((18, [])), Some((17, [])), Some((16, [])), Some((15, [])), Some((14, [])), Some((12, [])), Some((11, [])), Some((10, [])), Some((9, [])), Some((8, [])), Some((7, [])), Some((13, [])), Some((2, [])), None, Some((33, [((12, 0), (13, 0))])), Some((33, [((12, 0), (13, 0))])), Some((6, [])), Some((33, [((12, 0), (13, 0))])), None, None, Some((5, [])), Some((1, [])), Some((33, [((12, 0), (13, 0))])), Some((33, [((12, 0), (13, 0))])), Some((33, [((12, 0), (13, 0))])), Some((21, [((4, 0), (5, 0))])), None, None, None, None, None, None, None, None, None, Some((1, [])), Some((1, [])), Some((33, [((12, 0), (13, 0))])), Some((33, [((12, 0), (13, 0))])), Some((23, [])), Some((26, [])), None, Some((28, [])), Some((22, [])), Some((27, [])), Some((25, [])), None, None, Some((24, [])), Some((33, [((12, 0), (13, 0))])), Some((33, [((12, 0), (13, 0))])), None, None, None, None, Some((33, [((12, 0), (13, 0))])), Some((29, [((6, 0), (7, 0))])), None, None, None, None, Some((4, [])), None, Some((31, [((10, 0), (11, 0))])), None, None, Some((30, [((8, 0), (9, 0))])), Some((3, [((0, 0), (1, 0)), ((2, 0), (3, 0))])), None, None], start_tags: [12], code_blocks_n: 34 }
 fn token[T](lexbuf : @lexbuf.T[T, String, Int]) -> Token  {
   match __mbtlex_engine_token.run(lexbuf) {
     (0, __mbtlex_captures) => {
@@ -760,9 +668,6 @@ fn token[T](lexbuf : @lexbuf.T[T, String, Int]) -> Token  {
  EOI 
     }
     (3, __mbtlex_captures) => {
- EOF 
-    }
-    (4, __mbtlex_captures) => {
   let (_start_pos_of_t1, _end_pos_of_t1) = __mbtlex_captures[0]
   let t1 = lexbuf.sub_lexeme(_start_pos_of_t1, _end_pos_of_t1)
   
@@ -773,101 +678,120 @@ fn token[T](lexbuf : @lexbuf.T[T, String, Int]) -> Token  {
       RULE_LC_IDENT_LPAREN_CODE_RPAREN_ARROW_CODE_LBRACE((t1, t2))
     
     }
-    (5, __mbtlex_captures) => {
+    (4, __mbtlex_captures) => {
  PARSE_LBRACE 
     }
-    (6, __mbtlex_captures) => {
- LET 
-    }
-    (7, __mbtlex_captures) => {
- AS 
-    }
-    (8, __mbtlex_captures) => {
+    (5, __mbtlex_captures) => {
  FAT_ARROW 
     }
-    (9, __mbtlex_captures) => {
+    (6, __mbtlex_captures) => {
  UNDERSCORE 
     }
-    (10, __mbtlex_captures) => {
+    (7, __mbtlex_captures) => {
  
       let buffer = StringBuilder::new()
       code_rbrace(buffer, lexbuf)
       LBRACE_CODE_RBRACE(buffer.to_string())
     
     }
-    (11, __mbtlex_captures) => {
+    (8, __mbtlex_captures) => {
  RBRACE 
     }
-    (12, __mbtlex_captures) => {
+    (9, __mbtlex_captures) => {
  LPAREN 
     }
-    (13, __mbtlex_captures) => {
+    (10, __mbtlex_captures) => {
  RPAREN 
     }
-    (14, __mbtlex_captures) => {
+    (11, __mbtlex_captures) => {
  LBRACKET 
     }
-    (15, __mbtlex_captures) => {
+    (12, __mbtlex_captures) => {
  RBRACKET 
     }
-    (16, __mbtlex_captures) => {
+    (13, __mbtlex_captures) => {
  EQ 
     }
-    (17, __mbtlex_captures) => {
+    (14, __mbtlex_captures) => {
  SEMICOLON 
     }
-    (18, __mbtlex_captures) => {
+    (15, __mbtlex_captures) => {
  BAR 
     }
-    (19, __mbtlex_captures) => {
+    (16, __mbtlex_captures) => {
  STAR 
     }
-    (20, __mbtlex_captures) => {
+    (17, __mbtlex_captures) => {
  PLUS 
     }
-    (21, __mbtlex_captures) => {
+    (18, __mbtlex_captures) => {
  QUESTION 
     }
-    (22, __mbtlex_captures) => {
+    (19, __mbtlex_captures) => {
  MINUS 
     }
-    (23, __mbtlex_captures) => {
+    (20, __mbtlex_captures) => {
  CARET 
     }
-    (24, __mbtlex_captures) => {
+    (21, __mbtlex_captures) => {
   let (_start_pos_of_t, _end_pos_of_t) = __mbtlex_captures[0]
   let t = lexbuf.sub_lexeme(_start_pos_of_t, _end_pos_of_t)
   
  CHAR(t[:][0]) 
     }
-    (25, __mbtlex_captures) => {
+    (22, __mbtlex_captures) => {
  CHAR('\x08') 
     }
-    (26, __mbtlex_captures) => {
+    (23, __mbtlex_captures) => {
  CHAR('\t') 
     }
-    (27, __mbtlex_captures) => {
+    (24, __mbtlex_captures) => {
  CHAR('\x0b') 
     }
-    (28, __mbtlex_captures) => {
+    (25, __mbtlex_captures) => {
  CHAR('\r') 
     }
-    (29, __mbtlex_captures) => {
+    (26, __mbtlex_captures) => {
  CHAR('\n') 
     }
-    (30, __mbtlex_captures) => {
+    (27, __mbtlex_captures) => {
  CHAR('\\') 
     }
-    (31, __mbtlex_captures) => {
+    (28, __mbtlex_captures) => {
  CHAR('\'') 
     }
-    (32, __mbtlex_captures) => {
+    (29, __mbtlex_captures) => {
   let (_start_pos_of_t, _end_pos_of_t) = __mbtlex_captures[0]
   let t = lexbuf.sub_lexeme(_start_pos_of_t, _end_pos_of_t)
   
 
       let code = @strconv.parse_int?(t, base=16).unwrap()
       CHAR(Char::from_int(code))
+    
+    }
+    (30, __mbtlex_captures) => {
+  let (_start_pos_of_t, _end_pos_of_t) = __mbtlex_captures[0]
+  let t = lexbuf.sub_lexeme(_start_pos_of_t, _end_pos_of_t)
+  
+
+      let code = @strconv.parse_int?(t, base=16).unwrap()
+      CHAR(Char::from_int(code))
+    
+    }
+    (31, __mbtlex_captures) => {
+  let (_start_pos_of_t, _end_pos_of_t) = __mbtlex_captures[0]
+  let t = lexbuf.sub_lexeme(_start_pos_of_t, _end_pos_of_t)
+  
+
+      let code = @strconv.parse_int?(t, base=16).unwrap()
+      CHAR(Char::from_int(code))
+    
+    }
+    (32, __mbtlex_captures) => {
+
+      let buffer = StringBuilder::new()
+      string_inner_rquote(buffer, lexbuf)
+      STRING(buffer.to_string())
     
     }
     (33, __mbtlex_captures) => {
@@ -875,31 +799,13 @@ fn token[T](lexbuf : @lexbuf.T[T, String, Int]) -> Token  {
   let t = lexbuf.sub_lexeme(_start_pos_of_t, _end_pos_of_t)
   
 
-      let code = @strconv.parse_int?(t, base=16).unwrap()
-      CHAR(Char::from_int(code))
+      match t {
+        "eof" => EOF
+        "let" => LET
+        "as" => AS
+        _ => LC_IDENT(t)
+      }
     
-    }
-    (34, __mbtlex_captures) => {
-  let (_start_pos_of_t, _end_pos_of_t) = __mbtlex_captures[0]
-  let t = lexbuf.sub_lexeme(_start_pos_of_t, _end_pos_of_t)
-  
-
-      let code = @strconv.parse_int?(t, base=16).unwrap()
-      CHAR(Char::from_int(code))
-    
-    }
-    (35, __mbtlex_captures) => {
-
-      let buffer = StringBuilder::new()
-      string_inner_rquote(buffer, lexbuf)
-      STRING(buffer.to_string())
-    
-    }
-    (36, __mbtlex_captures) => {
-  let (_start_pos_of_t, _end_pos_of_t) = __mbtlex_captures[0]
-  let t = lexbuf.sub_lexeme(_start_pos_of_t, _end_pos_of_t)
-  
- LC_IDENT(t) 
     }
     _ => abort("lex: fail to match")
   }
