@@ -56,7 +56,6 @@ test {
             " token(lexbuf) ",
           ],
           [{ "$tag": "EOF" }, " EOI "],
-          [{ "$tag": "ReStr", "0": "eof" }, " EOF "],
           [
             {
               "$tag": "Concat",
@@ -103,8 +102,6 @@ test {
             },
             " PARSE_LBRACE ",
           ],
-          [{ "$tag": "ReStr", "0": "let" }, " LET "],
-          [{ "$tag": "ReStr", "0": "as" }, " AS "],
           [{ "$tag": "ReStr", "0": "=>" }, " FAT_ARROW "],
           [{ "$tag": "ReStr", "0": "_" }, " UNDERSCORE "],
           [
@@ -320,7 +317,7 @@ test {
               "0": { "$tag": "Named", "0": "lc_ident" },
               "1": "t",
             },
-            " LC_IDENT(t) ",
+            "\n      match t {\n        \"eof\" => EOF\n        \"let\" => LET\n        \"as\" => AS\n        _ => LC_IDENT(t)\n      }\n    ",
           ],
         ],
       },
