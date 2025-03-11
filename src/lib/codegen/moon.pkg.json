@@ -1,11 +1,11 @@
 {
   "import": [
-    "moonbitlang/lex/lib/type",
-    "moonbitlang/lex/lib/automaton",
-    "moonbitlang/lex/lib/codegen/internal/codeblock_parser",
-    "moonbitlang/lex/lib/util/eof_char_set"
+    "moonbitlang/ulex/lib/type",
+    "moonbitlang/ulex/lib/automaton",
+    "moonbitlang/ulex/lib/codegen/internal/codeblock_parser",
+    "moonbitlang/ulex/lib/util/eof_char_set"
   ],
   "test-import": [
-    "moonbitlang/lex/lib/parser"
+    "moonbitlang/ulex/lib/parser"
   ]
 }

@@ -1,9 +1,9 @@
-## 0.3.0
+## ulex 0.1.0
 
 ### Breaking Change
 
 - The `lexbuf` parameter now needs defined explicitly by user.
-- The generated code now uses `@lexbuf` and `@lexengine` runtime packages, you need to import "moonbitlang/lex-runtime/lexbuf" and "moonbitlang/lex-runtime/lexengine" your self in `moon.pkg.json`.
+- The generated code now uses `@lexbuf` and `@lexengine` runtime packages, you need to import "moonbitlang/ulex-runtime/lexbuf" and "moonbitlang/ulex-runtime/lexengine" your self in `moon.pkg.json`.
 - The generated lex functions can be generic. 
 - The lexbuf now can use custom character encoding and positions.
 

@@ -7,7 +7,7 @@
         }
     ],
     "import": [
-      "moonbitlang/lex-runtime/lexengine",
-      "moonbitlang/lex-runtime/lexbuf"
+      "moonbitlang/ulex-runtime/lexengine",
+      "moonbitlang/ulex-runtime/lexbuf"
     ]
 }

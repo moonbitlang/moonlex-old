@@ -8,7 +8,7 @@
     ],
     "warn-list": "-1",
     "import": [
-      "moonbitlang/lex-runtime/lexbuf",
-      "moonbitlang/lex-runtime/lexengine"
+      "moonbitlang/ulex-runtime/lexbuf",
+      "moonbitlang/ulex-runtime/lexengine"
     ]
 }

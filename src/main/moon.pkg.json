@@ -1,9 +1,9 @@
 {
   "is-main": true,
   "import": [
-    "moonbitlang/lex/lib/type",
-    "moonbitlang/lex/lib/parser",
-    "moonbitlang/lex/lib/codegen",
+    "moonbitlang/ulex/lib/type",
+    "moonbitlang/ulex/lib/parser",
+    "moonbitlang/ulex/lib/codegen",
     "Yoorkin/ArgParser",
     "moonbitlang/x/sys",
     "moonbitlang/x/fs"
