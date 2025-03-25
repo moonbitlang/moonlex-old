@@ -47,7 +47,7 @@ fn to_graphviz(self : DotGraph) -> String {
       let (from, to, info) = e._
       "\t\{from} -> \{to}" + info.map_or("", fn(t) { "[label=\{t}]" })
     })
-    |> String::concat(separator="\n"),
+    |> @string.concat(separator="\n"),
     self.nodes
     .iter()
     .map(fn {
@@ -65,13 +65,13 @@ fn to_graphviz(self : DotGraph) -> String {
           label.or(node.to_string()),
           "]",
         ]
-        |> String::concat()
+        |> @string.concat()
     })
     .collect()
-    |> String::concat(separator="\n"),
+    |> @string.concat(separator="\n"),
     "}",
   ]
-  |> String::concat()
+  |> @string.concat()
 }
 
 ///|
@@ -92,7 +92,7 @@ fn to_mermaid(self : DotGraph) -> String {
       edge_info.map_or("", fn(s) { "|" + s + "|" }) +
       to.to_string()
     })
-    |> String::concat(separator="\n"),
+    |> @string.concat(separator="\n"),
     self.nodes
     .iter()
     .map(fn(n) {
@@ -103,8 +103,8 @@ fn to_mermaid(self : DotGraph) -> String {
       }
     })
     .collect()
-    |> String::concat(separator="\n"),
+    |> @string.concat(separator="\n"),
     "```",
   ]
-  |> String::concat(separator="\n")
+  |> @string.concat(separator="\n")
 }

@@ -138,7 +138,7 @@ test {
                 "1": { "$tag": "ReChar", "0": "'" },
               },
             },
-            " CHAR(t[:][0]) ",
+            " CHAR(t[0]) ",
           ],
           [
             {
@@ -150,7 +150,7 @@ test {
                 "1": { "$tag": "ReChar", "0": "'" },
               },
             },
-            " CHAR('\\x08') ",
+            " CHAR('\\u{08}') ",
           ],
           [
             {
@@ -174,7 +174,7 @@ test {
                 "1": { "$tag": "ReChar", "0": "'" },
               },
             },
-            " CHAR('\\x0b') ",
+            " CHAR('\\u{0b}') ",
           ],
           [
             {
@@ -329,7 +329,7 @@ test {
           [{ "$tag": "ReChar", "0": "\"" }, " () "],
           [
             { "$tag": "ReStr", "0": "\\b" },
-            "\n      buffer.write_char('\\x08')\n      string_inner_rquote(buffer, lexbuf)\n    ",
+            "\n      buffer.write_char('\\u{08}')\n      string_inner_rquote(buffer, lexbuf)\n    ",
           ],
           [
             { "$tag": "ReStr", "0": "\\t" },
@@ -337,7 +337,7 @@ test {
           ],
           [
             { "$tag": "ReStr", "0": "\\v" },
-            "\n      buffer.write_char('\\x0b')\n      string_inner_rquote(buffer, lexbuf)\n    ",
+            "\n      buffer.write_char('\\u{0b}')\n      string_inner_rquote(buffer, lexbuf)\n    ",
           ],
           [
             { "$tag": "ReStr", "0": "\\r" },

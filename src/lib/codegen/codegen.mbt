@@ -3,10 +3,10 @@ pub fn codegen_lex(lex : Lex) -> String {
   [
     runtime,
     lex.header,
-    lex.rules.map(codegen_rule) |> String::concat(separator="\n"),
+    lex.rules.map(codegen_rule) |> @string.concat(separator="\n"),
     lex.trailer,
   ]
-  |> String::concat(separator="\n\n")
+  |> @string.concat(separator="\n\n")
 }
 
 ///|
@@ -202,7 +202,7 @@ fn codegen_rule(rule : Rule) -> String {
       rule.return_type,
       "{",
     ]
-    |> String::concat(separator=" "),
+    |> @string.concat(separator=" "),
     [
       ["  match \{engine}.run(lexbuf) {"],
       Array::makei(dfa.code_blocks.length(), fn(i) {
@@ -233,14 +233,14 @@ fn codegen_rule(rule : Rule) -> String {
           ["    }"],
         ]
         |> Array::flatten()
-        |> String::concat(separator="\n")
+        |> @string.concat(separator="\n")
       }),
       ["    _ => abort(\"lex: fail to match\")"],
       ["  }"],
     ]
     |> Array::flatten()
-    |> String::concat(separator="\n"),
+    |> @string.concat(separator="\n"),
     "}",
   ]
-  |> String::concat(separator="\n")
+  |> @string.concat(separator="\n")
 }

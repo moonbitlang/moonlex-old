@@ -22,7 +22,7 @@ pub fn range(min : Char, max : Char) -> EofCharSet {
 
 ///| The set of all characters.
 /// Does not include the EOF character.
-pub let any : EofCharSet = range('\x00', '\u{10ffff}')
+pub let any : EofCharSet = range('\u{0}', '\u{10ffff}')
 
 ///|
 pub fn of_array(arr : Array[Char]) -> EofCharSet {
