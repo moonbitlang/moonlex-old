@@ -37,10 +37,10 @@ let lexer_src : String =
   #|    "?" => { QUESTION }
   #|    "-" => { MINUS }
   #|    "^" => { CARET }
-  #|    '\'' ([^ '\'' '\\'] as t) '\'' => { CHAR(t[:][0]) }
-  #|    '\'' "\\b" '\'' => { CHAR('\x08') }
+  #|    '\'' ([^ '\'' '\\'] as t) '\'' => { CHAR(t[0]) }
+  #|    '\'' "\\b" '\'' => { CHAR('\u{08}') }
   #|    '\'' "\\t" '\'' => { CHAR('\t') }
-  #|    '\'' "\\v" '\'' => { CHAR('\x0b') }
+  #|    '\'' "\\v" '\'' => { CHAR('\u{0b}') }
   #|    '\'' "\\r" '\'' => { CHAR('\r') }
   #|    '\'' "\\n" '\'' => { CHAR('\n') }
   #|    '\'' "\\\\" '\'' => { CHAR('\\') }
@@ -77,7 +77,7 @@ let lexer_src : String =
   #|  parse {
   #|    '"' => { () }
   #|    "\\b" => {
-  #|      buffer.write_char('\x08')
+  #|      buffer.write_char('\u{08}')
   #|      string_inner_rquote(buffer, lexbuf)
   #|    }
   #|    "\\t" => {
@@ -85,7 +85,7 @@ let lexer_src : String =
   #|      string_inner_rquote(buffer, lexbuf)
   #|    }
   #|    "\\v" => {
-  #|      buffer.write_char('\x0b')
+  #|      buffer.write_char('\u{0b}')
   #|      string_inner_rquote(buffer, lexbuf)
   #|    }
   #|    "\\r" => {

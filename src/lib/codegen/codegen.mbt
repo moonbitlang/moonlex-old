@@ -2,10 +2,10 @@
 pub fn codegen_lex(lex : Lex) -> String {
   [
     lex.header,
-    lex.rules.map(codegen_rule) |> String::concat(separator="\n"),
+    lex.rules.map(codegen_rule) |> @string.concat(separator="\n"),
     lex.trailer,
   ]
-  |> String::concat(separator="\n\n")
+  |> @string.concat(separator="\n\n")
 }
 
 ///|
@@ -189,7 +189,7 @@ fn codegen_rule(rule : Rule) -> String {
     shared_tag_actions_code.to_string(),
     states_code.to_string(),
     "let \{engine}: @lexengine.T = { graph: \{graph_code}, end_nodes: \{end_nodes}, start_tags: \{start_tags}, code_blocks_n: \{dfa.code_blocks.length()} }",
-    ["fn \{rule.signature} {"] |> String::concat(separator=" "),
+    ["fn \{rule.signature} {"] |> @string.concat(separator=" "),
     [
       ["  match \{engine}.run(lexbuf) {"],
       Array::makei(dfa.code_blocks.length(), fn(i) {
@@ -220,14 +220,14 @@ fn codegen_rule(rule : Rule) -> String {
           ["    }"],
         ]
         |> Array::flatten()
-        |> String::concat(separator="\n")
+        |> @string.concat(separator="\n")
       }),
       ["    _ => abort(\"lex: fail to match\")"],
       ["  }"],
     ]
     |> Array::flatten()
-    |> String::concat(separator="\n"),
+    |> @string.concat(separator="\n"),
     "}",
   ]
-  |> String::concat(separator="\n")
+  |> @string.concat(separator="\n")
 }

@@ -737,16 +737,16 @@ fn token[T](lexbuf : @lexbuf.T[T, String, Int]) -> Token  {
   let (_start_pos_of_t, _end_pos_of_t) = __mbtlex_captures[0]
   let t = lexbuf.sub_lexeme(_start_pos_of_t, _end_pos_of_t)
   
- CHAR(t[:][0]) 
+ CHAR(t[0]) 
     }
     (22, __mbtlex_captures) => {
- CHAR('\x08') 
+ CHAR('\u{08}') 
     }
     (23, __mbtlex_captures) => {
  CHAR('\t') 
     }
     (24, __mbtlex_captures) => {
- CHAR('\x0b') 
+ CHAR('\u{0b}') 
     }
     (25, __mbtlex_captures) => {
  CHAR('\r') 
@@ -1011,7 +1011,7 @@ fn string_inner_rquote[T](buffer : StringBuilder, lexbuf : @lexbuf.T[T, String, 
     }
     (1, __mbtlex_captures) => {
 
-      buffer.write_char('\x08')
+      buffer.write_char('\u{08}')
       string_inner_rquote(buffer, lexbuf)
     
     }
@@ -1023,7 +1023,7 @@ fn string_inner_rquote[T](buffer : StringBuilder, lexbuf : @lexbuf.T[T, String, 
     }
     (3, __mbtlex_captures) => {
 
-      buffer.write_char('\x0b')
+      buffer.write_char('\u{0b}')
       string_inner_rquote(buffer, lexbuf)
     
     }
