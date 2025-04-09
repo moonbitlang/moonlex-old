@@ -2,7 +2,7 @@
 pub type! MalformedUtf8Error
 }
 
-rule lex_utf8[T](lexbuf : @lexbuf.T[T, Byte, @bytes.View, Int], buf : StringBuilder) -> Unit!MalformedUtf8Error {
+rule lex_utf8(lexbuf : @lexbuf.T, buf : StringBuilder) -> Unit!MalformedUtf8Error {
   parse {
     eof => { () }
     ['\x00'-'\x7f'] as t => { 

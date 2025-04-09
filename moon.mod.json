@@ -4,7 +4,7 @@
   "deps": {
     "Yoorkin/ArgParser": "0.1.9",
     "moonbitlang/x": "0.4.23",
-    "moonbitlang/ulex-runtime": "0.2.1"
+    "moonbitlang/ulex-runtime": "0.2.3"
   },
   "readme": "README.md",
   "repository": "",
