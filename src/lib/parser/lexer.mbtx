@@ -33,7 +33,7 @@ rule token[T](lexbuf : @lexbuf.T[T, String, Int]) -> Token {
     "?" => { QUESTION }
     "-" => { MINUS }
     "^" => { CARET }
-    '\'' ([^ '\'' '\\'] as t) '\'' => { CHAR(t[0]) }
+    '\'' ([^ '\'' '\\'] as t) '\'' => { CHAR(t.char_at(0)) }
     '\'' "\\b" '\'' => { CHAR('\u{08}') }
     '\'' "\\t" '\'' => { CHAR('\t') }
     '\'' "\\v" '\'' => { CHAR('\u{0b}') }

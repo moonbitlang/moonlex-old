@@ -737,7 +737,7 @@ fn token[T](lexbuf : @lexbuf.T[T, String, Int]) -> Token  {
   let (_start_pos_of_t, _end_pos_of_t) = __mbtlex_captures[0]
   let t = lexbuf.sub_lexeme(_start_pos_of_t, _end_pos_of_t)
   
- CHAR(t[0]) 
+ CHAR(t.char_at(0)) 
     }
     (22, __mbtlex_captures) => {
  CHAR('\u{08}') 
