@@ -409,10 +409,10 @@ fn yy_action_23(_last_pos : Position, _args : ArrayView[(YYObj, Position, Positi
 }
 
 // file:///./parser.mbty
-// 123|    CHAR                                { ReChar($1) }
+// 123|    CHAR                                { Character(@eof_char_set.singleton($1)) }
 fn yy_action_24(_last_pos : Position, _args : ArrayView[(YYObj, Position, Position)]) -> YYObj {
   guard _args[0].0 is YYObj_Char(_dollar1)
-  YYObj__type_Regex({();  ReChar(_dollar1) })
+  YYObj__type_Regex({();  Character(@eof_char_set.singleton(_dollar1)) })
 }
 
 // file:///./parser.mbty
@@ -454,9 +454,9 @@ fn yy_action_29(_last_pos : Position, _args : ArrayView[(YYObj, Position, Positi
 }
 
 // file:///./parser.mbty
-// 125|    UNDERSCORE                          { Underscore }
+// 125|    UNDERSCORE                          { Character(@eof_char_set.any) }
 fn yy_action_30(_last_pos : Position, _args : ArrayView[(YYObj, Position, Position)]) -> YYObj {
-  YYObj__type_Regex({();  Underscore })
+  YYObj__type_Regex({();  Character(@eof_char_set.any) })
 }
 
 // file:///./parser.mbty
@@ -480,10 +480,10 @@ fn yy_action_33(_last_pos : Position, _args : ArrayView[(YYObj, Position, Positi
 }
 
 // file:///./parser.mbty
-// 121|    character_class                     { CharSet($1) }
+// 121|    character_class                     { Character($1) }
 fn yy_action_34(_last_pos : Position, _args : ArrayView[(YYObj, Position, Position)]) -> YYObj {
   guard _args[0].0 is YYObj__eof_char_set_T(_dollar1)
-  YYObj__type_Regex({();  CharSet(_dollar1) })
+  YYObj__type_Regex({();  Character(_dollar1) })
 }
 
 // file:///./parser.mbty
@@ -501,17 +501,17 @@ fn yy_action_36(_last_pos : Position, _args : ArrayView[(YYObj, Position, Positi
 }
 
 // file:///./parser.mbty
-// 124|    STRING                              { ReStr($1) }
+// 124|    STRING                              { $1.iter().fold(init=Epsilon, fn(acc, c) { Concat(acc, Character(@eof_char_set.singleton(c))) }) }
 fn yy_action_37(_last_pos : Position, _args : ArrayView[(YYObj, Position, Position)]) -> YYObj {
   guard _args[0].0 is YYObj_String(_dollar1)
-  YYObj__type_Regex({();  ReStr(_dollar1) })
+  YYObj__type_Regex({();  _dollar1.iter().fold(init=Epsilon, fn(acc, c) { Concat(acc, Character(@eof_char_set.singleton(c))) }) })
 }
 
 // file:///./parser.mbty
-// 114|    atom "*"                            { Option(Repetition($1)) }
+// 114|    atom "*"                            { Alter(Repetition($1), Epsilon) }
 fn yy_action_38(_last_pos : Position, _args : ArrayView[(YYObj, Position, Position)]) -> YYObj {
   guard _args[0].0 is YYObj__type_Regex(_dollar1)
-  YYObj__type_Regex({();  Option(Repetition(_dollar1)) })
+  YYObj__type_Regex({();  Alter(Repetition(_dollar1), Epsilon) })
 }
 
 // file:///./parser.mbty
@@ -522,10 +522,10 @@ fn yy_action_39(_last_pos : Position, _args : ArrayView[(YYObj, Position, Positi
 }
 
 // file:///./parser.mbty
-// 116|    atom "?"                            { Option($1) }
+// 116|    atom "?"                            { Alter($1, Epsilon) }
 fn yy_action_40(_last_pos : Position, _args : ArrayView[(YYObj, Position, Position)]) -> YYObj {
   guard _args[0].0 is YYObj__type_Regex(_dollar1)
-  YYObj__type_Regex({();  Option(_dollar1) })
+  YYObj__type_Regex({();  Alter(_dollar1, Epsilon) })
 }
 
 fn yy_input(token : Token, _start_pos : Position, _end_pos : Position) -> (YYSymbol, YYObj) {

@@ -111,18 +111,18 @@ concatenation -> @type.Regex
 
 repetition -> @type.Regex
   : atom                                { $1 }
-  | atom "*"                            { Option(Repetition($1)) }
+  | atom "*"                            { Alter(Repetition($1), Epsilon) }
   | atom "+"                            { Repetition($1) }
-  | atom "?"                            { Option($1) }
+  | atom "?"                            { Alter($1, Epsilon) }
   ;
 
 atom -> @type.Regex
   : "(" alias ")"                       { $2 }
-  | character_class                     { CharSet($1) }
+  | character_class                     { Character($1) }
   | LC_IDENT                            { Named($1) }
-  | CHAR                                { ReChar($1) }
-  | STRING                              { ReStr($1) }
-  | UNDERSCORE                          { Underscore }
+  | CHAR                                { Character(@eof_char_set.singleton($1)) }
+  | STRING                              { $1.iter().fold(init=Epsilon, fn(acc, c) { Concat(acc, Character(@eof_char_set.singleton(c))) }) }
+  | UNDERSCORE                          { Character(@eof_char_set.any) }
   | EOF                                 { EOF }
   ;
 

@@ -1,12 +1,9 @@
 ///|
 pub(all) enum Regex {
-  Underscore
   EOF
-  ReStr(String)
-  ReChar(Char)
-  CharSet(@eof_char_set.T)
+  Character(@eof_char_set.T)
   Repetition(Regex) // repeat at least once
-  Option(Regex)
+  Epsilon
   Alter(Regex, Regex)
   Concat(Regex, Regex)
   Capture(Regex, String)
@@ -38,15 +35,14 @@ fn check_legal_rec(
         names.add(name)
         re.check_legal_rec(names, ban_capture)
       }
-    ReChar(_) | ReStr(_) | CharSet(_) | EOF | Underscore => true
+    Character(_) | EOF => true
     Concat(re1, re2) =>
       re1.check_legal_rec(names, ban_capture) &&
       re2.check_legal_rec(names, ban_capture)
     Alter(re1, re2) =>
       re1.check_legal_rec(names, true) && re2.check_legal_rec(names, true)
     Repetition(re) => re.check_legal_rec(names, true)
-    Option(re) => re.check_legal_rec(names, true)
-    Named(_) => true
+    Named(_) | Epsilon => true
   }
 }
 
@@ -69,10 +65,13 @@ pub fn get_capture_names(self : Regex) -> Array[String] {
 fn get_capture_names_rec(self : Regex) -> Iter[String] {
   match self {
     Capture(re, name) => re.get_capture_names_rec().append(name)
-    Repetition(re) | Option(re) => re.get_capture_names_rec()
+    Repetition(re) => re.get_capture_names_rec()
     Alter(re1, re2) | Concat(re1, re2) =>
       re1.get_capture_names_rec().concat(re2.get_capture_names_rec())
-    _ => Iter::empty()
+    EOF |
+    Character(_) |
+    Epsilon |
+    Named(_) => Iter::empty()
   }
 }
 
@@ -100,9 +99,8 @@ pub fn eliminate_named(self : Lex) -> Lex {
   let named_regexes = Map::from_array(self.named_regexes)
   fn eliminate_named_regex(re : Regex) -> Regex {
     match re {
-      Underscore | EOF | ReStr(_) | ReChar(_) | CharSet(_) => re
+      EOF | Character(_) | Epsilon => re
       Repetition(re) => Repetition(eliminate_named_regex(re))
-      Option(re) => Option(eliminate_named_regex(re))
       Alter(re1, re2) =>
         Alter(eliminate_named_regex(re1), eliminate_named_regex(re2))
       Concat(re1, re2) =>

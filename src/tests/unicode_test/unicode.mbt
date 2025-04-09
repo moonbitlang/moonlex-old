@@ -5,15 +5,15 @@ let lex_unicode_tag_action_0 : Array[Array[Int]] = []
 
 fn lex_unicode_state_0(input : Int) -> (Int, Array[Array[Int]]) {
   match input {
-    0..=12352 => (4, lex_unicode_tag_action_0)
+    0..=12352 => (2, lex_unicode_tag_action_0)
     12353..=12438 => (1, lex_unicode_tag_action_0)
-    12439..=12440 => (4, lex_unicode_tag_action_0)
+    12439..=12440 => (2, lex_unicode_tag_action_0)
     12441..=12447 => (1, lex_unicode_tag_action_0)
-    12448..=25104 => (4, lex_unicode_tag_action_0)
-    25105 => (2, lex_unicode_tag_action_0)
-    25106..=134070 => (4, lex_unicode_tag_action_0)
+    12448..=25104 => (2, lex_unicode_tag_action_0)
+    25105 => (4, lex_unicode_tag_action_0)
+    25106..=134070 => (2, lex_unicode_tag_action_0)
     134071 => (3, lex_unicode_tag_action_0)
-    134072..=1114111 => (4, lex_unicode_tag_action_0)
+    134072..=1114111 => (2, lex_unicode_tag_action_0)
     _ => (-1, [])
   }
 }
@@ -24,7 +24,6 @@ fn lex_unicode_state_1(input : Int) -> (Int, Array[Array[Int]]) {
 }
 fn lex_unicode_state_2(input : Int) -> (Int, Array[Array[Int]]) {
   match input {
-    29233 => (5, lex_unicode_tag_action_0)
     _ => (-1, [])
   }
 }
@@ -35,6 +34,7 @@ fn lex_unicode_state_3(input : Int) -> (Int, Array[Array[Int]]) {
 }
 fn lex_unicode_state_4(input : Int) -> (Int, Array[Array[Int]]) {
   match input {
+    29233 => (5, lex_unicode_tag_action_0)
     _ => (-1, [])
   }
 }

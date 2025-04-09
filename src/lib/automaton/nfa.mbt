@@ -122,41 +122,20 @@ fn register_regex_rec(
   self.add_edge(node, Eps, new_node)
   // return the final_ point of re for convience in building
   let final_ = match re {
-    Underscore => {
-      let next_node = self.new_node()
-      self.add_edge(new_node, EChar(@eof_char_set.any), next_node)
-      next_node
-    }
     EOF => {
       let next_node = self.new_node()
       self.add_edge(new_node, EChar(@eof_char_set.eof), next_node)
       next_node
     }
-    ReChar(c) => {
-      let next_node = self.new_node()
-      self.add_edge(new_node, EChar(@eof_char_set.singleton(c)), next_node)
-      next_node
-    }
-    ReStr(s) => {
-      let mut next_node = new_node
-      let mut last_node = new_node
-      for c in s {
-        next_node = self.new_node()
-        self.add_edge(last_node, EChar(@eof_char_set.singleton(c)), next_node)
-        last_node = next_node
-      } else {
-        next_node
-      }
-    }
-    CharSet(cset) => {
+    Character(cset) => {
       let next_node = self.new_node()
       self.add_edge(new_node, EChar(cset), next_node)
       next_node
     }
-    Option(re) => {
-      let final_ = self.register_regex_rec(new_node, re, name2tag)
-      self.add_edge(new_node, Eps, final_)
-      final_
+    Epsilon => {
+      let next_node = self.new_node()
+      self.add_edge(new_node, Eps, next_node)
+      next_node
     }
     Repetition(re) => {
       let final_ = self.register_regex_rec(new_node, re, name2tag)
