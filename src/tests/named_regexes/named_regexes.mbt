@@ -36,7 +36,7 @@ fn lex_is_number_state_4(input : Int) -> (Int, Array[Array[Int]]) {
 }
 
 let __mbtlex_engine_lex_is_number: @lexengine.T = { graph: [lex_is_number_state_0, lex_is_number_state_1, lex_is_number_state_2, lex_is_number_state_3, lex_is_number_state_4, ], end_nodes: [None, Some((0, [])), Some((0, [])), Some((1, [])), Some((0, []))], start_tags: [], code_blocks_n: 2 }
-fn lex_is_number[T, S, P](lexbuf : @lexbuf.T[T, S, P]) -> Bool  {
+fn lex_is_number[T, C, S, P](lexbuf : @lexbuf.T[T, C, S, P]) -> Bool  {
   match __mbtlex_engine_lex_is_number.run(lexbuf) {
     (0, __mbtlex_captures) => {
  true 

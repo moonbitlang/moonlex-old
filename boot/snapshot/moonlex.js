@@ -530,7 +530,7 @@ const moonbitlang$ulex$lib$parser$$__mbtlex_engine_token = { graph: [moonbitlang
 const moonbitlang$ulex$lib$util$eof_char_set$$eof = moonbitlang$ulex$lib$util$diet$$singleton$1$(moonbitlang$ulex$lib$util$eof_char_set$$EofChar$eof());
 const moonbitlang$ulex$lib$util$eof_char_set$$any = moonbitlang$ulex$lib$util$eof_char_set$$range(0, 1114111);
 const moonbitlang$ulex$lib$parser$$named_regexes = moonbitlang$core$builtin$$Map$from_array$2$([]);
-const moonbitlang$ulex$45$runtime$lexbuf$$string_lexbuf_class = { next: moonbitlang$ulex$45$runtime$lexbuf$$StringLexbuf$next, curr_pos: moonbitlang$ulex$45$runtime$lexbuf$$StringLexbuf$curr_pos, reset: moonbitlang$ulex$45$runtime$lexbuf$$StringLexbuf$reset, sub_lexeme: moonbitlang$ulex$45$runtime$lexbuf$$StringLexbuf$sub_lexeme };
+const moonbitlang$ulex$45$runtime$lexbuf$$string_lexbuf_class = { next: moonbitlang$ulex$45$runtime$lexbuf$$StringLexbuf$next, curr_pos: moonbitlang$ulex$45$runtime$lexbuf$$StringLexbuf$curr_pos, reset: moonbitlang$ulex$45$runtime$lexbuf$$StringLexbuf$reset, unsafe_get: moonbitlang$ulex$45$runtime$lexbuf$$StringLexbuf$unsafe_get, sub_lexeme: moonbitlang$ulex$45$runtime$lexbuf$$StringLexbuf$sub_lexeme };
 const moonbitlang$ulex$lib$util$eof_char_set$$empty = moonbitlang$ulex$lib$util$diet$$empty$1$();
 const moonbitlang$ulex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_2 = [moonbitlang$ulex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_row_1, moonbitlang$ulex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_row_0, moonbitlang$ulex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_row_1, moonbitlang$ulex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_row_0, moonbitlang$ulex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_row_0, moonbitlang$ulex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_row_0];
 const moonbitlang$ulex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_0 = [moonbitlang$ulex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_row_0, moonbitlang$ulex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_row_0, moonbitlang$ulex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_row_0, moonbitlang$ulex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_row_0, moonbitlang$ulex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_row_0, moonbitlang$ulex$lib$codegen$internal$codeblock_parser$$scan_codeblock_rbrace_tag_action_row_0];
@@ -8889,6 +8889,9 @@ function moonbitlang$ulex$45$runtime$lexbuf$$StringLexbuf$curr_pos(self) {
 function moonbitlang$ulex$45$runtime$lexbuf$$StringLexbuf$reset(self, pos) {
   self.pos = pos;
 }
+function moonbitlang$ulex$45$runtime$lexbuf$$StringLexbuf$unsafe_get(self, pos) {
+  return moonbitlang$core$string$$String$char_at(self.content, pos);
+}
 function moonbitlang$ulex$45$runtime$lexbuf$$StringLexbuf$sub_lexeme(self, start, end) {
   return moonbitlang$core$string$$String$substring(self.content, start, end);
 }
@@ -14062,9 +14065,9 @@ function Yoorkin$trie$$T$lookup$152$(self, path) {
 }
 function Yoorkin$trie$$T$add$152$(self, path, value) {
   const _bind = moonbitlang$core$string$$String$to_array(path);
-  return Yoorkin$trie$$add$46$aux$47$4403(value, { buf: _bind, start: 0, len: _bind.length }, self);
+  return Yoorkin$trie$$add$46$aux$47$4405(value, { buf: _bind, start: 0, len: _bind.length }, self);
 }
-function Yoorkin$trie$$add$46$aux$47$4403(value, _param1, _param2) {
+function Yoorkin$trie$$add$46$aux$47$4405(value, _param1, _param2) {
   if (_param1.len === 0) {
     return { value: value, forks: _param2.forks };
   } else {
@@ -14074,7 +14077,7 @@ function Yoorkin$trie$$add$46$aux$47$4403(value, _param1, _param2) {
     const _some = _param1.len - 0 | 0;
     const _x$2 = { buf: _tmp, start: _tmp$2, len: _some - 1 | 0 };
     const subtree = moonbitlang$core$option$$Option$or$47$(moonbitlang$core$immut$sorted_map$$T$op_get$34$(_param2.forks, _x), { value: undefined, forks: moonbitlang$core$immut$sorted_map$$new$34$() });
-    return { value: _param2.value, forks: moonbitlang$core$immut$sorted_map$$T$add$34$(_param2.forks, _x, Yoorkin$trie$$add$46$aux$47$4403(value, _x$2, subtree)) };
+    return { value: _param2.value, forks: moonbitlang$core$immut$sorted_map$$T$add$34$(_param2.forks, _x, Yoorkin$trie$$add$46$aux$47$4405(value, _x$2, subtree)) };
   }
 }
 function Yoorkin$trie$$empty$152$() {

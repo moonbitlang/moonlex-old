@@ -57,7 +57,7 @@ fn lex_unicode_state_7(input : Int) -> (Int, Array[Array[Int]]) {
 }
 
 let __mbtlex_engine_lex_unicode: @lexengine.T = { graph: [lex_unicode_state_0, lex_unicode_state_1, lex_unicode_state_2, lex_unicode_state_3, lex_unicode_state_4, lex_unicode_state_5, lex_unicode_state_6, lex_unicode_state_7, ], end_nodes: [None, Some((2, [])), Some((3, [])), Some((1, [])), Some((3, [])), None, None, Some((0, []))], start_tags: [], code_blocks_n: 4 }
-fn lex_unicode[T](lexbuf : @lexbuf.T[T, String, Int]) -> Int  {
+fn lex_unicode[T](lexbuf : @lexbuf.T[T, Char, String, Int]) -> Int  {
   match __mbtlex_engine_lex_unicode.run(lexbuf) {
     (0, __mbtlex_captures) => {
  1 

@@ -272,7 +272,7 @@ fn token_state_33(input : Int) -> (Int, Array[Array[Int]]) {
 }
 
 let __mbtlex_engine_token: @lexengine.T = { graph: [token_state_0, token_state_1, token_state_2, token_state_3, token_state_4, token_state_5, token_state_6, token_state_7, token_state_8, token_state_9, token_state_10, token_state_11, token_state_12, token_state_13, token_state_14, token_state_15, token_state_16, token_state_17, token_state_18, token_state_19, token_state_20, token_state_21, token_state_22, token_state_23, token_state_24, token_state_25, token_state_26, token_state_27, token_state_28, token_state_29, token_state_30, token_state_31, token_state_32, token_state_33, ], end_nodes: [Some((13, [])), Some((12, [((4, 0), (5, 0))])), Some((4, [])), Some((12, [((4, 0), (5, 0))])), Some((1, [((0, 0), (1, 0))])), Some((8, [])), Some((3, [])), Some((12, [((4, 0), (5, 0))])), Some((0, [])), Some((12, [((4, 0), (5, 0))])), Some((6, [])), Some((2, [((2, 0), (3, 0))])), Some((7, [])), Some((12, [((4, 0), (5, 0))])), Some((5, [])), Some((1, [((0, 0), (1, 0))])), None, Some((1, [((0, 0), (1, 0))])), Some((1, [((0, 0), (1, 0))])), None, None, None, Some((1, [((0, 0), (1, 0))])), None, None, Some((1, [((0, 0), (1, 0))])), None, None, None, Some((1, [((0, 0), (1, 0))])), Some((11, [])), Some((9, [])), None, Some((10, []))], start_tags: [0, 2, 4], code_blocks_n: 14 }
-fn token[T](lexbuf : @lexbuf.T[T, String, Int]) -> Token!LexError  {
+fn token[T](lexbuf : @lexbuf.T[T, Char, String, Int]) -> Token!LexError  {
   match __mbtlex_engine_token.run(lexbuf) {
     (0, __mbtlex_captures) => {
  WHITESPACE 
@@ -465,7 +465,7 @@ fn lex_string_state_17(input : Int) -> (Int, Array[Array[Int]]) {
 }
 
 let __mbtlex_engine_lex_string: @lexengine.T = { graph: [lex_string_state_0, lex_string_state_1, lex_string_state_2, lex_string_state_3, lex_string_state_4, lex_string_state_5, lex_string_state_6, lex_string_state_7, lex_string_state_8, lex_string_state_9, lex_string_state_10, lex_string_state_11, lex_string_state_12, lex_string_state_13, lex_string_state_14, lex_string_state_15, lex_string_state_16, lex_string_state_17, ], end_nodes: [Some((4, [])), Some((2, [((4, 0), (5, 0))])), Some((3, [((6, 0), (7, 0))])), Some((3, [((6, 0), (7, 0))])), Some((0, [((0, 0), (1, 0))])), Some((1, [((2, 0), (3, 0))])), Some((1, [((2, 0), (3, 0))])), None, Some((1, [((2, 0), (3, 0))])), Some((1, [((2, 0), (3, 0))])), Some((1, [((2, 0), (3, 0))])), Some((1, [((2, 0), (3, 0))])), Some((1, [((2, 0), (3, 0))])), Some((1, [((2, 0), (3, 0))])), None, None, None, Some((1, [((2, 0), (3, 0))]))], start_tags: [0, 2, 4, 6], code_blocks_n: 5 }
-fn lex_string[T](buf : StringBuilder, lexbuf : @lexbuf.T[T, String, Int]) -> Unit!LexError  {
+fn lex_string[T](buf : StringBuilder, lexbuf : @lexbuf.T[T, Char, String, Int]) -> Unit!LexError  {
   match __mbtlex_engine_lex_string.run(lexbuf) {
     (0, __mbtlex_captures) => {
   let (_start_pos_of_t, _end_pos_of_t) = __mbtlex_captures[0]

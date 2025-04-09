@@ -48,7 +48,7 @@ fn count_state_4(input : Int) -> (Int, Array[Array[Int]]) {
 }
 
 let __mbtlex_engine_count: @lexengine.T = { graph: [count_state_0, count_state_1, count_state_2, count_state_3, count_state_4, ], end_nodes: [Some((3, [])), Some((0, [])), Some((2, [])), Some((1, [((0, 0), (1, 0))])), Some((1, [((0, 0), (1, 0))]))], start_tags: [0], code_blocks_n: 4 }
-fn count[T](lines : Int, words : Int, chars : Int, lexbuf : @lexbuf.T[T, String, Int]) -> (Int, Int, Int)  {
+fn count[T](lines : Int, words : Int, chars : Int, lexbuf : @lexbuf.T[T, Char, String, Int]) -> (Int, Int, Int)  {
   match __mbtlex_engine_count.run(lexbuf) {
     (0, __mbtlex_captures) => {
  count(lines + 1, words, chars + 1, lexbuf) 

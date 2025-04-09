@@ -42,7 +42,7 @@ fn token_state_4(input : Int) -> (Int, Array[Array[Int]]) {
 }
 
 let __mbtlex_engine_token: @lexengine.T = { graph: [token_state_0, token_state_1, token_state_2, token_state_3, token_state_4, ], end_nodes: [None, Some((2, [])), Some((3, [])), Some((1, [])), Some((0, []))], start_tags: [], code_blocks_n: 4 }
-fn token[T, S, P](lexbuf : @lexbuf.T[T, S, P]) -> Token  {
+fn token[T, C, S, P](lexbuf : @lexbuf.T[T, C, S, P]) -> Token  {
   match __mbtlex_engine_token.run(lexbuf) {
     (0, __mbtlex_captures) => {
  PERCENT_EOF 

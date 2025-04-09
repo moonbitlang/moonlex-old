@@ -3,7 +3,7 @@
 let digit = ['0'-'9'];
 let number = '0' | ['1'-'9'] digit*;
 
-rule lex_is_number[T, S, P](lexbuf : @lexbuf.T[T, S, P]) -> Bool {
+rule lex_is_number[T, C, S, P](lexbuf : @lexbuf.T[T, C, S, P]) -> Bool {
     parse {
         number => { true }
         _ => { false }

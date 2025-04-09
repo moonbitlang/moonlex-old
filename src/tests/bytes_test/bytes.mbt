@@ -98,7 +98,7 @@ fn lex_utf8_state_12(input : Int) -> (Int, Array[Array[Int]]) {
 }
 
 let __mbtlex_engine_lex_utf8: @lexengine.T = { graph: [lex_utf8_state_0, lex_utf8_state_1, lex_utf8_state_2, lex_utf8_state_3, lex_utf8_state_4, lex_utf8_state_5, lex_utf8_state_6, lex_utf8_state_7, lex_utf8_state_8, lex_utf8_state_9, lex_utf8_state_10, lex_utf8_state_11, lex_utf8_state_12, ], end_nodes: [None, Some((1, [((0, 0), (1, 0))])), Some((5, [])), Some((0, [])), Some((5, [])), Some((5, [])), Some((5, [])), None, Some((2, [((2, 0), (3, 0)), ((4, 0), (5, 0))])), None, None, Some((3, [((6, 0), (7, 0)), ((8, 0), (9, 0)), ((10, 0), (11, 0))])), Some((4, [((12, 0), (13, 0)), ((14, 0), (15, 0)), ((16, 0), (17, 0)), ((18, 0), (19, 0))]))], start_tags: [0, 2, 6, 12], code_blocks_n: 6 }
-fn lex_utf8[T](lexbuf : @lexbuf.T[T, @bytes.View, Int], buf : StringBuilder) -> Unit!MalformedUtf8Error  {
+fn lex_utf8[T](lexbuf : @lexbuf.T[T, Byte, @bytes.View, Int], buf : StringBuilder) -> Unit!MalformedUtf8Error  {
   match __mbtlex_engine_lex_utf8.run(lexbuf) {
     (0, __mbtlex_captures) => {
  () 

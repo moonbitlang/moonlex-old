@@ -41,7 +41,7 @@ fn scan_newline_state_4(input : Int) -> (Int, Array[Array[Int]]) {
 }
 
 let __mbtlex_engine_scan_newline: @lexengine.T = { graph: [scan_newline_state_0, scan_newline_state_1, scan_newline_state_2, scan_newline_state_3, scan_newline_state_4, ], end_nodes: [Some((2, [])), Some((1, [])), Some((0, [((0, 0), (1, 0))])), Some((0, [((0, 0), (1, 0))])), Some((0, [((0, 0), (1, 0))]))], start_tags: [0], code_blocks_n: 3 }
-fn scan_newline[T](lexbuf : @lexbuf.T[T, String, Int]) -> Int  {
+fn scan_newline[T](lexbuf : @lexbuf.T[T, Char, String, Int]) -> Int  {
   match __mbtlex_engine_scan_newline.run(lexbuf) {
     (0, __mbtlex_captures) => {
   let (_start_pos_of_t, _end_pos_of_t) = __mbtlex_captures[0]
