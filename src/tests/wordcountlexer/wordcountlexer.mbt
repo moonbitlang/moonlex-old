@@ -12,10 +12,10 @@ let count_tag_action_0 : Array[Array[Int]] = [count_tag_action_row_1, count_tag_
 fn count_state_0(input : Int) -> (Int, Array[Array[Int]]) {
   match input {
     0..=8 => (3, count_tag_action_0)
-    9 => (1, count_tag_action_1)
-    10 => (2, count_tag_action_1)
+    9 => (2, count_tag_action_1)
+    10 => (1, count_tag_action_1)
     11..=31 => (3, count_tag_action_0)
-    32 => (1, count_tag_action_1)
+    32 => (2, count_tag_action_1)
     33..=1114111 => (3, count_tag_action_0)
     _ => (-1, [])
   }
@@ -47,7 +47,7 @@ fn count_state_4(input : Int) -> (Int, Array[Array[Int]]) {
   }
 }
 
-let __mbtlex_engine_count: @lexengine.T = { graph: [count_state_0, count_state_1, count_state_2, count_state_3, count_state_4, ], end_nodes: [Some((3, [])), Some((2, [])), Some((0, [])), Some((1, [((0, 0), (1, 0))])), Some((1, [((0, 0), (1, 0))]))], start_tags: [0], code_blocks_n: 4 }
+let __mbtlex_engine_count: @lexengine.T = { graph: [count_state_0, count_state_1, count_state_2, count_state_3, count_state_4, ], end_nodes: [Some((3, [])), Some((0, [])), Some((2, [])), Some((1, [((0, 0), (1, 0))])), Some((1, [((0, 0), (1, 0))]))], start_tags: [0], code_blocks_n: 4 }
 fn count[T](lines : Int, words : Int, chars : Int, lexbuf : @lexbuf.T[T, String, Int]) -> (Int, Int, Int)  {
   match __mbtlex_engine_count.run(lexbuf) {
     (0, __mbtlex_captures) => {

@@ -118,26 +118,28 @@ fn register_regex_rec(
   re : Regex,
   name2tag : (String) -> (Tag, Tag)
 ) -> NFANode {
+  let new_node = self.new_node()
+  self.add_edge(node, Eps, new_node)
   // return the final_ point of re for convience in building
-  match re {
+  let final_ = match re {
     Underscore => {
       let next_node = self.new_node()
-      self.add_edge(node, EChar(@eof_char_set.any), next_node)
+      self.add_edge(new_node, EChar(@eof_char_set.any), next_node)
       next_node
     }
     EOF => {
       let next_node = self.new_node()
-      self.add_edge(node, EChar(@eof_char_set.eof), next_node)
+      self.add_edge(new_node, EChar(@eof_char_set.eof), next_node)
       next_node
     }
     ReChar(c) => {
       let next_node = self.new_node()
-      self.add_edge(node, EChar(@eof_char_set.singleton(c)), next_node)
+      self.add_edge(new_node, EChar(@eof_char_set.singleton(c)), next_node)
       next_node
     }
     ReStr(s) => {
-      let mut next_node = node
-      let mut last_node = node
+      let mut next_node = new_node
+      let mut last_node = new_node
       for c in s {
         next_node = self.new_node()
         self.add_edge(last_node, EChar(@eof_char_set.singleton(c)), next_node)
@@ -148,34 +150,26 @@ fn register_regex_rec(
     }
     CharSet(cset) => {
       let next_node = self.new_node()
-      self.add_edge(node, EChar(cset), next_node)
+      self.add_edge(new_node, EChar(cset), next_node)
       next_node
     }
     Option(re) => {
-      let new_node = self.new_node()
       let final_ = self.register_regex_rec(new_node, re, name2tag)
-      let new_final = self.new_node()
-      self.add_edge(node, Eps, new_node)
-      self.add_edge(final_, Eps, new_final)
-      self.add_edge(node, Eps, new_final)
-      new_final
+      self.add_edge(new_node, Eps, final_)
+      final_
     }
     Repetition(re) => {
-      let new_node = self.new_node()
       let final_ = self.register_regex_rec(new_node, re, name2tag)
-      let new_final = self.new_node()
-      self.add_edge(node, Eps, new_node)
-      self.add_edge(final_, Eps, new_final)
-      self.add_edge(new_final, Eps, node)
-      new_final
+      self.add_edge(final_, Eps, new_node)
+      final_
     }
     Concat(re1, re2) => {
-      let mid = self.register_regex_rec(node, re1, name2tag)
+      let mid = self.register_regex_rec(new_node, re1, name2tag)
       self.register_regex_rec(mid, re2, name2tag)
     }
     Alter(re1, re2) => {
-      let final_1 = self.register_regex_rec(node, re1, name2tag)
-      let final_2 = self.register_regex_rec(node, re2, name2tag)
+      let final_1 = self.register_regex_rec(new_node, re1, name2tag)
+      let final_2 = self.register_regex_rec(new_node, re2, name2tag)
       let final_ = self.new_node()
       self.add_edge(final_1, Eps, final_)
       self.add_edge(final_2, Eps, final_)
@@ -186,12 +180,15 @@ fn register_regex_rec(
       let final_ = self.new_node()
       let tail = self.register_regex_rec(start, re, name2tag)
       let (begin_tag, end_tag) = name2tag(name)
-      self.add_edge(node, Eps, start, tag=Some(begin_tag))
+      self.add_edge(new_node, Eps, start, tag=Some(begin_tag))
       self.add_edge(tail, Eps, final_, tag=Some(end_tag))
       final_
     }
     Named(_) => abort("Named should be resolved before building NFA")
   }
+  let new_final = self.new_node()
+  self.add_edge(final_, Eps, new_final)
+  new_final
 }
 
 ///|
