@@ -30,10 +30,22 @@
 %token<Char> CHAR
 %token<String> STRING
 
+%{
+let named_regexes: Map[String, @type.Regex] = {}
+
+fn cleanup() -> Unit {
+  named_regexes.clear()
+}
+%}
+
 %%
 
 lex_eoi -> @type.Lex
-  : lex EOI                             { $1 }
+  : lex cleanup EOI                     { $1 }
+  ;
+
+cleanup -> Unit
+  :                                     { cleanup() }
   ;
 
 regex_eoi -> @type.Regex
@@ -42,11 +54,11 @@ regex_eoi -> @type.Regex
 
 lex -> @type.Lex
   :                                     {
-                                          { header: "", named_regexes: [], rules: [],  trailer: "" }
+                                          { header: "", rules: [],  trailer: "" }
                                         }
   | header named_regex_list nonempty_rule_list trailer 
                                         {
-                                          { header: $1, named_regexes: $2.to_array(), rules: $3.to_array(), trailer: $4 }
+                                          { header: $1, rules: $3.to_array(), trailer: $4 }
                                         }
   ;
 
@@ -60,13 +72,13 @@ trailer -> String
   |                                     { "" }
   ;
 
-named_regex_list -> @immut/list.T[(String, @type.Regex)]
-  : named_regex named_regex_list        { Cons($1, $2) }
-  | { Nil }
+named_regex_list -> Unit
+  : named_regex named_regex_list        {}
+  |                                     {}
   ;
 
-named_regex -> (String, @type.Regex)
-  : "let" LC_IDENT "=" regex ";"        { ($2, $4) }
+named_regex -> Unit
+  : "let" LC_IDENT "=" regex ";"        { named_regexes.set($2, $4) }
   ;
 
 nonempty_rule_list -> @immut/list.T[@type.Rule]
@@ -119,7 +131,7 @@ repetition -> @type.Regex
 atom -> @type.Regex
   : "(" alias ")"                       { $2 }
   | character_class                     { Character($1) }
-  | LC_IDENT                            { Named($1) }
+  | LC_IDENT                            { named_regexes.get($1).unwrap() }
   | CHAR                                { Character(@eof_char_set.singleton($1)) }
   | STRING                              { $1.iter().fold(init=Epsilon, fn(acc, c) { Concat(acc, Character(@eof_char_set.singleton(c))) }) }
   | UNDERSCORE                          { Character(@eof_char_set.any) }

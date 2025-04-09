@@ -7,7 +7,6 @@ pub(all) enum Regex {
   Alter(Regex, Regex)
   Concat(Regex, Regex)
   Capture(Regex, String)
-  Named(String)
 } derive(Show, Eq, ToJson)
 
 ///|
@@ -42,7 +41,7 @@ fn check_legal_rec(
     Alter(re1, re2) =>
       re1.check_legal_rec(names, true) && re2.check_legal_rec(names, true)
     Repetition(re) => re.check_legal_rec(names, true)
-    Named(_) | Epsilon => true
+    Epsilon => true
   }
 }
 
@@ -68,10 +67,7 @@ fn get_capture_names_rec(self : Regex) -> Iter[String] {
     Repetition(re) => re.get_capture_names_rec()
     Alter(re1, re2) | Concat(re1, re2) =>
       re1.get_capture_names_rec().concat(re2.get_capture_names_rec())
-    EOF |
-    Character(_) |
-    Epsilon |
-    Named(_) => Iter::empty()
+    EOF | Character(_) | Epsilon => Iter::empty()
   }
 }
 
@@ -88,45 +84,6 @@ pub(all) struct Rule {
 ///|
 pub(all) struct Lex {
   header : CodeBlock
-  named_regexes : Array[(String, Regex)]
   rules : Array[Rule]
   trailer : CodeBlock
 } derive(Show, ToJson)
-
-///|
-pub fn eliminate_named(self : Lex) -> Lex {
-  guard not(self.named_regexes.is_empty()) else { return self }
-  let named_regexes = Map::from_array(self.named_regexes)
-  fn eliminate_named_regex(re : Regex) -> Regex {
-    match re {
-      EOF | Character(_) | Epsilon => re
-      Repetition(re) => Repetition(eliminate_named_regex(re))
-      Alter(re1, re2) =>
-        Alter(eliminate_named_regex(re1), eliminate_named_regex(re2))
-      Concat(re1, re2) =>
-        Concat(eliminate_named_regex(re1), eliminate_named_regex(re2))
-      Capture(re, name) => Capture(eliminate_named_regex(re), name)
-      Named(name) =>
-        match named_regexes.get(name) {
-          Some(re) => eliminate_named_regex(re)
-          None => abort("Named regex not found")
-        }
-    }
-  }
-
-  Lex::{
-    header: self.header,
-    named_regexes: [],
-    rules: self.rules.map(fn(rule) {
-      Rule::{
-        name: rule.name,
-        signature: rule.signature,
-        patterns: rule.patterns.map(fn(pattern) {
-          let (re, code) = pattern
-          (eliminate_named_regex(re), code)
-        }),
-      }
-    }),
-    trailer: self.trailer,
-  }
-}

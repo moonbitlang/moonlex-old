@@ -163,7 +163,6 @@ fn register_regex_rec(
       self.add_edge(tail, Eps, final_, tag=Some(end_tag))
       final_
     }
-    Named(_) => abort("Named should be resolved before building NFA")
   }
   let new_final = self.new_node()
   self.add_edge(final_, Eps, new_final)

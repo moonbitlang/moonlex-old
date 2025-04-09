@@ -35,7 +35,6 @@ fn main {
       panic()
     }
   }
-  let lex = lex.eliminate_named()
   let output = @codegen.codegen_lex(lex)
   if output_file.val == "" {
     println(output)
