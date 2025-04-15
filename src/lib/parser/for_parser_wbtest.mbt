@@ -30,6 +30,7 @@ let lexer_src : String =
   #|    "[" => { LBRACKET }
   #|    "]" => { RBRACKET }
   #|    "=" => { EQ }
+  #|    ":" => { COLON }
   #|    ";" => { SEMICOLON }
   #|    "|" => { BAR }
   #|    "*" => { STAR }

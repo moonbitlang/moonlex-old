@@ -26,6 +26,7 @@ rule token[T](lexbuf : @lexbuf.T[T, Char, String, Int]) -> Token {
     "[" => { LBRACKET }
     "]" => { RBRACKET }
     "=" => { EQ }
+    ":" => { COLON }
     ";" => { SEMICOLON }
     "|" => { BAR }
     "*" => { STAR }

@@ -7,6 +7,14 @@ pub(all) enum Regex {
   Alter(Regex, Regex)
   Concat(Regex, Regex)
   Capture(Regex, String)
+  // Embedded bytes, Only valid in bytes mode
+  Bytes(Encoding, Regex)
+} derive(Show, Eq, ToJson)
+
+pub(all) enum Encoding {
+  Ascii
+  Latin1
+  Utf8
 } derive(Show, Eq, ToJson)
 
 ///|
@@ -48,6 +56,7 @@ fn check_legal_rec(
       re1.check_legal_rec(names, true) && re2.check_legal_rec(names, true)
     Repetition(re) => re.check_legal_rec(names, true)
     Epsilon => true
+    Bytes(_, re) => re.check_legal_rec(names, ban_capture)
   }
 }
 
@@ -106,6 +115,7 @@ pub fn get_char_vars(re : Regex) -> @immut/sorted_set.T[String] {
           Zero | Many => (char_vars, str_vars.add(var), len)
         }
       }
+      Bytes(_, re) => analyze(re)
     }
   }
 
@@ -135,7 +145,7 @@ pub fn get_capture_names(self : Regex) -> Array[(String, VarType)] {
 fn get_capture_names_rec(self : Regex) -> Iter[String] {
   match self {
     Capture(re, name) => re.get_capture_names_rec().append(name)
-    Repetition(re) => re.get_capture_names_rec()
+    Repetition(re) | Bytes(_, re) => re.get_capture_names_rec()
     Alter(re1, re2) | Concat(re1, re2) =>
       re1.get_capture_names_rec().concat(re2.get_capture_names_rec())
     EOF | Character(_) | Epsilon => Iter::empty()

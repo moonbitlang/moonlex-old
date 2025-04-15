@@ -15,6 +15,7 @@
 %token LBRACKET     "["
 %token RBRACKET     "]"
 %token EQ           "="
+%token COLON        ":"
 %token SEMICOLON    ";"
 %token FAT_ARROW    "=>"
 %token BAR          "|"
@@ -130,6 +131,14 @@ repetition -> @type.Regex
 
 atom -> @type.Regex
   : "(" alias ")"                       { $2 }
+  | "(" LC_IDENT ":" alias ")"          { 
+                                          match $2 {
+                                            "ascii" => Bytes(Ascii, $4)
+                                            "latin1" => Bytes(Latin1, $4)
+                                            "utf8" => Bytes(Utf8, $4)
+                                            _ => panic()
+                                          } 
+                                        }
   | character_class                     { Character($1) }
   | LC_IDENT                            { named_regexes.get($1).unwrap() }
   | CHAR                                { Character(@eof_char_set.singleton($1)) }

@@ -30,111 +30,115 @@ fn token[T](lexbuf : @lexbuf.T[T, Char, String, Int]) -> Token  {
         }
         match c {
           -1 => {
-            state = 18
-            tag_action = 0
-          }
-          9..=10 => {
-            state = 5
-            tag_action = 0
-          }
-          13 => {
-            state = 5
-            tag_action = 0
-          }
-          32 => {
-            state = 5
-            tag_action = 0
-          }
-          34 => {
             state = 21
             tag_action = 0
           }
-          39 => {
-            state = 20
-            tag_action = 2
-          }
-          40 => {
-            state = 11
-            tag_action = 0
-          }
-          41 => {
-            state = 4
-            tag_action = 0
-          }
-          42 => {
-            state = 23
-            tag_action = 0
-          }
-          43 => {
-            state = 17
-            tag_action = 0
-          }
-          45 => {
-            state = 19
-            tag_action = 0
-          }
-          47 => {
-            state = 22
-            tag_action = 0
-          }
-          59 => {
-            state = 3
-            tag_action = 0
-          }
-          61 => {
-            state = 7
-            tag_action = 0
-          }
-          63 => {
-            state = 1
-            tag_action = 0
-          }
-          91 => {
-            state = 8
-            tag_action = 0
-          }
-          93 => {
-            state = 9
-            tag_action = 0
-          }
-          94 => {
-            state = 12
-            tag_action = 0
-          }
-          95 => {
-            state = 13
-            tag_action = 1
-          }
-          97..=111 => {
-            state = 16
-            tag_action = 1
-          }
-          112 => {
-            state = 14
-            tag_action = 1
-          }
-          113 => {
-            state = 16
-            tag_action = 1
-          }
-          114 => {
-            state = 15
-            tag_action = 1
-          }
-          115..=122 => {
-            state = 16
-            tag_action = 1
-          }
-          123 => {
+          9..=10 => {
             state = 6
             tag_action = 0
           }
-          124 => {
+          13 => {
+            state = 6
+            tag_action = 0
+          }
+          32 => {
+            state = 6
+            tag_action = 0
+          }
+          34 => {
+            state = 8
+            tag_action = 0
+          }
+          39 => {
+            state = 19
+            tag_action = 2
+          }
+          40 => {
+            state = 17
+            tag_action = 0
+          }
+          41 => {
+            state = 5
+            tag_action = 0
+          }
+          42 => {
+            state = 20
+            tag_action = 0
+          }
+          43 => {
+            state = 1
+            tag_action = 0
+          }
+          45 => {
+            state = 18
+            tag_action = 0
+          }
+          47 => {
+            state = 23
+            tag_action = 0
+          }
+          58 => {
+            state = 4
+            tag_action = 0
+          }
+          59 => {
+            state = 14
+            tag_action = 0
+          }
+          61 => {
             state = 10
             tag_action = 0
           }
-          125 => {
+          63 => {
+            state = 22
+            tag_action = 0
+          }
+          91 => {
+            state = 11
+            tag_action = 0
+          }
+          93 => {
+            state = 12
+            tag_action = 0
+          }
+          94 => {
+            state = 15
+            tag_action = 0
+          }
+          95 => {
+            state = 16
+            tag_action = 1
+          }
+          97..=111 => {
             state = 2
+            tag_action = 1
+          }
+          112 => {
+            state = 13
+            tag_action = 1
+          }
+          113 => {
+            state = 2
+            tag_action = 1
+          }
+          114 => {
+            state = 7
+            tag_action = 1
+          }
+          115..=122 => {
+            state = 2
+            tag_action = 1
+          }
+          123 => {
+            state = 9
+            tag_action = 0
+          }
+          124 => {
+            state = 24
+            tag_action = 0
+          }
+          125 => {
+            state = 3
             tag_action = 0
           }
           _ => {
@@ -159,6 +163,37 @@ fn token[T](lexbuf : @lexbuf.T[T, Char, String, Int]) -> Token  {
         }
       }
       2 => {
+        if matched is Some((prev_pattern_id, _, _)) && 34 <= prev_pattern_id || matched is None {
+          matched = Some((34, lexbuf.curr_pos(), [(_tag_12, _tag_13)]))
+        }
+        let c = match lexbuf.next() {
+          Some(c) => c.to_int()
+          None => -1
+        }
+        match c {
+          48..=57 => {
+            state = 25
+            tag_action = 1
+          }
+          65..=90 => {
+            state = 25
+            tag_action = 1
+          }
+          95 => {
+            state = 25
+            tag_action = 1
+          }
+          97..=122 => {
+            state = 25
+            tag_action = 1
+          }
+          _ => {
+            state = -1
+            tag_action = -1
+          }
+        }
+      }
+      3 => {
         if matched is Some((prev_pattern_id, _, _)) && 8 <= prev_pattern_id || matched is None {
           matched = Some((8, lexbuf.curr_pos(), []))
         }
@@ -173,7 +208,7 @@ fn token[T](lexbuf : @lexbuf.T[T, Char, String, Int]) -> Token  {
           }
         }
       }
-      3 => {
+      4 => {
         if matched is Some((prev_pattern_id, _, _)) && 14 <= prev_pattern_id || matched is None {
           matched = Some((14, lexbuf.curr_pos(), []))
         }
@@ -188,7 +223,7 @@ fn token[T](lexbuf : @lexbuf.T[T, Char, String, Int]) -> Token  {
           }
         }
       }
-      4 => {
+      5 => {
         if matched is Some((prev_pattern_id, _, _)) && 10 <= prev_pattern_id || matched is None {
           matched = Some((10, lexbuf.curr_pos(), []))
         }
@@ -203,7 +238,7 @@ fn token[T](lexbuf : @lexbuf.T[T, Char, String, Int]) -> Token  {
           }
         }
       }
-      5 => {
+      6 => {
         if matched is Some((prev_pattern_id, _, _)) && 0 <= prev_pattern_id || matched is None {
           matched = Some((0, lexbuf.curr_pos(), []))
         }
@@ -213,15 +248,15 @@ fn token[T](lexbuf : @lexbuf.T[T, Char, String, Int]) -> Token  {
         }
         match c {
           9..=10 => {
-            state = 5
+            state = 6
             tag_action = 0
           }
           13 => {
-            state = 5
+            state = 6
             tag_action = 0
           }
           32 => {
-            state = 5
+            state = 6
             tag_action = 0
           }
           _ => {
@@ -230,7 +265,61 @@ fn token[T](lexbuf : @lexbuf.T[T, Char, String, Int]) -> Token  {
           }
         }
       }
-      6 => {
+      7 => {
+        if matched is Some((prev_pattern_id, _, _)) && 34 <= prev_pattern_id || matched is None {
+          matched = Some((34, lexbuf.curr_pos(), [(_tag_12, _tag_13)]))
+        }
+        let c = match lexbuf.next() {
+          Some(c) => c.to_int()
+          None => -1
+        }
+        match c {
+          48..=57 => {
+            state = 25
+            tag_action = 1
+          }
+          65..=90 => {
+            state = 25
+            tag_action = 1
+          }
+          95 => {
+            state = 25
+            tag_action = 1
+          }
+          97..=116 => {
+            state = 25
+            tag_action = 1
+          }
+          117 => {
+            state = 26
+            tag_action = 1
+          }
+          118..=122 => {
+            state = 25
+            tag_action = 1
+          }
+          _ => {
+            state = -1
+            tag_action = -1
+          }
+        }
+      }
+      8 => {
+        if matched is Some((prev_pattern_id, _, _)) && 33 <= prev_pattern_id || matched is None {
+          matched = Some((33, lexbuf.curr_pos(), []))
+        }
+        let c = match lexbuf.next() {
+          Some(c) => c.to_int()
+          None => -1
+        }
+        match c {
+          _ => {
+            state = -1
+            tag_action = -1
+          }
+        }
+      }
+      9 => {
         if matched is Some((prev_pattern_id, _, _)) && 7 <= prev_pattern_id || matched is None {
           matched = Some((7, lexbuf.curr_pos(), []))
         }
@@ -245,7 +334,7 @@ fn token[T](lexbuf : @lexbuf.T[T, Char, String, Int]) -> Token  {
           }
         }
       }
-      7 => {
+      10 => {
         if matched is Some((prev_pattern_id, _, _)) && 13 <= prev_pattern_id || matched is None {
           matched = Some((13, lexbuf.curr_pos(), []))
         }
@@ -255,7 +344,7 @@ fn token[T](lexbuf : @lexbuf.T[T, Char, String, Int]) -> Token  {
         }
         match c {
           62 => {
-            state = 24
+            state = 27
             tag_action = 0
           }
           _ => {
@@ -264,7 +353,7 @@ fn token[T](lexbuf : @lexbuf.T[T, Char, String, Int]) -> Token  {
           }
         }
       }
-      8 => {
+      11 => {
         if matched is Some((prev_pattern_id, _, _)) && 11 <= prev_pattern_id || matched is None {
           matched = Some((11, lexbuf.curr_pos(), []))
         }
@@ -279,7 +368,7 @@ fn token[T](lexbuf : @lexbuf.T[T, Char, String, Int]) -> Token  {
           }
         }
       }
-      9 => {
+      12 => {
         if matched is Some((prev_pattern_id, _, _)) && 12 <= prev_pattern_id || matched is None {
           matched = Some((12, lexbuf.curr_pos(), []))
         }
@@ -294,7 +383,42 @@ fn token[T](lexbuf : @lexbuf.T[T, Char, String, Int]) -> Token  {
           }
         }
       }
-      10 => {
+      13 => {
+        if matched is Some((prev_pattern_id, _, _)) && 34 <= prev_pattern_id || matched is None {
+          matched = Some((34, lexbuf.curr_pos(), [(_tag_12, _tag_13)]))
+        }
+        let c = match lexbuf.next() {
+          Some(c) => c.to_int()
+          None => -1
+        }
+        match c {
+          48..=57 => {
+            state = 25
+            tag_action = 1
+          }
+          65..=90 => {
+            state = 25
+            tag_action = 1
+          }
+          95 => {
+            state = 25
+            tag_action = 1
+          }
+          97 => {
+            state = 28
+            tag_action = 1
+          }
+          98..=122 => {
+            state = 25
+            tag_action = 1
+          }
+          _ => {
+            state = -1
+            tag_action = -1
+          }
+        }
+      }
+      14 => {
         if matched is Some((prev_pattern_id, _, _)) && 15 <= prev_pattern_id || matched is None {
           matched = Some((15, lexbuf.curr_pos(), []))
         }
@@ -309,9 +433,9 @@ fn token[T](lexbuf : @lexbuf.T[T, Char, String, Int]) -> Token  {
           }
         }
       }
-      11 => {
-        if matched is Some((prev_pattern_id, _, _)) && 9 <= prev_pattern_id || matched is None {
-          matched = Some((9, lexbuf.curr_pos(), []))
+      15 => {
+        if matched is Some((prev_pattern_id, _, _)) && 21 <= prev_pattern_id || matched is None {
+          matched = Some((21, lexbuf.curr_pos(), []))
         }
         let c = match lexbuf.next() {
           Some(c) => c.to_int()
@@ -324,22 +448,7 @@ fn token[T](lexbuf : @lexbuf.T[T, Char, String, Int]) -> Token  {
           }
         }
       }
-      12 => {
-        if matched is Some((prev_pattern_id, _, _)) && 20 <= prev_pattern_id || matched is None {
-          matched = Some((20, lexbuf.curr_pos(), []))
-        }
-        let c = match lexbuf.next() {
-          Some(c) => c.to_int()
-          None => -1
-        }
-        match c {
-          _ => {
-            state = -1
-            tag_action = -1
-          }
-        }
-      }
-      13 => {
+      16 => {
         if matched is Some((prev_pattern_id, _, _)) && 6 <= prev_pattern_id || matched is None {
           matched = Some((6, lexbuf.curr_pos(), []))
         }
@@ -370,112 +479,65 @@ fn token[T](lexbuf : @lexbuf.T[T, Char, String, Int]) -> Token  {
           }
         }
       }
-      14 => {
-        if matched is Some((prev_pattern_id, _, _)) && 33 <= prev_pattern_id || matched is None {
-          matched = Some((33, lexbuf.curr_pos(), [(_tag_12, _tag_13)]))
-        }
-        let c = match lexbuf.next() {
-          Some(c) => c.to_int()
-          None => -1
-        }
-        match c {
-          48..=57 => {
-            state = 25
-            tag_action = 1
-          }
-          65..=90 => {
-            state = 25
-            tag_action = 1
-          }
-          95 => {
-            state = 25
-            tag_action = 1
-          }
-          97 => {
-            state = 26
-            tag_action = 1
-          }
-          98..=122 => {
-            state = 25
-            tag_action = 1
-          }
-          _ => {
-            state = -1
-            tag_action = -1
-          }
-        }
-      }
-      15 => {
-        if matched is Some((prev_pattern_id, _, _)) && 33 <= prev_pattern_id || matched is None {
-          matched = Some((33, lexbuf.curr_pos(), [(_tag_12, _tag_13)]))
-        }
-        let c = match lexbuf.next() {
-          Some(c) => c.to_int()
-          None => -1
-        }
-        match c {
-          48..=57 => {
-            state = 25
-            tag_action = 1
-          }
-          65..=90 => {
-            state = 25
-            tag_action = 1
-          }
-          95 => {
-            state = 25
-            tag_action = 1
-          }
-          97..=116 => {
-            state = 25
-            tag_action = 1
-          }
-          117 => {
-            state = 27
-            tag_action = 1
-          }
-          118..=122 => {
-            state = 25
-            tag_action = 1
-          }
-          _ => {
-            state = -1
-            tag_action = -1
-          }
-        }
-      }
-      16 => {
-        if matched is Some((prev_pattern_id, _, _)) && 33 <= prev_pattern_id || matched is None {
-          matched = Some((33, lexbuf.curr_pos(), [(_tag_12, _tag_13)]))
-        }
-        let c = match lexbuf.next() {
-          Some(c) => c.to_int()
-          None => -1
-        }
-        match c {
-          48..=57 => {
-            state = 25
-            tag_action = 1
-          }
-          65..=90 => {
-            state = 25
-            tag_action = 1
-          }
-          95 => {
-            state = 25
-            tag_action = 1
-          }
-          97..=122 => {
-            state = 25
-            tag_action = 1
-          }
-          _ => {
-            state = -1
-            tag_action = -1
-          }
-        }
-      }
       17 => {
+        if matched is Some((prev_pattern_id, _, _)) && 9 <= prev_pattern_id || matched is None {
+          matched = Some((9, lexbuf.curr_pos(), []))
+        }
+        let c = match lexbuf.next() {
+          Some(c) => c.to_int()
+          None => -1
+        }
+        match c {
+          _ => {
+            state = -1
+            tag_action = -1
+          }
+        }
+      }
+      18 => {
+        if matched is Some((prev_pattern_id, _, _)) && 20 <= prev_pattern_id || matched is None {
+          matched = Some((20, lexbuf.curr_pos(), []))
+        }
+        let c = match lexbuf.next() {
+          Some(c) => c.to_int()
+          None => -1
+        }
+        match c {
+          _ => {
+            state = -1
+            tag_action = -1
+          }
+        }
+      }
+      19 => {
+        let c = match lexbuf.next() {
+          Some(c) => c.to_int()
+          None => -1
+        }
+        match c {
+          0..=38 => {
+            state = 29
+            tag_action = 3
+          }
+          40..=91 => {
+            state = 29
+            tag_action = 3
+          }
+          92 => {
+            state = 30
+            tag_action = 0
+          }
+          93..=1114111 => {
+            state = 29
+            tag_action = 3
+          }
+          _ => {
+            state = -1
+            tag_action = -1
+          }
+        }
+      }
+      20 => {
         if matched is Some((prev_pattern_id, _, _)) && 17 <= prev_pattern_id || matched is None {
           matched = Some((17, lexbuf.curr_pos(), []))
         }
@@ -490,7 +552,7 @@ fn token[T](lexbuf : @lexbuf.T[T, Char, String, Int]) -> Token  {
           }
         }
       }
-      18 => {
+      21 => {
         if matched is Some((prev_pattern_id, _, _)) && 2 <= prev_pattern_id || matched is None {
           matched = Some((2, lexbuf.curr_pos(), []))
         }
@@ -505,7 +567,7 @@ fn token[T](lexbuf : @lexbuf.T[T, Char, String, Int]) -> Token  {
           }
         }
       }
-      19 => {
+      22 => {
         if matched is Some((prev_pattern_id, _, _)) && 19 <= prev_pattern_id || matched is None {
           matched = Some((19, lexbuf.curr_pos(), []))
         }
@@ -520,57 +582,14 @@ fn token[T](lexbuf : @lexbuf.T[T, Char, String, Int]) -> Token  {
           }
         }
       }
-      20 => {
-        let c = match lexbuf.next() {
-          Some(c) => c.to_int()
-          None => -1
-        }
-        match c {
-          0..=38 => {
-            state = 28
-            tag_action = 3
-          }
-          40..=91 => {
-            state = 28
-            tag_action = 3
-          }
-          92 => {
-            state = 29
-            tag_action = 0
-          }
-          93..=1114111 => {
-            state = 28
-            tag_action = 3
-          }
-          _ => {
-            state = -1
-            tag_action = -1
-          }
-        }
-      }
-      21 => {
-        if matched is Some((prev_pattern_id, _, _)) && 32 <= prev_pattern_id || matched is None {
-          matched = Some((32, lexbuf.curr_pos(), []))
-        }
-        let c = match lexbuf.next() {
-          Some(c) => c.to_int()
-          None => -1
-        }
-        match c {
-          _ => {
-            state = -1
-            tag_action = -1
-          }
-        }
-      }
-      22 => {
+      23 => {
         let c = match lexbuf.next() {
           Some(c) => c.to_int()
           None => -1
         }
         match c {
           47 => {
-            state = 30
+            state = 31
             tag_action = 0
           }
           _ => {
@@ -579,7 +598,7 @@ fn token[T](lexbuf : @lexbuf.T[T, Char, String, Int]) -> Token  {
           }
         }
       }
-      23 => {
+      24 => {
         if matched is Some((prev_pattern_id, _, _)) && 16 <= prev_pattern_id || matched is None {
           matched = Some((16, lexbuf.curr_pos(), []))
         }
@@ -594,24 +613,9 @@ fn token[T](lexbuf : @lexbuf.T[T, Char, String, Int]) -> Token  {
           }
         }
       }
-      24 => {
-        if matched is Some((prev_pattern_id, _, _)) && 5 <= prev_pattern_id || matched is None {
-          matched = Some((5, lexbuf.curr_pos(), []))
-        }
-        let c = match lexbuf.next() {
-          Some(c) => c.to_int()
-          None => -1
-        }
-        match c {
-          _ => {
-            state = -1
-            tag_action = -1
-          }
-        }
-      }
       25 => {
-        if matched is Some((prev_pattern_id, _, _)) && 33 <= prev_pattern_id || matched is None {
-          matched = Some((33, lexbuf.curr_pos(), [(_tag_12, _tag_13)]))
+        if matched is Some((prev_pattern_id, _, _)) && 34 <= prev_pattern_id || matched is None {
+          matched = Some((34, lexbuf.curr_pos(), [(_tag_12, _tag_13)]))
         }
         let c = match lexbuf.next() {
           Some(c) => c.to_int()
@@ -641,47 +645,8 @@ fn token[T](lexbuf : @lexbuf.T[T, Char, String, Int]) -> Token  {
         }
       }
       26 => {
-        if matched is Some((prev_pattern_id, _, _)) && 33 <= prev_pattern_id || matched is None {
-          matched = Some((33, lexbuf.curr_pos(), [(_tag_12, _tag_13)]))
-        }
-        let c = match lexbuf.next() {
-          Some(c) => c.to_int()
-          None => -1
-        }
-        match c {
-          48..=57 => {
-            state = 25
-            tag_action = 1
-          }
-          65..=90 => {
-            state = 25
-            tag_action = 1
-          }
-          95 => {
-            state = 25
-            tag_action = 1
-          }
-          97..=113 => {
-            state = 25
-            tag_action = 1
-          }
-          114 => {
-            state = 31
-            tag_action = 1
-          }
-          115..=122 => {
-            state = 25
-            tag_action = 1
-          }
-          _ => {
-            state = -1
-            tag_action = -1
-          }
-        }
-      }
-      27 => {
-        if matched is Some((prev_pattern_id, _, _)) && 33 <= prev_pattern_id || matched is None {
-          matched = Some((33, lexbuf.curr_pos(), [(_tag_12, _tag_13)]))
+        if matched is Some((prev_pattern_id, _, _)) && 34 <= prev_pattern_id || matched is None {
+          matched = Some((34, lexbuf.curr_pos(), [(_tag_12, _tag_13)]))
         }
         let c = match lexbuf.next() {
           Some(c) => c.to_int()
@@ -718,100 +683,24 @@ fn token[T](lexbuf : @lexbuf.T[T, Char, String, Int]) -> Token  {
           }
         }
       }
+      27 => {
+        if matched is Some((prev_pattern_id, _, _)) && 5 <= prev_pattern_id || matched is None {
+          matched = Some((5, lexbuf.curr_pos(), []))
+        }
+        let c = match lexbuf.next() {
+          Some(c) => c.to_int()
+          None => -1
+        }
+        match c {
+          _ => {
+            state = -1
+            tag_action = -1
+          }
+        }
+      }
       28 => {
-        let c = match lexbuf.next() {
-          Some(c) => c.to_int()
-          None => -1
-        }
-        match c {
-          39 => {
-            state = 33
-            tag_action = 4
-          }
-          _ => {
-            state = -1
-            tag_action = -1
-          }
-        }
-      }
-      29 => {
-        let c = match lexbuf.next() {
-          Some(c) => c.to_int()
-          None => -1
-        }
-        match c {
-          39 => {
-            state = 39
-            tag_action = 0
-          }
-          92 => {
-            state = 37
-            tag_action = 0
-          }
-          98 => {
-            state = 36
-            tag_action = 0
-          }
-          110 => {
-            state = 40
-            tag_action = 0
-          }
-          114 => {
-            state = 38
-            tag_action = 0
-          }
-          116 => {
-            state = 41
-            tag_action = 0
-          }
-          117 => {
-            state = 42
-            tag_action = 6
-          }
-          118 => {
-            state = 34
-            tag_action = 0
-          }
-          120 => {
-            state = 35
-            tag_action = 5
-          }
-          _ => {
-            state = -1
-            tag_action = -1
-          }
-        }
-      }
-      30 => {
-        if matched is Some((prev_pattern_id, _, _)) && 1 <= prev_pattern_id || matched is None {
-          matched = Some((1, lexbuf.curr_pos(), []))
-        }
-        let c = match lexbuf.next() {
-          Some(c) => c.to_int()
-          None => -1
-        }
-        match c {
-          0..=9 => {
-            state = 44
-            tag_action = 0
-          }
-          10 => {
-            state = 43
-            tag_action = 0
-          }
-          11..=1114111 => {
-            state = 44
-            tag_action = 0
-          }
-          _ => {
-            state = -1
-            tag_action = -1
-          }
-        }
-      }
-      31 => {
-        if matched is Some((prev_pattern_id, _, _)) && 33 <= prev_pattern_id || matched is None {
-          matched = Some((33, lexbuf.curr_pos(), [(_tag_12, _tag_13)]))
+        if matched is Some((prev_pattern_id, _, _)) && 34 <= prev_pattern_id || matched is None {
+          matched = Some((34, lexbuf.curr_pos(), [(_tag_12, _tag_13)]))
         }
         let c = match lexbuf.next() {
           Some(c) => c.to_int()
@@ -830,15 +719,15 @@ fn token[T](lexbuf : @lexbuf.T[T, Char, String, Int]) -> Token  {
             state = 25
             tag_action = 1
           }
-          97..=114 => {
+          97..=113 => {
             state = 25
             tag_action = 1
           }
-          115 => {
-            state = 45
+          114 => {
+            state = 33
             tag_action = 1
           }
-          116..=122 => {
+          115..=122 => {
             state = 25
             tag_action = 1
           }
@@ -848,9 +737,100 @@ fn token[T](lexbuf : @lexbuf.T[T, Char, String, Int]) -> Token  {
           }
         }
       }
+      29 => {
+        let c = match lexbuf.next() {
+          Some(c) => c.to_int()
+          None => -1
+        }
+        match c {
+          39 => {
+            state = 34
+            tag_action = 4
+          }
+          _ => {
+            state = -1
+            tag_action = -1
+          }
+        }
+      }
+      30 => {
+        let c = match lexbuf.next() {
+          Some(c) => c.to_int()
+          None => -1
+        }
+        match c {
+          39 => {
+            state = 40
+            tag_action = 0
+          }
+          92 => {
+            state = 43
+            tag_action = 0
+          }
+          98 => {
+            state = 37
+            tag_action = 0
+          }
+          110 => {
+            state = 39
+            tag_action = 0
+          }
+          114 => {
+            state = 42
+            tag_action = 0
+          }
+          116 => {
+            state = 41
+            tag_action = 0
+          }
+          117 => {
+            state = 38
+            tag_action = 6
+          }
+          118 => {
+            state = 36
+            tag_action = 0
+          }
+          120 => {
+            state = 35
+            tag_action = 5
+          }
+          _ => {
+            state = -1
+            tag_action = -1
+          }
+        }
+      }
+      31 => {
+        if matched is Some((prev_pattern_id, _, _)) && 1 <= prev_pattern_id || matched is None {
+          matched = Some((1, lexbuf.curr_pos(), []))
+        }
+        let c = match lexbuf.next() {
+          Some(c) => c.to_int()
+          None => -1
+        }
+        match c {
+          0..=9 => {
+            state = 45
+            tag_action = 0
+          }
+          10 => {
+            state = 44
+            tag_action = 0
+          }
+          11..=1114111 => {
+            state = 45
+            tag_action = 0
+          }
+          _ => {
+            state = -1
+            tag_action = -1
+          }
+        }
+      }
       32 => {
-        if matched is Some((prev_pattern_id, _, _)) && 33 <= prev_pattern_id || matched is None {
-          matched = Some((33, lexbuf.curr_pos(), [(_tag_12, _tag_13)]))
+        if matched is Some((prev_pattern_id, _, _)) && 34 <= prev_pattern_id || matched is None {
+          matched = Some((34, lexbuf.curr_pos(), [(_tag_12, _tag_13)]))
         }
         let c = match lexbuf.next() {
           Some(c) => c.to_int()
@@ -888,14 +868,38 @@ fn token[T](lexbuf : @lexbuf.T[T, Char, String, Int]) -> Token  {
         }
       }
       33 => {
-        if matched is Some((prev_pattern_id, _, _)) && 21 <= prev_pattern_id || matched is None {
-          matched = Some((21, lexbuf.curr_pos(), [(_tag_4, _tag_5)]))
+        if matched is Some((prev_pattern_id, _, _)) && 34 <= prev_pattern_id || matched is None {
+          matched = Some((34, lexbuf.curr_pos(), [(_tag_12, _tag_13)]))
         }
         let c = match lexbuf.next() {
           Some(c) => c.to_int()
           None => -1
         }
         match c {
+          48..=57 => {
+            state = 25
+            tag_action = 1
+          }
+          65..=90 => {
+            state = 25
+            tag_action = 1
+          }
+          95 => {
+            state = 25
+            tag_action = 1
+          }
+          97..=114 => {
+            state = 25
+            tag_action = 1
+          }
+          115 => {
+            state = 47
+            tag_action = 1
+          }
+          116..=122 => {
+            state = 25
+            tag_action = 1
+          }
           _ => {
             state = -1
             tag_action = -1
@@ -903,15 +907,14 @@ fn token[T](lexbuf : @lexbuf.T[T, Char, String, Int]) -> Token  {
         }
       }
       34 => {
+        if matched is Some((prev_pattern_id, _, _)) && 22 <= prev_pattern_id || matched is None {
+          matched = Some((22, lexbuf.curr_pos(), [(_tag_4, _tag_5)]))
+        }
         let c = match lexbuf.next() {
           Some(c) => c.to_int()
           None => -1
         }
         match c {
-          39 => {
-            state = 47
-            tag_action = 0
-          }
           _ => {
             state = -1
             tag_action = -1
@@ -980,9 +983,21 @@ fn token[T](lexbuf : @lexbuf.T[T, Char, String, Int]) -> Token  {
           None => -1
         }
         match c {
-          39 => {
+          48..=57 => {
             state = 51
-            tag_action = 0
+            tag_action = 8
+          }
+          65..=70 => {
+            state = 51
+            tag_action = 8
+          }
+          97..=102 => {
+            state = 51
+            tag_action = 8
+          }
+          123 => {
+            state = 52
+            tag_action = 9
           }
           _ => {
             state = -1
@@ -991,22 +1006,6 @@ fn token[T](lexbuf : @lexbuf.T[T, Char, String, Int]) -> Token  {
         }
       }
       39 => {
-        let c = match lexbuf.next() {
-          Some(c) => c.to_int()
-          None => -1
-        }
-        match c {
-          39 => {
-            state = 52
-            tag_action = 0
-          }
-          _ => {
-            state = -1
-            tag_action = -1
-          }
-        }
-      }
-      40 => {
         let c = match lexbuf.next() {
           Some(c) => c.to_int()
           None => -1
@@ -1022,7 +1021,7 @@ fn token[T](lexbuf : @lexbuf.T[T, Char, String, Int]) -> Token  {
           }
         }
       }
-      41 => {
+      40 => {
         let c = match lexbuf.next() {
           Some(c) => c.to_int()
           None => -1
@@ -1038,27 +1037,31 @@ fn token[T](lexbuf : @lexbuf.T[T, Char, String, Int]) -> Token  {
           }
         }
       }
+      41 => {
+        let c = match lexbuf.next() {
+          Some(c) => c.to_int()
+          None => -1
+        }
+        match c {
+          39 => {
+            state = 55
+            tag_action = 0
+          }
+          _ => {
+            state = -1
+            tag_action = -1
+          }
+        }
+      }
       42 => {
         let c = match lexbuf.next() {
           Some(c) => c.to_int()
           None => -1
         }
         match c {
-          48..=57 => {
+          39 => {
             state = 56
-            tag_action = 9
-          }
-          65..=70 => {
-            state = 56
-            tag_action = 9
-          }
-          97..=102 => {
-            state = 56
-            tag_action = 9
-          }
-          123 => {
-            state = 55
-            tag_action = 8
+            tag_action = 0
           }
           _ => {
             state = -1
@@ -1067,14 +1070,15 @@ fn token[T](lexbuf : @lexbuf.T[T, Char, String, Int]) -> Token  {
         }
       }
       43 => {
-        if matched is Some((prev_pattern_id, _, _)) && 1 <= prev_pattern_id || matched is None {
-          matched = Some((1, lexbuf.curr_pos(), []))
-        }
         let c = match lexbuf.next() {
           Some(c) => c.to_int()
           None => -1
         }
         match c {
+          39 => {
+            state = 57
+            tag_action = 0
+          }
           _ => {
             state = -1
             tag_action = -1
@@ -1090,18 +1094,6 @@ fn token[T](lexbuf : @lexbuf.T[T, Char, String, Int]) -> Token  {
           None => -1
         }
         match c {
-          0..=9 => {
-            state = 44
-            tag_action = 0
-          }
-          10 => {
-            state = 43
-            tag_action = 0
-          }
-          11..=1114111 => {
-            state = 44
-            tag_action = 0
-          }
           _ => {
             state = -1
             tag_action = -1
@@ -1109,37 +1101,25 @@ fn token[T](lexbuf : @lexbuf.T[T, Char, String, Int]) -> Token  {
         }
       }
       45 => {
-        if matched is Some((prev_pattern_id, _, _)) && 33 <= prev_pattern_id || matched is None {
-          matched = Some((33, lexbuf.curr_pos(), [(_tag_12, _tag_13)]))
+        if matched is Some((prev_pattern_id, _, _)) && 1 <= prev_pattern_id || matched is None {
+          matched = Some((1, lexbuf.curr_pos(), []))
         }
         let c = match lexbuf.next() {
           Some(c) => c.to_int()
           None => -1
         }
         match c {
-          48..=57 => {
-            state = 25
-            tag_action = 1
+          0..=9 => {
+            state = 45
+            tag_action = 0
           }
-          65..=90 => {
-            state = 25
-            tag_action = 1
+          10 => {
+            state = 44
+            tag_action = 0
           }
-          95 => {
-            state = 25
-            tag_action = 1
-          }
-          97..=100 => {
-            state = 25
-            tag_action = 1
-          }
-          101 => {
-            state = 57
-            tag_action = 1
-          }
-          102..=122 => {
-            state = 25
-            tag_action = 1
+          11..=1114111 => {
+            state = 45
+            tag_action = 0
           }
           _ => {
             state = -1
@@ -1148,8 +1128,8 @@ fn token[T](lexbuf : @lexbuf.T[T, Char, String, Int]) -> Token  {
         }
       }
       46 => {
-        if matched is Some((prev_pattern_id, _, _)) && 33 <= prev_pattern_id || matched is None {
-          matched = Some((33, lexbuf.curr_pos(), [(_tag_12, _tag_13)]))
+        if matched is Some((prev_pattern_id, _, _)) && 34 <= prev_pattern_id || matched is None {
+          matched = Some((34, lexbuf.curr_pos(), [(_tag_12, _tag_13)]))
         }
         let c = match lexbuf.next() {
           Some(c) => c.to_int()
@@ -1191,14 +1171,38 @@ fn token[T](lexbuf : @lexbuf.T[T, Char, String, Int]) -> Token  {
         }
       }
       47 => {
-        if matched is Some((prev_pattern_id, _, _)) && 24 <= prev_pattern_id || matched is None {
-          matched = Some((24, lexbuf.curr_pos(), []))
+        if matched is Some((prev_pattern_id, _, _)) && 34 <= prev_pattern_id || matched is None {
+          matched = Some((34, lexbuf.curr_pos(), [(_tag_12, _tag_13)]))
         }
         let c = match lexbuf.next() {
           Some(c) => c.to_int()
           None => -1
         }
         match c {
+          48..=57 => {
+            state = 25
+            tag_action = 1
+          }
+          65..=90 => {
+            state = 25
+            tag_action = 1
+          }
+          95 => {
+            state = 25
+            tag_action = 1
+          }
+          97..=100 => {
+            state = 25
+            tag_action = 1
+          }
+          101 => {
+            state = 59
+            tag_action = 1
+          }
+          102..=122 => {
+            state = 25
+            tag_action = 1
+          }
           _ => {
             state = -1
             tag_action = -1
@@ -1212,15 +1216,15 @@ fn token[T](lexbuf : @lexbuf.T[T, Char, String, Int]) -> Token  {
         }
         match c {
           48..=57 => {
-            state = 59
+            state = 60
             tag_action = 11
           }
           65..=70 => {
-            state = 59
+            state = 60
             tag_action = 11
           }
           97..=102 => {
-            state = 59
+            state = 60
             tag_action = 11
           }
           _ => {
@@ -1230,36 +1234,6 @@ fn token[T](lexbuf : @lexbuf.T[T, Char, String, Int]) -> Token  {
         }
       }
       49 => {
-        if matched is Some((prev_pattern_id, _, _)) && 22 <= prev_pattern_id || matched is None {
-          matched = Some((22, lexbuf.curr_pos(), []))
-        }
-        let c = match lexbuf.next() {
-          Some(c) => c.to_int()
-          None => -1
-        }
-        match c {
-          _ => {
-            state = -1
-            tag_action = -1
-          }
-        }
-      }
-      50 => {
-        if matched is Some((prev_pattern_id, _, _)) && 27 <= prev_pattern_id || matched is None {
-          matched = Some((27, lexbuf.curr_pos(), []))
-        }
-        let c = match lexbuf.next() {
-          Some(c) => c.to_int()
-          None => -1
-        }
-        match c {
-          _ => {
-            state = -1
-            tag_action = -1
-          }
-        }
-      }
-      51 => {
         if matched is Some((prev_pattern_id, _, _)) && 25 <= prev_pattern_id || matched is None {
           matched = Some((25, lexbuf.curr_pos(), []))
         }
@@ -1274,37 +1248,7 @@ fn token[T](lexbuf : @lexbuf.T[T, Char, String, Int]) -> Token  {
           }
         }
       }
-      52 => {
-        if matched is Some((prev_pattern_id, _, _)) && 28 <= prev_pattern_id || matched is None {
-          matched = Some((28, lexbuf.curr_pos(), []))
-        }
-        let c = match lexbuf.next() {
-          Some(c) => c.to_int()
-          None => -1
-        }
-        match c {
-          _ => {
-            state = -1
-            tag_action = -1
-          }
-        }
-      }
-      53 => {
-        if matched is Some((prev_pattern_id, _, _)) && 26 <= prev_pattern_id || matched is None {
-          matched = Some((26, lexbuf.curr_pos(), []))
-        }
-        let c = match lexbuf.next() {
-          Some(c) => c.to_int()
-          None => -1
-        }
-        match c {
-          _ => {
-            state = -1
-            tag_action = -1
-          }
-        }
-      }
-      54 => {
+      50 => {
         if matched is Some((prev_pattern_id, _, _)) && 23 <= prev_pattern_id || matched is None {
           matched = Some((23, lexbuf.curr_pos(), []))
         }
@@ -1319,24 +1263,93 @@ fn token[T](lexbuf : @lexbuf.T[T, Char, String, Int]) -> Token  {
           }
         }
       }
-      55 => {
+      51 => {
         let c = match lexbuf.next() {
           Some(c) => c.to_int()
           None => -1
         }
         match c {
           48..=57 => {
-            state = 60
+            state = 61
+            tag_action = 8
+          }
+          65..=70 => {
+            state = 61
+            tag_action = 8
+          }
+          97..=102 => {
+            state = 61
+            tag_action = 8
+          }
+          _ => {
+            state = -1
+            tag_action = -1
+          }
+        }
+      }
+      52 => {
+        let c = match lexbuf.next() {
+          Some(c) => c.to_int()
+          None => -1
+        }
+        match c {
+          48..=57 => {
+            state = 62
             tag_action = 12
           }
           65..=70 => {
-            state = 60
+            state = 62
             tag_action = 12
           }
           97..=102 => {
-            state = 60
+            state = 62
             tag_action = 12
           }
+          _ => {
+            state = -1
+            tag_action = -1
+          }
+        }
+      }
+      53 => {
+        if matched is Some((prev_pattern_id, _, _)) && 27 <= prev_pattern_id || matched is None {
+          matched = Some((27, lexbuf.curr_pos(), []))
+        }
+        let c = match lexbuf.next() {
+          Some(c) => c.to_int()
+          None => -1
+        }
+        match c {
+          _ => {
+            state = -1
+            tag_action = -1
+          }
+        }
+      }
+      54 => {
+        if matched is Some((prev_pattern_id, _, _)) && 29 <= prev_pattern_id || matched is None {
+          matched = Some((29, lexbuf.curr_pos(), []))
+        }
+        let c = match lexbuf.next() {
+          Some(c) => c.to_int()
+          None => -1
+        }
+        match c {
+          _ => {
+            state = -1
+            tag_action = -1
+          }
+        }
+      }
+      55 => {
+        if matched is Some((prev_pattern_id, _, _)) && 24 <= prev_pattern_id || matched is None {
+          matched = Some((24, lexbuf.curr_pos(), []))
+        }
+        let c = match lexbuf.next() {
+          Some(c) => c.to_int()
+          None => -1
+        }
+        match c {
           _ => {
             state = -1
             tag_action = -1
@@ -1344,23 +1357,14 @@ fn token[T](lexbuf : @lexbuf.T[T, Char, String, Int]) -> Token  {
         }
       }
       56 => {
+        if matched is Some((prev_pattern_id, _, _)) && 26 <= prev_pattern_id || matched is None {
+          matched = Some((26, lexbuf.curr_pos(), []))
+        }
         let c = match lexbuf.next() {
           Some(c) => c.to_int()
           None => -1
         }
         match c {
-          48..=57 => {
-            state = 61
-            tag_action = 9
-          }
-          65..=70 => {
-            state = 61
-            tag_action = 9
-          }
-          97..=102 => {
-            state = 61
-            tag_action = 9
-          }
           _ => {
             state = -1
             tag_action = -1
@@ -1368,46 +1372,14 @@ fn token[T](lexbuf : @lexbuf.T[T, Char, String, Int]) -> Token  {
         }
       }
       57 => {
-        if matched is Some((prev_pattern_id, _, _)) && 33 <= prev_pattern_id || matched is None {
-          matched = Some((33, lexbuf.curr_pos(), [(_tag_12, _tag_13)]))
+        if matched is Some((prev_pattern_id, _, _)) && 28 <= prev_pattern_id || matched is None {
+          matched = Some((28, lexbuf.curr_pos(), []))
         }
         let c = match lexbuf.next() {
           Some(c) => c.to_int()
           None => -1
         }
         match c {
-          9..=10 => {
-            state = 63
-            tag_action = 0
-          }
-          13 => {
-            state = 63
-            tag_action = 0
-          }
-          32 => {
-            state = 63
-            tag_action = 0
-          }
-          48..=57 => {
-            state = 25
-            tag_action = 1
-          }
-          65..=90 => {
-            state = 25
-            tag_action = 1
-          }
-          95 => {
-            state = 25
-            tag_action = 1
-          }
-          97..=122 => {
-            state = 25
-            tag_action = 1
-          }
-          123 => {
-            state = 62
-            tag_action = 0
-          }
           _ => {
             state = -1
             tag_action = -1
@@ -1433,11 +1405,11 @@ fn token[T](lexbuf : @lexbuf.T[T, Char, String, Int]) -> Token  {
             tag_action = 10
           }
           95 => {
-            state = 64
+            state = 63
             tag_action = 13
           }
           97..=122 => {
-            state = 64
+            state = 63
             tag_action = 13
           }
           _ => {
@@ -1447,14 +1419,45 @@ fn token[T](lexbuf : @lexbuf.T[T, Char, String, Int]) -> Token  {
         }
       }
       59 => {
+        if matched is Some((prev_pattern_id, _, _)) && 34 <= prev_pattern_id || matched is None {
+          matched = Some((34, lexbuf.curr_pos(), [(_tag_12, _tag_13)]))
+        }
         let c = match lexbuf.next() {
           Some(c) => c.to_int()
           None => -1
         }
         match c {
-          39 => {
+          9..=10 => {
             state = 65
-            tag_action = 14
+            tag_action = 0
+          }
+          13 => {
+            state = 65
+            tag_action = 0
+          }
+          32 => {
+            state = 65
+            tag_action = 0
+          }
+          48..=57 => {
+            state = 25
+            tag_action = 1
+          }
+          65..=90 => {
+            state = 25
+            tag_action = 1
+          }
+          95 => {
+            state = 25
+            tag_action = 1
+          }
+          97..=122 => {
+            state = 25
+            tag_action = 1
+          }
+          123 => {
+            state = 64
+            tag_action = 0
           }
           _ => {
             state = -1
@@ -1468,21 +1471,9 @@ fn token[T](lexbuf : @lexbuf.T[T, Char, String, Int]) -> Token  {
           None => -1
         }
         match c {
-          48..=57 => {
-            state = 60
-            tag_action = 12
-          }
-          65..=70 => {
-            state = 60
-            tag_action = 12
-          }
-          97..=102 => {
-            state = 60
-            tag_action = 12
-          }
-          125 => {
+          39 => {
             state = 66
-            tag_action = 15
+            tag_action = 14
           }
           _ => {
             state = -1
@@ -1498,15 +1489,15 @@ fn token[T](lexbuf : @lexbuf.T[T, Char, String, Int]) -> Token  {
         match c {
           48..=57 => {
             state = 67
-            tag_action = 9
+            tag_action = 8
           }
           65..=70 => {
             state = 67
-            tag_action = 9
+            tag_action = 8
           }
           97..=102 => {
             state = 67
-            tag_action = 9
+            tag_action = 8
           }
           _ => {
             state = -1
@@ -1515,6 +1506,82 @@ fn token[T](lexbuf : @lexbuf.T[T, Char, String, Int]) -> Token  {
         }
       }
       62 => {
+        let c = match lexbuf.next() {
+          Some(c) => c.to_int()
+          None => -1
+        }
+        match c {
+          48..=57 => {
+            state = 62
+            tag_action = 12
+          }
+          65..=70 => {
+            state = 62
+            tag_action = 12
+          }
+          97..=102 => {
+            state = 62
+            tag_action = 12
+          }
+          125 => {
+            state = 68
+            tag_action = 15
+          }
+          _ => {
+            state = -1
+            tag_action = -1
+          }
+        }
+      }
+      63 => {
+        let c = match lexbuf.next() {
+          Some(c) => c.to_int()
+          None => -1
+        }
+        match c {
+          0..=47 => {
+            state = 70
+            tag_action = 17
+          }
+          48..=57 => {
+            state = 69
+            tag_action = 16
+          }
+          58..=64 => {
+            state = 70
+            tag_action = 17
+          }
+          65..=90 => {
+            state = 69
+            tag_action = 16
+          }
+          91..=94 => {
+            state = 70
+            tag_action = 17
+          }
+          95 => {
+            state = 69
+            tag_action = 16
+          }
+          96 => {
+            state = 70
+            tag_action = 17
+          }
+          97..=122 => {
+            state = 69
+            tag_action = 16
+          }
+          124..=1114111 => {
+            state = 70
+            tag_action = 17
+          }
+          _ => {
+            state = -1
+            tag_action = -1
+          }
+        }
+      }
+      64 => {
         if matched is Some((prev_pattern_id, _, _)) && 4 <= prev_pattern_id || matched is None {
           matched = Some((4, lexbuf.curr_pos(), []))
         }
@@ -1529,91 +1596,28 @@ fn token[T](lexbuf : @lexbuf.T[T, Char, String, Int]) -> Token  {
           }
         }
       }
-      63 => {
+      65 => {
         let c = match lexbuf.next() {
           Some(c) => c.to_int()
           None => -1
         }
         match c {
           9..=10 => {
-            state = 63
+            state = 65
             tag_action = 0
           }
           13 => {
-            state = 63
+            state = 65
             tag_action = 0
           }
           32 => {
-            state = 63
+            state = 65
             tag_action = 0
           }
           123 => {
-            state = 62
+            state = 64
             tag_action = 0
           }
-          _ => {
-            state = -1
-            tag_action = -1
-          }
-        }
-      }
-      64 => {
-        let c = match lexbuf.next() {
-          Some(c) => c.to_int()
-          None => -1
-        }
-        match c {
-          0..=47 => {
-            state = 69
-            tag_action = 17
-          }
-          48..=57 => {
-            state = 68
-            tag_action = 16
-          }
-          58..=64 => {
-            state = 69
-            tag_action = 17
-          }
-          65..=90 => {
-            state = 68
-            tag_action = 16
-          }
-          91..=94 => {
-            state = 69
-            tag_action = 17
-          }
-          95 => {
-            state = 68
-            tag_action = 16
-          }
-          96 => {
-            state = 69
-            tag_action = 17
-          }
-          97..=122 => {
-            state = 68
-            tag_action = 16
-          }
-          124..=1114111 => {
-            state = 69
-            tag_action = 17
-          }
-          _ => {
-            state = -1
-            tag_action = -1
-          }
-        }
-      }
-      65 => {
-        if matched is Some((prev_pattern_id, _, _)) && 29 <= prev_pattern_id || matched is None {
-          matched = Some((29, lexbuf.curr_pos(), [(_tag_6, _tag_7)]))
-        }
-        let c = match lexbuf.next() {
-          Some(c) => c.to_int()
-          None => -1
-        }
-        match c {
           _ => {
             state = -1
             tag_action = -1
@@ -1621,15 +1625,14 @@ fn token[T](lexbuf : @lexbuf.T[T, Char, String, Int]) -> Token  {
         }
       }
       66 => {
+        if matched is Some((prev_pattern_id, _, _)) && 30 <= prev_pattern_id || matched is None {
+          matched = Some((30, lexbuf.curr_pos(), [(_tag_6, _tag_7)]))
+        }
         let c = match lexbuf.next() {
           Some(c) => c.to_int()
           None => -1
         }
         match c {
-          39 => {
-            state = 70
-            tag_action = 15
-          }
           _ => {
             state = -1
             tag_action = -1
@@ -1666,69 +1669,9 @@ fn token[T](lexbuf : @lexbuf.T[T, Char, String, Int]) -> Token  {
           None => -1
         }
         match c {
-          0..=8 => {
-            state = 69
-            tag_action = 17
-          }
-          9..=10 => {
-            state = 73
-            tag_action = 20
-          }
-          11..=12 => {
-            state = 69
-            tag_action = 17
-          }
-          13 => {
-            state = 73
-            tag_action = 20
-          }
-          14..=31 => {
-            state = 69
-            tag_action = 17
-          }
-          32 => {
-            state = 73
-            tag_action = 20
-          }
-          33..=47 => {
-            state = 69
-            tag_action = 17
-          }
-          48..=57 => {
-            state = 68
-            tag_action = 16
-          }
-          58..=64 => {
-            state = 69
-            tag_action = 17
-          }
-          65..=90 => {
-            state = 68
-            tag_action = 16
-          }
-          91..=94 => {
-            state = 69
-            tag_action = 17
-          }
-          95 => {
-            state = 68
-            tag_action = 16
-          }
-          96 => {
-            state = 69
-            tag_action = 17
-          }
-          97..=122 => {
-            state = 68
-            tag_action = 16
-          }
-          123 => {
+          39 => {
             state = 72
-            tag_action = 19
-          }
-          124..=1114111 => {
-            state = 69
-            tag_action = 17
+            tag_action = 15
           }
           _ => {
             state = -1
@@ -1743,39 +1686,67 @@ fn token[T](lexbuf : @lexbuf.T[T, Char, String, Int]) -> Token  {
         }
         match c {
           0..=8 => {
-            state = 69
+            state = 70
             tag_action = 17
           }
           9..=10 => {
             state = 74
-            tag_action = 22
+            tag_action = 20
           }
           11..=12 => {
-            state = 69
+            state = 70
             tag_action = 17
           }
           13 => {
             state = 74
-            tag_action = 22
+            tag_action = 20
           }
           14..=31 => {
-            state = 69
+            state = 70
             tag_action = 17
           }
           32 => {
             state = 74
-            tag_action = 22
+            tag_action = 20
           }
-          33..=122 => {
-            state = 69
+          33..=47 => {
+            state = 70
             tag_action = 17
           }
+          48..=57 => {
+            state = 69
+            tag_action = 16
+          }
+          58..=64 => {
+            state = 70
+            tag_action = 17
+          }
+          65..=90 => {
+            state = 69
+            tag_action = 16
+          }
+          91..=94 => {
+            state = 70
+            tag_action = 17
+          }
+          95 => {
+            state = 69
+            tag_action = 16
+          }
+          96 => {
+            state = 70
+            tag_action = 17
+          }
+          97..=122 => {
+            state = 69
+            tag_action = 16
+          }
           123 => {
-            state = 72
-            tag_action = 21
+            state = 73
+            tag_action = 19
           }
           124..=1114111 => {
-            state = 69
+            state = 70
             tag_action = 17
           }
           _ => {
@@ -1785,14 +1756,47 @@ fn token[T](lexbuf : @lexbuf.T[T, Char, String, Int]) -> Token  {
         }
       }
       70 => {
-        if matched is Some((prev_pattern_id, _, _)) && 31 <= prev_pattern_id || matched is None {
-          matched = Some((31, lexbuf.curr_pos(), [(_tag_10, _tag_11)]))
-        }
         let c = match lexbuf.next() {
           Some(c) => c.to_int()
           None => -1
         }
         match c {
+          0..=8 => {
+            state = 70
+            tag_action = 17
+          }
+          9..=10 => {
+            state = 75
+            tag_action = 22
+          }
+          11..=12 => {
+            state = 70
+            tag_action = 17
+          }
+          13 => {
+            state = 75
+            tag_action = 22
+          }
+          14..=31 => {
+            state = 70
+            tag_action = 17
+          }
+          32 => {
+            state = 75
+            tag_action = 22
+          }
+          33..=122 => {
+            state = 70
+            tag_action = 17
+          }
+          123 => {
+            state = 73
+            tag_action = 21
+          }
+          124..=1114111 => {
+            state = 70
+            tag_action = 17
+          }
           _ => {
             state = -1
             tag_action = -1
@@ -1806,7 +1810,7 @@ fn token[T](lexbuf : @lexbuf.T[T, Char, String, Int]) -> Token  {
         }
         match c {
           39 => {
-            state = 75
+            state = 76
             tag_action = 23
           }
           _ => {
@@ -1816,6 +1820,21 @@ fn token[T](lexbuf : @lexbuf.T[T, Char, String, Int]) -> Token  {
         }
       }
       72 => {
+        if matched is Some((prev_pattern_id, _, _)) && 32 <= prev_pattern_id || matched is None {
+          matched = Some((32, lexbuf.curr_pos(), [(_tag_10, _tag_11)]))
+        }
+        let c = match lexbuf.next() {
+          Some(c) => c.to_int()
+          None => -1
+        }
+        match c {
+          _ => {
+            state = -1
+            tag_action = -1
+          }
+        }
+      }
+      73 => {
         if matched is Some((prev_pattern_id, _, _)) && 3 <= prev_pattern_id || matched is None {
           matched = Some((3, lexbuf.curr_pos(), [(_tag_0, _tag_1), (_tag_2, _tag_3)]))
         }
@@ -1830,54 +1849,6 @@ fn token[T](lexbuf : @lexbuf.T[T, Char, String, Int]) -> Token  {
           }
         }
       }
-      73 => {
-        let c = match lexbuf.next() {
-          Some(c) => c.to_int()
-          None => -1
-        }
-        match c {
-          0..=8 => {
-            state = 69
-            tag_action = 17
-          }
-          9..=10 => {
-            state = 74
-            tag_action = 22
-          }
-          11..=12 => {
-            state = 69
-            tag_action = 17
-          }
-          13 => {
-            state = 74
-            tag_action = 22
-          }
-          14..=31 => {
-            state = 69
-            tag_action = 17
-          }
-          32 => {
-            state = 74
-            tag_action = 22
-          }
-          33..=122 => {
-            state = 69
-            tag_action = 17
-          }
-          123 => {
-            state = 72
-            tag_action = 21
-          }
-          124..=1114111 => {
-            state = 69
-            tag_action = 17
-          }
-          _ => {
-            state = -1
-            tag_action = -1
-          }
-        }
-      }
       74 => {
         let c = match lexbuf.next() {
           Some(c) => c.to_int()
@@ -1885,39 +1856,39 @@ fn token[T](lexbuf : @lexbuf.T[T, Char, String, Int]) -> Token  {
         }
         match c {
           0..=8 => {
-            state = 69
+            state = 70
             tag_action = 17
           }
           9..=10 => {
-            state = 74
+            state = 75
             tag_action = 22
           }
           11..=12 => {
-            state = 69
+            state = 70
             tag_action = 17
           }
           13 => {
-            state = 74
+            state = 75
             tag_action = 22
           }
           14..=31 => {
-            state = 69
+            state = 70
             tag_action = 17
           }
           32 => {
-            state = 74
+            state = 75
             tag_action = 22
           }
           33..=122 => {
-            state = 69
+            state = 70
             tag_action = 17
           }
           123 => {
-            state = 72
+            state = 73
             tag_action = 21
           }
           124..=1114111 => {
-            state = 69
+            state = 70
             tag_action = 17
           }
           _ => {
@@ -1927,8 +1898,56 @@ fn token[T](lexbuf : @lexbuf.T[T, Char, String, Int]) -> Token  {
         }
       }
       75 => {
-        if matched is Some((prev_pattern_id, _, _)) && 30 <= prev_pattern_id || matched is None {
-          matched = Some((30, lexbuf.curr_pos(), [(_tag_8, _tag_9)]))
+        let c = match lexbuf.next() {
+          Some(c) => c.to_int()
+          None => -1
+        }
+        match c {
+          0..=8 => {
+            state = 70
+            tag_action = 17
+          }
+          9..=10 => {
+            state = 75
+            tag_action = 22
+          }
+          11..=12 => {
+            state = 70
+            tag_action = 17
+          }
+          13 => {
+            state = 75
+            tag_action = 22
+          }
+          14..=31 => {
+            state = 70
+            tag_action = 17
+          }
+          32 => {
+            state = 75
+            tag_action = 22
+          }
+          33..=122 => {
+            state = 70
+            tag_action = 17
+          }
+          123 => {
+            state = 73
+            tag_action = 21
+          }
+          124..=1114111 => {
+            state = 70
+            tag_action = 17
+          }
+          _ => {
+            state = -1
+            tag_action = -1
+          }
+        }
+      }
+      76 => {
+        if matched is Some((prev_pattern_id, _, _)) && 31 <= prev_pattern_id || matched is None {
+          matched = Some((31, lexbuf.curr_pos(), [(_tag_8, _tag_9)]))
         }
         let c = match lexbuf.next() {
           Some(c) => c.to_int()
@@ -1966,10 +1985,10 @@ fn token[T](lexbuf : @lexbuf.T[T, Char, String, Int]) -> Token  {
         ()
       }
       8 => {
-        _tag_10 = lexbuf.curr_pos()
+        ()
       }
       9 => {
-        ()
+        _tag_10 = lexbuf.curr_pos()
       }
       10 => {
         _tag_0 = lexbuf.curr_pos()
@@ -2082,59 +2101,54 @@ fn token[T](lexbuf : @lexbuf.T[T, Char, String, Int]) -> Token  {
  EQ 
     }
     14 => {
- SEMICOLON 
+ COLON 
     }
     15 => {
- BAR 
+ SEMICOLON 
     }
     16 => {
- STAR 
+ BAR 
     }
     17 => {
- PLUS 
+ STAR 
     }
     18 => {
- QUESTION 
+ PLUS 
     }
     19 => {
- MINUS 
+ QUESTION 
     }
     20 => {
- CARET 
+ MINUS 
     }
     21 => {
+ CARET 
+    }
+    22 => {
       let _start_pos_of_t = _captures[0].0
       let t = lexbuf.unsafe_get(_start_pos_of_t)
  CHAR(t) 
     }
-    22 => {
+    23 => {
  CHAR('\u{08}') 
     }
-    23 => {
+    24 => {
  CHAR('\t') 
     }
-    24 => {
+    25 => {
  CHAR('\u{0b}') 
     }
-    25 => {
+    26 => {
  CHAR('\r') 
     }
-    26 => {
+    27 => {
  CHAR('\n') 
     }
-    27 => {
+    28 => {
  CHAR('\\') 
     }
-    28 => {
- CHAR('\'') 
-    }
     29 => {
-      let (_start_pos_of_t, _end_pos_of_t) = _captures[0]
-      let t = lexbuf.sub_lexeme(_start_pos_of_t, _end_pos_of_t)
-
-      let code = @strconv.parse_int?(t, base=16).unwrap()
-      CHAR(Char::from_int(code))
-    
+ CHAR('\'') 
     }
     30 => {
       let (_start_pos_of_t, _end_pos_of_t) = _captures[0]
@@ -2153,13 +2167,21 @@ fn token[T](lexbuf : @lexbuf.T[T, Char, String, Int]) -> Token  {
     
     }
     32 => {
+      let (_start_pos_of_t, _end_pos_of_t) = _captures[0]
+      let t = lexbuf.sub_lexeme(_start_pos_of_t, _end_pos_of_t)
+
+      let code = @strconv.parse_int?(t, base=16).unwrap()
+      CHAR(Char::from_int(code))
+    
+    }
+    33 => {
 
       let buffer = StringBuilder::new()
       string_inner_rquote(buffer, lexbuf)
       STRING(buffer.to_string())
     
     }
-    33 => {
+    34 => {
       let (_start_pos_of_t, _end_pos_of_t) = _captures[0]
       let t = lexbuf.sub_lexeme(_start_pos_of_t, _end_pos_of_t)
 

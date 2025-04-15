@@ -112,7 +112,7 @@ fn register_regex(
   code_block : CodeBlock,
   name2tag : (String) -> (Tag, Tag)
 ) -> Unit {
-  let final_ = self.register_regex_rec(node, re, name2tag)
+  let final_ = self.register_regex_rec(node, re, name2tag, None)
   let id = self.code_blocks.length()
   self.code_blocks.push(code_block)
   self.end_nodes.set(final_.num, id)
@@ -123,7 +123,8 @@ fn register_regex_rec(
   self : NFA,
   node : NFANode,
   re : Regex,
-  name2tag : (String) -> (Tag, Tag)
+  name2tag : (String) -> (Tag, Tag),
+  encoding : @type.Encoding?
 ) -> NFANode {
   let new_node = self.new_node()
   self.add_edge(node, Eps, new_node)
@@ -136,7 +137,44 @@ fn register_regex_rec(
     }
     Character(cset) => {
       let next_node = self.new_node()
-      self.add_edge(new_node, EChar(cset), next_node)
+      match encoding {
+        None => self.add_edge(new_node, EChar(cset), next_node)
+        Some(Ascii) =>
+          // TODO: check range in 0..=128
+          self.add_edge(new_node, EChar(cset), next_node)
+        Some(Latin1) =>
+          // TODO: check range in 0..=255
+          self.add_edge(new_node, EChar(cset), next_node)
+        Some(Utf8) =>
+          // TODO: optimize this
+          for c in cset {
+            match c.repr() {
+              Eof =>
+                self.add_edge(new_node, EChar(@eof_char_set.eof), next_node)
+              Char(c) => {
+                let bytes = @encoding.encode(UTF8, String::make(1, c))
+                let self_ = self
+                fn link(byte : Byte, prev_node : NFANode) -> NFANode {
+                  let end_node = self_.new_node()
+                  self_.add_edge(
+                    prev_node,
+                    EChar(
+                      @eof_char_set.singleton(Char::from_int(byte.to_int())),
+                    ),
+                    end_node,
+                  )
+                  end_node
+                }
+
+                let mut prev_node = new_node
+                for byte in bytes {
+                  prev_node = link(byte, prev_node)
+                }
+                self.add_edge(prev_node, Eps, next_node)
+              }
+            }
+          }
+      }
       next_node
     }
     Epsilon => {
@@ -145,17 +183,17 @@ fn register_regex_rec(
       next_node
     }
     Repetition(re) => {
-      let final_ = self.register_regex_rec(new_node, re, name2tag)
+      let final_ = self.register_regex_rec(new_node, re, name2tag, encoding)
       self.add_edge(final_, Eps, new_node)
       final_
     }
     Concat(re1, re2) => {
-      let mid = self.register_regex_rec(new_node, re1, name2tag)
-      self.register_regex_rec(mid, re2, name2tag)
+      let mid = self.register_regex_rec(new_node, re1, name2tag, encoding)
+      self.register_regex_rec(mid, re2, name2tag, encoding)
     }
     Alter(re1, re2) => {
-      let final_1 = self.register_regex_rec(new_node, re1, name2tag)
-      let final_2 = self.register_regex_rec(new_node, re2, name2tag)
+      let final_1 = self.register_regex_rec(new_node, re1, name2tag, encoding)
+      let final_2 = self.register_regex_rec(new_node, re2, name2tag, encoding)
       let final_ = self.new_node()
       self.add_edge(final_1, Eps, final_)
       self.add_edge(final_2, Eps, final_)
@@ -164,12 +202,14 @@ fn register_regex_rec(
     Capture(re, name) => {
       let start = self.new_node()
       let final_ = self.new_node()
-      let tail = self.register_regex_rec(start, re, name2tag)
+      let tail = self.register_regex_rec(start, re, name2tag, encoding)
       let (begin_tag, end_tag) = name2tag(name)
       self.add_edge(new_node, Eps, start, tag=Some(begin_tag))
       self.add_edge(tail, Eps, final_, tag=Some(end_tag))
       final_
     }
+    Bytes(encoding, re) =>
+      self.register_regex_rec(new_node, re, name2tag, Some(encoding))
   }
   let new_final = self.new_node()
   self.add_edge(final_, Eps, new_final)

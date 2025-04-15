@@ -1,0 +1,16 @@
+rule lex_unicode(lexbuf : @lexbuf.T) -> Int {
+  parse {
+    (utf8: "我爱中国") => { 1 }
+    (utf8: '𠮷') => { 2 }
+    // Hiragana
+    (utf8: ['\u3041'-'\u3096' '\u3099'-'\u309F' ]) => { 3 }
+    _ => { 4 }
+  }
+}
+
+{
+fn classify(bytes : Bytes) -> Int {
+  let lexbuf = @lexbuf.from_bytes(bytes)
+  lex_unicode(lexbuf)
+}
+}
