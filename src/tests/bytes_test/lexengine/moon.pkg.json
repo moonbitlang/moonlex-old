@@ -1,5 +1,0 @@
-{
-  "import": [
-    "moonbitlang/ulex/tests/bytes_test/lexbuf"
-  ]
-}
