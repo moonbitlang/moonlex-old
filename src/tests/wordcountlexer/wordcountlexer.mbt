@@ -9,7 +9,6 @@ fn count[T](lines : Int, words : Int, chars : Int, lexbuf : @lexbuf.T[T, Char, S
   let mut _tag_1 = -1
   _tag_0 = lexbuf.curr_pos()
   while state != -1 {
-    let mut tag_action = -1
     match state {
       0 => {
         if matched is Some((prev_pattern_id, _, _)) && 3 <= prev_pattern_id || matched is None {
@@ -19,35 +18,23 @@ fn count[T](lines : Int, words : Int, chars : Int, lexbuf : @lexbuf.T[T, Char, S
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
+        state = match c {
           0..=8 => {
-            state = 3
-            tag_action = 1
+            _tag_1 = lexbuf.curr_pos()
+            3
           }
-          9 => {
-            state = 2
-            tag_action = 0
-          }
-          10 => {
-            state = 1
-            tag_action = 0
-          }
+          9 => 2
+          10 => 1
           11..=31 => {
-            state = 3
-            tag_action = 1
+            _tag_1 = lexbuf.curr_pos()
+            3
           }
-          32 => {
-            state = 2
-            tag_action = 0
-          }
+          32 => 2
           33..=1114111 => {
-            state = 3
-            tag_action = 1
+            _tag_1 = lexbuf.curr_pos()
+            3
           }
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+          _ => -1
         }
       }
       1 => {
@@ -58,11 +45,8 @@ fn count[T](lines : Int, words : Int, chars : Int, lexbuf : @lexbuf.T[T, Char, S
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          _ => -1
         }
       }
       2 => {
@@ -73,11 +57,8 @@ fn count[T](lines : Int, words : Int, chars : Int, lexbuf : @lexbuf.T[T, Char, S
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          _ => -1
         }
       }
       3 => {
@@ -88,23 +69,20 @@ fn count[T](lines : Int, words : Int, chars : Int, lexbuf : @lexbuf.T[T, Char, S
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
+        state = match c {
           0..=8 => {
-            state = 4
-            tag_action = 1
+            _tag_1 = lexbuf.curr_pos()
+            4
           }
           11..=31 => {
-            state = 4
-            tag_action = 1
+            _tag_1 = lexbuf.curr_pos()
+            4
           }
           33..=1114111 => {
-            state = 4
-            tag_action = 1
+            _tag_1 = lexbuf.curr_pos()
+            4
           }
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+          _ => -1
         }
       }
       4 => {
@@ -115,32 +93,23 @@ fn count[T](lines : Int, words : Int, chars : Int, lexbuf : @lexbuf.T[T, Char, S
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
+        state = match c {
           0..=8 => {
-            state = 4
-            tag_action = 1
+            _tag_1 = lexbuf.curr_pos()
+            4
           }
           11..=31 => {
-            state = 4
-            tag_action = 1
+            _tag_1 = lexbuf.curr_pos()
+            4
           }
           33..=1114111 => {
-            state = 4
-            tag_action = 1
+            _tag_1 = lexbuf.curr_pos()
+            4
           }
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+          _ => -1
         }
       }
       _ => panic()
-    }
-    match tag_action {
-      1 => {
-        _tag_1 = lexbuf.curr_pos()
-      }
-      _ => ()
     }
   }
 

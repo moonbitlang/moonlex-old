@@ -30,46 +30,36 @@ fn lex_utf8(lexbuf : @lexbuf.T, buf : StringBuilder) -> Unit!MalformedUtf8Error 
   _tag_6 = lexbuf.curr_pos()
   _tag_12 = lexbuf.curr_pos()
   while state != -1 {
-    let mut tag_action = -1
     match state {
       0 => {
         let c = match lexbuf.next() {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          -1 => {
-            state = 3
-            tag_action = 1
-          }
+        state = match c {
+          -1 => 3
           0..=127 => {
-            state = 1
-            tag_action = 0
+            _tag_1 = lexbuf.curr_pos()
+            1
           }
-          128..=193 => {
-            state = 2
-            tag_action = 1
-          }
+          128..=193 => 2
           194..=223 => {
-            state = 5
-            tag_action = 3
+            _tag_3 = lexbuf.curr_pos()
+            _tag_4 = lexbuf.curr_pos()
+            5
           }
           224..=239 => {
-            state = 6
-            tag_action = 4
+            _tag_7 = lexbuf.curr_pos()
+            _tag_8 = lexbuf.curr_pos()
+            6
           }
           240..=244 => {
-            state = 4
-            tag_action = 2
+            _tag_13 = lexbuf.curr_pos()
+            _tag_14 = lexbuf.curr_pos()
+            4
           }
-          245..=1114111 => {
-            state = 2
-            tag_action = 1
-          }
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+          245..=1114111 => 2
+          _ => -1
         }
       }
       1 => {
@@ -80,11 +70,8 @@ fn lex_utf8(lexbuf : @lexbuf.T, buf : StringBuilder) -> Unit!MalformedUtf8Error 
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          _ => -1
         }
       }
       2 => {
@@ -95,11 +82,8 @@ fn lex_utf8(lexbuf : @lexbuf.T, buf : StringBuilder) -> Unit!MalformedUtf8Error 
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          _ => -1
         }
       }
       3 => {
@@ -110,11 +94,8 @@ fn lex_utf8(lexbuf : @lexbuf.T, buf : StringBuilder) -> Unit!MalformedUtf8Error 
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          _ => -1
         }
       }
       4 => {
@@ -125,15 +106,13 @@ fn lex_utf8(lexbuf : @lexbuf.T, buf : StringBuilder) -> Unit!MalformedUtf8Error 
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
+        state = match c {
           128..=191 => {
-            state = 7
-            tag_action = 5
+            _tag_15 = lexbuf.curr_pos()
+            _tag_16 = lexbuf.curr_pos()
+            7
           }
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+          _ => -1
         }
       }
       5 => {
@@ -144,15 +123,12 @@ fn lex_utf8(lexbuf : @lexbuf.T, buf : StringBuilder) -> Unit!MalformedUtf8Error 
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
+        state = match c {
           128..=191 => {
-            state = 8
-            tag_action = 6
+            _tag_5 = lexbuf.curr_pos()
+            8
           }
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+          _ => -1
         }
       }
       6 => {
@@ -163,15 +139,13 @@ fn lex_utf8(lexbuf : @lexbuf.T, buf : StringBuilder) -> Unit!MalformedUtf8Error 
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
+        state = match c {
           128..=191 => {
-            state = 9
-            tag_action = 7
+            _tag_9 = lexbuf.curr_pos()
+            _tag_10 = lexbuf.curr_pos()
+            9
           }
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+          _ => -1
         }
       }
       7 => {
@@ -179,15 +153,13 @@ fn lex_utf8(lexbuf : @lexbuf.T, buf : StringBuilder) -> Unit!MalformedUtf8Error 
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
+        state = match c {
           128..=191 => {
-            state = 10
-            tag_action = 8
+            _tag_17 = lexbuf.curr_pos()
+            _tag_18 = lexbuf.curr_pos()
+            10
           }
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+          _ => -1
         }
       }
       8 => {
@@ -198,11 +170,8 @@ fn lex_utf8(lexbuf : @lexbuf.T, buf : StringBuilder) -> Unit!MalformedUtf8Error 
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          _ => -1
         }
       }
       9 => {
@@ -210,15 +179,12 @@ fn lex_utf8(lexbuf : @lexbuf.T, buf : StringBuilder) -> Unit!MalformedUtf8Error 
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
+        state = match c {
           128..=191 => {
-            state = 11
-            tag_action = 9
+            _tag_11 = lexbuf.curr_pos()
+            11
           }
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+          _ => -1
         }
       }
       10 => {
@@ -226,15 +192,12 @@ fn lex_utf8(lexbuf : @lexbuf.T, buf : StringBuilder) -> Unit!MalformedUtf8Error 
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
+        state = match c {
           128..=191 => {
-            state = 12
-            tag_action = 10
+            _tag_19 = lexbuf.curr_pos()
+            12
           }
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+          _ => -1
         }
       }
       11 => {
@@ -245,11 +208,8 @@ fn lex_utf8(lexbuf : @lexbuf.T, buf : StringBuilder) -> Unit!MalformedUtf8Error 
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          _ => -1
         }
       }
       12 => {
@@ -260,53 +220,11 @@ fn lex_utf8(lexbuf : @lexbuf.T, buf : StringBuilder) -> Unit!MalformedUtf8Error 
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          _ => -1
         }
       }
       _ => panic()
-    }
-    match tag_action {
-      0 => {
-        _tag_1 = lexbuf.curr_pos()
-      }
-      2 => {
-        _tag_13 = lexbuf.curr_pos()
-        _tag_14 = lexbuf.curr_pos()
-      }
-      3 => {
-        _tag_3 = lexbuf.curr_pos()
-        _tag_4 = lexbuf.curr_pos()
-      }
-      4 => {
-        _tag_7 = lexbuf.curr_pos()
-        _tag_8 = lexbuf.curr_pos()
-      }
-      5 => {
-        _tag_15 = lexbuf.curr_pos()
-        _tag_16 = lexbuf.curr_pos()
-      }
-      6 => {
-        _tag_5 = lexbuf.curr_pos()
-      }
-      7 => {
-        _tag_9 = lexbuf.curr_pos()
-        _tag_10 = lexbuf.curr_pos()
-      }
-      8 => {
-        _tag_17 = lexbuf.curr_pos()
-        _tag_18 = lexbuf.curr_pos()
-      }
-      9 => {
-        _tag_11 = lexbuf.curr_pos()
-      }
-      10 => {
-        _tag_19 = lexbuf.curr_pos()
-      }
-      _ => ()
     }
   }
 

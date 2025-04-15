@@ -11,34 +11,18 @@ fn token[T, C, S, P](lexbuf : @lexbuf.T[T, C, S, P]) -> Token  {
   let mut matched = None
   let mut state = 0
   while state != -1 {
-    let mut tag_action = -1
     match state {
       0 => {
         let c = match lexbuf.next() {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          -1 => {
-            state = 2
-            tag_action = 0
-          }
-          0..=36 => {
-            state = 1
-            tag_action = 0
-          }
-          37 => {
-            state = 3
-            tag_action = 0
-          }
-          38..=1114111 => {
-            state = 1
-            tag_action = 0
-          }
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          -1 => 2
+          0..=36 => 1
+          37 => 3
+          38..=1114111 => 1
+          _ => -1
         }
       }
       1 => {
@@ -49,11 +33,8 @@ fn token[T, C, S, P](lexbuf : @lexbuf.T[T, C, S, P]) -> Token  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          _ => -1
         }
       }
       2 => {
@@ -64,11 +45,8 @@ fn token[T, C, S, P](lexbuf : @lexbuf.T[T, C, S, P]) -> Token  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          _ => -1
         }
       }
       3 => {
@@ -79,15 +57,9 @@ fn token[T, C, S, P](lexbuf : @lexbuf.T[T, C, S, P]) -> Token  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          -1 => {
-            state = 4
-            tag_action = 0
-          }
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          -1 => 4
+          _ => -1
         }
       }
       4 => {
@@ -98,17 +70,11 @@ fn token[T, C, S, P](lexbuf : @lexbuf.T[T, C, S, P]) -> Token  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          _ => -1
         }
       }
       _ => panic()
-    }
-    match tag_action {
-      _ => ()
     }
   }
 

@@ -4,46 +4,21 @@ fn lex_unicode(lexbuf : @lexbuf.T) -> Int  {
   let mut matched = None
   let mut state = 0
   while state != -1 {
-    let mut tag_action = -1
     match state {
       0 => {
         let c = match lexbuf.next() {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          0..=226 => {
-            state = 1
-            tag_action = 0
-          }
-          227 => {
-            state = 2
-            tag_action = 0
-          }
-          228..=229 => {
-            state = 1
-            tag_action = 0
-          }
-          230 => {
-            state = 4
-            tag_action = 0
-          }
-          231..=239 => {
-            state = 1
-            tag_action = 0
-          }
-          240 => {
-            state = 3
-            tag_action = 0
-          }
-          241..=1114111 => {
-            state = 1
-            tag_action = 0
-          }
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          0..=226 => 1
+          227 => 2
+          228..=229 => 1
+          230 => 4
+          231..=239 => 1
+          240 => 3
+          241..=1114111 => 1
+          _ => -1
         }
       }
       1 => {
@@ -54,11 +29,8 @@ fn lex_unicode(lexbuf : @lexbuf.T) -> Int  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          _ => -1
         }
       }
       2 => {
@@ -69,19 +41,10 @@ fn lex_unicode(lexbuf : @lexbuf.T) -> Int  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          129 => {
-            state = 5
-            tag_action = 0
-          }
-          130 => {
-            state = 6
-            tag_action = 0
-          }
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          129 => 5
+          130 => 6
+          _ => -1
         }
       }
       3 => {
@@ -92,15 +55,9 @@ fn lex_unicode(lexbuf : @lexbuf.T) -> Int  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          160 => {
-            state = 7
-            tag_action = 0
-          }
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          160 => 7
+          _ => -1
         }
       }
       4 => {
@@ -111,15 +68,9 @@ fn lex_unicode(lexbuf : @lexbuf.T) -> Int  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          136 => {
-            state = 8
-            tag_action = 0
-          }
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          136 => 8
+          _ => -1
         }
       }
       5 => {
@@ -127,263 +78,71 @@ fn lex_unicode(lexbuf : @lexbuf.T) -> Int  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          129 => {
-            state = 31
-            tag_action = 0
-          }
-          130 => {
-            state = 25
-            tag_action = 0
-          }
-          131 => {
-            state = 38
-            tag_action = 0
-          }
-          132 => {
-            state = 56
-            tag_action = 0
-          }
-          133 => {
-            state = 9
-            tag_action = 0
-          }
-          134 => {
-            state = 45
-            tag_action = 0
-          }
-          135 => {
-            state = 54
-            tag_action = 0
-          }
-          136 => {
-            state = 68
-            tag_action = 0
-          }
-          137 => {
-            state = 35
-            tag_action = 0
-          }
-          138 => {
-            state = 13
-            tag_action = 0
-          }
-          139 => {
-            state = 18
-            tag_action = 0
-          }
-          140 => {
-            state = 36
-            tag_action = 0
-          }
-          141 => {
-            state = 48
-            tag_action = 0
-          }
-          142 => {
-            state = 15
-            tag_action = 0
-          }
-          143 => {
-            state = 20
-            tag_action = 0
-          }
-          144 => {
-            state = 42
-            tag_action = 0
-          }
-          145 => {
-            state = 28
-            tag_action = 0
-          }
-          146 => {
-            state = 66
-            tag_action = 0
-          }
-          147 => {
-            state = 16
-            tag_action = 0
-          }
-          148 => {
-            state = 62
-            tag_action = 0
-          }
-          149 => {
-            state = 52
-            tag_action = 0
-          }
-          150 => {
-            state = 59
-            tag_action = 0
-          }
-          151 => {
-            state = 64
-            tag_action = 0
-          }
-          152 => {
-            state = 40
-            tag_action = 0
-          }
-          153 => {
-            state = 12
-            tag_action = 0
-          }
-          154 => {
-            state = 32
-            tag_action = 0
-          }
-          155 => {
-            state = 34
-            tag_action = 0
-          }
-          156 => {
-            state = 55
-            tag_action = 0
-          }
-          157 => {
-            state = 24
-            tag_action = 0
-          }
-          158 => {
-            state = 19
-            tag_action = 0
-          }
-          159 => {
-            state = 71
-            tag_action = 0
-          }
-          160 => {
-            state = 22
-            tag_action = 0
-          }
-          161 => {
-            state = 58
-            tag_action = 0
-          }
-          162 => {
-            state = 37
-            tag_action = 0
-          }
-          163 => {
-            state = 49
-            tag_action = 0
-          }
-          164 => {
-            state = 70
-            tag_action = 0
-          }
-          165 => {
-            state = 30
-            tag_action = 0
-          }
-          166 => {
-            state = 57
-            tag_action = 0
-          }
-          167 => {
-            state = 69
-            tag_action = 0
-          }
-          168 => {
-            state = 67
-            tag_action = 0
-          }
-          169 => {
-            state = 61
-            tag_action = 0
-          }
-          170 => {
-            state = 27
-            tag_action = 0
-          }
-          171 => {
-            state = 51
-            tag_action = 0
-          }
-          172 => {
-            state = 29
-            tag_action = 0
-          }
-          173 => {
-            state = 33
-            tag_action = 0
-          }
-          174 => {
-            state = 53
-            tag_action = 0
-          }
-          175 => {
-            state = 47
-            tag_action = 0
-          }
-          176 => {
-            state = 17
-            tag_action = 0
-          }
-          177 => {
-            state = 60
-            tag_action = 0
-          }
-          178 => {
-            state = 26
-            tag_action = 0
-          }
-          179 => {
-            state = 46
-            tag_action = 0
-          }
-          180 => {
-            state = 10
-            tag_action = 0
-          }
-          181 => {
-            state = 44
-            tag_action = 0
-          }
-          182 => {
-            state = 11
-            tag_action = 0
-          }
-          183 => {
-            state = 14
-            tag_action = 0
-          }
-          184 => {
-            state = 50
-            tag_action = 0
-          }
-          185 => {
-            state = 63
-            tag_action = 0
-          }
-          186 => {
-            state = 41
-            tag_action = 0
-          }
-          187 => {
-            state = 23
-            tag_action = 0
-          }
-          188 => {
-            state = 65
-            tag_action = 0
-          }
-          189 => {
-            state = 21
-            tag_action = 0
-          }
-          190 => {
-            state = 43
-            tag_action = 0
-          }
-          191 => {
-            state = 39
-            tag_action = 0
-          }
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          129 => 31
+          130 => 25
+          131 => 38
+          132 => 56
+          133 => 9
+          134 => 45
+          135 => 54
+          136 => 68
+          137 => 35
+          138 => 13
+          139 => 18
+          140 => 36
+          141 => 48
+          142 => 15
+          143 => 20
+          144 => 42
+          145 => 28
+          146 => 66
+          147 => 16
+          148 => 62
+          149 => 52
+          150 => 59
+          151 => 64
+          152 => 40
+          153 => 12
+          154 => 32
+          155 => 34
+          156 => 55
+          157 => 24
+          158 => 19
+          159 => 71
+          160 => 22
+          161 => 58
+          162 => 37
+          163 => 49
+          164 => 70
+          165 => 30
+          166 => 57
+          167 => 69
+          168 => 67
+          169 => 61
+          170 => 27
+          171 => 51
+          172 => 29
+          173 => 33
+          174 => 53
+          175 => 47
+          176 => 17
+          177 => 60
+          178 => 26
+          179 => 46
+          180 => 10
+          181 => 44
+          182 => 11
+          183 => 14
+          184 => 50
+          185 => 63
+          186 => 41
+          187 => 23
+          188 => 65
+          189 => 21
+          190 => 43
+          191 => 39
+          _ => -1
         }
       }
       6 => {
@@ -391,131 +150,38 @@ fn lex_unicode(lexbuf : @lexbuf.T) -> Int  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          128 => {
-            state = 75
-            tag_action = 0
-          }
-          129 => {
-            state = 87
-            tag_action = 0
-          }
-          130 => {
-            state = 98
-            tag_action = 0
-          }
-          131 => {
-            state = 101
-            tag_action = 0
-          }
-          132 => {
-            state = 91
-            tag_action = 0
-          }
-          133 => {
-            state = 79
-            tag_action = 0
-          }
-          134 => {
-            state = 83
-            tag_action = 0
-          }
-          135 => {
-            state = 80
-            tag_action = 0
-          }
-          136 => {
-            state = 73
-            tag_action = 0
-          }
-          137 => {
-            state = 90
-            tag_action = 0
-          }
-          138 => {
-            state = 86
-            tag_action = 0
-          }
-          139 => {
-            state = 100
-            tag_action = 0
-          }
-          140 => {
-            state = 89
-            tag_action = 0
-          }
-          141 => {
-            state = 88
-            tag_action = 0
-          }
-          142 => {
-            state = 99
-            tag_action = 0
-          }
-          143 => {
-            state = 93
-            tag_action = 0
-          }
-          144 => {
-            state = 95
-            tag_action = 0
-          }
-          145 => {
-            state = 74
-            tag_action = 0
-          }
-          146 => {
-            state = 82
-            tag_action = 0
-          }
-          147 => {
-            state = 76
-            tag_action = 0
-          }
-          148 => {
-            state = 81
-            tag_action = 0
-          }
-          149 => {
-            state = 78
-            tag_action = 0
-          }
-          150 => {
-            state = 92
-            tag_action = 0
-          }
-          153 => {
-            state = 84
-            tag_action = 0
-          }
-          154 => {
-            state = 97
-            tag_action = 0
-          }
-          155 => {
-            state = 94
-            tag_action = 0
-          }
-          156 => {
-            state = 96
-            tag_action = 0
-          }
-          157 => {
-            state = 77
-            tag_action = 0
-          }
-          158 => {
-            state = 72
-            tag_action = 0
-          }
-          159 => {
-            state = 85
-            tag_action = 0
-          }
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          128 => 75
+          129 => 87
+          130 => 98
+          131 => 101
+          132 => 91
+          133 => 79
+          134 => 83
+          135 => 80
+          136 => 73
+          137 => 90
+          138 => 86
+          139 => 100
+          140 => 89
+          141 => 88
+          142 => 99
+          143 => 93
+          144 => 95
+          145 => 74
+          146 => 82
+          147 => 76
+          148 => 81
+          149 => 78
+          150 => 92
+          153 => 84
+          154 => 97
+          155 => 94
+          156 => 96
+          157 => 77
+          158 => 72
+          159 => 85
+          _ => -1
         }
       }
       7 => {
@@ -523,15 +189,9 @@ fn lex_unicode(lexbuf : @lexbuf.T) -> Int  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          174 => {
-            state = 102
-            tag_action = 0
-          }
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          174 => 102
+          _ => -1
         }
       }
       8 => {
@@ -539,15 +199,9 @@ fn lex_unicode(lexbuf : @lexbuf.T) -> Int  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          145 => {
-            state = 103
-            tag_action = 0
-          }
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          145 => 103
+          _ => -1
         }
       }
       9 => {
@@ -558,11 +212,8 @@ fn lex_unicode(lexbuf : @lexbuf.T) -> Int  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          _ => -1
         }
       }
       10 => {
@@ -573,11 +224,8 @@ fn lex_unicode(lexbuf : @lexbuf.T) -> Int  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          _ => -1
         }
       }
       11 => {
@@ -588,11 +236,8 @@ fn lex_unicode(lexbuf : @lexbuf.T) -> Int  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          _ => -1
         }
       }
       12 => {
@@ -603,11 +248,8 @@ fn lex_unicode(lexbuf : @lexbuf.T) -> Int  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          _ => -1
         }
       }
       13 => {
@@ -618,11 +260,8 @@ fn lex_unicode(lexbuf : @lexbuf.T) -> Int  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          _ => -1
         }
       }
       14 => {
@@ -633,11 +272,8 @@ fn lex_unicode(lexbuf : @lexbuf.T) -> Int  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          _ => -1
         }
       }
       15 => {
@@ -648,11 +284,8 @@ fn lex_unicode(lexbuf : @lexbuf.T) -> Int  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          _ => -1
         }
       }
       16 => {
@@ -663,11 +296,8 @@ fn lex_unicode(lexbuf : @lexbuf.T) -> Int  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          _ => -1
         }
       }
       17 => {
@@ -678,11 +308,8 @@ fn lex_unicode(lexbuf : @lexbuf.T) -> Int  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          _ => -1
         }
       }
       18 => {
@@ -693,11 +320,8 @@ fn lex_unicode(lexbuf : @lexbuf.T) -> Int  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          _ => -1
         }
       }
       19 => {
@@ -708,11 +332,8 @@ fn lex_unicode(lexbuf : @lexbuf.T) -> Int  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          _ => -1
         }
       }
       20 => {
@@ -723,11 +344,8 @@ fn lex_unicode(lexbuf : @lexbuf.T) -> Int  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          _ => -1
         }
       }
       21 => {
@@ -738,11 +356,8 @@ fn lex_unicode(lexbuf : @lexbuf.T) -> Int  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          _ => -1
         }
       }
       22 => {
@@ -753,11 +368,8 @@ fn lex_unicode(lexbuf : @lexbuf.T) -> Int  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          _ => -1
         }
       }
       23 => {
@@ -768,11 +380,8 @@ fn lex_unicode(lexbuf : @lexbuf.T) -> Int  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          _ => -1
         }
       }
       24 => {
@@ -783,11 +392,8 @@ fn lex_unicode(lexbuf : @lexbuf.T) -> Int  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          _ => -1
         }
       }
       25 => {
@@ -798,11 +404,8 @@ fn lex_unicode(lexbuf : @lexbuf.T) -> Int  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          _ => -1
         }
       }
       26 => {
@@ -813,11 +416,8 @@ fn lex_unicode(lexbuf : @lexbuf.T) -> Int  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          _ => -1
         }
       }
       27 => {
@@ -828,11 +428,8 @@ fn lex_unicode(lexbuf : @lexbuf.T) -> Int  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          _ => -1
         }
       }
       28 => {
@@ -843,11 +440,8 @@ fn lex_unicode(lexbuf : @lexbuf.T) -> Int  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          _ => -1
         }
       }
       29 => {
@@ -858,11 +452,8 @@ fn lex_unicode(lexbuf : @lexbuf.T) -> Int  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          _ => -1
         }
       }
       30 => {
@@ -873,11 +464,8 @@ fn lex_unicode(lexbuf : @lexbuf.T) -> Int  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          _ => -1
         }
       }
       31 => {
@@ -888,11 +476,8 @@ fn lex_unicode(lexbuf : @lexbuf.T) -> Int  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          _ => -1
         }
       }
       32 => {
@@ -903,11 +488,8 @@ fn lex_unicode(lexbuf : @lexbuf.T) -> Int  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          _ => -1
         }
       }
       33 => {
@@ -918,11 +500,8 @@ fn lex_unicode(lexbuf : @lexbuf.T) -> Int  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          _ => -1
         }
       }
       34 => {
@@ -933,11 +512,8 @@ fn lex_unicode(lexbuf : @lexbuf.T) -> Int  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          _ => -1
         }
       }
       35 => {
@@ -948,11 +524,8 @@ fn lex_unicode(lexbuf : @lexbuf.T) -> Int  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          _ => -1
         }
       }
       36 => {
@@ -963,11 +536,8 @@ fn lex_unicode(lexbuf : @lexbuf.T) -> Int  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          _ => -1
         }
       }
       37 => {
@@ -978,11 +548,8 @@ fn lex_unicode(lexbuf : @lexbuf.T) -> Int  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          _ => -1
         }
       }
       38 => {
@@ -993,11 +560,8 @@ fn lex_unicode(lexbuf : @lexbuf.T) -> Int  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          _ => -1
         }
       }
       39 => {
@@ -1008,11 +572,8 @@ fn lex_unicode(lexbuf : @lexbuf.T) -> Int  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          _ => -1
         }
       }
       40 => {
@@ -1023,11 +584,8 @@ fn lex_unicode(lexbuf : @lexbuf.T) -> Int  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          _ => -1
         }
       }
       41 => {
@@ -1038,11 +596,8 @@ fn lex_unicode(lexbuf : @lexbuf.T) -> Int  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          _ => -1
         }
       }
       42 => {
@@ -1053,11 +608,8 @@ fn lex_unicode(lexbuf : @lexbuf.T) -> Int  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          _ => -1
         }
       }
       43 => {
@@ -1068,11 +620,8 @@ fn lex_unicode(lexbuf : @lexbuf.T) -> Int  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          _ => -1
         }
       }
       44 => {
@@ -1083,11 +632,8 @@ fn lex_unicode(lexbuf : @lexbuf.T) -> Int  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          _ => -1
         }
       }
       45 => {
@@ -1098,11 +644,8 @@ fn lex_unicode(lexbuf : @lexbuf.T) -> Int  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          _ => -1
         }
       }
       46 => {
@@ -1113,11 +656,8 @@ fn lex_unicode(lexbuf : @lexbuf.T) -> Int  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          _ => -1
         }
       }
       47 => {
@@ -1128,11 +668,8 @@ fn lex_unicode(lexbuf : @lexbuf.T) -> Int  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          _ => -1
         }
       }
       48 => {
@@ -1143,11 +680,8 @@ fn lex_unicode(lexbuf : @lexbuf.T) -> Int  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          _ => -1
         }
       }
       49 => {
@@ -1158,11 +692,8 @@ fn lex_unicode(lexbuf : @lexbuf.T) -> Int  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          _ => -1
         }
       }
       50 => {
@@ -1173,11 +704,8 @@ fn lex_unicode(lexbuf : @lexbuf.T) -> Int  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          _ => -1
         }
       }
       51 => {
@@ -1188,11 +716,8 @@ fn lex_unicode(lexbuf : @lexbuf.T) -> Int  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          _ => -1
         }
       }
       52 => {
@@ -1203,11 +728,8 @@ fn lex_unicode(lexbuf : @lexbuf.T) -> Int  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          _ => -1
         }
       }
       53 => {
@@ -1218,11 +740,8 @@ fn lex_unicode(lexbuf : @lexbuf.T) -> Int  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          _ => -1
         }
       }
       54 => {
@@ -1233,11 +752,8 @@ fn lex_unicode(lexbuf : @lexbuf.T) -> Int  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          _ => -1
         }
       }
       55 => {
@@ -1248,11 +764,8 @@ fn lex_unicode(lexbuf : @lexbuf.T) -> Int  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          _ => -1
         }
       }
       56 => {
@@ -1263,11 +776,8 @@ fn lex_unicode(lexbuf : @lexbuf.T) -> Int  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          _ => -1
         }
       }
       57 => {
@@ -1278,11 +788,8 @@ fn lex_unicode(lexbuf : @lexbuf.T) -> Int  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          _ => -1
         }
       }
       58 => {
@@ -1293,11 +800,8 @@ fn lex_unicode(lexbuf : @lexbuf.T) -> Int  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          _ => -1
         }
       }
       59 => {
@@ -1308,11 +812,8 @@ fn lex_unicode(lexbuf : @lexbuf.T) -> Int  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          _ => -1
         }
       }
       60 => {
@@ -1323,11 +824,8 @@ fn lex_unicode(lexbuf : @lexbuf.T) -> Int  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          _ => -1
         }
       }
       61 => {
@@ -1338,11 +836,8 @@ fn lex_unicode(lexbuf : @lexbuf.T) -> Int  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          _ => -1
         }
       }
       62 => {
@@ -1353,11 +848,8 @@ fn lex_unicode(lexbuf : @lexbuf.T) -> Int  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          _ => -1
         }
       }
       63 => {
@@ -1368,11 +860,8 @@ fn lex_unicode(lexbuf : @lexbuf.T) -> Int  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          _ => -1
         }
       }
       64 => {
@@ -1383,11 +872,8 @@ fn lex_unicode(lexbuf : @lexbuf.T) -> Int  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          _ => -1
         }
       }
       65 => {
@@ -1398,11 +884,8 @@ fn lex_unicode(lexbuf : @lexbuf.T) -> Int  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          _ => -1
         }
       }
       66 => {
@@ -1413,11 +896,8 @@ fn lex_unicode(lexbuf : @lexbuf.T) -> Int  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          _ => -1
         }
       }
       67 => {
@@ -1428,11 +908,8 @@ fn lex_unicode(lexbuf : @lexbuf.T) -> Int  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          _ => -1
         }
       }
       68 => {
@@ -1443,11 +920,8 @@ fn lex_unicode(lexbuf : @lexbuf.T) -> Int  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          _ => -1
         }
       }
       69 => {
@@ -1458,11 +932,8 @@ fn lex_unicode(lexbuf : @lexbuf.T) -> Int  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          _ => -1
         }
       }
       70 => {
@@ -1473,11 +944,8 @@ fn lex_unicode(lexbuf : @lexbuf.T) -> Int  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          _ => -1
         }
       }
       71 => {
@@ -1488,11 +956,8 @@ fn lex_unicode(lexbuf : @lexbuf.T) -> Int  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          _ => -1
         }
       }
       72 => {
@@ -1503,11 +968,8 @@ fn lex_unicode(lexbuf : @lexbuf.T) -> Int  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          _ => -1
         }
       }
       73 => {
@@ -1518,11 +980,8 @@ fn lex_unicode(lexbuf : @lexbuf.T) -> Int  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          _ => -1
         }
       }
       74 => {
@@ -1533,11 +992,8 @@ fn lex_unicode(lexbuf : @lexbuf.T) -> Int  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          _ => -1
         }
       }
       75 => {
@@ -1548,11 +1004,8 @@ fn lex_unicode(lexbuf : @lexbuf.T) -> Int  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          _ => -1
         }
       }
       76 => {
@@ -1563,11 +1016,8 @@ fn lex_unicode(lexbuf : @lexbuf.T) -> Int  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          _ => -1
         }
       }
       77 => {
@@ -1578,11 +1028,8 @@ fn lex_unicode(lexbuf : @lexbuf.T) -> Int  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          _ => -1
         }
       }
       78 => {
@@ -1593,11 +1040,8 @@ fn lex_unicode(lexbuf : @lexbuf.T) -> Int  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          _ => -1
         }
       }
       79 => {
@@ -1608,11 +1052,8 @@ fn lex_unicode(lexbuf : @lexbuf.T) -> Int  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          _ => -1
         }
       }
       80 => {
@@ -1623,11 +1064,8 @@ fn lex_unicode(lexbuf : @lexbuf.T) -> Int  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          _ => -1
         }
       }
       81 => {
@@ -1638,11 +1076,8 @@ fn lex_unicode(lexbuf : @lexbuf.T) -> Int  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          _ => -1
         }
       }
       82 => {
@@ -1653,11 +1088,8 @@ fn lex_unicode(lexbuf : @lexbuf.T) -> Int  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          _ => -1
         }
       }
       83 => {
@@ -1668,11 +1100,8 @@ fn lex_unicode(lexbuf : @lexbuf.T) -> Int  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          _ => -1
         }
       }
       84 => {
@@ -1683,11 +1112,8 @@ fn lex_unicode(lexbuf : @lexbuf.T) -> Int  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          _ => -1
         }
       }
       85 => {
@@ -1698,11 +1124,8 @@ fn lex_unicode(lexbuf : @lexbuf.T) -> Int  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          _ => -1
         }
       }
       86 => {
@@ -1713,11 +1136,8 @@ fn lex_unicode(lexbuf : @lexbuf.T) -> Int  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          _ => -1
         }
       }
       87 => {
@@ -1728,11 +1148,8 @@ fn lex_unicode(lexbuf : @lexbuf.T) -> Int  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          _ => -1
         }
       }
       88 => {
@@ -1743,11 +1160,8 @@ fn lex_unicode(lexbuf : @lexbuf.T) -> Int  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          _ => -1
         }
       }
       89 => {
@@ -1758,11 +1172,8 @@ fn lex_unicode(lexbuf : @lexbuf.T) -> Int  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          _ => -1
         }
       }
       90 => {
@@ -1773,11 +1184,8 @@ fn lex_unicode(lexbuf : @lexbuf.T) -> Int  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          _ => -1
         }
       }
       91 => {
@@ -1788,11 +1196,8 @@ fn lex_unicode(lexbuf : @lexbuf.T) -> Int  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          _ => -1
         }
       }
       92 => {
@@ -1803,11 +1208,8 @@ fn lex_unicode(lexbuf : @lexbuf.T) -> Int  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          _ => -1
         }
       }
       93 => {
@@ -1818,11 +1220,8 @@ fn lex_unicode(lexbuf : @lexbuf.T) -> Int  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          _ => -1
         }
       }
       94 => {
@@ -1833,11 +1232,8 @@ fn lex_unicode(lexbuf : @lexbuf.T) -> Int  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          _ => -1
         }
       }
       95 => {
@@ -1848,11 +1244,8 @@ fn lex_unicode(lexbuf : @lexbuf.T) -> Int  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          _ => -1
         }
       }
       96 => {
@@ -1863,11 +1256,8 @@ fn lex_unicode(lexbuf : @lexbuf.T) -> Int  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          _ => -1
         }
       }
       97 => {
@@ -1878,11 +1268,8 @@ fn lex_unicode(lexbuf : @lexbuf.T) -> Int  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          _ => -1
         }
       }
       98 => {
@@ -1893,11 +1280,8 @@ fn lex_unicode(lexbuf : @lexbuf.T) -> Int  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          _ => -1
         }
       }
       99 => {
@@ -1908,11 +1292,8 @@ fn lex_unicode(lexbuf : @lexbuf.T) -> Int  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          _ => -1
         }
       }
       100 => {
@@ -1923,11 +1304,8 @@ fn lex_unicode(lexbuf : @lexbuf.T) -> Int  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          _ => -1
         }
       }
       101 => {
@@ -1938,11 +1316,8 @@ fn lex_unicode(lexbuf : @lexbuf.T) -> Int  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          _ => -1
         }
       }
       102 => {
@@ -1950,15 +1325,9 @@ fn lex_unicode(lexbuf : @lexbuf.T) -> Int  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          183 => {
-            state = 104
-            tag_action = 0
-          }
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          183 => 104
+          _ => -1
         }
       }
       103 => {
@@ -1966,15 +1335,9 @@ fn lex_unicode(lexbuf : @lexbuf.T) -> Int  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          231 => {
-            state = 105
-            tag_action = 0
-          }
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          231 => 105
+          _ => -1
         }
       }
       104 => {
@@ -1985,11 +1348,8 @@ fn lex_unicode(lexbuf : @lexbuf.T) -> Int  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          _ => -1
         }
       }
       105 => {
@@ -1997,15 +1357,9 @@ fn lex_unicode(lexbuf : @lexbuf.T) -> Int  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          136 => {
-            state = 106
-            tag_action = 0
-          }
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          136 => 106
+          _ => -1
         }
       }
       106 => {
@@ -2013,15 +1367,9 @@ fn lex_unicode(lexbuf : @lexbuf.T) -> Int  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          177 => {
-            state = 107
-            tag_action = 0
-          }
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          177 => 107
+          _ => -1
         }
       }
       107 => {
@@ -2029,15 +1377,9 @@ fn lex_unicode(lexbuf : @lexbuf.T) -> Int  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          228 => {
-            state = 108
-            tag_action = 0
-          }
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          228 => 108
+          _ => -1
         }
       }
       108 => {
@@ -2045,15 +1387,9 @@ fn lex_unicode(lexbuf : @lexbuf.T) -> Int  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          184 => {
-            state = 109
-            tag_action = 0
-          }
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          184 => 109
+          _ => -1
         }
       }
       109 => {
@@ -2061,15 +1397,9 @@ fn lex_unicode(lexbuf : @lexbuf.T) -> Int  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          173 => {
-            state = 110
-            tag_action = 0
-          }
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          173 => 110
+          _ => -1
         }
       }
       110 => {
@@ -2077,15 +1407,9 @@ fn lex_unicode(lexbuf : @lexbuf.T) -> Int  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          229 => {
-            state = 111
-            tag_action = 0
-          }
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          229 => 111
+          _ => -1
         }
       }
       111 => {
@@ -2093,15 +1417,9 @@ fn lex_unicode(lexbuf : @lexbuf.T) -> Int  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          155 => {
-            state = 112
-            tag_action = 0
-          }
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          155 => 112
+          _ => -1
         }
       }
       112 => {
@@ -2109,15 +1427,9 @@ fn lex_unicode(lexbuf : @lexbuf.T) -> Int  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          189 => {
-            state = 113
-            tag_action = 0
-          }
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          189 => 113
+          _ => -1
         }
       }
       113 => {
@@ -2128,17 +1440,11 @@ fn lex_unicode(lexbuf : @lexbuf.T) -> Int  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          _ => -1
         }
       }
       _ => panic()
-    }
-    match tag_action {
-      _ => ()
     }
   }
 

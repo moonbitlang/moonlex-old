@@ -8,7 +8,6 @@ fn scan_newline[T](lexbuf : @lexbuf.T[T, Char, String, Int]) -> Int  {
   let mut _tag_1 = -1
   _tag_0 = lexbuf.curr_pos()
   while state != -1 {
-    let mut tag_action = -1
     match state {
       0 => {
         if matched is Some((prev_pattern_id, _, _)) && 2 <= prev_pattern_id || matched is None {
@@ -18,31 +17,19 @@ fn scan_newline[T](lexbuf : @lexbuf.T[T, Char, String, Int]) -> Int  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          0..=9 => {
-            state = 1
-            tag_action = 0
-          }
+        state = match c {
+          0..=9 => 1
           10 => {
-            state = 2
-            tag_action = 1
+            _tag_1 = lexbuf.curr_pos()
+            2
           }
-          11..=12 => {
-            state = 1
-            tag_action = 0
-          }
+          11..=12 => 1
           13 => {
-            state = 3
-            tag_action = 1
+            _tag_1 = lexbuf.curr_pos()
+            3
           }
-          14..=1114111 => {
-            state = 1
-            tag_action = 0
-          }
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+          14..=1114111 => 1
+          _ => -1
         }
       }
       1 => {
@@ -53,11 +40,8 @@ fn scan_newline[T](lexbuf : @lexbuf.T[T, Char, String, Int]) -> Int  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          _ => -1
         }
       }
       2 => {
@@ -68,11 +52,8 @@ fn scan_newline[T](lexbuf : @lexbuf.T[T, Char, String, Int]) -> Int  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          _ => -1
         }
       }
       3 => {
@@ -83,15 +64,12 @@ fn scan_newline[T](lexbuf : @lexbuf.T[T, Char, String, Int]) -> Int  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
+        state = match c {
           10 => {
-            state = 4
-            tag_action = 1
+            _tag_1 = lexbuf.curr_pos()
+            4
           }
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+          _ => -1
         }
       }
       4 => {
@@ -102,20 +80,11 @@ fn scan_newline[T](lexbuf : @lexbuf.T[T, Char, String, Int]) -> Int  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          _ => -1
         }
       }
       _ => panic()
-    }
-    match tag_action {
-      1 => {
-        _tag_1 = lexbuf.curr_pos()
-      }
-      _ => ()
     }
   }
 

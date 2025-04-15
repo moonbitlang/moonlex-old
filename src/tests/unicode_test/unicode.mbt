@@ -4,54 +4,23 @@ fn lex_unicode[T](lexbuf : @lexbuf.T[T, Char, String, Int]) -> Int  {
   let mut matched = None
   let mut state = 0
   while state != -1 {
-    let mut tag_action = -1
     match state {
       0 => {
         let c = match lexbuf.next() {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          0..=12352 => {
-            state = 2
-            tag_action = 0
-          }
-          12353..=12438 => {
-            state = 1
-            tag_action = 0
-          }
-          12439..=12440 => {
-            state = 2
-            tag_action = 0
-          }
-          12441..=12447 => {
-            state = 1
-            tag_action = 0
-          }
-          12448..=25104 => {
-            state = 2
-            tag_action = 0
-          }
-          25105 => {
-            state = 4
-            tag_action = 0
-          }
-          25106..=134070 => {
-            state = 2
-            tag_action = 0
-          }
-          134071 => {
-            state = 3
-            tag_action = 0
-          }
-          134072..=1114111 => {
-            state = 2
-            tag_action = 0
-          }
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          0..=12352 => 2
+          12353..=12438 => 1
+          12439..=12440 => 2
+          12441..=12447 => 1
+          12448..=25104 => 2
+          25105 => 4
+          25106..=134070 => 2
+          134071 => 3
+          134072..=1114111 => 2
+          _ => -1
         }
       }
       1 => {
@@ -62,11 +31,8 @@ fn lex_unicode[T](lexbuf : @lexbuf.T[T, Char, String, Int]) -> Int  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          _ => -1
         }
       }
       2 => {
@@ -77,11 +43,8 @@ fn lex_unicode[T](lexbuf : @lexbuf.T[T, Char, String, Int]) -> Int  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          _ => -1
         }
       }
       3 => {
@@ -92,11 +55,8 @@ fn lex_unicode[T](lexbuf : @lexbuf.T[T, Char, String, Int]) -> Int  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          _ => -1
         }
       }
       4 => {
@@ -107,15 +67,9 @@ fn lex_unicode[T](lexbuf : @lexbuf.T[T, Char, String, Int]) -> Int  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          29233 => {
-            state = 5
-            tag_action = 0
-          }
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          29233 => 5
+          _ => -1
         }
       }
       5 => {
@@ -123,15 +77,9 @@ fn lex_unicode[T](lexbuf : @lexbuf.T[T, Char, String, Int]) -> Int  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          20013 => {
-            state = 6
-            tag_action = 0
-          }
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          20013 => 6
+          _ => -1
         }
       }
       6 => {
@@ -139,15 +87,9 @@ fn lex_unicode[T](lexbuf : @lexbuf.T[T, Char, String, Int]) -> Int  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          22269 => {
-            state = 7
-            tag_action = 0
-          }
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          22269 => 7
+          _ => -1
         }
       }
       7 => {
@@ -158,17 +100,11 @@ fn lex_unicode[T](lexbuf : @lexbuf.T[T, Char, String, Int]) -> Int  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          _ => -1
         }
       }
       _ => panic()
-    }
-    match tag_action {
-      _ => ()
     }
   }
 

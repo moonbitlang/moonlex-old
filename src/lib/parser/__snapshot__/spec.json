@@ -598,6 +598,24 @@
               "$tag": "Character",
               "0": [
                 [
+                  58,
+                  58
+                ]
+              ]
+            }
+          },
+          " COLON "
+        ],
+        [
+          {
+            "$tag": "Concat",
+            "0": {
+              "$tag": "Epsilon"
+            },
+            "1": {
+              "$tag": "Character",
+              "0": [
+                [
                   59,
                   59
                 ]

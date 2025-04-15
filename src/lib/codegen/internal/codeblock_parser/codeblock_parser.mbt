@@ -22,7 +22,6 @@ fn scan_codeblock_rbrace[T](subst : Array[SubstItem], lexbuf : @lexbuf.T[T, Char
   let mut _tag_5 = -1
   _tag_4 = lexbuf.curr_pos()
   while state != -1 {
-    let mut tag_action = -1
     match state {
       0 => {
         if matched is Some((prev_pattern_id, _, _)) && 5 <= prev_pattern_id || matched is None {
@@ -32,39 +31,18 @@ fn scan_codeblock_rbrace[T](subst : Array[SubstItem], lexbuf : @lexbuf.T[T, Char
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          0..=35 => {
-            state = 3
-            tag_action = 1
-          }
+        state = match c {
+          0..=35 => 3
           36 => {
-            state = 1
-            tag_action = 0
+            _tag_0 = lexbuf.curr_pos()
+            1
           }
-          37..=122 => {
-            state = 3
-            tag_action = 1
-          }
-          123 => {
-            state = 2
-            tag_action = 1
-          }
-          124 => {
-            state = 3
-            tag_action = 1
-          }
-          125 => {
-            state = 4
-            tag_action = 1
-          }
-          126..=1114111 => {
-            state = 3
-            tag_action = 1
-          }
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+          37..=122 => 3
+          123 => 2
+          124 => 3
+          125 => 4
+          126..=1114111 => 3
+          _ => -1
         }
       }
       1 => {
@@ -75,39 +53,15 @@ fn scan_codeblock_rbrace[T](subst : Array[SubstItem], lexbuf : @lexbuf.T[T, Char
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          65..=90 => {
-            state = 5
-            tag_action = 1
-          }
-          95 => {
-            state = 5
-            tag_action = 1
-          }
-          97..=100 => {
-            state = 5
-            tag_action = 1
-          }
-          101 => {
-            state = 6
-            tag_action = 2
-          }
-          102..=114 => {
-            state = 5
-            tag_action = 1
-          }
-          115 => {
-            state = 7
-            tag_action = 2
-          }
-          116..=122 => {
-            state = 5
-            tag_action = 1
-          }
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          65..=90 => 5
+          95 => 5
+          97..=100 => 5
+          101 => 6
+          102..=114 => 5
+          115 => 7
+          116..=122 => 5
+          _ => -1
         }
       }
       2 => {
@@ -118,11 +72,8 @@ fn scan_codeblock_rbrace[T](subst : Array[SubstItem], lexbuf : @lexbuf.T[T, Char
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          _ => -1
         }
       }
       3 => {
@@ -133,11 +84,8 @@ fn scan_codeblock_rbrace[T](subst : Array[SubstItem], lexbuf : @lexbuf.T[T, Char
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          _ => -1
         }
       }
       4 => {
@@ -148,11 +96,8 @@ fn scan_codeblock_rbrace[T](subst : Array[SubstItem], lexbuf : @lexbuf.T[T, Char
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          _ => -1
         }
       }
       5 => {
@@ -163,27 +108,12 @@ fn scan_codeblock_rbrace[T](subst : Array[SubstItem], lexbuf : @lexbuf.T[T, Char
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          48..=57 => {
-            state = 8
-            tag_action = 1
-          }
-          65..=90 => {
-            state = 8
-            tag_action = 1
-          }
-          95 => {
-            state = 8
-            tag_action = 1
-          }
-          97..=122 => {
-            state = 8
-            tag_action = 1
-          }
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          48..=57 => 8
+          65..=90 => 8
+          95 => 8
+          97..=122 => 8
+          _ => -1
         }
       }
       6 => {
@@ -194,35 +124,14 @@ fn scan_codeblock_rbrace[T](subst : Array[SubstItem], lexbuf : @lexbuf.T[T, Char
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          48..=57 => {
-            state = 8
-            tag_action = 1
-          }
-          65..=90 => {
-            state = 8
-            tag_action = 1
-          }
-          95 => {
-            state = 8
-            tag_action = 1
-          }
-          97..=109 => {
-            state = 8
-            tag_action = 1
-          }
-          110 => {
-            state = 9
-            tag_action = 2
-          }
-          111..=122 => {
-            state = 8
-            tag_action = 1
-          }
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          48..=57 => 8
+          65..=90 => 8
+          95 => 8
+          97..=109 => 8
+          110 => 9
+          111..=122 => 8
+          _ => -1
         }
       }
       7 => {
@@ -233,35 +142,14 @@ fn scan_codeblock_rbrace[T](subst : Array[SubstItem], lexbuf : @lexbuf.T[T, Char
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          48..=57 => {
-            state = 8
-            tag_action = 1
-          }
-          65..=90 => {
-            state = 8
-            tag_action = 1
-          }
-          95 => {
-            state = 8
-            tag_action = 1
-          }
-          97..=115 => {
-            state = 8
-            tag_action = 1
-          }
-          116 => {
-            state = 10
-            tag_action = 2
-          }
-          117..=122 => {
-            state = 8
-            tag_action = 1
-          }
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          48..=57 => 8
+          65..=90 => 8
+          95 => 8
+          97..=115 => 8
+          116 => 10
+          117..=122 => 8
+          _ => -1
         }
       }
       8 => {
@@ -272,27 +160,12 @@ fn scan_codeblock_rbrace[T](subst : Array[SubstItem], lexbuf : @lexbuf.T[T, Char
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          48..=57 => {
-            state = 8
-            tag_action = 1
-          }
-          65..=90 => {
-            state = 8
-            tag_action = 1
-          }
-          95 => {
-            state = 8
-            tag_action = 1
-          }
-          97..=122 => {
-            state = 8
-            tag_action = 1
-          }
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          48..=57 => 8
+          65..=90 => 8
+          95 => 8
+          97..=122 => 8
+          _ => -1
         }
       }
       9 => {
@@ -303,35 +176,14 @@ fn scan_codeblock_rbrace[T](subst : Array[SubstItem], lexbuf : @lexbuf.T[T, Char
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          48..=57 => {
-            state = 8
-            tag_action = 1
-          }
-          65..=90 => {
-            state = 8
-            tag_action = 1
-          }
-          95 => {
-            state = 8
-            tag_action = 1
-          }
-          97..=99 => {
-            state = 8
-            tag_action = 1
-          }
-          100 => {
-            state = 11
-            tag_action = 2
-          }
-          101..=122 => {
-            state = 8
-            tag_action = 1
-          }
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          48..=57 => 8
+          65..=90 => 8
+          95 => 8
+          97..=99 => 8
+          100 => 11
+          101..=122 => 8
+          _ => -1
         }
       }
       10 => {
@@ -342,31 +194,13 @@ fn scan_codeblock_rbrace[T](subst : Array[SubstItem], lexbuf : @lexbuf.T[T, Char
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          48..=57 => {
-            state = 8
-            tag_action = 1
-          }
-          65..=90 => {
-            state = 8
-            tag_action = 1
-          }
-          95 => {
-            state = 8
-            tag_action = 1
-          }
-          97 => {
-            state = 12
-            tag_action = 2
-          }
-          98..=122 => {
-            state = 8
-            tag_action = 1
-          }
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          48..=57 => 8
+          65..=90 => 8
+          95 => 8
+          97 => 12
+          98..=122 => 8
+          _ => -1
         }
       }
       11 => {
@@ -377,35 +211,14 @@ fn scan_codeblock_rbrace[T](subst : Array[SubstItem], lexbuf : @lexbuf.T[T, Char
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          48..=57 => {
-            state = 8
-            tag_action = 1
-          }
-          65..=90 => {
-            state = 8
-            tag_action = 1
-          }
-          95 => {
-            state = 8
-            tag_action = 1
-          }
-          97..=111 => {
-            state = 8
-            tag_action = 1
-          }
-          112 => {
-            state = 13
-            tag_action = 2
-          }
-          113..=122 => {
-            state = 8
-            tag_action = 1
-          }
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          48..=57 => 8
+          65..=90 => 8
+          95 => 8
+          97..=111 => 8
+          112 => 13
+          113..=122 => 8
+          _ => -1
         }
       }
       12 => {
@@ -416,35 +229,14 @@ fn scan_codeblock_rbrace[T](subst : Array[SubstItem], lexbuf : @lexbuf.T[T, Char
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          48..=57 => {
-            state = 8
-            tag_action = 1
-          }
-          65..=90 => {
-            state = 8
-            tag_action = 1
-          }
-          95 => {
-            state = 8
-            tag_action = 1
-          }
-          97..=113 => {
-            state = 8
-            tag_action = 1
-          }
-          114 => {
-            state = 14
-            tag_action = 2
-          }
-          115..=122 => {
-            state = 8
-            tag_action = 1
-          }
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          48..=57 => 8
+          65..=90 => 8
+          95 => 8
+          97..=113 => 8
+          114 => 14
+          115..=122 => 8
+          _ => -1
         }
       }
       13 => {
@@ -455,35 +247,14 @@ fn scan_codeblock_rbrace[T](subst : Array[SubstItem], lexbuf : @lexbuf.T[T, Char
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          48..=57 => {
-            state = 8
-            tag_action = 1
-          }
-          65..=90 => {
-            state = 8
-            tag_action = 1
-          }
-          95 => {
-            state = 8
-            tag_action = 1
-          }
-          97..=110 => {
-            state = 8
-            tag_action = 1
-          }
-          111 => {
-            state = 15
-            tag_action = 2
-          }
-          112..=122 => {
-            state = 8
-            tag_action = 1
-          }
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          48..=57 => 8
+          65..=90 => 8
+          95 => 8
+          97..=110 => 8
+          111 => 15
+          112..=122 => 8
+          _ => -1
         }
       }
       14 => {
@@ -494,35 +265,14 @@ fn scan_codeblock_rbrace[T](subst : Array[SubstItem], lexbuf : @lexbuf.T[T, Char
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          48..=57 => {
-            state = 8
-            tag_action = 1
-          }
-          65..=90 => {
-            state = 8
-            tag_action = 1
-          }
-          95 => {
-            state = 8
-            tag_action = 1
-          }
-          97..=115 => {
-            state = 8
-            tag_action = 1
-          }
-          116 => {
-            state = 16
-            tag_action = 2
-          }
-          117..=122 => {
-            state = 8
-            tag_action = 1
-          }
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          48..=57 => 8
+          65..=90 => 8
+          95 => 8
+          97..=115 => 8
+          116 => 16
+          117..=122 => 8
+          _ => -1
         }
       }
       15 => {
@@ -533,35 +283,17 @@ fn scan_codeblock_rbrace[T](subst : Array[SubstItem], lexbuf : @lexbuf.T[T, Char
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          48..=57 => {
-            state = 8
-            tag_action = 1
-          }
-          65..=90 => {
-            state = 8
-            tag_action = 1
-          }
-          95 => {
-            state = 8
-            tag_action = 1
-          }
-          97..=114 => {
-            state = 8
-            tag_action = 1
-          }
+        state = match c {
+          48..=57 => 8
+          65..=90 => 8
+          95 => 8
+          97..=114 => 8
           115 => {
-            state = 17
-            tag_action = 3
+            _tag_1 = lexbuf.curr_pos()
+            17
           }
-          116..=122 => {
-            state = 8
-            tag_action = 1
-          }
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+          116..=122 => 8
+          _ => -1
         }
       }
       16 => {
@@ -572,35 +304,14 @@ fn scan_codeblock_rbrace[T](subst : Array[SubstItem], lexbuf : @lexbuf.T[T, Char
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          48..=57 => {
-            state = 8
-            tag_action = 1
-          }
-          65..=90 => {
-            state = 8
-            tag_action = 1
-          }
-          95 => {
-            state = 8
-            tag_action = 1
-          }
-          97..=111 => {
-            state = 8
-            tag_action = 1
-          }
-          112 => {
-            state = 18
-            tag_action = 2
-          }
-          113..=122 => {
-            state = 8
-            tag_action = 1
-          }
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          48..=57 => 8
+          65..=90 => 8
+          95 => 8
+          97..=111 => 8
+          112 => 18
+          113..=122 => 8
+          _ => -1
         }
       }
       17 => {
@@ -611,31 +322,16 @@ fn scan_codeblock_rbrace[T](subst : Array[SubstItem], lexbuf : @lexbuf.T[T, Char
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
+        state = match c {
           40 => {
-            state = 19
-            tag_action = 4
+            _tag_2 = lexbuf.curr_pos()
+            19
           }
-          48..=57 => {
-            state = 8
-            tag_action = 1
-          }
-          65..=90 => {
-            state = 8
-            tag_action = 1
-          }
-          95 => {
-            state = 8
-            tag_action = 1
-          }
-          97..=122 => {
-            state = 8
-            tag_action = 1
-          }
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+          48..=57 => 8
+          65..=90 => 8
+          95 => 8
+          97..=122 => 8
+          _ => -1
         }
       }
       18 => {
@@ -646,35 +342,14 @@ fn scan_codeblock_rbrace[T](subst : Array[SubstItem], lexbuf : @lexbuf.T[T, Char
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          48..=57 => {
-            state = 8
-            tag_action = 1
-          }
-          65..=90 => {
-            state = 8
-            tag_action = 1
-          }
-          95 => {
-            state = 8
-            tag_action = 1
-          }
-          97..=110 => {
-            state = 8
-            tag_action = 1
-          }
-          111 => {
-            state = 20
-            tag_action = 2
-          }
-          112..=122 => {
-            state = 8
-            tag_action = 1
-          }
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          48..=57 => 8
+          65..=90 => 8
+          95 => 8
+          97..=110 => 8
+          111 => 20
+          112..=122 => 8
+          _ => -1
         }
       }
       19 => {
@@ -682,31 +357,28 @@ fn scan_codeblock_rbrace[T](subst : Array[SubstItem], lexbuf : @lexbuf.T[T, Char
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
+        state = match c {
           9 => {
-            state = 22
-            tag_action = 4
+            _tag_2 = lexbuf.curr_pos()
+            22
           }
           32 => {
-            state = 22
-            tag_action = 4
+            _tag_2 = lexbuf.curr_pos()
+            22
           }
           65..=90 => {
-            state = 21
-            tag_action = 5
+            _tag_3 = lexbuf.curr_pos()
+            21
           }
           95 => {
-            state = 21
-            tag_action = 5
+            _tag_3 = lexbuf.curr_pos()
+            21
           }
           97..=122 => {
-            state = 21
-            tag_action = 5
+            _tag_3 = lexbuf.curr_pos()
+            21
           }
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+          _ => -1
         }
       }
       20 => {
@@ -717,35 +389,17 @@ fn scan_codeblock_rbrace[T](subst : Array[SubstItem], lexbuf : @lexbuf.T[T, Char
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          48..=57 => {
-            state = 8
-            tag_action = 1
-          }
-          65..=90 => {
-            state = 8
-            tag_action = 1
-          }
-          95 => {
-            state = 8
-            tag_action = 1
-          }
-          97..=114 => {
-            state = 8
-            tag_action = 1
-          }
+        state = match c {
+          48..=57 => 8
+          65..=90 => 8
+          95 => 8
+          97..=114 => 8
           115 => {
-            state = 23
-            tag_action = 3
+            _tag_1 = lexbuf.curr_pos()
+            23
           }
-          116..=122 => {
-            state = 8
-            tag_action = 1
-          }
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+          116..=122 => 8
+          _ => -1
         }
       }
       21 => {
@@ -753,39 +407,30 @@ fn scan_codeblock_rbrace[T](subst : Array[SubstItem], lexbuf : @lexbuf.T[T, Char
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          9 => {
-            state = 25
-            tag_action = 6
-          }
-          32 => {
-            state = 25
-            tag_action = 6
-          }
+        state = match c {
+          9 => 25
+          32 => 25
           41 => {
-            state = 26
-            tag_action = 7
+            _tag_5 = lexbuf.curr_pos()
+            26
           }
           48..=57 => {
-            state = 24
-            tag_action = 5
+            _tag_3 = lexbuf.curr_pos()
+            24
           }
           65..=90 => {
-            state = 24
-            tag_action = 5
+            _tag_3 = lexbuf.curr_pos()
+            24
           }
           95 => {
-            state = 24
-            tag_action = 5
+            _tag_3 = lexbuf.curr_pos()
+            24
           }
           97..=122 => {
-            state = 24
-            tag_action = 5
+            _tag_3 = lexbuf.curr_pos()
+            24
           }
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+          _ => -1
         }
       }
       22 => {
@@ -793,31 +438,28 @@ fn scan_codeblock_rbrace[T](subst : Array[SubstItem], lexbuf : @lexbuf.T[T, Char
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
+        state = match c {
           9 => {
-            state = 22
-            tag_action = 4
+            _tag_2 = lexbuf.curr_pos()
+            22
           }
           32 => {
-            state = 22
-            tag_action = 4
+            _tag_2 = lexbuf.curr_pos()
+            22
           }
           65..=90 => {
-            state = 21
-            tag_action = 5
+            _tag_3 = lexbuf.curr_pos()
+            21
           }
           95 => {
-            state = 21
-            tag_action = 5
+            _tag_3 = lexbuf.curr_pos()
+            21
           }
           97..=122 => {
-            state = 21
-            tag_action = 5
+            _tag_3 = lexbuf.curr_pos()
+            21
           }
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+          _ => -1
         }
       }
       23 => {
@@ -828,31 +470,16 @@ fn scan_codeblock_rbrace[T](subst : Array[SubstItem], lexbuf : @lexbuf.T[T, Char
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
+        state = match c {
           40 => {
-            state = 19
-            tag_action = 4
+            _tag_2 = lexbuf.curr_pos()
+            19
           }
-          48..=57 => {
-            state = 8
-            tag_action = 1
-          }
-          65..=90 => {
-            state = 8
-            tag_action = 1
-          }
-          95 => {
-            state = 8
-            tag_action = 1
-          }
-          97..=122 => {
-            state = 8
-            tag_action = 1
-          }
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+          48..=57 => 8
+          65..=90 => 8
+          95 => 8
+          97..=122 => 8
+          _ => -1
         }
       }
       24 => {
@@ -860,39 +487,30 @@ fn scan_codeblock_rbrace[T](subst : Array[SubstItem], lexbuf : @lexbuf.T[T, Char
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          9 => {
-            state = 25
-            tag_action = 6
-          }
-          32 => {
-            state = 25
-            tag_action = 6
-          }
+        state = match c {
+          9 => 25
+          32 => 25
           41 => {
-            state = 26
-            tag_action = 7
+            _tag_5 = lexbuf.curr_pos()
+            26
           }
           48..=57 => {
-            state = 24
-            tag_action = 5
+            _tag_3 = lexbuf.curr_pos()
+            24
           }
           65..=90 => {
-            state = 24
-            tag_action = 5
+            _tag_3 = lexbuf.curr_pos()
+            24
           }
           95 => {
-            state = 24
-            tag_action = 5
+            _tag_3 = lexbuf.curr_pos()
+            24
           }
           97..=122 => {
-            state = 24
-            tag_action = 5
+            _tag_3 = lexbuf.curr_pos()
+            24
           }
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+          _ => -1
         }
       }
       25 => {
@@ -900,23 +518,14 @@ fn scan_codeblock_rbrace[T](subst : Array[SubstItem], lexbuf : @lexbuf.T[T, Char
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          9 => {
-            state = 25
-            tag_action = 6
-          }
-          32 => {
-            state = 25
-            tag_action = 6
-          }
+        state = match c {
+          9 => 25
+          32 => 25
           41 => {
-            state = 26
-            tag_action = 7
+            _tag_5 = lexbuf.curr_pos()
+            26
           }
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+          _ => -1
         }
       }
       26 => {
@@ -927,38 +536,11 @@ fn scan_codeblock_rbrace[T](subst : Array[SubstItem], lexbuf : @lexbuf.T[T, Char
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          _ => -1
         }
       }
       _ => panic()
-    }
-    match tag_action {
-      0 => {
-        _tag_0 = lexbuf.curr_pos()
-      }
-      2 => {
-        ()
-      }
-      3 => {
-        _tag_1 = lexbuf.curr_pos()
-      }
-      4 => {
-        _tag_2 = lexbuf.curr_pos()
-      }
-      5 => {
-        _tag_3 = lexbuf.curr_pos()
-      }
-      6 => {
-        ()
-      }
-      7 => {
-        _tag_5 = lexbuf.curr_pos()
-      }
-      _ => ()
     }
   }
 

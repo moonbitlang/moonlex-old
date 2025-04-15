@@ -4,34 +4,18 @@ fn lex_is_number[T, C, S, P](lexbuf : @lexbuf.T[T, C, S, P]) -> Bool  {
   let mut matched = None
   let mut state = 0
   while state != -1 {
-    let mut tag_action = -1
     match state {
       0 => {
         let c = match lexbuf.next() {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          0..=47 => {
-            state = 3
-            tag_action = 0
-          }
-          48 => {
-            state = 2
-            tag_action = 0
-          }
-          49..=57 => {
-            state = 1
-            tag_action = 0
-          }
-          58..=1114111 => {
-            state = 3
-            tag_action = 0
-          }
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          0..=47 => 3
+          48 => 2
+          49..=57 => 1
+          58..=1114111 => 3
+          _ => -1
         }
       }
       1 => {
@@ -42,15 +26,9 @@ fn lex_is_number[T, C, S, P](lexbuf : @lexbuf.T[T, C, S, P]) -> Bool  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          48..=57 => {
-            state = 4
-            tag_action = 0
-          }
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          48..=57 => 4
+          _ => -1
         }
       }
       2 => {
@@ -61,11 +39,8 @@ fn lex_is_number[T, C, S, P](lexbuf : @lexbuf.T[T, C, S, P]) -> Bool  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          _ => -1
         }
       }
       3 => {
@@ -76,11 +51,8 @@ fn lex_is_number[T, C, S, P](lexbuf : @lexbuf.T[T, C, S, P]) -> Bool  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          _ => -1
         }
       }
       4 => {
@@ -91,21 +63,12 @@ fn lex_is_number[T, C, S, P](lexbuf : @lexbuf.T[T, C, S, P]) -> Bool  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          48..=57 => {
-            state = 4
-            tag_action = 0
-          }
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          48..=57 => 4
+          _ => -1
         }
       }
       _ => panic()
-    }
-    match tag_action {
-      _ => ()
     }
   }
 

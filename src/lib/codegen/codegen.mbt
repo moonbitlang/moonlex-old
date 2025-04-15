@@ -155,7 +155,6 @@ fn codegen_rule(rule : Rule) -> String {
   }
   out.write_string(
     $|  while state != -1 {
-    $|    let mut tag_action = -1
     $|    match state {
     $|
     ,
@@ -195,10 +194,30 @@ fn codegen_rule(rule : Rule) -> String {
       $|          Some(c) => c.to_int()
       $|          None => -1
       $|        }
-      $|        match c {
+      $|        state = match c {
       $|
       ,
     )
+    fn gen_inline_tag_action(tag_action : Array[Array[Int]]) -> String? {
+      let buf = []
+      for tag_id, actions_per_tag in tag_action {
+        for rank, src_rank in actions_per_tag {
+          if src_rank is -1 {
+            buf.push("\{gen_tag_var(tag_id, rank)} = lexbuf.curr_pos()")
+          } else if src_rank != rank {
+            buf.push(
+              "\{gen_tag_var(tag_id, rank)} = \{gen_tag_var(tag_id, src_rank)}",
+            )
+          }
+        }
+      }
+      if buf.is_empty() {
+        None
+      } else {
+        Some(buf.iter().map(fn { x => "            \{x}" }).join("\n"))
+      }
+    }
+
     for tran in group_trans(trans) {
       let ((first_char, last_char), (next_state, tag_action)) = tran
       let pattern = if first_char == last_char {
@@ -206,20 +225,26 @@ fn codegen_rule(rule : Rule) -> String {
       } else {
         "\{first_char}..=\{last_char}"
       }
-      out.write_string(
-        $|          \{pattern} => {
-        $|            state = \{next_state}
-        $|            tag_action = \{get_tag_action_id(tag_action)}
-        $|          }
-        $|
-        ,
-      )
+      match gen_inline_tag_action(tag_action) {
+        None =>
+          out.write_string(
+            $|          \{pattern} => \{next_state}
+            $|
+            ,
+          )
+        Some(tag_action_code) =>
+          out.write_string(
+            $|          \{pattern} => {
+            $|\{tag_action_code}
+            $|            \{next_state}
+            $|          }
+            $|
+            ,
+          )
+      }
     }
     out.write_string(
-      $|          _ => {
-      $|            state = -1
-      $|            tag_action = -1
-      $|          }
+      $|          _ => -1
       $|        }
       $|      }
       $|
@@ -229,56 +254,11 @@ fn codegen_rule(rule : Rule) -> String {
   out.write_string(
     $|      _ => panic()
     $|    }
-    $|    match tag_action {
+    $|  }
     $|
     ,
   )
-  for tag_action_id, tag_action in tag_actions {
-    if not(tag_action.iter().all(Array::is_empty)) {
-      out.write_string(
-        $|      \{tag_action_id} => {
-        $|
-        ,
-      )
-      // TODO: DO NOT generate assignments to unused tag variables
-      let mut no_stmts = true
-      for tag_id, actions_per_tag in tag_action {
-        for rank, src_rank in actions_per_tag {
-          if src_rank is -1 {
-            no_stmts = false
-            out.write_string(
-              $|        \{gen_tag_var(tag_id, rank)} = lexbuf.curr_pos()
-              $|
-              ,
-            )
-          } else if src_rank != rank {
-            no_stmts = false
-            out.write_string(
-              $|        \{gen_tag_var(tag_id, rank)} = \{gen_tag_var(tag_id, src_rank)}
-              $|
-              ,
-            )
-          }
-        }
-      }
-      if no_stmts {
-        out.write_string(
-          $|        ()
-          $|
-          ,
-        )
-      }
-      out.write_string(
-        $|      }
-        $|
-        ,
-      )
-    }
-  }
   out.write_string(
-    $|      _ => ()
-    $|    }
-    $|  }
     $|
     $|  guard matched is Some((pattern_id, marked_pos, _captures)) else {
     $|    // No pattern matched

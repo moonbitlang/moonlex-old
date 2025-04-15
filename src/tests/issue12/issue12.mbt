@@ -7,22 +7,18 @@ fn test_func[T](lexbuf : @lexbuf.T[T, Char, String, Int]) -> String  {
   let mut _tag_1 = -1
   _tag_0 = lexbuf.curr_pos()
   while state != -1 {
-    let mut tag_action = -1
     match state {
       0 => {
         let c = match lexbuf.next() {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
+        state = match c {
           97 => {
-            state = 1
-            tag_action = 0
+            _tag_1 = lexbuf.curr_pos()
+            1
           }
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+          _ => -1
         }
       }
       1 => {
@@ -33,15 +29,9 @@ fn test_func[T](lexbuf : @lexbuf.T[T, Char, String, Int]) -> String  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          97..=98 => {
-            state = 2
-            tag_action = 1
-          }
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          97..=98 => 2
+          _ => -1
         }
       }
       2 => {
@@ -49,19 +39,13 @@ fn test_func[T](lexbuf : @lexbuf.T[T, Char, String, Int]) -> String  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
+        state = match c {
           97 => {
-            state = 3
-            tag_action = 0
+            _tag_1 = lexbuf.curr_pos()
+            3
           }
-          98 => {
-            state = 2
-            tag_action = 1
-          }
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+          98 => 2
+          _ => -1
         }
       }
       3 => {
@@ -72,31 +56,16 @@ fn test_func[T](lexbuf : @lexbuf.T[T, Char, String, Int]) -> String  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
+        state = match c {
           97 => {
-            state = 3
-            tag_action = 0
+            _tag_1 = lexbuf.curr_pos()
+            3
           }
-          98 => {
-            state = 2
-            tag_action = 1
-          }
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+          98 => 2
+          _ => -1
         }
       }
       _ => panic()
-    }
-    match tag_action {
-      0 => {
-        _tag_1 = lexbuf.curr_pos()
-      }
-      1 => {
-        ()
-      }
-      _ => ()
     }
   }
 

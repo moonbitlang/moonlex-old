@@ -21,130 +21,63 @@ fn token[T](lexbuf : @lexbuf.T[T, Char, String, Int]) -> Token  {
   let mut _tag_13 = -1
   _tag_12 = lexbuf.curr_pos()
   while state != -1 {
-    let mut tag_action = -1
     match state {
       0 => {
         let c = match lexbuf.next() {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          -1 => {
-            state = 21
-            tag_action = 0
-          }
-          9..=10 => {
-            state = 6
-            tag_action = 0
-          }
-          13 => {
-            state = 6
-            tag_action = 0
-          }
-          32 => {
-            state = 6
-            tag_action = 0
-          }
-          34 => {
-            state = 8
-            tag_action = 0
-          }
+        state = match c {
+          -1 => 21
+          9..=10 => 6
+          13 => 6
+          32 => 6
+          34 => 8
           39 => {
-            state = 19
-            tag_action = 2
+            _tag_4 = lexbuf.curr_pos()
+            19
           }
-          40 => {
-            state = 17
-            tag_action = 0
-          }
-          41 => {
-            state = 5
-            tag_action = 0
-          }
-          42 => {
-            state = 20
-            tag_action = 0
-          }
-          43 => {
-            state = 1
-            tag_action = 0
-          }
-          45 => {
-            state = 18
-            tag_action = 0
-          }
-          47 => {
-            state = 23
-            tag_action = 0
-          }
-          58 => {
-            state = 4
-            tag_action = 0
-          }
-          59 => {
-            state = 14
-            tag_action = 0
-          }
-          61 => {
-            state = 10
-            tag_action = 0
-          }
-          63 => {
-            state = 22
-            tag_action = 0
-          }
-          91 => {
-            state = 11
-            tag_action = 0
-          }
-          93 => {
-            state = 12
-            tag_action = 0
-          }
-          94 => {
-            state = 15
-            tag_action = 0
-          }
+          40 => 17
+          41 => 5
+          42 => 20
+          43 => 1
+          45 => 18
+          47 => 23
+          58 => 4
+          59 => 14
+          61 => 10
+          63 => 22
+          91 => 11
+          93 => 12
+          94 => 15
           95 => {
-            state = 16
-            tag_action = 1
+            _tag_13 = lexbuf.curr_pos()
+            16
           }
           97..=111 => {
-            state = 2
-            tag_action = 1
+            _tag_13 = lexbuf.curr_pos()
+            2
           }
           112 => {
-            state = 13
-            tag_action = 1
+            _tag_13 = lexbuf.curr_pos()
+            13
           }
           113 => {
-            state = 2
-            tag_action = 1
+            _tag_13 = lexbuf.curr_pos()
+            2
           }
           114 => {
-            state = 7
-            tag_action = 1
+            _tag_13 = lexbuf.curr_pos()
+            7
           }
           115..=122 => {
-            state = 2
-            tag_action = 1
+            _tag_13 = lexbuf.curr_pos()
+            2
           }
-          123 => {
-            state = 9
-            tag_action = 0
-          }
-          124 => {
-            state = 24
-            tag_action = 0
-          }
-          125 => {
-            state = 3
-            tag_action = 0
-          }
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+          123 => 9
+          124 => 24
+          125 => 3
+          _ => -1
         }
       }
       1 => {
@@ -155,11 +88,8 @@ fn token[T](lexbuf : @lexbuf.T[T, Char, String, Int]) -> Token  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          _ => -1
         }
       }
       2 => {
@@ -170,27 +100,24 @@ fn token[T](lexbuf : @lexbuf.T[T, Char, String, Int]) -> Token  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
+        state = match c {
           48..=57 => {
-            state = 25
-            tag_action = 1
+            _tag_13 = lexbuf.curr_pos()
+            25
           }
           65..=90 => {
-            state = 25
-            tag_action = 1
+            _tag_13 = lexbuf.curr_pos()
+            25
           }
           95 => {
-            state = 25
-            tag_action = 1
+            _tag_13 = lexbuf.curr_pos()
+            25
           }
           97..=122 => {
-            state = 25
-            tag_action = 1
+            _tag_13 = lexbuf.curr_pos()
+            25
           }
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+          _ => -1
         }
       }
       3 => {
@@ -201,11 +128,8 @@ fn token[T](lexbuf : @lexbuf.T[T, Char, String, Int]) -> Token  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          _ => -1
         }
       }
       4 => {
@@ -216,11 +140,8 @@ fn token[T](lexbuf : @lexbuf.T[T, Char, String, Int]) -> Token  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          _ => -1
         }
       }
       5 => {
@@ -231,11 +152,8 @@ fn token[T](lexbuf : @lexbuf.T[T, Char, String, Int]) -> Token  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          _ => -1
         }
       }
       6 => {
@@ -246,23 +164,11 @@ fn token[T](lexbuf : @lexbuf.T[T, Char, String, Int]) -> Token  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          9..=10 => {
-            state = 6
-            tag_action = 0
-          }
-          13 => {
-            state = 6
-            tag_action = 0
-          }
-          32 => {
-            state = 6
-            tag_action = 0
-          }
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          9..=10 => 6
+          13 => 6
+          32 => 6
+          _ => -1
         }
       }
       7 => {
@@ -273,35 +179,32 @@ fn token[T](lexbuf : @lexbuf.T[T, Char, String, Int]) -> Token  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
+        state = match c {
           48..=57 => {
-            state = 25
-            tag_action = 1
+            _tag_13 = lexbuf.curr_pos()
+            25
           }
           65..=90 => {
-            state = 25
-            tag_action = 1
+            _tag_13 = lexbuf.curr_pos()
+            25
           }
           95 => {
-            state = 25
-            tag_action = 1
+            _tag_13 = lexbuf.curr_pos()
+            25
           }
           97..=116 => {
-            state = 25
-            tag_action = 1
+            _tag_13 = lexbuf.curr_pos()
+            25
           }
           117 => {
-            state = 26
-            tag_action = 1
+            _tag_13 = lexbuf.curr_pos()
+            26
           }
           118..=122 => {
-            state = 25
-            tag_action = 1
+            _tag_13 = lexbuf.curr_pos()
+            25
           }
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+          _ => -1
         }
       }
       8 => {
@@ -312,11 +215,8 @@ fn token[T](lexbuf : @lexbuf.T[T, Char, String, Int]) -> Token  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          _ => -1
         }
       }
       9 => {
@@ -327,11 +227,8 @@ fn token[T](lexbuf : @lexbuf.T[T, Char, String, Int]) -> Token  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          _ => -1
         }
       }
       10 => {
@@ -342,15 +239,9 @@ fn token[T](lexbuf : @lexbuf.T[T, Char, String, Int]) -> Token  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          62 => {
-            state = 27
-            tag_action = 0
-          }
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          62 => 27
+          _ => -1
         }
       }
       11 => {
@@ -361,11 +252,8 @@ fn token[T](lexbuf : @lexbuf.T[T, Char, String, Int]) -> Token  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          _ => -1
         }
       }
       12 => {
@@ -376,11 +264,8 @@ fn token[T](lexbuf : @lexbuf.T[T, Char, String, Int]) -> Token  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          _ => -1
         }
       }
       13 => {
@@ -391,31 +276,28 @@ fn token[T](lexbuf : @lexbuf.T[T, Char, String, Int]) -> Token  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
+        state = match c {
           48..=57 => {
-            state = 25
-            tag_action = 1
+            _tag_13 = lexbuf.curr_pos()
+            25
           }
           65..=90 => {
-            state = 25
-            tag_action = 1
+            _tag_13 = lexbuf.curr_pos()
+            25
           }
           95 => {
-            state = 25
-            tag_action = 1
+            _tag_13 = lexbuf.curr_pos()
+            25
           }
           97 => {
-            state = 28
-            tag_action = 1
+            _tag_13 = lexbuf.curr_pos()
+            28
           }
           98..=122 => {
-            state = 25
-            tag_action = 1
+            _tag_13 = lexbuf.curr_pos()
+            25
           }
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+          _ => -1
         }
       }
       14 => {
@@ -426,11 +308,8 @@ fn token[T](lexbuf : @lexbuf.T[T, Char, String, Int]) -> Token  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          _ => -1
         }
       }
       15 => {
@@ -441,11 +320,8 @@ fn token[T](lexbuf : @lexbuf.T[T, Char, String, Int]) -> Token  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          _ => -1
         }
       }
       16 => {
@@ -456,27 +332,24 @@ fn token[T](lexbuf : @lexbuf.T[T, Char, String, Int]) -> Token  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
+        state = match c {
           48..=57 => {
-            state = 25
-            tag_action = 1
+            _tag_13 = lexbuf.curr_pos()
+            25
           }
           65..=90 => {
-            state = 25
-            tag_action = 1
+            _tag_13 = lexbuf.curr_pos()
+            25
           }
           95 => {
-            state = 25
-            tag_action = 1
+            _tag_13 = lexbuf.curr_pos()
+            25
           }
           97..=122 => {
-            state = 25
-            tag_action = 1
+            _tag_13 = lexbuf.curr_pos()
+            25
           }
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+          _ => -1
         }
       }
       17 => {
@@ -487,11 +360,8 @@ fn token[T](lexbuf : @lexbuf.T[T, Char, String, Int]) -> Token  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          _ => -1
         }
       }
       18 => {
@@ -502,11 +372,8 @@ fn token[T](lexbuf : @lexbuf.T[T, Char, String, Int]) -> Token  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          _ => -1
         }
       }
       19 => {
@@ -514,27 +381,21 @@ fn token[T](lexbuf : @lexbuf.T[T, Char, String, Int]) -> Token  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
+        state = match c {
           0..=38 => {
-            state = 29
-            tag_action = 3
+            _tag_5 = lexbuf.curr_pos()
+            29
           }
           40..=91 => {
-            state = 29
-            tag_action = 3
+            _tag_5 = lexbuf.curr_pos()
+            29
           }
-          92 => {
-            state = 30
-            tag_action = 0
-          }
+          92 => 30
           93..=1114111 => {
-            state = 29
-            tag_action = 3
+            _tag_5 = lexbuf.curr_pos()
+            29
           }
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+          _ => -1
         }
       }
       20 => {
@@ -545,11 +406,8 @@ fn token[T](lexbuf : @lexbuf.T[T, Char, String, Int]) -> Token  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          _ => -1
         }
       }
       21 => {
@@ -560,11 +418,8 @@ fn token[T](lexbuf : @lexbuf.T[T, Char, String, Int]) -> Token  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          _ => -1
         }
       }
       22 => {
@@ -575,11 +430,8 @@ fn token[T](lexbuf : @lexbuf.T[T, Char, String, Int]) -> Token  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          _ => -1
         }
       }
       23 => {
@@ -587,15 +439,9 @@ fn token[T](lexbuf : @lexbuf.T[T, Char, String, Int]) -> Token  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          47 => {
-            state = 31
-            tag_action = 0
-          }
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          47 => 31
+          _ => -1
         }
       }
       24 => {
@@ -606,11 +452,8 @@ fn token[T](lexbuf : @lexbuf.T[T, Char, String, Int]) -> Token  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          _ => -1
         }
       }
       25 => {
@@ -621,27 +464,24 @@ fn token[T](lexbuf : @lexbuf.T[T, Char, String, Int]) -> Token  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
+        state = match c {
           48..=57 => {
-            state = 25
-            tag_action = 1
+            _tag_13 = lexbuf.curr_pos()
+            25
           }
           65..=90 => {
-            state = 25
-            tag_action = 1
+            _tag_13 = lexbuf.curr_pos()
+            25
           }
           95 => {
-            state = 25
-            tag_action = 1
+            _tag_13 = lexbuf.curr_pos()
+            25
           }
           97..=122 => {
-            state = 25
-            tag_action = 1
+            _tag_13 = lexbuf.curr_pos()
+            25
           }
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+          _ => -1
         }
       }
       26 => {
@@ -652,35 +492,32 @@ fn token[T](lexbuf : @lexbuf.T[T, Char, String, Int]) -> Token  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
+        state = match c {
           48..=57 => {
-            state = 25
-            tag_action = 1
+            _tag_13 = lexbuf.curr_pos()
+            25
           }
           65..=90 => {
-            state = 25
-            tag_action = 1
+            _tag_13 = lexbuf.curr_pos()
+            25
           }
           95 => {
-            state = 25
-            tag_action = 1
+            _tag_13 = lexbuf.curr_pos()
+            25
           }
           97..=107 => {
-            state = 25
-            tag_action = 1
+            _tag_13 = lexbuf.curr_pos()
+            25
           }
           108 => {
-            state = 32
-            tag_action = 1
+            _tag_13 = lexbuf.curr_pos()
+            32
           }
           109..=122 => {
-            state = 25
-            tag_action = 1
+            _tag_13 = lexbuf.curr_pos()
+            25
           }
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+          _ => -1
         }
       }
       27 => {
@@ -691,11 +528,8 @@ fn token[T](lexbuf : @lexbuf.T[T, Char, String, Int]) -> Token  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          _ => -1
         }
       }
       28 => {
@@ -706,35 +540,32 @@ fn token[T](lexbuf : @lexbuf.T[T, Char, String, Int]) -> Token  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
+        state = match c {
           48..=57 => {
-            state = 25
-            tag_action = 1
+            _tag_13 = lexbuf.curr_pos()
+            25
           }
           65..=90 => {
-            state = 25
-            tag_action = 1
+            _tag_13 = lexbuf.curr_pos()
+            25
           }
           95 => {
-            state = 25
-            tag_action = 1
+            _tag_13 = lexbuf.curr_pos()
+            25
           }
           97..=113 => {
-            state = 25
-            tag_action = 1
+            _tag_13 = lexbuf.curr_pos()
+            25
           }
           114 => {
-            state = 33
-            tag_action = 1
+            _tag_13 = lexbuf.curr_pos()
+            33
           }
           115..=122 => {
-            state = 25
-            tag_action = 1
+            _tag_13 = lexbuf.curr_pos()
+            25
           }
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+          _ => -1
         }
       }
       29 => {
@@ -742,15 +573,9 @@ fn token[T](lexbuf : @lexbuf.T[T, Char, String, Int]) -> Token  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          39 => {
-            state = 34
-            tag_action = 4
-          }
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          39 => 34
+          _ => -1
         }
       }
       30 => {
@@ -758,47 +583,23 @@ fn token[T](lexbuf : @lexbuf.T[T, Char, String, Int]) -> Token  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          39 => {
-            state = 40
-            tag_action = 0
-          }
-          92 => {
-            state = 43
-            tag_action = 0
-          }
-          98 => {
-            state = 37
-            tag_action = 0
-          }
-          110 => {
-            state = 39
-            tag_action = 0
-          }
-          114 => {
-            state = 42
-            tag_action = 0
-          }
-          116 => {
-            state = 41
-            tag_action = 0
-          }
+        state = match c {
+          39 => 40
+          92 => 43
+          98 => 37
+          110 => 39
+          114 => 42
+          116 => 41
           117 => {
-            state = 38
-            tag_action = 6
+            _tag_8 = lexbuf.curr_pos()
+            38
           }
-          118 => {
-            state = 36
-            tag_action = 0
-          }
+          118 => 36
           120 => {
-            state = 35
-            tag_action = 5
+            _tag_6 = lexbuf.curr_pos()
+            35
           }
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+          _ => -1
         }
       }
       31 => {
@@ -809,23 +610,11 @@ fn token[T](lexbuf : @lexbuf.T[T, Char, String, Int]) -> Token  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          0..=9 => {
-            state = 45
-            tag_action = 0
-          }
-          10 => {
-            state = 44
-            tag_action = 0
-          }
-          11..=1114111 => {
-            state = 45
-            tag_action = 0
-          }
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          0..=9 => 45
+          10 => 44
+          11..=1114111 => 45
+          _ => -1
         }
       }
       32 => {
@@ -836,35 +625,32 @@ fn token[T](lexbuf : @lexbuf.T[T, Char, String, Int]) -> Token  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
+        state = match c {
           48..=57 => {
-            state = 25
-            tag_action = 1
+            _tag_13 = lexbuf.curr_pos()
+            25
           }
           65..=90 => {
-            state = 25
-            tag_action = 1
+            _tag_13 = lexbuf.curr_pos()
+            25
           }
           95 => {
-            state = 25
-            tag_action = 1
+            _tag_13 = lexbuf.curr_pos()
+            25
           }
           97..=100 => {
-            state = 25
-            tag_action = 1
+            _tag_13 = lexbuf.curr_pos()
+            25
           }
           101 => {
-            state = 46
-            tag_action = 1
+            _tag_13 = lexbuf.curr_pos()
+            46
           }
           102..=122 => {
-            state = 25
-            tag_action = 1
+            _tag_13 = lexbuf.curr_pos()
+            25
           }
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+          _ => -1
         }
       }
       33 => {
@@ -875,35 +661,32 @@ fn token[T](lexbuf : @lexbuf.T[T, Char, String, Int]) -> Token  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
+        state = match c {
           48..=57 => {
-            state = 25
-            tag_action = 1
+            _tag_13 = lexbuf.curr_pos()
+            25
           }
           65..=90 => {
-            state = 25
-            tag_action = 1
+            _tag_13 = lexbuf.curr_pos()
+            25
           }
           95 => {
-            state = 25
-            tag_action = 1
+            _tag_13 = lexbuf.curr_pos()
+            25
           }
           97..=114 => {
-            state = 25
-            tag_action = 1
+            _tag_13 = lexbuf.curr_pos()
+            25
           }
           115 => {
-            state = 47
-            tag_action = 1
+            _tag_13 = lexbuf.curr_pos()
+            47
           }
           116..=122 => {
-            state = 25
-            tag_action = 1
+            _tag_13 = lexbuf.curr_pos()
+            25
           }
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+          _ => -1
         }
       }
       34 => {
@@ -914,11 +697,8 @@ fn token[T](lexbuf : @lexbuf.T[T, Char, String, Int]) -> Token  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          _ => -1
         }
       }
       35 => {
@@ -926,23 +706,11 @@ fn token[T](lexbuf : @lexbuf.T[T, Char, String, Int]) -> Token  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          48..=57 => {
-            state = 48
-            tag_action = 7
-          }
-          65..=70 => {
-            state = 48
-            tag_action = 7
-          }
-          97..=102 => {
-            state = 48
-            tag_action = 7
-          }
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          48..=57 => 48
+          65..=70 => 48
+          97..=102 => 48
+          _ => -1
         }
       }
       36 => {
@@ -950,15 +718,9 @@ fn token[T](lexbuf : @lexbuf.T[T, Char, String, Int]) -> Token  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          39 => {
-            state = 49
-            tag_action = 0
-          }
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          39 => 49
+          _ => -1
         }
       }
       37 => {
@@ -966,15 +728,9 @@ fn token[T](lexbuf : @lexbuf.T[T, Char, String, Int]) -> Token  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          39 => {
-            state = 50
-            tag_action = 0
-          }
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          39 => 50
+          _ => -1
         }
       }
       38 => {
@@ -982,27 +738,15 @@ fn token[T](lexbuf : @lexbuf.T[T, Char, String, Int]) -> Token  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          48..=57 => {
-            state = 51
-            tag_action = 8
-          }
-          65..=70 => {
-            state = 51
-            tag_action = 8
-          }
-          97..=102 => {
-            state = 51
-            tag_action = 8
-          }
+        state = match c {
+          48..=57 => 51
+          65..=70 => 51
+          97..=102 => 51
           123 => {
-            state = 52
-            tag_action = 9
+            _tag_10 = lexbuf.curr_pos()
+            52
           }
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+          _ => -1
         }
       }
       39 => {
@@ -1010,15 +754,9 @@ fn token[T](lexbuf : @lexbuf.T[T, Char, String, Int]) -> Token  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          39 => {
-            state = 53
-            tag_action = 0
-          }
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          39 => 53
+          _ => -1
         }
       }
       40 => {
@@ -1026,15 +764,9 @@ fn token[T](lexbuf : @lexbuf.T[T, Char, String, Int]) -> Token  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          39 => {
-            state = 54
-            tag_action = 0
-          }
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          39 => 54
+          _ => -1
         }
       }
       41 => {
@@ -1042,15 +774,9 @@ fn token[T](lexbuf : @lexbuf.T[T, Char, String, Int]) -> Token  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          39 => {
-            state = 55
-            tag_action = 0
-          }
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          39 => 55
+          _ => -1
         }
       }
       42 => {
@@ -1058,15 +784,9 @@ fn token[T](lexbuf : @lexbuf.T[T, Char, String, Int]) -> Token  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          39 => {
-            state = 56
-            tag_action = 0
-          }
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          39 => 56
+          _ => -1
         }
       }
       43 => {
@@ -1074,15 +794,9 @@ fn token[T](lexbuf : @lexbuf.T[T, Char, String, Int]) -> Token  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          39 => {
-            state = 57
-            tag_action = 0
-          }
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          39 => 57
+          _ => -1
         }
       }
       44 => {
@@ -1093,11 +807,8 @@ fn token[T](lexbuf : @lexbuf.T[T, Char, String, Int]) -> Token  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          _ => -1
         }
       }
       45 => {
@@ -1108,23 +819,11 @@ fn token[T](lexbuf : @lexbuf.T[T, Char, String, Int]) -> Token  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          0..=9 => {
-            state = 45
-            tag_action = 0
-          }
-          10 => {
-            state = 44
-            tag_action = 0
-          }
-          11..=1114111 => {
-            state = 45
-            tag_action = 0
-          }
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          0..=9 => 45
+          10 => 44
+          11..=1114111 => 45
+          _ => -1
         }
       }
       46 => {
@@ -1135,39 +834,39 @@ fn token[T](lexbuf : @lexbuf.T[T, Char, String, Int]) -> Token  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
+        state = match c {
           9..=10 => {
-            state = 58
-            tag_action = 10
+            _tag_0 = lexbuf.curr_pos()
+            _tag_2 = lexbuf.curr_pos()
+            58
           }
           13 => {
-            state = 58
-            tag_action = 10
+            _tag_0 = lexbuf.curr_pos()
+            _tag_2 = lexbuf.curr_pos()
+            58
           }
           32 => {
-            state = 58
-            tag_action = 10
+            _tag_0 = lexbuf.curr_pos()
+            _tag_2 = lexbuf.curr_pos()
+            58
           }
           48..=57 => {
-            state = 25
-            tag_action = 1
+            _tag_13 = lexbuf.curr_pos()
+            25
           }
           65..=90 => {
-            state = 25
-            tag_action = 1
+            _tag_13 = lexbuf.curr_pos()
+            25
           }
           95 => {
-            state = 25
-            tag_action = 1
+            _tag_13 = lexbuf.curr_pos()
+            25
           }
           97..=122 => {
-            state = 25
-            tag_action = 1
+            _tag_13 = lexbuf.curr_pos()
+            25
           }
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+          _ => -1
         }
       }
       47 => {
@@ -1178,35 +877,32 @@ fn token[T](lexbuf : @lexbuf.T[T, Char, String, Int]) -> Token  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
+        state = match c {
           48..=57 => {
-            state = 25
-            tag_action = 1
+            _tag_13 = lexbuf.curr_pos()
+            25
           }
           65..=90 => {
-            state = 25
-            tag_action = 1
+            _tag_13 = lexbuf.curr_pos()
+            25
           }
           95 => {
-            state = 25
-            tag_action = 1
+            _tag_13 = lexbuf.curr_pos()
+            25
           }
           97..=100 => {
-            state = 25
-            tag_action = 1
+            _tag_13 = lexbuf.curr_pos()
+            25
           }
           101 => {
-            state = 59
-            tag_action = 1
+            _tag_13 = lexbuf.curr_pos()
+            59
           }
           102..=122 => {
-            state = 25
-            tag_action = 1
+            _tag_13 = lexbuf.curr_pos()
+            25
           }
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+          _ => -1
         }
       }
       48 => {
@@ -1214,23 +910,20 @@ fn token[T](lexbuf : @lexbuf.T[T, Char, String, Int]) -> Token  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
+        state = match c {
           48..=57 => {
-            state = 60
-            tag_action = 11
+            _tag_7 = lexbuf.curr_pos()
+            60
           }
           65..=70 => {
-            state = 60
-            tag_action = 11
+            _tag_7 = lexbuf.curr_pos()
+            60
           }
           97..=102 => {
-            state = 60
-            tag_action = 11
+            _tag_7 = lexbuf.curr_pos()
+            60
           }
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+          _ => -1
         }
       }
       49 => {
@@ -1241,11 +934,8 @@ fn token[T](lexbuf : @lexbuf.T[T, Char, String, Int]) -> Token  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          _ => -1
         }
       }
       50 => {
@@ -1256,11 +946,8 @@ fn token[T](lexbuf : @lexbuf.T[T, Char, String, Int]) -> Token  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          _ => -1
         }
       }
       51 => {
@@ -1268,23 +955,11 @@ fn token[T](lexbuf : @lexbuf.T[T, Char, String, Int]) -> Token  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          48..=57 => {
-            state = 61
-            tag_action = 8
-          }
-          65..=70 => {
-            state = 61
-            tag_action = 8
-          }
-          97..=102 => {
-            state = 61
-            tag_action = 8
-          }
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          48..=57 => 61
+          65..=70 => 61
+          97..=102 => 61
+          _ => -1
         }
       }
       52 => {
@@ -1292,23 +967,20 @@ fn token[T](lexbuf : @lexbuf.T[T, Char, String, Int]) -> Token  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
+        state = match c {
           48..=57 => {
-            state = 62
-            tag_action = 12
+            _tag_11 = lexbuf.curr_pos()
+            62
           }
           65..=70 => {
-            state = 62
-            tag_action = 12
+            _tag_11 = lexbuf.curr_pos()
+            62
           }
           97..=102 => {
-            state = 62
-            tag_action = 12
+            _tag_11 = lexbuf.curr_pos()
+            62
           }
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+          _ => -1
         }
       }
       53 => {
@@ -1319,11 +991,8 @@ fn token[T](lexbuf : @lexbuf.T[T, Char, String, Int]) -> Token  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          _ => -1
         }
       }
       54 => {
@@ -1334,11 +1003,8 @@ fn token[T](lexbuf : @lexbuf.T[T, Char, String, Int]) -> Token  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          _ => -1
         }
       }
       55 => {
@@ -1349,11 +1015,8 @@ fn token[T](lexbuf : @lexbuf.T[T, Char, String, Int]) -> Token  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          _ => -1
         }
       }
       56 => {
@@ -1364,11 +1027,8 @@ fn token[T](lexbuf : @lexbuf.T[T, Char, String, Int]) -> Token  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          _ => -1
         }
       }
       57 => {
@@ -1379,11 +1039,8 @@ fn token[T](lexbuf : @lexbuf.T[T, Char, String, Int]) -> Token  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          _ => -1
         }
       }
       58 => {
@@ -1391,31 +1048,31 @@ fn token[T](lexbuf : @lexbuf.T[T, Char, String, Int]) -> Token  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
+        state = match c {
           9..=10 => {
-            state = 58
-            tag_action = 10
+            _tag_0 = lexbuf.curr_pos()
+            _tag_2 = lexbuf.curr_pos()
+            58
           }
           13 => {
-            state = 58
-            tag_action = 10
+            _tag_0 = lexbuf.curr_pos()
+            _tag_2 = lexbuf.curr_pos()
+            58
           }
           32 => {
-            state = 58
-            tag_action = 10
+            _tag_0 = lexbuf.curr_pos()
+            _tag_2 = lexbuf.curr_pos()
+            58
           }
           95 => {
-            state = 63
-            tag_action = 13
+            _tag_1 = lexbuf.curr_pos()
+            63
           }
           97..=122 => {
-            state = 63
-            tag_action = 13
+            _tag_1 = lexbuf.curr_pos()
+            63
           }
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+          _ => -1
         }
       }
       59 => {
@@ -1426,43 +1083,28 @@ fn token[T](lexbuf : @lexbuf.T[T, Char, String, Int]) -> Token  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          9..=10 => {
-            state = 65
-            tag_action = 0
-          }
-          13 => {
-            state = 65
-            tag_action = 0
-          }
-          32 => {
-            state = 65
-            tag_action = 0
-          }
+        state = match c {
+          9..=10 => 65
+          13 => 65
+          32 => 65
           48..=57 => {
-            state = 25
-            tag_action = 1
+            _tag_13 = lexbuf.curr_pos()
+            25
           }
           65..=90 => {
-            state = 25
-            tag_action = 1
+            _tag_13 = lexbuf.curr_pos()
+            25
           }
           95 => {
-            state = 25
-            tag_action = 1
+            _tag_13 = lexbuf.curr_pos()
+            25
           }
           97..=122 => {
-            state = 25
-            tag_action = 1
+            _tag_13 = lexbuf.curr_pos()
+            25
           }
-          123 => {
-            state = 64
-            tag_action = 0
-          }
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+          123 => 64
+          _ => -1
         }
       }
       60 => {
@@ -1470,15 +1112,9 @@ fn token[T](lexbuf : @lexbuf.T[T, Char, String, Int]) -> Token  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          39 => {
-            state = 66
-            tag_action = 14
-          }
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          39 => 66
+          _ => -1
         }
       }
       61 => {
@@ -1486,23 +1122,11 @@ fn token[T](lexbuf : @lexbuf.T[T, Char, String, Int]) -> Token  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          48..=57 => {
-            state = 67
-            tag_action = 8
-          }
-          65..=70 => {
-            state = 67
-            tag_action = 8
-          }
-          97..=102 => {
-            state = 67
-            tag_action = 8
-          }
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          48..=57 => 67
+          65..=70 => 67
+          97..=102 => 67
+          _ => -1
         }
       }
       62 => {
@@ -1510,27 +1134,21 @@ fn token[T](lexbuf : @lexbuf.T[T, Char, String, Int]) -> Token  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
+        state = match c {
           48..=57 => {
-            state = 62
-            tag_action = 12
+            _tag_11 = lexbuf.curr_pos()
+            62
           }
           65..=70 => {
-            state = 62
-            tag_action = 12
+            _tag_11 = lexbuf.curr_pos()
+            62
           }
           97..=102 => {
-            state = 62
-            tag_action = 12
+            _tag_11 = lexbuf.curr_pos()
+            62
           }
-          125 => {
-            state = 68
-            tag_action = 15
-          }
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+          125 => 68
+          _ => -1
         }
       }
       63 => {
@@ -1538,47 +1156,52 @@ fn token[T](lexbuf : @lexbuf.T[T, Char, String, Int]) -> Token  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
+        state = match c {
           0..=47 => {
-            state = 70
-            tag_action = 17
+            _tag_3 = lexbuf.curr_pos()
+            70
           }
           48..=57 => {
-            state = 69
-            tag_action = 16
+            _tag_1 = lexbuf.curr_pos()
+            _tag_1_1 = _tag_1
+            _tag_3 = lexbuf.curr_pos()
+            69
           }
           58..=64 => {
-            state = 70
-            tag_action = 17
+            _tag_3 = lexbuf.curr_pos()
+            70
           }
           65..=90 => {
-            state = 69
-            tag_action = 16
+            _tag_1 = lexbuf.curr_pos()
+            _tag_1_1 = _tag_1
+            _tag_3 = lexbuf.curr_pos()
+            69
           }
           91..=94 => {
-            state = 70
-            tag_action = 17
+            _tag_3 = lexbuf.curr_pos()
+            70
           }
           95 => {
-            state = 69
-            tag_action = 16
+            _tag_1 = lexbuf.curr_pos()
+            _tag_1_1 = _tag_1
+            _tag_3 = lexbuf.curr_pos()
+            69
           }
           96 => {
-            state = 70
-            tag_action = 17
+            _tag_3 = lexbuf.curr_pos()
+            70
           }
           97..=122 => {
-            state = 69
-            tag_action = 16
+            _tag_1 = lexbuf.curr_pos()
+            _tag_1_1 = _tag_1
+            _tag_3 = lexbuf.curr_pos()
+            69
           }
           124..=1114111 => {
-            state = 70
-            tag_action = 17
+            _tag_3 = lexbuf.curr_pos()
+            70
           }
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+          _ => -1
         }
       }
       64 => {
@@ -1589,11 +1212,8 @@ fn token[T](lexbuf : @lexbuf.T[T, Char, String, Int]) -> Token  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          _ => -1
         }
       }
       65 => {
@@ -1601,27 +1221,12 @@ fn token[T](lexbuf : @lexbuf.T[T, Char, String, Int]) -> Token  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          9..=10 => {
-            state = 65
-            tag_action = 0
-          }
-          13 => {
-            state = 65
-            tag_action = 0
-          }
-          32 => {
-            state = 65
-            tag_action = 0
-          }
-          123 => {
-            state = 64
-            tag_action = 0
-          }
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          9..=10 => 65
+          13 => 65
+          32 => 65
+          123 => 64
+          _ => -1
         }
       }
       66 => {
@@ -1632,11 +1237,8 @@ fn token[T](lexbuf : @lexbuf.T[T, Char, String, Int]) -> Token  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          _ => -1
         }
       }
       67 => {
@@ -1644,23 +1246,20 @@ fn token[T](lexbuf : @lexbuf.T[T, Char, String, Int]) -> Token  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
+        state = match c {
           48..=57 => {
-            state = 71
-            tag_action = 18
+            _tag_9 = lexbuf.curr_pos()
+            71
           }
           65..=70 => {
-            state = 71
-            tag_action = 18
+            _tag_9 = lexbuf.curr_pos()
+            71
           }
           97..=102 => {
-            state = 71
-            tag_action = 18
+            _tag_9 = lexbuf.curr_pos()
+            71
           }
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+          _ => -1
         }
       }
       68 => {
@@ -1668,15 +1267,9 @@ fn token[T](lexbuf : @lexbuf.T[T, Char, String, Int]) -> Token  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          39 => {
-            state = 72
-            tag_action = 15
-          }
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          39 => 72
+          _ => -1
         }
       }
       69 => {
@@ -1684,75 +1277,83 @@ fn token[T](lexbuf : @lexbuf.T[T, Char, String, Int]) -> Token  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
+        state = match c {
           0..=8 => {
-            state = 70
-            tag_action = 17
+            _tag_3 = lexbuf.curr_pos()
+            70
           }
           9..=10 => {
-            state = 74
-            tag_action = 20
+            _tag_3 = lexbuf.curr_pos()
+            _tag_3_1 = _tag_3
+            74
           }
           11..=12 => {
-            state = 70
-            tag_action = 17
+            _tag_3 = lexbuf.curr_pos()
+            70
           }
           13 => {
-            state = 74
-            tag_action = 20
+            _tag_3 = lexbuf.curr_pos()
+            _tag_3_1 = _tag_3
+            74
           }
           14..=31 => {
-            state = 70
-            tag_action = 17
+            _tag_3 = lexbuf.curr_pos()
+            70
           }
           32 => {
-            state = 74
-            tag_action = 20
+            _tag_3 = lexbuf.curr_pos()
+            _tag_3_1 = _tag_3
+            74
           }
           33..=47 => {
-            state = 70
-            tag_action = 17
+            _tag_3 = lexbuf.curr_pos()
+            70
           }
           48..=57 => {
-            state = 69
-            tag_action = 16
+            _tag_1 = lexbuf.curr_pos()
+            _tag_1_1 = _tag_1
+            _tag_3 = lexbuf.curr_pos()
+            69
           }
           58..=64 => {
-            state = 70
-            tag_action = 17
+            _tag_3 = lexbuf.curr_pos()
+            70
           }
           65..=90 => {
-            state = 69
-            tag_action = 16
+            _tag_1 = lexbuf.curr_pos()
+            _tag_1_1 = _tag_1
+            _tag_3 = lexbuf.curr_pos()
+            69
           }
           91..=94 => {
-            state = 70
-            tag_action = 17
+            _tag_3 = lexbuf.curr_pos()
+            70
           }
           95 => {
-            state = 69
-            tag_action = 16
+            _tag_1 = lexbuf.curr_pos()
+            _tag_1_1 = _tag_1
+            _tag_3 = lexbuf.curr_pos()
+            69
           }
           96 => {
-            state = 70
-            tag_action = 17
+            _tag_3 = lexbuf.curr_pos()
+            70
           }
           97..=122 => {
-            state = 69
-            tag_action = 16
+            _tag_1 = lexbuf.curr_pos()
+            _tag_1_1 = _tag_1
+            _tag_3 = lexbuf.curr_pos()
+            69
           }
           123 => {
-            state = 73
-            tag_action = 19
+            _tag_1 = _tag_1_1
+            73
           }
           124..=1114111 => {
-            state = 70
-            tag_action = 17
+            _tag_3 = lexbuf.curr_pos()
+            70
           }
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+          _ => -1
         }
       }
       70 => {
@@ -1760,47 +1361,44 @@ fn token[T](lexbuf : @lexbuf.T[T, Char, String, Int]) -> Token  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
+        state = match c {
           0..=8 => {
-            state = 70
-            tag_action = 17
+            _tag_3 = lexbuf.curr_pos()
+            70
           }
           9..=10 => {
-            state = 75
-            tag_action = 22
+            _tag_3 = lexbuf.curr_pos()
+            _tag_3_1 = _tag_3
+            75
           }
           11..=12 => {
-            state = 70
-            tag_action = 17
+            _tag_3 = lexbuf.curr_pos()
+            70
           }
           13 => {
-            state = 75
-            tag_action = 22
+            _tag_3 = lexbuf.curr_pos()
+            _tag_3_1 = _tag_3
+            75
           }
           14..=31 => {
-            state = 70
-            tag_action = 17
+            _tag_3 = lexbuf.curr_pos()
+            70
           }
           32 => {
-            state = 75
-            tag_action = 22
+            _tag_3 = lexbuf.curr_pos()
+            _tag_3_1 = _tag_3
+            75
           }
           33..=122 => {
-            state = 70
-            tag_action = 17
+            _tag_3 = lexbuf.curr_pos()
+            70
           }
-          123 => {
-            state = 73
-            tag_action = 21
-          }
+          123 => 73
           124..=1114111 => {
-            state = 70
-            tag_action = 17
+            _tag_3 = lexbuf.curr_pos()
+            70
           }
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+          _ => -1
         }
       }
       71 => {
@@ -1808,15 +1406,9 @@ fn token[T](lexbuf : @lexbuf.T[T, Char, String, Int]) -> Token  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          39 => {
-            state = 76
-            tag_action = 23
-          }
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          39 => 76
+          _ => -1
         }
       }
       72 => {
@@ -1827,11 +1419,8 @@ fn token[T](lexbuf : @lexbuf.T[T, Char, String, Int]) -> Token  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          _ => -1
         }
       }
       73 => {
@@ -1842,11 +1431,8 @@ fn token[T](lexbuf : @lexbuf.T[T, Char, String, Int]) -> Token  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          _ => -1
         }
       }
       74 => {
@@ -1854,47 +1440,44 @@ fn token[T](lexbuf : @lexbuf.T[T, Char, String, Int]) -> Token  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
+        state = match c {
           0..=8 => {
-            state = 70
-            tag_action = 17
+            _tag_3 = lexbuf.curr_pos()
+            70
           }
           9..=10 => {
-            state = 75
-            tag_action = 22
+            _tag_3 = lexbuf.curr_pos()
+            _tag_3_1 = _tag_3
+            75
           }
           11..=12 => {
-            state = 70
-            tag_action = 17
+            _tag_3 = lexbuf.curr_pos()
+            70
           }
           13 => {
-            state = 75
-            tag_action = 22
+            _tag_3 = lexbuf.curr_pos()
+            _tag_3_1 = _tag_3
+            75
           }
           14..=31 => {
-            state = 70
-            tag_action = 17
+            _tag_3 = lexbuf.curr_pos()
+            70
           }
           32 => {
-            state = 75
-            tag_action = 22
+            _tag_3 = lexbuf.curr_pos()
+            _tag_3_1 = _tag_3
+            75
           }
           33..=122 => {
-            state = 70
-            tag_action = 17
+            _tag_3 = lexbuf.curr_pos()
+            70
           }
-          123 => {
-            state = 73
-            tag_action = 21
-          }
+          123 => 73
           124..=1114111 => {
-            state = 70
-            tag_action = 17
+            _tag_3 = lexbuf.curr_pos()
+            70
           }
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+          _ => -1
         }
       }
       75 => {
@@ -1902,47 +1485,44 @@ fn token[T](lexbuf : @lexbuf.T[T, Char, String, Int]) -> Token  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
+        state = match c {
           0..=8 => {
-            state = 70
-            tag_action = 17
+            _tag_3 = lexbuf.curr_pos()
+            70
           }
           9..=10 => {
-            state = 75
-            tag_action = 22
+            _tag_3 = lexbuf.curr_pos()
+            _tag_3_1 = _tag_3
+            75
           }
           11..=12 => {
-            state = 70
-            tag_action = 17
+            _tag_3 = lexbuf.curr_pos()
+            70
           }
           13 => {
-            state = 75
-            tag_action = 22
+            _tag_3 = lexbuf.curr_pos()
+            _tag_3_1 = _tag_3
+            75
           }
           14..=31 => {
-            state = 70
-            tag_action = 17
+            _tag_3 = lexbuf.curr_pos()
+            70
           }
           32 => {
-            state = 75
-            tag_action = 22
+            _tag_3 = lexbuf.curr_pos()
+            _tag_3_1 = _tag_3
+            75
           }
           33..=122 => {
-            state = 70
-            tag_action = 17
+            _tag_3 = lexbuf.curr_pos()
+            70
           }
-          123 => {
-            state = 73
-            tag_action = 21
-          }
+          123 => 73
           124..=1114111 => {
-            state = 70
-            tag_action = 17
+            _tag_3 = lexbuf.curr_pos()
+            70
           }
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+          _ => -1
         }
       }
       76 => {
@@ -1953,91 +1533,11 @@ fn token[T](lexbuf : @lexbuf.T[T, Char, String, Int]) -> Token  {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          _ => -1
         }
       }
       _ => panic()
-    }
-    match tag_action {
-      1 => {
-        _tag_13 = lexbuf.curr_pos()
-      }
-      2 => {
-        _tag_4 = lexbuf.curr_pos()
-      }
-      3 => {
-        _tag_5 = lexbuf.curr_pos()
-      }
-      4 => {
-        ()
-      }
-      5 => {
-        _tag_6 = lexbuf.curr_pos()
-      }
-      6 => {
-        _tag_8 = lexbuf.curr_pos()
-      }
-      7 => {
-        ()
-      }
-      8 => {
-        ()
-      }
-      9 => {
-        _tag_10 = lexbuf.curr_pos()
-      }
-      10 => {
-        _tag_0 = lexbuf.curr_pos()
-        _tag_2 = lexbuf.curr_pos()
-      }
-      11 => {
-        _tag_7 = lexbuf.curr_pos()
-      }
-      12 => {
-        _tag_11 = lexbuf.curr_pos()
-      }
-      13 => {
-        _tag_1 = lexbuf.curr_pos()
-      }
-      14 => {
-        ()
-      }
-      15 => {
-        ()
-      }
-      16 => {
-        _tag_1 = lexbuf.curr_pos()
-        _tag_1_1 = _tag_1
-        _tag_3 = lexbuf.curr_pos()
-      }
-      17 => {
-        _tag_3 = lexbuf.curr_pos()
-      }
-      18 => {
-        _tag_9 = lexbuf.curr_pos()
-      }
-      19 => {
-        _tag_1 = _tag_1_1
-      }
-      20 => {
-        _tag_3 = lexbuf.curr_pos()
-        _tag_3_1 = _tag_3
-      }
-      21 => {
-        ()
-      }
-      22 => {
-        _tag_3 = lexbuf.curr_pos()
-        _tag_3_1 = _tag_3
-      }
-      23 => {
-        ()
-      }
-      _ => ()
     }
   }
 
@@ -2211,42 +1711,35 @@ fn string_inner_rquote[T](buffer : StringBuilder, lexbuf : @lexbuf.T[T, Char, St
   let mut _tag_7 = -1
   _tag_6 = lexbuf.curr_pos()
   while state != -1 {
-    let mut tag_action = -1
     match state {
       0 => {
         let c = match lexbuf.next() {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          -1 => {
-            state = 2
-            tag_action = 1
-          }
+        state = match c {
+          -1 => 2
           0..=33 => {
-            state = 1
-            tag_action = 0
+            _tag_7 = lexbuf.curr_pos()
+            1
           }
           34 => {
-            state = 3
-            tag_action = 0
+            _tag_7 = lexbuf.curr_pos()
+            3
           }
           35..=91 => {
-            state = 1
-            tag_action = 0
+            _tag_7 = lexbuf.curr_pos()
+            1
           }
           92 => {
-            state = 4
-            tag_action = 0
+            _tag_7 = lexbuf.curr_pos()
+            4
           }
           93..=1114111 => {
-            state = 1
-            tag_action = 0
+            _tag_7 = lexbuf.curr_pos()
+            1
           }
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+          _ => -1
         }
       }
       1 => {
@@ -2257,11 +1750,8 @@ fn string_inner_rquote[T](buffer : StringBuilder, lexbuf : @lexbuf.T[T, Char, St
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          _ => -1
         }
       }
       2 => {
@@ -2272,11 +1762,8 @@ fn string_inner_rquote[T](buffer : StringBuilder, lexbuf : @lexbuf.T[T, Char, St
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          _ => -1
         }
       }
       3 => {
@@ -2287,11 +1774,8 @@ fn string_inner_rquote[T](buffer : StringBuilder, lexbuf : @lexbuf.T[T, Char, St
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          _ => -1
         }
       }
       4 => {
@@ -2302,47 +1786,23 @@ fn string_inner_rquote[T](buffer : StringBuilder, lexbuf : @lexbuf.T[T, Char, St
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          34 => {
-            state = 7
-            tag_action = 1
-          }
-          92 => {
-            state = 5
-            tag_action = 1
-          }
-          98 => {
-            state = 13
-            tag_action = 1
-          }
-          110 => {
-            state = 9
-            tag_action = 1
-          }
-          114 => {
-            state = 11
-            tag_action = 1
-          }
-          116 => {
-            state = 12
-            tag_action = 1
-          }
+        state = match c {
+          34 => 7
+          92 => 5
+          98 => 13
+          110 => 9
+          114 => 11
+          116 => 12
           117 => {
-            state = 8
-            tag_action = 3
+            _tag_2 = lexbuf.curr_pos()
+            8
           }
-          118 => {
-            state = 10
-            tag_action = 1
-          }
+          118 => 10
           120 => {
-            state = 6
-            tag_action = 2
+            _tag_0 = lexbuf.curr_pos()
+            6
           }
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+          _ => -1
         }
       }
       5 => {
@@ -2353,11 +1813,8 @@ fn string_inner_rquote[T](buffer : StringBuilder, lexbuf : @lexbuf.T[T, Char, St
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          _ => -1
         }
       }
       6 => {
@@ -2365,23 +1822,11 @@ fn string_inner_rquote[T](buffer : StringBuilder, lexbuf : @lexbuf.T[T, Char, St
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          48..=57 => {
-            state = 14
-            tag_action = 4
-          }
-          65..=70 => {
-            state = 14
-            tag_action = 4
-          }
-          97..=102 => {
-            state = 14
-            tag_action = 4
-          }
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          48..=57 => 14
+          65..=70 => 14
+          97..=102 => 14
+          _ => -1
         }
       }
       7 => {
@@ -2392,11 +1837,8 @@ fn string_inner_rquote[T](buffer : StringBuilder, lexbuf : @lexbuf.T[T, Char, St
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          _ => -1
         }
       }
       8 => {
@@ -2404,27 +1846,15 @@ fn string_inner_rquote[T](buffer : StringBuilder, lexbuf : @lexbuf.T[T, Char, St
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          48..=57 => {
-            state = 16
-            tag_action = 6
-          }
-          65..=70 => {
-            state = 16
-            tag_action = 6
-          }
-          97..=102 => {
-            state = 16
-            tag_action = 6
-          }
+        state = match c {
+          48..=57 => 16
+          65..=70 => 16
+          97..=102 => 16
           123 => {
-            state = 15
-            tag_action = 5
+            _tag_4 = lexbuf.curr_pos()
+            15
           }
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+          _ => -1
         }
       }
       9 => {
@@ -2435,11 +1865,8 @@ fn string_inner_rquote[T](buffer : StringBuilder, lexbuf : @lexbuf.T[T, Char, St
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          _ => -1
         }
       }
       10 => {
@@ -2450,11 +1877,8 @@ fn string_inner_rquote[T](buffer : StringBuilder, lexbuf : @lexbuf.T[T, Char, St
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          _ => -1
         }
       }
       11 => {
@@ -2465,11 +1889,8 @@ fn string_inner_rquote[T](buffer : StringBuilder, lexbuf : @lexbuf.T[T, Char, St
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          _ => -1
         }
       }
       12 => {
@@ -2480,11 +1901,8 @@ fn string_inner_rquote[T](buffer : StringBuilder, lexbuf : @lexbuf.T[T, Char, St
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          _ => -1
         }
       }
       13 => {
@@ -2495,11 +1913,8 @@ fn string_inner_rquote[T](buffer : StringBuilder, lexbuf : @lexbuf.T[T, Char, St
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          _ => -1
         }
       }
       14 => {
@@ -2507,23 +1922,20 @@ fn string_inner_rquote[T](buffer : StringBuilder, lexbuf : @lexbuf.T[T, Char, St
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
+        state = match c {
           48..=57 => {
-            state = 17
-            tag_action = 7
+            _tag_1 = lexbuf.curr_pos()
+            17
           }
           65..=70 => {
-            state = 17
-            tag_action = 7
+            _tag_1 = lexbuf.curr_pos()
+            17
           }
           97..=102 => {
-            state = 17
-            tag_action = 7
+            _tag_1 = lexbuf.curr_pos()
+            17
           }
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+          _ => -1
         }
       }
       15 => {
@@ -2531,23 +1943,20 @@ fn string_inner_rquote[T](buffer : StringBuilder, lexbuf : @lexbuf.T[T, Char, St
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
+        state = match c {
           48..=57 => {
-            state = 18
-            tag_action = 8
+            _tag_5 = lexbuf.curr_pos()
+            18
           }
           65..=70 => {
-            state = 18
-            tag_action = 8
+            _tag_5 = lexbuf.curr_pos()
+            18
           }
           97..=102 => {
-            state = 18
-            tag_action = 8
+            _tag_5 = lexbuf.curr_pos()
+            18
           }
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+          _ => -1
         }
       }
       16 => {
@@ -2555,23 +1964,11 @@ fn string_inner_rquote[T](buffer : StringBuilder, lexbuf : @lexbuf.T[T, Char, St
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          48..=57 => {
-            state = 19
-            tag_action = 6
-          }
-          65..=70 => {
-            state = 19
-            tag_action = 6
-          }
-          97..=102 => {
-            state = 19
-            tag_action = 6
-          }
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          48..=57 => 19
+          65..=70 => 19
+          97..=102 => 19
+          _ => -1
         }
       }
       17 => {
@@ -2579,15 +1976,9 @@ fn string_inner_rquote[T](buffer : StringBuilder, lexbuf : @lexbuf.T[T, Char, St
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          39 => {
-            state = 20
-            tag_action = 9
-          }
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          39 => 20
+          _ => -1
         }
       }
       18 => {
@@ -2595,27 +1986,21 @@ fn string_inner_rquote[T](buffer : StringBuilder, lexbuf : @lexbuf.T[T, Char, St
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
+        state = match c {
           48..=57 => {
-            state = 18
-            tag_action = 8
+            _tag_5 = lexbuf.curr_pos()
+            18
           }
           65..=70 => {
-            state = 18
-            tag_action = 8
+            _tag_5 = lexbuf.curr_pos()
+            18
           }
           97..=102 => {
-            state = 18
-            tag_action = 8
+            _tag_5 = lexbuf.curr_pos()
+            18
           }
-          125 => {
-            state = 21
-            tag_action = 10
-          }
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+          125 => 21
+          _ => -1
         }
       }
       19 => {
@@ -2623,23 +2008,11 @@ fn string_inner_rquote[T](buffer : StringBuilder, lexbuf : @lexbuf.T[T, Char, St
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          48..=57 => {
-            state = 22
-            tag_action = 6
-          }
-          65..=70 => {
-            state = 22
-            tag_action = 6
-          }
-          97..=102 => {
-            state = 22
-            tag_action = 6
-          }
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          48..=57 => 22
+          65..=70 => 22
+          97..=102 => 22
+          _ => -1
         }
       }
       20 => {
@@ -2650,11 +2023,8 @@ fn string_inner_rquote[T](buffer : StringBuilder, lexbuf : @lexbuf.T[T, Char, St
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          _ => -1
         }
       }
       21 => {
@@ -2662,15 +2032,9 @@ fn string_inner_rquote[T](buffer : StringBuilder, lexbuf : @lexbuf.T[T, Char, St
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          39 => {
-            state = 23
-            tag_action = 10
-          }
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          39 => 23
+          _ => -1
         }
       }
       22 => {
@@ -2678,23 +2042,20 @@ fn string_inner_rquote[T](buffer : StringBuilder, lexbuf : @lexbuf.T[T, Char, St
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
+        state = match c {
           48..=57 => {
-            state = 24
-            tag_action = 11
+            _tag_3 = lexbuf.curr_pos()
+            24
           }
           65..=70 => {
-            state = 24
-            tag_action = 11
+            _tag_3 = lexbuf.curr_pos()
+            24
           }
           97..=102 => {
-            state = 24
-            tag_action = 11
+            _tag_3 = lexbuf.curr_pos()
+            24
           }
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+          _ => -1
         }
       }
       23 => {
@@ -2705,11 +2066,8 @@ fn string_inner_rquote[T](buffer : StringBuilder, lexbuf : @lexbuf.T[T, Char, St
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          _ => -1
         }
       }
       24 => {
@@ -2717,15 +2075,9 @@ fn string_inner_rquote[T](buffer : StringBuilder, lexbuf : @lexbuf.T[T, Char, St
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          39 => {
-            state = 25
-            tag_action = 12
-          }
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          39 => 25
+          _ => -1
         }
       }
       25 => {
@@ -2736,53 +2088,11 @@ fn string_inner_rquote[T](buffer : StringBuilder, lexbuf : @lexbuf.T[T, Char, St
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          _ => -1
         }
       }
       _ => panic()
-    }
-    match tag_action {
-      0 => {
-        _tag_7 = lexbuf.curr_pos()
-      }
-      2 => {
-        _tag_0 = lexbuf.curr_pos()
-      }
-      3 => {
-        _tag_2 = lexbuf.curr_pos()
-      }
-      4 => {
-        ()
-      }
-      5 => {
-        _tag_4 = lexbuf.curr_pos()
-      }
-      6 => {
-        ()
-      }
-      7 => {
-        _tag_1 = lexbuf.curr_pos()
-      }
-      8 => {
-        _tag_5 = lexbuf.curr_pos()
-      }
-      9 => {
-        ()
-      }
-      10 => {
-        ()
-      }
-      11 => {
-        _tag_3 = lexbuf.curr_pos()
-      }
-      12 => {
-        ()
-      }
-      _ => ()
     }
   }
 
@@ -2894,66 +2204,59 @@ fn code_rbrace[T](buffer : StringBuilder, lexbuf : @lexbuf.T[T, Char, String, In
   _tag_4 = lexbuf.curr_pos()
   _tag_6 = lexbuf.curr_pos()
   while state != -1 {
-    let mut tag_action = -1
     match state {
       0 => {
         let c = match lexbuf.next() {
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          -1 => {
-            state = 1
-            tag_action = 0
-          }
+        state = match c {
+          -1 => 1
           0..=33 => {
-            state = 6
-            tag_action = 1
+            _tag_7 = lexbuf.curr_pos()
+            6
           }
           34 => {
-            state = 7
-            tag_action = 4
+            _tag_7 = lexbuf.curr_pos()
+            7
           }
           35..=38 => {
-            state = 6
-            tag_action = 1
+            _tag_7 = lexbuf.curr_pos()
+            6
           }
           39 => {
-            state = 5
-            tag_action = 3
+            _tag_7 = lexbuf.curr_pos()
+            5
           }
           40..=46 => {
-            state = 6
-            tag_action = 1
+            _tag_7 = lexbuf.curr_pos()
+            6
           }
           47 => {
-            state = 4
-            tag_action = 2
+            _tag_7 = lexbuf.curr_pos()
+            4
           }
           48..=122 => {
-            state = 6
-            tag_action = 1
+            _tag_7 = lexbuf.curr_pos()
+            6
           }
           123 => {
-            state = 2
-            tag_action = 1
+            _tag_7 = lexbuf.curr_pos()
+            2
           }
           124 => {
-            state = 6
-            tag_action = 1
+            _tag_7 = lexbuf.curr_pos()
+            6
           }
           125 => {
-            state = 3
-            tag_action = 1
+            _tag_7 = lexbuf.curr_pos()
+            3
           }
           126..=1114111 => {
-            state = 6
-            tag_action = 1
+            _tag_7 = lexbuf.curr_pos()
+            6
           }
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+          _ => -1
         }
       }
       1 => {
@@ -2964,11 +2267,8 @@ fn code_rbrace[T](buffer : StringBuilder, lexbuf : @lexbuf.T[T, Char, String, In
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          _ => -1
         }
       }
       2 => {
@@ -2979,11 +2279,8 @@ fn code_rbrace[T](buffer : StringBuilder, lexbuf : @lexbuf.T[T, Char, String, In
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          _ => -1
         }
       }
       3 => {
@@ -2994,11 +2291,8 @@ fn code_rbrace[T](buffer : StringBuilder, lexbuf : @lexbuf.T[T, Char, String, In
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          _ => -1
         }
       }
       4 => {
@@ -3009,15 +2303,9 @@ fn code_rbrace[T](buffer : StringBuilder, lexbuf : @lexbuf.T[T, Char, String, In
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          47 => {
-            state = 8
-            tag_action = 5
-          }
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          47 => 8
+          _ => -1
         }
       }
       5 => {
@@ -3028,23 +2316,11 @@ fn code_rbrace[T](buffer : StringBuilder, lexbuf : @lexbuf.T[T, Char, String, In
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          0..=38 => {
-            state = 9
-            tag_action = 6
-          }
-          40..=91 => {
-            state = 9
-            tag_action = 6
-          }
-          93..=1114111 => {
-            state = 9
-            tag_action = 6
-          }
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          0..=38 => 9
+          40..=91 => 9
+          93..=1114111 => 9
+          _ => -1
         }
       }
       6 => {
@@ -3055,11 +2331,8 @@ fn code_rbrace[T](buffer : StringBuilder, lexbuf : @lexbuf.T[T, Char, String, In
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          _ => -1
         }
       }
       7 => {
@@ -3070,31 +2343,16 @@ fn code_rbrace[T](buffer : StringBuilder, lexbuf : @lexbuf.T[T, Char, String, In
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          0..=33 => {
-            state = 11
-            tag_action = 8
-          }
+        state = match c {
+          0..=33 => 11
           34 => {
-            state = 10
-            tag_action = 7
+            _tag_3 = lexbuf.curr_pos()
+            10
           }
-          35..=91 => {
-            state = 11
-            tag_action = 8
-          }
-          92 => {
-            state = 12
-            tag_action = 8
-          }
-          93..=1114111 => {
-            state = 11
-            tag_action = 8
-          }
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+          35..=91 => 11
+          92 => 12
+          93..=1114111 => 11
+          _ => -1
         }
       }
       8 => {
@@ -3102,19 +2360,10 @@ fn code_rbrace[T](buffer : StringBuilder, lexbuf : @lexbuf.T[T, Char, String, In
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          0..=9 => {
-            state = 13
-            tag_action = 5
-          }
-          11..=1114111 => {
-            state = 13
-            tag_action = 5
-          }
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          0..=9 => 13
+          11..=1114111 => 13
+          _ => -1
         }
       }
       9 => {
@@ -3122,15 +2371,12 @@ fn code_rbrace[T](buffer : StringBuilder, lexbuf : @lexbuf.T[T, Char, String, In
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
+        state = match c {
           39 => {
-            state = 14
-            tag_action = 9
+            _tag_5 = lexbuf.curr_pos()
+            14
           }
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+          _ => -1
         }
       }
       10 => {
@@ -3141,11 +2387,8 @@ fn code_rbrace[T](buffer : StringBuilder, lexbuf : @lexbuf.T[T, Char, String, In
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          _ => -1
         }
       }
       11 => {
@@ -3153,31 +2396,16 @@ fn code_rbrace[T](buffer : StringBuilder, lexbuf : @lexbuf.T[T, Char, String, In
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          0..=33 => {
-            state = 11
-            tag_action = 8
-          }
+        state = match c {
+          0..=33 => 11
           34 => {
-            state = 10
-            tag_action = 7
+            _tag_3 = lexbuf.curr_pos()
+            10
           }
-          35..=91 => {
-            state = 11
-            tag_action = 8
-          }
-          92 => {
-            state = 12
-            tag_action = 8
-          }
-          93..=1114111 => {
-            state = 11
-            tag_action = 8
-          }
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+          35..=91 => 11
+          92 => 12
+          93..=1114111 => 11
+          _ => -1
         }
       }
       12 => {
@@ -3185,15 +2413,9 @@ fn code_rbrace[T](buffer : StringBuilder, lexbuf : @lexbuf.T[T, Char, String, In
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          0..=1114111 => {
-            state = 15
-            tag_action = 8
-          }
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          0..=1114111 => 15
+          _ => -1
         }
       }
       13 => {
@@ -3201,23 +2423,14 @@ fn code_rbrace[T](buffer : StringBuilder, lexbuf : @lexbuf.T[T, Char, String, In
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          0..=9 => {
-            state = 13
-            tag_action = 5
-          }
+        state = match c {
+          0..=9 => 13
           10 => {
-            state = 16
-            tag_action = 10
+            _tag_1 = lexbuf.curr_pos()
+            16
           }
-          11..=1114111 => {
-            state = 13
-            tag_action = 5
-          }
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+          11..=1114111 => 13
+          _ => -1
         }
       }
       14 => {
@@ -3228,11 +2441,8 @@ fn code_rbrace[T](buffer : StringBuilder, lexbuf : @lexbuf.T[T, Char, String, In
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          _ => -1
         }
       }
       15 => {
@@ -3240,31 +2450,16 @@ fn code_rbrace[T](buffer : StringBuilder, lexbuf : @lexbuf.T[T, Char, String, In
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          0..=33 => {
-            state = 11
-            tag_action = 8
-          }
+        state = match c {
+          0..=33 => 11
           34 => {
-            state = 10
-            tag_action = 7
+            _tag_3 = lexbuf.curr_pos()
+            10
           }
-          35..=91 => {
-            state = 11
-            tag_action = 8
-          }
-          92 => {
-            state = 12
-            tag_action = 8
-          }
-          93..=1114111 => {
-            state = 11
-            tag_action = 8
-          }
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+          35..=91 => 11
+          92 => 12
+          93..=1114111 => 11
+          _ => -1
         }
       }
       16 => {
@@ -3275,47 +2470,11 @@ fn code_rbrace[T](buffer : StringBuilder, lexbuf : @lexbuf.T[T, Char, String, In
           Some(c) => c.to_int()
           None => -1
         }
-        match c {
-          _ => {
-            state = -1
-            tag_action = -1
-          }
+        state = match c {
+          _ => -1
         }
       }
       _ => panic()
-    }
-    match tag_action {
-      1 => {
-        _tag_7 = lexbuf.curr_pos()
-      }
-      2 => {
-        _tag_7 = lexbuf.curr_pos()
-      }
-      3 => {
-        _tag_7 = lexbuf.curr_pos()
-      }
-      4 => {
-        _tag_7 = lexbuf.curr_pos()
-      }
-      5 => {
-        ()
-      }
-      6 => {
-        ()
-      }
-      7 => {
-        _tag_3 = lexbuf.curr_pos()
-      }
-      8 => {
-        ()
-      }
-      9 => {
-        _tag_5 = lexbuf.curr_pos()
-      }
-      10 => {
-        _tag_1 = lexbuf.curr_pos()
-      }
-      _ => ()
     }
   }
 
