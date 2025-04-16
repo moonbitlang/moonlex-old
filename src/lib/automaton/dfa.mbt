@@ -285,5 +285,6 @@ fn DFA::from_nfa(nfa : NFA) -> DFA {
 
 ///|
 pub fn DFA::from_rule(rule : Rule, encoding~ : @type.Encoding?) -> DFA {
+  // TODO: dfa minimization
   DFA::from_nfa(NFA::from_rule(rule, encoding~))
 }

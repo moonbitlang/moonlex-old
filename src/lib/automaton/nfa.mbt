@@ -152,35 +152,27 @@ fn register_regex_rec(
         Some(Latin1) =>
           // TODO: check range in 0..=255
           self.add_edge(new_node, EChar(cset), next_node)
-        Some(Utf8) =>
-          // TODO: optimize this
-          for c in cset {
-            match c.repr() {
-              Eof =>
-                self.add_edge(new_node, EChar(@eof_char_set.eof), next_node)
-              Char(c) => {
-                let bytes = @encoding.encode(UTF8, String::make(1, c))
-                let self_ = self
-                fn link(byte : Byte, prev_node : NFANode) -> NFANode {
-                  let end_node = self_.new_node()
-                  self_.add_edge(
-                    prev_node,
-                    EChar(
-                      @eof_char_set.singleton(Char::from_int(byte.to_int())),
-                    ),
-                    end_node,
-                  )
-                  end_node
-                }
-
-                let mut prev_node = new_node
-                for byte in bytes {
-                  prev_node = link(byte, prev_node)
-                }
-                self.add_edge(prev_node, Eps, next_node)
-              }
+        Some(Utf8) => {
+          // TODO: Lower cset to `Regex`, not `Array[Array[@eof_char_set.T]]`
+          let branches = lower_unicode_charclass_to_utf8(cset)
+          for branch in branches {
+            let self_ = self
+            fn link(
+              byte_cset : @eof_char_set.T,
+              prev_node : NFANode
+            ) -> NFANode {
+              let end_node = self_.new_node()
+              self_.add_edge(prev_node, EChar(byte_cset), end_node)
+              end_node
             }
+
+            let mut prev_node = new_node
+            for byte_cset in branch {
+              prev_node = link(byte_cset, prev_node)
+            }
+            self.add_edge(prev_node, Eps, next_node)
           }
+        }
         Some(Utf16) =>
           // TODO: Implement UTF-16 handling
           panic()

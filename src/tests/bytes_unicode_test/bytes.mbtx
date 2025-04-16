@@ -4,7 +4,7 @@ rule lex_unicode(lexbuf : @lexbuf.T) -> Int {
     '𠮷' => { 2 }
     // Hiragana
     ['\u3041'-'\u3096' '\u3099'-'\u309F'] => { 3 }
-    (latin1: _) => { 4 }
+    _ => { 4 }
   }
 }
 
