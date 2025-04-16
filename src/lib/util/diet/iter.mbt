@@ -24,9 +24,15 @@ pub fn iter[N : @bounded_enum.T](self : Tree[N]) -> Iter[N] {
   .flat_map(fn {
     (min, max) =>
       Iter::new(fn(yield_) {
-        for x = min; x <= max; x = N::succ(x) {
-          guard yield_(x) is IterContinue else { return IterEnd }
-
+        let mut x = min
+        if x <= max {
+          while true {
+            guard yield_(x) is IterContinue else { return IterEnd }
+            if x == max {
+              break
+            }
+            x = N::succ(x)
+          }
         }
         IterContinue
       })

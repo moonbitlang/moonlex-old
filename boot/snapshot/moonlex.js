@@ -8573,19 +8573,19 @@ function moonbitlang$ulex$lib$util$diet$$Tree$iter$1$(self) {
     const _min = _p$2._0;
     const _max = _p$2._1;
     const _func = moonbitlang$core$builtin$$Iter$new$1$((yield_) => {
-      let _tmp = _min;
-      while (true) {
-        const x = _tmp;
-        if (moonbitlang$core$builtin$$op_le$1$(x, _max)) {
+      let x = _min;
+      if (moonbitlang$core$builtin$$op_le$1$(x, _max)) {
+        while (true) {
           const _bind$2 = yield_(x);
           if (_bind$2 === 1) {
+            if (moonbitlang$core$builtin$$Eq$op_equal$1$(x, _max)) {
+              break;
+            }
+            x = moonbitlang$ulex$lib$util$bounded_enum$$BoundedEnum$succ$1$(x);
           } else {
             return 0;
           }
-          _tmp = moonbitlang$ulex$lib$util$bounded_enum$$BoundedEnum$succ$1$(x);
           continue;
-        } else {
-          break;
         }
       }
       return 1;
