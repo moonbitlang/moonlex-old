@@ -1,3 +1,9 @@
+pub(all) enum CodeUnit {
+  CodeUnit1
+  CodeUnit2
+  CodeUnit4
+}
+
 ///|
 pub(all) enum Regex {
   EOF
@@ -15,6 +21,7 @@ pub(all) enum Encoding {
   Ascii
   Latin1
   Utf8
+  Utf16
 } derive(Show, Eq, ToJson)
 
 ///|

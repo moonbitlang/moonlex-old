@@ -52,7 +52,7 @@ fn NFA::new_nfa() -> NFA {
 }
 
 ///|
-pub fn NFA::from_rule(rule : Rule) -> NFA {
+pub fn NFA::from_rule(rule : Rule, encoding~ : @type.Encoding?) -> NFA {
   let nfa = NFA::new_nfa()
   let node = nfa.new_node() // match starting from 1
   for pattern in rule.patterns {
@@ -73,7 +73,13 @@ pub fn NFA::from_rule(rule : Rule) -> NFA {
           (name, (begin_tag, end_tag))
       }),
     )
-    nfa.register_regex(node, re, code_block, fn(x) { map.get(x).unwrap() })
+    nfa.register_regex(
+      node,
+      re,
+      code_block,
+      fn(x) { map.get(x).unwrap() },
+      encoding~,
+    )
     nfa.captures.push(capture_names)
   }
   nfa
@@ -110,9 +116,10 @@ fn register_regex(
   node : NFANode,
   re : Regex,
   code_block : CodeBlock,
-  name2tag : (String) -> (Tag, Tag)
+  name2tag : (String) -> (Tag, Tag),
+  encoding~ : @type.Encoding?
 ) -> Unit {
-  let final_ = self.register_regex_rec(node, re, name2tag, None)
+  let final_ = self.register_regex_rec(node, re, name2tag, encoding)
   let id = self.code_blocks.length()
   self.code_blocks.push(code_block)
   self.end_nodes.set(final_.num, id)
@@ -174,6 +181,9 @@ fn register_regex_rec(
               }
             }
           }
+        Some(Utf16) =>
+          // TODO: Implement UTF-16 handling
+          panic()
       }
       next_node
     }

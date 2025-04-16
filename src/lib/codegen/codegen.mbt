@@ -1,8 +1,13 @@
 ///|
-pub fn codegen_lex(lex : Lex) -> String {
+pub fn codegen_lex(
+  lex : Lex,
+  code_unit~ : @type.CodeUnit,
+  default_encoding~ : @type.Encoding?
+) -> String {
   [
     lex.header,
-    lex.rules.map(codegen_rule) |> @string.concat(separator="\n"),
+    lex.rules.map(fn(rule) { codegen_rule(rule, code_unit~, default_encoding~) })
+    |> @string.concat(separator="\n"),
     lex.trailer,
   ]
   |> @string.concat(separator="\n\n")
@@ -76,9 +81,17 @@ fn group_trans(
 }
 
 ///|
-fn codegen_rule(rule : Rule) -> String {
+fn codegen_rule(
+  rule : Rule,
+  code_unit~ : @type.CodeUnit,
+  default_encoding~ : @type.Encoding?
+) -> String {
   let out = StringBuilder::new()
-  let dfa = @automaton.DFA::from_rule(rule)
+  let encoding = match code_unit {
+    CodeUnit1 => default_encoding
+    CodeUnit2 | CodeUnit4 => None
+  }
+  let dfa = @automaton.DFA::from_rule(rule, encoding~)
 
   // get_tag_action_id
   let mut next_tag_action_id = 0

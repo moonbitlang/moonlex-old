@@ -284,6 +284,6 @@ fn DFA::from_nfa(nfa : NFA) -> DFA {
 }
 
 ///|
-pub fn DFA::from_rule(rule : Rule) -> DFA {
-  DFA::from_nfa(NFA::from_rule(rule))
+pub fn DFA::from_rule(rule : Rule, encoding~ : @type.Encoding?) -> DFA {
+  DFA::from_nfa(NFA::from_rule(rule, encoding~))
 }
