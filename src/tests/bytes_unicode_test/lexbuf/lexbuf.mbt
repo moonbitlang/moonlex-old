@@ -30,6 +30,18 @@ pub fn BytesLexbuf::next(self : BytesLexbuf) -> Byte? {
 }
 
 ///|
+pub fn BytesLexbuf::next_as_int(self : BytesLexbuf) -> Int {
+  let pos = self.pos
+  let end = self.end
+  if pos < end {
+    let c = self.content.unsafe_get(pos)
+    self.pos += 1
+    return c.to_int()
+  }
+  -1
+}
+
+///|
 pub fn BytesLexbuf::curr_pos(self : BytesLexbuf) -> Int {
   return self.pos
 }

@@ -33,17 +33,13 @@ fn token[T](lexbuf : @lexbuf.T[T, Char, String, Int]) -> Token!LexError  {
   _tag_0 = lexbuf.curr_pos()
   _tag_2 = lexbuf.curr_pos()
   _tag_4 = lexbuf.curr_pos()
-  while state != -1 {
+  while true {
     match state {
       0 => {
-        if matched is Some((prev_pattern_id, _, _)) && 13 <= prev_pattern_id || matched is None {
+        if matched is (None | Some((13..<_, _, _))) {
           matched = Some((13, lexbuf.curr_pos(), []))
         }
-        let c = match lexbuf.next() {
-          Some(c) => c.to_int()
-          None => -1
-        }
-        state = match c {
+        state = match lexbuf.next_as_int() {
           0..=8 => {
             _tag_5 = lexbuf.curr_pos()
             13
@@ -167,43 +163,29 @@ fn token[T](lexbuf : @lexbuf.T[T, Char, String, Int]) -> Token!LexError  {
             _tag_5 = lexbuf.curr_pos()
             13
           }
-          _ => -1
+          _ => break
         }
       }
       1 => {
-        if matched is Some((prev_pattern_id, _, _)) && 12 <= prev_pattern_id || matched is None {
+        if matched is (None | Some((12..<_, _, _))) {
           matched = Some((12, lexbuf.curr_pos(), [(_tag_4, _tag_5)]))
         }
-        let c = match lexbuf.next() {
-          Some(c) => c.to_int()
-          None => -1
-        }
-        state = match c {
+        state = match lexbuf.next_as_int() {
           117 => 16
-          _ => -1
+          _ => break
         }
       }
       2 => {
-        if matched is Some((prev_pattern_id, _, _)) && 4 <= prev_pattern_id || matched is None {
+        if matched is (None | Some((4..<_, _, _))) {
           matched = Some((4, lexbuf.curr_pos(), []))
         }
-        let c = match lexbuf.next() {
-          Some(c) => c.to_int()
-          None => -1
-        }
-        state = match c {
-          _ => -1
-        }
+        break
       }
       3 => {
-        if matched is Some((prev_pattern_id, _, _)) && 12 <= prev_pattern_id || matched is None {
+        if matched is (None | Some((12..<_, _, _))) {
           matched = Some((12, lexbuf.curr_pos(), [(_tag_4, _tag_5)]))
         }
-        let c = match lexbuf.next() {
-          Some(c) => c.to_int()
-          None => -1
-        }
-        state = match c {
+        state = match lexbuf.next_as_int() {
           48 => {
             _tag_1 = lexbuf.curr_pos()
             17
@@ -212,154 +194,90 @@ fn token[T](lexbuf : @lexbuf.T[T, Char, String, Int]) -> Token!LexError  {
             _tag_1 = lexbuf.curr_pos()
             18
           }
-          _ => -1
+          _ => break
         }
       }
       4 => {
-        if matched is Some((prev_pattern_id, _, _)) && 1 <= prev_pattern_id || matched is None {
+        if matched is (None | Some((1..<_, _, _))) {
           matched = Some((1, lexbuf.curr_pos(), [(_tag_0, _tag_1)]))
         }
-        let c = match lexbuf.next() {
-          Some(c) => c.to_int()
-          None => -1
-        }
-        state = match c {
+        state = match lexbuf.next_as_int() {
           69 => 19
           101 => 19
-          _ => -1
+          _ => break
         }
       }
       5 => {
-        if matched is Some((prev_pattern_id, _, _)) && 8 <= prev_pattern_id || matched is None {
+        if matched is (None | Some((8..<_, _, _))) {
           matched = Some((8, lexbuf.curr_pos(), []))
         }
-        let c = match lexbuf.next() {
-          Some(c) => c.to_int()
-          None => -1
-        }
-        state = match c {
-          _ => -1
-        }
+        break
       }
       6 => {
-        if matched is Some((prev_pattern_id, _, _)) && 3 <= prev_pattern_id || matched is None {
+        if matched is (None | Some((3..<_, _, _))) {
           matched = Some((3, lexbuf.curr_pos(), []))
         }
-        let c = match lexbuf.next() {
-          Some(c) => c.to_int()
-          None => -1
-        }
-        state = match c {
-          _ => -1
-        }
+        break
       }
       7 => {
-        if matched is Some((prev_pattern_id, _, _)) && 12 <= prev_pattern_id || matched is None {
+        if matched is (None | Some((12..<_, _, _))) {
           matched = Some((12, lexbuf.curr_pos(), [(_tag_4, _tag_5)]))
         }
-        let c = match lexbuf.next() {
-          Some(c) => c.to_int()
-          None => -1
-        }
-        state = match c {
+        state = match lexbuf.next_as_int() {
           114 => 20
-          _ => -1
+          _ => break
         }
       }
       8 => {
-        if matched is Some((prev_pattern_id, _, _)) && 0 <= prev_pattern_id || matched is None {
+        if matched is (None | Some((0..<_, _, _))) {
           matched = Some((0, lexbuf.curr_pos(), []))
         }
-        let c = match lexbuf.next() {
-          Some(c) => c.to_int()
-          None => -1
-        }
-        state = match c {
-          _ => -1
-        }
+        break
       }
       9 => {
-        if matched is Some((prev_pattern_id, _, _)) && 12 <= prev_pattern_id || matched is None {
+        if matched is (None | Some((12..<_, _, _))) {
           matched = Some((12, lexbuf.curr_pos(), [(_tag_4, _tag_5)]))
         }
-        let c = match lexbuf.next() {
-          Some(c) => c.to_int()
-          None => -1
-        }
-        state = match c {
+        state = match lexbuf.next_as_int() {
           97 => 21
-          _ => -1
+          _ => break
         }
       }
       10 => {
-        if matched is Some((prev_pattern_id, _, _)) && 6 <= prev_pattern_id || matched is None {
+        if matched is (None | Some((6..<_, _, _))) {
           matched = Some((6, lexbuf.curr_pos(), []))
         }
-        let c = match lexbuf.next() {
-          Some(c) => c.to_int()
-          None => -1
-        }
-        state = match c {
-          _ => -1
-        }
+        break
       }
       11 => {
-        if matched is Some((prev_pattern_id, _, _)) && 2 <= prev_pattern_id || matched is None {
+        if matched is (None | Some((2..<_, _, _))) {
           matched = Some((2, lexbuf.curr_pos(), [(_tag_2, _tag_3)]))
         }
-        let c = match lexbuf.next() {
-          Some(c) => c.to_int()
-          None => -1
-        }
-        state = match c {
-          _ => -1
-        }
+        break
       }
       12 => {
-        if matched is Some((prev_pattern_id, _, _)) && 7 <= prev_pattern_id || matched is None {
+        if matched is (None | Some((7..<_, _, _))) {
           matched = Some((7, lexbuf.curr_pos(), []))
         }
-        let c = match lexbuf.next() {
-          Some(c) => c.to_int()
-          None => -1
-        }
-        state = match c {
-          _ => -1
-        }
+        break
       }
       13 => {
-        if matched is Some((prev_pattern_id, _, _)) && 12 <= prev_pattern_id || matched is None {
+        if matched is (None | Some((12..<_, _, _))) {
           matched = Some((12, lexbuf.curr_pos(), [(_tag_4, _tag_5)]))
         }
-        let c = match lexbuf.next() {
-          Some(c) => c.to_int()
-          None => -1
-        }
-        state = match c {
-          _ => -1
-        }
+        break
       }
       14 => {
-        if matched is Some((prev_pattern_id, _, _)) && 5 <= prev_pattern_id || matched is None {
+        if matched is (None | Some((5..<_, _, _))) {
           matched = Some((5, lexbuf.curr_pos(), []))
         }
-        let c = match lexbuf.next() {
-          Some(c) => c.to_int()
-          None => -1
-        }
-        state = match c {
-          _ => -1
-        }
+        break
       }
       15 => {
-        if matched is Some((prev_pattern_id, _, _)) && 1 <= prev_pattern_id || matched is None {
+        if matched is (None | Some((1..<_, _, _))) {
           matched = Some((1, lexbuf.curr_pos(), [(_tag_0, _tag_1)]))
         }
-        let c = match lexbuf.next() {
-          Some(c) => c.to_int()
-          None => -1
-        }
-        state = match c {
+        state = match lexbuf.next_as_int() {
           46 => 23
           48..=57 => {
             _tag_1 = lexbuf.curr_pos()
@@ -367,42 +285,30 @@ fn token[T](lexbuf : @lexbuf.T[T, Char, String, Int]) -> Token!LexError  {
           }
           69 => 19
           101 => 19
-          _ => -1
+          _ => break
         }
       }
       16 => {
-        let c = match lexbuf.next() {
-          Some(c) => c.to_int()
-          None => -1
-        }
-        state = match c {
+        state = match lexbuf.next_as_int() {
           108 => 24
-          _ => -1
+          _ => break
         }
       }
       17 => {
-        if matched is Some((prev_pattern_id, _, _)) && 1 <= prev_pattern_id || matched is None {
+        if matched is (None | Some((1..<_, _, _))) {
           matched = Some((1, lexbuf.curr_pos(), [(_tag_0, _tag_1)]))
         }
-        let c = match lexbuf.next() {
-          Some(c) => c.to_int()
-          None => -1
-        }
-        state = match c {
+        state = match lexbuf.next_as_int() {
           69 => 19
           101 => 19
-          _ => -1
+          _ => break
         }
       }
       18 => {
-        if matched is Some((prev_pattern_id, _, _)) && 1 <= prev_pattern_id || matched is None {
+        if matched is (None | Some((1..<_, _, _))) {
           matched = Some((1, lexbuf.curr_pos(), [(_tag_0, _tag_1)]))
         }
-        let c = match lexbuf.next() {
-          Some(c) => c.to_int()
-          None => -1
-        }
-        state = match c {
+        state = match lexbuf.next_as_int() {
           46 => 23
           48..=57 => {
             _tag_1 = lexbuf.curr_pos()
@@ -410,53 +316,37 @@ fn token[T](lexbuf : @lexbuf.T[T, Char, String, Int]) -> Token!LexError  {
           }
           69 => 19
           101 => 19
-          _ => -1
+          _ => break
         }
       }
       19 => {
-        let c = match lexbuf.next() {
-          Some(c) => c.to_int()
-          None => -1
-        }
-        state = match c {
+        state = match lexbuf.next_as_int() {
           43 => 26
           45 => 26
           48..=57 => {
             _tag_1 = lexbuf.curr_pos()
             25
           }
-          _ => -1
+          _ => break
         }
       }
       20 => {
-        let c = match lexbuf.next() {
-          Some(c) => c.to_int()
-          None => -1
-        }
-        state = match c {
+        state = match lexbuf.next_as_int() {
           117 => 27
-          _ => -1
+          _ => break
         }
       }
       21 => {
-        let c = match lexbuf.next() {
-          Some(c) => c.to_int()
-          None => -1
-        }
-        state = match c {
+        state = match lexbuf.next_as_int() {
           108 => 28
-          _ => -1
+          _ => break
         }
       }
       22 => {
-        if matched is Some((prev_pattern_id, _, _)) && 1 <= prev_pattern_id || matched is None {
+        if matched is (None | Some((1..<_, _, _))) {
           matched = Some((1, lexbuf.curr_pos(), [(_tag_0, _tag_1)]))
         }
-        let c = match lexbuf.next() {
-          Some(c) => c.to_int()
-          None => -1
-        }
-        state = match c {
+        state = match lexbuf.next_as_int() {
           46 => 23
           48..=57 => {
             _tag_1 = lexbuf.curr_pos()
@@ -464,144 +354,94 @@ fn token[T](lexbuf : @lexbuf.T[T, Char, String, Int]) -> Token!LexError  {
           }
           69 => 19
           101 => 19
-          _ => -1
+          _ => break
         }
       }
       23 => {
-        let c = match lexbuf.next() {
-          Some(c) => c.to_int()
-          None => -1
-        }
-        state = match c {
+        state = match lexbuf.next_as_int() {
           48..=57 => {
             _tag_1 = lexbuf.curr_pos()
             29
           }
-          _ => -1
+          _ => break
         }
       }
       24 => {
-        let c = match lexbuf.next() {
-          Some(c) => c.to_int()
-          None => -1
-        }
-        state = match c {
+        state = match lexbuf.next_as_int() {
           108 => 30
-          _ => -1
+          _ => break
         }
       }
       25 => {
-        if matched is Some((prev_pattern_id, _, _)) && 1 <= prev_pattern_id || matched is None {
+        if matched is (None | Some((1..<_, _, _))) {
           matched = Some((1, lexbuf.curr_pos(), [(_tag_0, _tag_1)]))
         }
-        let c = match lexbuf.next() {
-          Some(c) => c.to_int()
-          None => -1
-        }
-        state = match c {
+        state = match lexbuf.next_as_int() {
           48..=57 => {
             _tag_1 = lexbuf.curr_pos()
             25
           }
-          _ => -1
+          _ => break
         }
       }
       26 => {
-        let c = match lexbuf.next() {
-          Some(c) => c.to_int()
-          None => -1
-        }
-        state = match c {
+        state = match lexbuf.next_as_int() {
           48..=57 => {
             _tag_1 = lexbuf.curr_pos()
             25
           }
-          _ => -1
+          _ => break
         }
       }
       27 => {
-        let c = match lexbuf.next() {
-          Some(c) => c.to_int()
-          None => -1
-        }
-        state = match c {
+        state = match lexbuf.next_as_int() {
           101 => 31
-          _ => -1
+          _ => break
         }
       }
       28 => {
-        let c = match lexbuf.next() {
-          Some(c) => c.to_int()
-          None => -1
-        }
-        state = match c {
+        state = match lexbuf.next_as_int() {
           115 => 32
-          _ => -1
+          _ => break
         }
       }
       29 => {
-        if matched is Some((prev_pattern_id, _, _)) && 1 <= prev_pattern_id || matched is None {
+        if matched is (None | Some((1..<_, _, _))) {
           matched = Some((1, lexbuf.curr_pos(), [(_tag_0, _tag_1)]))
         }
-        let c = match lexbuf.next() {
-          Some(c) => c.to_int()
-          None => -1
-        }
-        state = match c {
+        state = match lexbuf.next_as_int() {
           48..=57 => {
             _tag_1 = lexbuf.curr_pos()
             29
           }
           69 => 19
           101 => 19
-          _ => -1
+          _ => break
         }
       }
       30 => {
-        if matched is Some((prev_pattern_id, _, _)) && 11 <= prev_pattern_id || matched is None {
+        if matched is (None | Some((11..<_, _, _))) {
           matched = Some((11, lexbuf.curr_pos(), []))
         }
-        let c = match lexbuf.next() {
-          Some(c) => c.to_int()
-          None => -1
-        }
-        state = match c {
-          _ => -1
-        }
+        break
       }
       31 => {
-        if matched is Some((prev_pattern_id, _, _)) && 9 <= prev_pattern_id || matched is None {
+        if matched is (None | Some((9..<_, _, _))) {
           matched = Some((9, lexbuf.curr_pos(), []))
         }
-        let c = match lexbuf.next() {
-          Some(c) => c.to_int()
-          None => -1
-        }
-        state = match c {
-          _ => -1
-        }
+        break
       }
       32 => {
-        let c = match lexbuf.next() {
-          Some(c) => c.to_int()
-          None => -1
-        }
-        state = match c {
+        state = match lexbuf.next_as_int() {
           101 => 33
-          _ => -1
+          _ => break
         }
       }
       33 => {
-        if matched is Some((prev_pattern_id, _, _)) && 10 <= prev_pattern_id || matched is None {
+        if matched is (None | Some((10..<_, _, _))) {
           matched = Some((10, lexbuf.curr_pos(), []))
         }
-        let c = match lexbuf.next() {
-          Some(c) => c.to_int()
-          None => -1
-        }
-        state = match c {
-          _ => -1
-        }
+        break
       }
       _ => panic()
     }
@@ -687,17 +527,13 @@ fn lex_string[T](buf : StringBuilder, lexbuf : @lexbuf.T[T, Char, String, Int]) 
   _tag_2 = lexbuf.curr_pos()
   _tag_4 = lexbuf.curr_pos()
   _tag_6 = lexbuf.curr_pos()
-  while state != -1 {
+  while true {
     match state {
       0 => {
-        if matched is Some((prev_pattern_id, _, _)) && 4 <= prev_pattern_id || matched is None {
+        if matched is (None | Some((4..<_, _, _))) {
           matched = Some((4, lexbuf.curr_pos(), []))
         }
-        let c = match lexbuf.next() {
-          Some(c) => c.to_int()
-          None => -1
-        }
-        state = match c {
+        state = match lexbuf.next_as_int() {
           0..=31 => {
             _tag_7 = lexbuf.curr_pos()
             2
@@ -735,42 +571,26 @@ fn lex_string[T](buf : StringBuilder, lexbuf : @lexbuf.T[T, Char, String, Int]) 
             _tag_7 = lexbuf.curr_pos()
             1
           }
-          _ => -1
+          _ => break
         }
       }
       1 => {
-        if matched is Some((prev_pattern_id, _, _)) && 2 <= prev_pattern_id || matched is None {
+        if matched is (None | Some((2..<_, _, _))) {
           matched = Some((2, lexbuf.curr_pos(), [(_tag_4, _tag_5)]))
         }
-        let c = match lexbuf.next() {
-          Some(c) => c.to_int()
-          None => -1
-        }
-        state = match c {
-          _ => -1
-        }
+        break
       }
       2 => {
-        if matched is Some((prev_pattern_id, _, _)) && 3 <= prev_pattern_id || matched is None {
+        if matched is (None | Some((3..<_, _, _))) {
           matched = Some((3, lexbuf.curr_pos(), [(_tag_6, _tag_7)]))
         }
-        let c = match lexbuf.next() {
-          Some(c) => c.to_int()
-          None => -1
-        }
-        state = match c {
-          _ => -1
-        }
+        break
       }
       3 => {
-        if matched is Some((prev_pattern_id, _, _)) && 3 <= prev_pattern_id || matched is None {
+        if matched is (None | Some((3..<_, _, _))) {
           matched = Some((3, lexbuf.curr_pos(), [(_tag_6, _tag_7)]))
         }
-        let c = match lexbuf.next() {
-          Some(c) => c.to_int()
-          None => -1
-        }
-        state = match c {
+        state = match lexbuf.next_as_int() {
           34 => {
             _tag_3 = lexbuf.curr_pos()
             11
@@ -804,159 +624,89 @@ fn lex_string[T](buf : StringBuilder, lexbuf : @lexbuf.T[T, Char, String, Int]) 
             6
           }
           117 => 7
-          _ => -1
+          _ => break
         }
       }
       4 => {
-        if matched is Some((prev_pattern_id, _, _)) && 0 <= prev_pattern_id || matched is None {
+        if matched is (None | Some((0..<_, _, _))) {
           matched = Some((0, lexbuf.curr_pos(), [(_tag_0, _tag_1)]))
         }
-        let c = match lexbuf.next() {
-          Some(c) => c.to_int()
-          None => -1
-        }
-        state = match c {
-          _ => -1
-        }
+        break
       }
       5 => {
-        if matched is Some((prev_pattern_id, _, _)) && 1 <= prev_pattern_id || matched is None {
+        if matched is (None | Some((1..<_, _, _))) {
           matched = Some((1, lexbuf.curr_pos(), [(_tag_2, _tag_3)]))
         }
-        let c = match lexbuf.next() {
-          Some(c) => c.to_int()
-          None => -1
-        }
-        state = match c {
-          _ => -1
-        }
+        break
       }
       6 => {
-        if matched is Some((prev_pattern_id, _, _)) && 1 <= prev_pattern_id || matched is None {
+        if matched is (None | Some((1..<_, _, _))) {
           matched = Some((1, lexbuf.curr_pos(), [(_tag_2, _tag_3)]))
         }
-        let c = match lexbuf.next() {
-          Some(c) => c.to_int()
-          None => -1
-        }
-        state = match c {
-          _ => -1
-        }
+        break
       }
       7 => {
-        let c = match lexbuf.next() {
-          Some(c) => c.to_int()
-          None => -1
-        }
-        state = match c {
+        state = match lexbuf.next_as_int() {
           48..=57 => 14
           65..=70 => 14
           97..=102 => 14
-          _ => -1
+          _ => break
         }
       }
       8 => {
-        if matched is Some((prev_pattern_id, _, _)) && 1 <= prev_pattern_id || matched is None {
+        if matched is (None | Some((1..<_, _, _))) {
           matched = Some((1, lexbuf.curr_pos(), [(_tag_2, _tag_3)]))
         }
-        let c = match lexbuf.next() {
-          Some(c) => c.to_int()
-          None => -1
-        }
-        state = match c {
-          _ => -1
-        }
+        break
       }
       9 => {
-        if matched is Some((prev_pattern_id, _, _)) && 1 <= prev_pattern_id || matched is None {
+        if matched is (None | Some((1..<_, _, _))) {
           matched = Some((1, lexbuf.curr_pos(), [(_tag_2, _tag_3)]))
         }
-        let c = match lexbuf.next() {
-          Some(c) => c.to_int()
-          None => -1
-        }
-        state = match c {
-          _ => -1
-        }
+        break
       }
       10 => {
-        if matched is Some((prev_pattern_id, _, _)) && 1 <= prev_pattern_id || matched is None {
+        if matched is (None | Some((1..<_, _, _))) {
           matched = Some((1, lexbuf.curr_pos(), [(_tag_2, _tag_3)]))
         }
-        let c = match lexbuf.next() {
-          Some(c) => c.to_int()
-          None => -1
-        }
-        state = match c {
-          _ => -1
-        }
+        break
       }
       11 => {
-        if matched is Some((prev_pattern_id, _, _)) && 1 <= prev_pattern_id || matched is None {
+        if matched is (None | Some((1..<_, _, _))) {
           matched = Some((1, lexbuf.curr_pos(), [(_tag_2, _tag_3)]))
         }
-        let c = match lexbuf.next() {
-          Some(c) => c.to_int()
-          None => -1
-        }
-        state = match c {
-          _ => -1
-        }
+        break
       }
       12 => {
-        if matched is Some((prev_pattern_id, _, _)) && 1 <= prev_pattern_id || matched is None {
+        if matched is (None | Some((1..<_, _, _))) {
           matched = Some((1, lexbuf.curr_pos(), [(_tag_2, _tag_3)]))
         }
-        let c = match lexbuf.next() {
-          Some(c) => c.to_int()
-          None => -1
-        }
-        state = match c {
-          _ => -1
-        }
+        break
       }
       13 => {
-        if matched is Some((prev_pattern_id, _, _)) && 1 <= prev_pattern_id || matched is None {
+        if matched is (None | Some((1..<_, _, _))) {
           matched = Some((1, lexbuf.curr_pos(), [(_tag_2, _tag_3)]))
         }
-        let c = match lexbuf.next() {
-          Some(c) => c.to_int()
-          None => -1
-        }
-        state = match c {
-          _ => -1
-        }
+        break
       }
       14 => {
-        let c = match lexbuf.next() {
-          Some(c) => c.to_int()
-          None => -1
-        }
-        state = match c {
+        state = match lexbuf.next_as_int() {
           48..=57 => 15
           65..=70 => 15
           97..=102 => 15
-          _ => -1
+          _ => break
         }
       }
       15 => {
-        let c = match lexbuf.next() {
-          Some(c) => c.to_int()
-          None => -1
-        }
-        state = match c {
+        state = match lexbuf.next_as_int() {
           48..=57 => 16
           65..=70 => 16
           97..=102 => 16
-          _ => -1
+          _ => break
         }
       }
       16 => {
-        let c = match lexbuf.next() {
-          Some(c) => c.to_int()
-          None => -1
-        }
-        state = match c {
+        state = match lexbuf.next_as_int() {
           48..=57 => {
             _tag_3 = lexbuf.curr_pos()
             17
@@ -969,20 +719,14 @@ fn lex_string[T](buf : StringBuilder, lexbuf : @lexbuf.T[T, Char, String, Int]) 
             _tag_3 = lexbuf.curr_pos()
             17
           }
-          _ => -1
+          _ => break
         }
       }
       17 => {
-        if matched is Some((prev_pattern_id, _, _)) && 1 <= prev_pattern_id || matched is None {
+        if matched is (None | Some((1..<_, _, _))) {
           matched = Some((1, lexbuf.curr_pos(), [(_tag_2, _tag_3)]))
         }
-        let c = match lexbuf.next() {
-          Some(c) => c.to_int()
-          None => -1
-        }
-        state = match c {
-          _ => -1
-        }
+        break
       }
       _ => panic()
     }

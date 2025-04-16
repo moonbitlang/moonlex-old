@@ -8,17 +8,13 @@ fn count[T](lines : Int, words : Int, chars : Int, lexbuf : @lexbuf.T[T, Char, S
   let mut _tag_0 = -1
   let mut _tag_1 = -1
   _tag_0 = lexbuf.curr_pos()
-  while state != -1 {
+  while true {
     match state {
       0 => {
-        if matched is Some((prev_pattern_id, _, _)) && 3 <= prev_pattern_id || matched is None {
+        if matched is (None | Some((3..<_, _, _))) {
           matched = Some((3, lexbuf.curr_pos(), []))
         }
-        let c = match lexbuf.next() {
-          Some(c) => c.to_int()
-          None => -1
-        }
-        state = match c {
+        state = match lexbuf.next_as_int() {
           0..=8 => {
             _tag_1 = lexbuf.curr_pos()
             3
@@ -34,42 +30,26 @@ fn count[T](lines : Int, words : Int, chars : Int, lexbuf : @lexbuf.T[T, Char, S
             _tag_1 = lexbuf.curr_pos()
             3
           }
-          _ => -1
+          _ => break
         }
       }
       1 => {
-        if matched is Some((prev_pattern_id, _, _)) && 0 <= prev_pattern_id || matched is None {
+        if matched is (None | Some((0..<_, _, _))) {
           matched = Some((0, lexbuf.curr_pos(), []))
         }
-        let c = match lexbuf.next() {
-          Some(c) => c.to_int()
-          None => -1
-        }
-        state = match c {
-          _ => -1
-        }
+        break
       }
       2 => {
-        if matched is Some((prev_pattern_id, _, _)) && 2 <= prev_pattern_id || matched is None {
+        if matched is (None | Some((2..<_, _, _))) {
           matched = Some((2, lexbuf.curr_pos(), []))
         }
-        let c = match lexbuf.next() {
-          Some(c) => c.to_int()
-          None => -1
-        }
-        state = match c {
-          _ => -1
-        }
+        break
       }
       3 => {
-        if matched is Some((prev_pattern_id, _, _)) && 1 <= prev_pattern_id || matched is None {
+        if matched is (None | Some((1..<_, _, _))) {
           matched = Some((1, lexbuf.curr_pos(), [(_tag_0, _tag_1)]))
         }
-        let c = match lexbuf.next() {
-          Some(c) => c.to_int()
-          None => -1
-        }
-        state = match c {
+        state = match lexbuf.next_as_int() {
           0..=8 => {
             _tag_1 = lexbuf.curr_pos()
             4
@@ -82,18 +62,14 @@ fn count[T](lines : Int, words : Int, chars : Int, lexbuf : @lexbuf.T[T, Char, S
             _tag_1 = lexbuf.curr_pos()
             4
           }
-          _ => -1
+          _ => break
         }
       }
       4 => {
-        if matched is Some((prev_pattern_id, _, _)) && 1 <= prev_pattern_id || matched is None {
+        if matched is (None | Some((1..<_, _, _))) {
           matched = Some((1, lexbuf.curr_pos(), [(_tag_0, _tag_1)]))
         }
-        let c = match lexbuf.next() {
-          Some(c) => c.to_int()
-          None => -1
-        }
-        state = match c {
+        state = match lexbuf.next_as_int() {
           0..=8 => {
             _tag_1 = lexbuf.curr_pos()
             4
@@ -106,7 +82,7 @@ fn count[T](lines : Int, words : Int, chars : Int, lexbuf : @lexbuf.T[T, Char, S
             _tag_1 = lexbuf.curr_pos()
             4
           }
-          _ => -1
+          _ => break
         }
       }
       _ => panic()

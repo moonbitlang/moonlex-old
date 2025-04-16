@@ -21,17 +21,13 @@ fn scan_codeblock_rbrace[T](subst : Array[SubstItem], lexbuf : @lexbuf.T[T, Char
   let mut _tag_4 = -1
   let mut _tag_5 = -1
   _tag_4 = lexbuf.curr_pos()
-  while state != -1 {
+  while true {
     match state {
       0 => {
-        if matched is Some((prev_pattern_id, _, _)) && 5 <= prev_pattern_id || matched is None {
+        if matched is (None | Some((5..<_, _, _))) {
           matched = Some((5, lexbuf.curr_pos(), []))
         }
-        let c = match lexbuf.next() {
-          Some(c) => c.to_int()
-          None => -1
-        }
-        state = match c {
+        state = match lexbuf.next_as_int() {
           0..=35 => 3
           36 => {
             _tag_0 = lexbuf.curr_pos()
@@ -42,18 +38,14 @@ fn scan_codeblock_rbrace[T](subst : Array[SubstItem], lexbuf : @lexbuf.T[T, Char
           124 => 3
           125 => 4
           126..=1114111 => 3
-          _ => -1
+          _ => break
         }
       }
       1 => {
-        if matched is Some((prev_pattern_id, _, _)) && 4 <= prev_pattern_id || matched is None {
+        if matched is (None | Some((4..<_, _, _))) {
           matched = Some((4, lexbuf.curr_pos(), []))
         }
-        let c = match lexbuf.next() {
-          Some(c) => c.to_int()
-          None => -1
-        }
-        state = match c {
+        state = match lexbuf.next_as_int() {
           65..=90 => 5
           95 => 5
           97..=100 => 5
@@ -61,229 +53,167 @@ fn scan_codeblock_rbrace[T](subst : Array[SubstItem], lexbuf : @lexbuf.T[T, Char
           102..=114 => 5
           115 => 7
           116..=122 => 5
-          _ => -1
+          _ => break
         }
       }
       2 => {
-        if matched is Some((prev_pattern_id, _, _)) && 0 <= prev_pattern_id || matched is None {
+        if matched is (None | Some((0..<_, _, _))) {
           matched = Some((0, lexbuf.curr_pos(), []))
         }
-        let c = match lexbuf.next() {
-          Some(c) => c.to_int()
-          None => -1
-        }
-        state = match c {
-          _ => -1
-        }
+        break
       }
       3 => {
-        if matched is Some((prev_pattern_id, _, _)) && 4 <= prev_pattern_id || matched is None {
+        if matched is (None | Some((4..<_, _, _))) {
           matched = Some((4, lexbuf.curr_pos(), []))
         }
-        let c = match lexbuf.next() {
-          Some(c) => c.to_int()
-          None => -1
-        }
-        state = match c {
-          _ => -1
-        }
+        break
       }
       4 => {
-        if matched is Some((prev_pattern_id, _, _)) && 1 <= prev_pattern_id || matched is None {
+        if matched is (None | Some((1..<_, _, _))) {
           matched = Some((1, lexbuf.curr_pos(), []))
         }
-        let c = match lexbuf.next() {
-          Some(c) => c.to_int()
-          None => -1
-        }
-        state = match c {
-          _ => -1
-        }
+        break
       }
       5 => {
-        if matched is Some((prev_pattern_id, _, _)) && 3 <= prev_pattern_id || matched is None {
+        if matched is (None | Some((3..<_, _, _))) {
           matched = Some((3, lexbuf.curr_pos(), []))
         }
-        let c = match lexbuf.next() {
-          Some(c) => c.to_int()
-          None => -1
-        }
-        state = match c {
+        state = match lexbuf.next_as_int() {
           48..=57 => 8
           65..=90 => 8
           95 => 8
           97..=122 => 8
-          _ => -1
+          _ => break
         }
       }
       6 => {
-        if matched is Some((prev_pattern_id, _, _)) && 3 <= prev_pattern_id || matched is None {
+        if matched is (None | Some((3..<_, _, _))) {
           matched = Some((3, lexbuf.curr_pos(), []))
         }
-        let c = match lexbuf.next() {
-          Some(c) => c.to_int()
-          None => -1
-        }
-        state = match c {
+        state = match lexbuf.next_as_int() {
           48..=57 => 8
           65..=90 => 8
           95 => 8
           97..=109 => 8
           110 => 9
           111..=122 => 8
-          _ => -1
+          _ => break
         }
       }
       7 => {
-        if matched is Some((prev_pattern_id, _, _)) && 3 <= prev_pattern_id || matched is None {
+        if matched is (None | Some((3..<_, _, _))) {
           matched = Some((3, lexbuf.curr_pos(), []))
         }
-        let c = match lexbuf.next() {
-          Some(c) => c.to_int()
-          None => -1
-        }
-        state = match c {
+        state = match lexbuf.next_as_int() {
           48..=57 => 8
           65..=90 => 8
           95 => 8
           97..=115 => 8
           116 => 10
           117..=122 => 8
-          _ => -1
+          _ => break
         }
       }
       8 => {
-        if matched is Some((prev_pattern_id, _, _)) && 3 <= prev_pattern_id || matched is None {
+        if matched is (None | Some((3..<_, _, _))) {
           matched = Some((3, lexbuf.curr_pos(), []))
         }
-        let c = match lexbuf.next() {
-          Some(c) => c.to_int()
-          None => -1
-        }
-        state = match c {
+        state = match lexbuf.next_as_int() {
           48..=57 => 8
           65..=90 => 8
           95 => 8
           97..=122 => 8
-          _ => -1
+          _ => break
         }
       }
       9 => {
-        if matched is Some((prev_pattern_id, _, _)) && 3 <= prev_pattern_id || matched is None {
+        if matched is (None | Some((3..<_, _, _))) {
           matched = Some((3, lexbuf.curr_pos(), []))
         }
-        let c = match lexbuf.next() {
-          Some(c) => c.to_int()
-          None => -1
-        }
-        state = match c {
+        state = match lexbuf.next_as_int() {
           48..=57 => 8
           65..=90 => 8
           95 => 8
           97..=99 => 8
           100 => 11
           101..=122 => 8
-          _ => -1
+          _ => break
         }
       }
       10 => {
-        if matched is Some((prev_pattern_id, _, _)) && 3 <= prev_pattern_id || matched is None {
+        if matched is (None | Some((3..<_, _, _))) {
           matched = Some((3, lexbuf.curr_pos(), []))
         }
-        let c = match lexbuf.next() {
-          Some(c) => c.to_int()
-          None => -1
-        }
-        state = match c {
+        state = match lexbuf.next_as_int() {
           48..=57 => 8
           65..=90 => 8
           95 => 8
           97 => 12
           98..=122 => 8
-          _ => -1
+          _ => break
         }
       }
       11 => {
-        if matched is Some((prev_pattern_id, _, _)) && 3 <= prev_pattern_id || matched is None {
+        if matched is (None | Some((3..<_, _, _))) {
           matched = Some((3, lexbuf.curr_pos(), []))
         }
-        let c = match lexbuf.next() {
-          Some(c) => c.to_int()
-          None => -1
-        }
-        state = match c {
+        state = match lexbuf.next_as_int() {
           48..=57 => 8
           65..=90 => 8
           95 => 8
           97..=111 => 8
           112 => 13
           113..=122 => 8
-          _ => -1
+          _ => break
         }
       }
       12 => {
-        if matched is Some((prev_pattern_id, _, _)) && 3 <= prev_pattern_id || matched is None {
+        if matched is (None | Some((3..<_, _, _))) {
           matched = Some((3, lexbuf.curr_pos(), []))
         }
-        let c = match lexbuf.next() {
-          Some(c) => c.to_int()
-          None => -1
-        }
-        state = match c {
+        state = match lexbuf.next_as_int() {
           48..=57 => 8
           65..=90 => 8
           95 => 8
           97..=113 => 8
           114 => 14
           115..=122 => 8
-          _ => -1
+          _ => break
         }
       }
       13 => {
-        if matched is Some((prev_pattern_id, _, _)) && 3 <= prev_pattern_id || matched is None {
+        if matched is (None | Some((3..<_, _, _))) {
           matched = Some((3, lexbuf.curr_pos(), []))
         }
-        let c = match lexbuf.next() {
-          Some(c) => c.to_int()
-          None => -1
-        }
-        state = match c {
+        state = match lexbuf.next_as_int() {
           48..=57 => 8
           65..=90 => 8
           95 => 8
           97..=110 => 8
           111 => 15
           112..=122 => 8
-          _ => -1
+          _ => break
         }
       }
       14 => {
-        if matched is Some((prev_pattern_id, _, _)) && 3 <= prev_pattern_id || matched is None {
+        if matched is (None | Some((3..<_, _, _))) {
           matched = Some((3, lexbuf.curr_pos(), []))
         }
-        let c = match lexbuf.next() {
-          Some(c) => c.to_int()
-          None => -1
-        }
-        state = match c {
+        state = match lexbuf.next_as_int() {
           48..=57 => 8
           65..=90 => 8
           95 => 8
           97..=115 => 8
           116 => 16
           117..=122 => 8
-          _ => -1
+          _ => break
         }
       }
       15 => {
-        if matched is Some((prev_pattern_id, _, _)) && 3 <= prev_pattern_id || matched is None {
+        if matched is (None | Some((3..<_, _, _))) {
           matched = Some((3, lexbuf.curr_pos(), []))
         }
-        let c = match lexbuf.next() {
-          Some(c) => c.to_int()
-          None => -1
-        }
-        state = match c {
+        state = match lexbuf.next_as_int() {
           48..=57 => 8
           65..=90 => 8
           95 => 8
@@ -293,36 +223,28 @@ fn scan_codeblock_rbrace[T](subst : Array[SubstItem], lexbuf : @lexbuf.T[T, Char
             17
           }
           116..=122 => 8
-          _ => -1
+          _ => break
         }
       }
       16 => {
-        if matched is Some((prev_pattern_id, _, _)) && 3 <= prev_pattern_id || matched is None {
+        if matched is (None | Some((3..<_, _, _))) {
           matched = Some((3, lexbuf.curr_pos(), []))
         }
-        let c = match lexbuf.next() {
-          Some(c) => c.to_int()
-          None => -1
-        }
-        state = match c {
+        state = match lexbuf.next_as_int() {
           48..=57 => 8
           65..=90 => 8
           95 => 8
           97..=111 => 8
           112 => 18
           113..=122 => 8
-          _ => -1
+          _ => break
         }
       }
       17 => {
-        if matched is Some((prev_pattern_id, _, _)) && 3 <= prev_pattern_id || matched is None {
+        if matched is (None | Some((3..<_, _, _))) {
           matched = Some((3, lexbuf.curr_pos(), []))
         }
-        let c = match lexbuf.next() {
-          Some(c) => c.to_int()
-          None => -1
-        }
-        state = match c {
+        state = match lexbuf.next_as_int() {
           40 => {
             _tag_2 = lexbuf.curr_pos()
             19
@@ -331,33 +253,25 @@ fn scan_codeblock_rbrace[T](subst : Array[SubstItem], lexbuf : @lexbuf.T[T, Char
           65..=90 => 8
           95 => 8
           97..=122 => 8
-          _ => -1
+          _ => break
         }
       }
       18 => {
-        if matched is Some((prev_pattern_id, _, _)) && 3 <= prev_pattern_id || matched is None {
+        if matched is (None | Some((3..<_, _, _))) {
           matched = Some((3, lexbuf.curr_pos(), []))
         }
-        let c = match lexbuf.next() {
-          Some(c) => c.to_int()
-          None => -1
-        }
-        state = match c {
+        state = match lexbuf.next_as_int() {
           48..=57 => 8
           65..=90 => 8
           95 => 8
           97..=110 => 8
           111 => 20
           112..=122 => 8
-          _ => -1
+          _ => break
         }
       }
       19 => {
-        let c = match lexbuf.next() {
-          Some(c) => c.to_int()
-          None => -1
-        }
-        state = match c {
+        state = match lexbuf.next_as_int() {
           9 => {
             _tag_2 = lexbuf.curr_pos()
             22
@@ -378,18 +292,14 @@ fn scan_codeblock_rbrace[T](subst : Array[SubstItem], lexbuf : @lexbuf.T[T, Char
             _tag_3 = lexbuf.curr_pos()
             21
           }
-          _ => -1
+          _ => break
         }
       }
       20 => {
-        if matched is Some((prev_pattern_id, _, _)) && 3 <= prev_pattern_id || matched is None {
+        if matched is (None | Some((3..<_, _, _))) {
           matched = Some((3, lexbuf.curr_pos(), []))
         }
-        let c = match lexbuf.next() {
-          Some(c) => c.to_int()
-          None => -1
-        }
-        state = match c {
+        state = match lexbuf.next_as_int() {
           48..=57 => 8
           65..=90 => 8
           95 => 8
@@ -399,15 +309,11 @@ fn scan_codeblock_rbrace[T](subst : Array[SubstItem], lexbuf : @lexbuf.T[T, Char
             23
           }
           116..=122 => 8
-          _ => -1
+          _ => break
         }
       }
       21 => {
-        let c = match lexbuf.next() {
-          Some(c) => c.to_int()
-          None => -1
-        }
-        state = match c {
+        state = match lexbuf.next_as_int() {
           9 => 25
           32 => 25
           41 => {
@@ -430,15 +336,11 @@ fn scan_codeblock_rbrace[T](subst : Array[SubstItem], lexbuf : @lexbuf.T[T, Char
             _tag_3 = lexbuf.curr_pos()
             24
           }
-          _ => -1
+          _ => break
         }
       }
       22 => {
-        let c = match lexbuf.next() {
-          Some(c) => c.to_int()
-          None => -1
-        }
-        state = match c {
+        state = match lexbuf.next_as_int() {
           9 => {
             _tag_2 = lexbuf.curr_pos()
             22
@@ -459,18 +361,14 @@ fn scan_codeblock_rbrace[T](subst : Array[SubstItem], lexbuf : @lexbuf.T[T, Char
             _tag_3 = lexbuf.curr_pos()
             21
           }
-          _ => -1
+          _ => break
         }
       }
       23 => {
-        if matched is Some((prev_pattern_id, _, _)) && 3 <= prev_pattern_id || matched is None {
+        if matched is (None | Some((3..<_, _, _))) {
           matched = Some((3, lexbuf.curr_pos(), []))
         }
-        let c = match lexbuf.next() {
-          Some(c) => c.to_int()
-          None => -1
-        }
-        state = match c {
+        state = match lexbuf.next_as_int() {
           40 => {
             _tag_2 = lexbuf.curr_pos()
             19
@@ -479,15 +377,11 @@ fn scan_codeblock_rbrace[T](subst : Array[SubstItem], lexbuf : @lexbuf.T[T, Char
           65..=90 => 8
           95 => 8
           97..=122 => 8
-          _ => -1
+          _ => break
         }
       }
       24 => {
-        let c = match lexbuf.next() {
-          Some(c) => c.to_int()
-          None => -1
-        }
-        state = match c {
+        state = match lexbuf.next_as_int() {
           9 => 25
           32 => 25
           41 => {
@@ -510,35 +404,25 @@ fn scan_codeblock_rbrace[T](subst : Array[SubstItem], lexbuf : @lexbuf.T[T, Char
             _tag_3 = lexbuf.curr_pos()
             24
           }
-          _ => -1
+          _ => break
         }
       }
       25 => {
-        let c = match lexbuf.next() {
-          Some(c) => c.to_int()
-          None => -1
-        }
-        state = match c {
+        state = match lexbuf.next_as_int() {
           9 => 25
           32 => 25
           41 => {
             _tag_5 = lexbuf.curr_pos()
             26
           }
-          _ => -1
+          _ => break
         }
       }
       26 => {
-        if matched is Some((prev_pattern_id, _, _)) && 2 <= prev_pattern_id || matched is None {
+        if matched is (None | Some((2..<_, _, _))) {
           matched = Some((2, lexbuf.curr_pos(), [(_tag_0, _tag_1), (_tag_2, _tag_3), (_tag_4, _tag_5)]))
         }
-        let c = match lexbuf.next() {
-          Some(c) => c.to_int()
-          None => -1
-        }
-        state = match c {
-          _ => -1
-        }
+        break
       }
       _ => panic()
     }

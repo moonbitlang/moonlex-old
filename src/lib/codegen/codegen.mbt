@@ -167,7 +167,7 @@ fn codegen_rule(
     )
   }
   out.write_string(
-    $|  while state != -1 {
+    $|  while true {
     $|    match state {
     $|
     ,
@@ -180,7 +180,7 @@ fn codegen_rule(
     )
     if dfa.end_nodes[state_num] is Some((pattern_id, captures)) {
       out.write_string(
-        $|        if matched is Some((prev_pattern_id, _, _)) && \{pattern_id} <= prev_pattern_id || matched is None {
+        $|        if matched is (None | Some((\{pattern_id}..<_, _, _))) {
         $|          matched = Some((\{pattern_id}, lexbuf.curr_pos(), [
         ,
       )
@@ -202,15 +202,6 @@ fn codegen_rule(
         ,
       )
     }
-    out.write_string(
-      $|        let c = match lexbuf.next() {
-      $|          Some(c) => c.to_int()
-      $|          None => -1
-      $|        }
-      $|        state = match c {
-      $|
-      ,
-    )
     fn gen_inline_tag_action(tag_action : Array[Array[Int]]) -> String? {
       let buf = []
       for tag_id, actions_per_tag in tag_action {
@@ -231,34 +222,52 @@ fn codegen_rule(
       }
     }
 
-    for tran in group_trans(trans) {
-      let ((first_char, last_char), (next_state, tag_action)) = tran
-      let pattern = if first_char == last_char {
-        "\{first_char}"
-      } else {
-        "\{first_char}..=\{last_char}"
+    let grouped_trans = group_trans(trans)
+    if grouped_trans.is_empty() {
+      out.write_string(
+        $|        break
+        $|
+        ,
+      )
+    } else {
+      out.write_string(
+        $|        state = match lexbuf.next_as_int() {
+        $|
+        ,
+      )
+      for tran in grouped_trans {
+        let ((first_char, last_char), (next_state, tag_action)) = tran
+        let pattern = if first_char == last_char {
+          "\{first_char}"
+        } else {
+          "\{first_char}..=\{last_char}"
+        }
+        match gen_inline_tag_action(tag_action) {
+          None =>
+            out.write_string(
+              $|          \{pattern} => \{next_state}
+              $|
+              ,
+            )
+          Some(tag_action_code) =>
+            out.write_string(
+              $|          \{pattern} => {
+              $|\{tag_action_code}
+              $|            \{next_state}
+              $|          }
+              $|
+              ,
+            )
+        }
       }
-      match gen_inline_tag_action(tag_action) {
-        None =>
-          out.write_string(
-            $|          \{pattern} => \{next_state}
-            $|
-            ,
-          )
-        Some(tag_action_code) =>
-          out.write_string(
-            $|          \{pattern} => {
-            $|\{tag_action_code}
-            $|            \{next_state}
-            $|          }
-            $|
-            ,
-          )
-      }
+      out.write_string(
+        $|          _ => break
+        $|        }
+        $|
+        ,
+      )
     }
     out.write_string(
-      $|          _ => -1
-      $|        }
       $|      }
       $|
       ,

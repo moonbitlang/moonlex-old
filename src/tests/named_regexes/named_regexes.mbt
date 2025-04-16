@@ -3,69 +3,45 @@
 fn lex_is_number[T, C, S, P](lexbuf : @lexbuf.T[T, C, S, P]) -> Bool  {
   let mut matched = None
   let mut state = 0
-  while state != -1 {
+  while true {
     match state {
       0 => {
-        let c = match lexbuf.next() {
-          Some(c) => c.to_int()
-          None => -1
-        }
-        state = match c {
+        state = match lexbuf.next_as_int() {
           0..=47 => 3
           48 => 2
           49..=57 => 1
           58..=1114111 => 3
-          _ => -1
+          _ => break
         }
       }
       1 => {
-        if matched is Some((prev_pattern_id, _, _)) && 0 <= prev_pattern_id || matched is None {
+        if matched is (None | Some((0..<_, _, _))) {
           matched = Some((0, lexbuf.curr_pos(), []))
         }
-        let c = match lexbuf.next() {
-          Some(c) => c.to_int()
-          None => -1
-        }
-        state = match c {
+        state = match lexbuf.next_as_int() {
           48..=57 => 4
-          _ => -1
+          _ => break
         }
       }
       2 => {
-        if matched is Some((prev_pattern_id, _, _)) && 0 <= prev_pattern_id || matched is None {
+        if matched is (None | Some((0..<_, _, _))) {
           matched = Some((0, lexbuf.curr_pos(), []))
         }
-        let c = match lexbuf.next() {
-          Some(c) => c.to_int()
-          None => -1
-        }
-        state = match c {
-          _ => -1
-        }
+        break
       }
       3 => {
-        if matched is Some((prev_pattern_id, _, _)) && 1 <= prev_pattern_id || matched is None {
+        if matched is (None | Some((1..<_, _, _))) {
           matched = Some((1, lexbuf.curr_pos(), []))
         }
-        let c = match lexbuf.next() {
-          Some(c) => c.to_int()
-          None => -1
-        }
-        state = match c {
-          _ => -1
-        }
+        break
       }
       4 => {
-        if matched is Some((prev_pattern_id, _, _)) && 0 <= prev_pattern_id || matched is None {
+        if matched is (None | Some((0..<_, _, _))) {
           matched = Some((0, lexbuf.curr_pos(), []))
         }
-        let c = match lexbuf.next() {
-          Some(c) => c.to_int()
-          None => -1
-        }
-        state = match c {
+        state = match lexbuf.next_as_int() {
           48..=57 => 4
-          _ => -1
+          _ => break
         }
       }
       _ => panic()
