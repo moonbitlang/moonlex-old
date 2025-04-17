@@ -89,22 +89,22 @@ pub fn disjoint(self : EofCharSet, other : EofCharSet) -> Bool {
 }
 
 ///|
-pub fn EofCharSet::op_neg(self : EofCharSet) -> EofCharSet {
+pub impl Neg for EofCharSet with op_neg(self) {
   complement(self)
 }
 
 ///|
-pub fn EofCharSet::op_add(self : EofCharSet, other : EofCharSet) -> EofCharSet {
+pub impl Add for EofCharSet with op_add(self, other) {
   union(self, other)
 }
 
 ///|
-pub fn EofCharSet::op_sub(self : EofCharSet, other : EofCharSet) -> EofCharSet {
+pub impl Sub for EofCharSet with op_sub(self, other) {
   difference(self, other)
 }
 
 ///|
-pub fn EofCharSet::land(self : EofCharSet, other : EofCharSet) -> EofCharSet {
+pub impl BitAnd for EofCharSet with land(self : EofCharSet, other : EofCharSet) -> EofCharSet {
   intersection(self, other)
 }
 
