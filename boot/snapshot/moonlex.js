@@ -10086,66 +10086,55 @@ function moonbitlang$ulex$lib$parser$$code_rbrace$132$(buffer, lexbuf) {
     const _tag_5 = { val: -1 };
     const _tag_6 = { val: -1 };
     const _tag_7 = { val: -1 };
-    _tag_0.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
-    _tag_2.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
-    _tag_4.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
-    _tag_6.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
     _L$2: while (true) {
       const _bind = state;
       switch (_bind) {
         case 0: {
+          _tag_0.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
+          _tag_2.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
+          _tag_4.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
+          _tag_6.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
           const _bind$2 = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$next_as_int$131$(lexbuf$2);
           let _tmp$3;
           if (_bind$2 === -1) {
             _tmp$3 = 1;
           } else {
             if (0 <= _bind$2 && _bind$2 <= 33) {
-              _tag_7.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
               _tmp$3 = 6;
             } else {
               if (_bind$2 === 34) {
-                _tag_7.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
                 _tmp$3 = 7;
               } else {
                 if (35 <= _bind$2 && _bind$2 <= 38) {
-                  _tag_7.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
                   _tmp$3 = 6;
                 } else {
                   if (_bind$2 === 39) {
-                    _tag_7.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
                     _tmp$3 = 5;
                   } else {
                     if (40 <= _bind$2 && _bind$2 <= 46) {
-                      _tag_7.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
                       _tmp$3 = 6;
                     } else {
                       if (_bind$2 === 47) {
-                        _tag_7.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
                         _tmp$3 = 4;
                       } else {
                         if (48 <= _bind$2 && _bind$2 <= 122) {
-                          _tag_7.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
                           _tmp$3 = 6;
                         } else {
                           switch (_bind$2) {
                             case 123: {
-                              _tag_7.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
                               _tmp$3 = 2;
                               break;
                             }
                             case 124: {
-                              _tag_7.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
                               _tmp$3 = 6;
                               break;
                             }
                             case 125: {
-                              _tag_7.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
                               _tmp$3 = 3;
                               break;
                             }
                             default: {
                               if (126 <= _bind$2 && _bind$2 <= 1114111) {
-                                _tag_7.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
                                 _tmp$3 = 6;
                               } else {
                                 break _L$2;
@@ -10184,6 +10173,7 @@ function moonbitlang$ulex$lib$parser$$code_rbrace$132$(buffer, lexbuf) {
           break _L$2;
         }
         case 2: {
+          _tag_7.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
           _L$4: {
             _L$5: {
               const _bind$3 = matched.val;
@@ -10204,6 +10194,7 @@ function moonbitlang$ulex$lib$parser$$code_rbrace$132$(buffer, lexbuf) {
           break _L$2;
         }
         case 3: {
+          _tag_7.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
           _L$5: {
             _L$6: {
               const _bind$3 = matched.val;
@@ -10224,6 +10215,7 @@ function moonbitlang$ulex$lib$parser$$code_rbrace$132$(buffer, lexbuf) {
           break _L$2;
         }
         case 4: {
+          _tag_7.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
           _L$6: {
             _L$7: {
               const _bind$3 = matched.val;
@@ -10252,6 +10244,7 @@ function moonbitlang$ulex$lib$parser$$code_rbrace$132$(buffer, lexbuf) {
           break;
         }
         case 5: {
+          _tag_7.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
           _L$7: {
             _L$8: {
               const _bind$4 = matched.val;
@@ -10288,6 +10281,7 @@ function moonbitlang$ulex$lib$parser$$code_rbrace$132$(buffer, lexbuf) {
           break;
         }
         case 6: {
+          _tag_7.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
           _L$8: {
             _L$9: {
               const _bind$5 = matched.val;
@@ -10308,6 +10302,7 @@ function moonbitlang$ulex$lib$parser$$code_rbrace$132$(buffer, lexbuf) {
           break _L$2;
         }
         case 7: {
+          _tag_7.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
           _L$9: {
             _L$10: {
               const _bind$5 = matched.val;
@@ -10331,7 +10326,6 @@ function moonbitlang$ulex$lib$parser$$code_rbrace$132$(buffer, lexbuf) {
             _tmp$6 = 11;
           } else {
             if (_bind$5 === 34) {
-              _tag_3.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
               _tmp$6 = 10;
             } else {
               if (35 <= _bind$5 && _bind$5 <= 91) {
@@ -10371,7 +10365,6 @@ function moonbitlang$ulex$lib$parser$$code_rbrace$132$(buffer, lexbuf) {
           const _bind$7 = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$next_as_int$131$(lexbuf$2);
           let _tmp$8;
           if (_bind$7 === 39) {
-            _tag_5.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
             _tmp$8 = 14;
           } else {
             break _L$2;
@@ -10380,6 +10373,7 @@ function moonbitlang$ulex$lib$parser$$code_rbrace$132$(buffer, lexbuf) {
           break;
         }
         case 10: {
+          _tag_3.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
           _L$10: {
             _L$11: {
               const _bind$8 = matched.val;
@@ -10406,7 +10400,6 @@ function moonbitlang$ulex$lib$parser$$code_rbrace$132$(buffer, lexbuf) {
             _tmp$9 = 11;
           } else {
             if (_bind$8 === 34) {
-              _tag_3.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
               _tmp$9 = 10;
             } else {
               if (35 <= _bind$8 && _bind$8 <= 91) {
@@ -10445,7 +10438,6 @@ function moonbitlang$ulex$lib$parser$$code_rbrace$132$(buffer, lexbuf) {
             _tmp$11 = 13;
           } else {
             if (_bind$10 === 10) {
-              _tag_1.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
               _tmp$11 = 16;
             } else {
               if (11 <= _bind$10 && _bind$10 <= 1114111) {
@@ -10459,6 +10451,7 @@ function moonbitlang$ulex$lib$parser$$code_rbrace$132$(buffer, lexbuf) {
           break;
         }
         case 14: {
+          _tag_5.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
           _L$11: {
             _L$12: {
               const _bind$11 = matched.val;
@@ -10485,7 +10478,6 @@ function moonbitlang$ulex$lib$parser$$code_rbrace$132$(buffer, lexbuf) {
             _tmp$12 = 11;
           } else {
             if (_bind$11 === 34) {
-              _tag_3.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
               _tmp$12 = 10;
             } else {
               if (35 <= _bind$11 && _bind$11 <= 91) {
@@ -10507,6 +10499,7 @@ function moonbitlang$ulex$lib$parser$$code_rbrace$132$(buffer, lexbuf) {
           break;
         }
         case 16: {
+          _tag_1.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
           _L$12: {
             _L$13: {
               const _bind$12 = matched.val;
@@ -10611,34 +10604,29 @@ function moonbitlang$ulex$lib$parser$$string_inner_rquote$132$(buffer, lexbuf) {
     const _tag_5 = { val: -1 };
     const _tag_6 = { val: -1 };
     const _tag_7 = { val: -1 };
-    _tag_6.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
     _L$2: while (true) {
       const _bind = state;
       switch (_bind) {
         case 0: {
+          _tag_6.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
           const _bind$2 = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$next_as_int$131$(lexbuf$2);
           let _tmp$3;
           if (_bind$2 === -1) {
             _tmp$3 = 2;
           } else {
             if (0 <= _bind$2 && _bind$2 <= 33) {
-              _tag_7.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
               _tmp$3 = 1;
             } else {
               if (_bind$2 === 34) {
-                _tag_7.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
                 _tmp$3 = 3;
               } else {
                 if (35 <= _bind$2 && _bind$2 <= 91) {
-                  _tag_7.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
                   _tmp$3 = 1;
                 } else {
                   if (_bind$2 === 92) {
-                    _tag_7.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
                     _tmp$3 = 4;
                   } else {
                     if (93 <= _bind$2 && _bind$2 <= 1114111) {
-                      _tag_7.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
                       _tmp$3 = 1;
                     } else {
                       break _L$2;
@@ -10652,6 +10640,7 @@ function moonbitlang$ulex$lib$parser$$string_inner_rquote$132$(buffer, lexbuf) {
           break;
         }
         case 1: {
+          _tag_7.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
           _L$3: {
             _L$4: {
               const _bind$3 = matched.val;
@@ -10692,6 +10681,7 @@ function moonbitlang$ulex$lib$parser$$string_inner_rquote$132$(buffer, lexbuf) {
           break _L$2;
         }
         case 3: {
+          _tag_7.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
           _L$5: {
             _L$6: {
               const _bind$3 = matched.val;
@@ -10712,6 +10702,7 @@ function moonbitlang$ulex$lib$parser$$string_inner_rquote$132$(buffer, lexbuf) {
           break _L$2;
         }
         case 4: {
+          _tag_7.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
           _L$6: {
             _L$7: {
               const _bind$3 = matched.val;
@@ -10757,7 +10748,6 @@ function moonbitlang$ulex$lib$parser$$string_inner_rquote$132$(buffer, lexbuf) {
               break;
             }
             case 117: {
-              _tag_2.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
               _tmp$4 = 8;
               break;
             }
@@ -10766,7 +10756,6 @@ function moonbitlang$ulex$lib$parser$$string_inner_rquote$132$(buffer, lexbuf) {
               break;
             }
             case 120: {
-              _tag_0.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
               _tmp$4 = 6;
               break;
             }
@@ -10798,6 +10787,7 @@ function moonbitlang$ulex$lib$parser$$string_inner_rquote$132$(buffer, lexbuf) {
           break _L$2;
         }
         case 6: {
+          _tag_0.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
           const _bind$4 = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$next_as_int$131$(lexbuf$2);
           let _tmp$5;
           if (48 <= _bind$4 && _bind$4 <= 57) {
@@ -10837,6 +10827,7 @@ function moonbitlang$ulex$lib$parser$$string_inner_rquote$132$(buffer, lexbuf) {
           break _L$2;
         }
         case 8: {
+          _tag_2.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
           const _bind$5 = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$next_as_int$131$(lexbuf$2);
           let _tmp$6;
           if (48 <= _bind$5 && _bind$5 <= 57) {
@@ -10849,7 +10840,6 @@ function moonbitlang$ulex$lib$parser$$string_inner_rquote$132$(buffer, lexbuf) {
                 _tmp$6 = 16;
               } else {
                 if (_bind$5 === 123) {
-                  _tag_4.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
                   _tmp$6 = 15;
                 } else {
                   break _L$2;
@@ -10964,15 +10954,12 @@ function moonbitlang$ulex$lib$parser$$string_inner_rquote$132$(buffer, lexbuf) {
           const _bind$6 = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$next_as_int$131$(lexbuf$2);
           let _tmp$7;
           if (48 <= _bind$6 && _bind$6 <= 57) {
-            _tag_1.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
             _tmp$7 = 17;
           } else {
             if (65 <= _bind$6 && _bind$6 <= 70) {
-              _tag_1.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
               _tmp$7 = 17;
             } else {
               if (97 <= _bind$6 && _bind$6 <= 102) {
-                _tag_1.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
                 _tmp$7 = 17;
               } else {
                 break _L$2;
@@ -10983,18 +10970,16 @@ function moonbitlang$ulex$lib$parser$$string_inner_rquote$132$(buffer, lexbuf) {
           break;
         }
         case 15: {
+          _tag_4.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
           const _bind$7 = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$next_as_int$131$(lexbuf$2);
           let _tmp$8;
           if (48 <= _bind$7 && _bind$7 <= 57) {
-            _tag_5.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
             _tmp$8 = 18;
           } else {
             if (65 <= _bind$7 && _bind$7 <= 70) {
-              _tag_5.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
               _tmp$8 = 18;
             } else {
               if (97 <= _bind$7 && _bind$7 <= 102) {
-                _tag_5.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
                 _tmp$8 = 18;
               } else {
                 break _L$2;
@@ -11024,6 +11009,7 @@ function moonbitlang$ulex$lib$parser$$string_inner_rquote$132$(buffer, lexbuf) {
           break;
         }
         case 17: {
+          _tag_1.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
           const _bind$9 = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$next_as_int$131$(lexbuf$2);
           let _tmp$10;
           if (_bind$9 === 39) {
@@ -11035,18 +11021,16 @@ function moonbitlang$ulex$lib$parser$$string_inner_rquote$132$(buffer, lexbuf) {
           break;
         }
         case 18: {
+          _tag_5.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
           const _bind$10 = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$next_as_int$131$(lexbuf$2);
           let _tmp$11;
           if (48 <= _bind$10 && _bind$10 <= 57) {
-            _tag_5.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
             _tmp$11 = 18;
           } else {
             if (65 <= _bind$10 && _bind$10 <= 70) {
-              _tag_5.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
               _tmp$11 = 18;
             } else {
               if (97 <= _bind$10 && _bind$10 <= 102) {
-                _tag_5.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
                 _tmp$11 = 18;
               } else {
                 if (_bind$10 === 125) {
@@ -11114,15 +11098,12 @@ function moonbitlang$ulex$lib$parser$$string_inner_rquote$132$(buffer, lexbuf) {
           const _bind$13 = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$next_as_int$131$(lexbuf$2);
           let _tmp$14;
           if (48 <= _bind$13 && _bind$13 <= 57) {
-            _tag_3.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
             _tmp$14 = 24;
           } else {
             if (65 <= _bind$13 && _bind$13 <= 70) {
-              _tag_3.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
               _tmp$14 = 24;
             } else {
               if (97 <= _bind$13 && _bind$13 <= 102) {
-                _tag_3.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
                 _tmp$14 = 24;
               } else {
                 break _L$2;
@@ -11153,6 +11134,7 @@ function moonbitlang$ulex$lib$parser$$string_inner_rquote$132$(buffer, lexbuf) {
           break _L$2;
         }
         case 24: {
+          _tag_3.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
           const _bind$14 = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$next_as_int$131$(lexbuf$2);
           let _tmp$15;
           if (_bind$14 === 39) {
@@ -11299,11 +11281,11 @@ function moonbitlang$ulex$lib$parser$$token$132$(lexbuf) {
     const _tag_11 = { val: -1 };
     const _tag_12 = { val: -1 };
     const _tag_13 = { val: -1 };
-    _tag_12.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
     _L$2: while (true) {
       const _bind = state;
       switch (_bind) {
         case 0: {
+          _tag_12.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
           const _bind$2 = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$next_as_int$131$(lexbuf$2);
           let _tmp$2;
           if (_bind$2 === -1) {
@@ -11326,7 +11308,6 @@ function moonbitlang$ulex$lib$parser$$token$132$(lexbuf) {
                   break;
                 }
                 case 39: {
-                  _tag_4.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
                   _tmp$2 = 19;
                   break;
                 }
@@ -11383,34 +11364,28 @@ function moonbitlang$ulex$lib$parser$$token$132$(lexbuf) {
                   break;
                 }
                 case 95: {
-                  _tag_13.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
                   _tmp$2 = 16;
                   break;
                 }
                 default: {
                   if (97 <= _bind$2 && _bind$2 <= 111) {
-                    _tag_13.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
                     _tmp$2 = 2;
                   } else {
                     switch (_bind$2) {
                       case 112: {
-                        _tag_13.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
                         _tmp$2 = 13;
                         break;
                       }
                       case 113: {
-                        _tag_13.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
                         _tmp$2 = 2;
                         break;
                       }
                       case 114: {
-                        _tag_13.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
                         _tmp$2 = 7;
                         break;
                       }
                       default: {
                         if (115 <= _bind$2 && _bind$2 <= 122) {
-                          _tag_13.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
                           _tmp$2 = 2;
                         } else {
                           switch (_bind$2) {
@@ -11462,6 +11437,7 @@ function moonbitlang$ulex$lib$parser$$token$132$(lexbuf) {
           break _L$2;
         }
         case 2: {
+          _tag_13.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
           _L$4: {
             _L$5: {
               const _bind$3 = matched.val;
@@ -11482,19 +11458,15 @@ function moonbitlang$ulex$lib$parser$$token$132$(lexbuf) {
           const _bind$3 = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$next_as_int$131$(lexbuf$2);
           let _tmp$3;
           if (48 <= _bind$3 && _bind$3 <= 57) {
-            _tag_13.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
             _tmp$3 = 25;
           } else {
             if (65 <= _bind$3 && _bind$3 <= 90) {
-              _tag_13.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
               _tmp$3 = 25;
             } else {
               if (_bind$3 === 95) {
-                _tag_13.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
                 _tmp$3 = 25;
               } else {
                 if (97 <= _bind$3 && _bind$3 <= 122) {
-                  _tag_13.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
                   _tmp$3 = 25;
                 } else {
                   break _L$2;
@@ -11606,6 +11578,7 @@ function moonbitlang$ulex$lib$parser$$token$132$(lexbuf) {
           break;
         }
         case 7: {
+          _tag_13.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
           _L$9: {
             _L$10: {
               const _bind$5 = matched.val;
@@ -11626,27 +11599,21 @@ function moonbitlang$ulex$lib$parser$$token$132$(lexbuf) {
           const _bind$5 = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$next_as_int$131$(lexbuf$2);
           let _tmp$5;
           if (48 <= _bind$5 && _bind$5 <= 57) {
-            _tag_13.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
             _tmp$5 = 25;
           } else {
             if (65 <= _bind$5 && _bind$5 <= 90) {
-              _tag_13.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
               _tmp$5 = 25;
             } else {
               if (_bind$5 === 95) {
-                _tag_13.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
                 _tmp$5 = 25;
               } else {
                 if (97 <= _bind$5 && _bind$5 <= 116) {
-                  _tag_13.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
                   _tmp$5 = 25;
                 } else {
                   if (_bind$5 === 117) {
-                    _tag_13.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
                     _tmp$5 = 26;
                   } else {
                     if (118 <= _bind$5 && _bind$5 <= 122) {
-                      _tag_13.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
                       _tmp$5 = 25;
                     } else {
                       break _L$2;
@@ -11768,6 +11735,7 @@ function moonbitlang$ulex$lib$parser$$token$132$(lexbuf) {
           break _L$2;
         }
         case 13: {
+          _tag_13.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
           _L$15: {
             _L$16: {
               const _bind$7 = matched.val;
@@ -11788,27 +11756,22 @@ function moonbitlang$ulex$lib$parser$$token$132$(lexbuf) {
           const _bind$7 = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$next_as_int$131$(lexbuf$2);
           let _tmp$7;
           if (48 <= _bind$7 && _bind$7 <= 57) {
-            _tag_13.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
             _tmp$7 = 25;
           } else {
             if (65 <= _bind$7 && _bind$7 <= 90) {
-              _tag_13.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
               _tmp$7 = 25;
             } else {
               switch (_bind$7) {
                 case 95: {
-                  _tag_13.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
                   _tmp$7 = 25;
                   break;
                 }
                 case 97: {
-                  _tag_13.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
                   _tmp$7 = 28;
                   break;
                 }
                 default: {
                   if (98 <= _bind$7 && _bind$7 <= 122) {
-                    _tag_13.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
                     _tmp$7 = 25;
                   } else {
                     break _L$2;
@@ -11861,6 +11824,7 @@ function moonbitlang$ulex$lib$parser$$token$132$(lexbuf) {
           break _L$2;
         }
         case 16: {
+          _tag_13.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
           _L$18: {
             _L$19: {
               const _bind$8 = matched.val;
@@ -11881,19 +11845,15 @@ function moonbitlang$ulex$lib$parser$$token$132$(lexbuf) {
           const _bind$8 = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$next_as_int$131$(lexbuf$2);
           let _tmp$8;
           if (48 <= _bind$8 && _bind$8 <= 57) {
-            _tag_13.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
             _tmp$8 = 25;
           } else {
             if (65 <= _bind$8 && _bind$8 <= 90) {
-              _tag_13.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
               _tmp$8 = 25;
             } else {
               if (_bind$8 === 95) {
-                _tag_13.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
                 _tmp$8 = 25;
               } else {
                 if (97 <= _bind$8 && _bind$8 <= 122) {
-                  _tag_13.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
                   _tmp$8 = 25;
                 } else {
                   break _L$2;
@@ -11945,21 +11905,19 @@ function moonbitlang$ulex$lib$parser$$token$132$(lexbuf) {
           break _L$2;
         }
         case 19: {
+          _tag_4.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
           const _bind$9 = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$next_as_int$131$(lexbuf$2);
           let _tmp$9;
           if (0 <= _bind$9 && _bind$9 <= 38) {
-            _tag_5.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
             _tmp$9 = 29;
           } else {
             if (40 <= _bind$9 && _bind$9 <= 91) {
-              _tag_5.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
               _tmp$9 = 29;
             } else {
               if (_bind$9 === 92) {
                 _tmp$9 = 30;
               } else {
                 if (93 <= _bind$9 && _bind$9 <= 1114111) {
-                  _tag_5.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
                   _tmp$9 = 29;
                 } else {
                   break _L$2;
@@ -12062,6 +12020,7 @@ function moonbitlang$ulex$lib$parser$$token$132$(lexbuf) {
           break _L$2;
         }
         case 25: {
+          _tag_13.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
           _L$25: {
             _L$26: {
               const _bind$11 = matched.val;
@@ -12082,19 +12041,15 @@ function moonbitlang$ulex$lib$parser$$token$132$(lexbuf) {
           const _bind$11 = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$next_as_int$131$(lexbuf$2);
           let _tmp$11;
           if (48 <= _bind$11 && _bind$11 <= 57) {
-            _tag_13.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
             _tmp$11 = 25;
           } else {
             if (65 <= _bind$11 && _bind$11 <= 90) {
-              _tag_13.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
               _tmp$11 = 25;
             } else {
               if (_bind$11 === 95) {
-                _tag_13.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
                 _tmp$11 = 25;
               } else {
                 if (97 <= _bind$11 && _bind$11 <= 122) {
-                  _tag_13.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
                   _tmp$11 = 25;
                 } else {
                   break _L$2;
@@ -12106,6 +12061,7 @@ function moonbitlang$ulex$lib$parser$$token$132$(lexbuf) {
           break;
         }
         case 26: {
+          _tag_13.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
           _L$26: {
             _L$27: {
               const _bind$12 = matched.val;
@@ -12126,27 +12082,21 @@ function moonbitlang$ulex$lib$parser$$token$132$(lexbuf) {
           const _bind$12 = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$next_as_int$131$(lexbuf$2);
           let _tmp$12;
           if (48 <= _bind$12 && _bind$12 <= 57) {
-            _tag_13.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
             _tmp$12 = 25;
           } else {
             if (65 <= _bind$12 && _bind$12 <= 90) {
-              _tag_13.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
               _tmp$12 = 25;
             } else {
               if (_bind$12 === 95) {
-                _tag_13.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
                 _tmp$12 = 25;
               } else {
                 if (97 <= _bind$12 && _bind$12 <= 107) {
-                  _tag_13.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
                   _tmp$12 = 25;
                 } else {
                   if (_bind$12 === 108) {
-                    _tag_13.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
                     _tmp$12 = 32;
                   } else {
                     if (109 <= _bind$12 && _bind$12 <= 122) {
-                      _tag_13.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
                       _tmp$12 = 25;
                     } else {
                       break _L$2;
@@ -12180,6 +12130,7 @@ function moonbitlang$ulex$lib$parser$$token$132$(lexbuf) {
           break _L$2;
         }
         case 28: {
+          _tag_13.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
           _L$28: {
             _L$29: {
               const _bind$13 = matched.val;
@@ -12200,27 +12151,21 @@ function moonbitlang$ulex$lib$parser$$token$132$(lexbuf) {
           const _bind$13 = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$next_as_int$131$(lexbuf$2);
           let _tmp$13;
           if (48 <= _bind$13 && _bind$13 <= 57) {
-            _tag_13.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
             _tmp$13 = 25;
           } else {
             if (65 <= _bind$13 && _bind$13 <= 90) {
-              _tag_13.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
               _tmp$13 = 25;
             } else {
               if (_bind$13 === 95) {
-                _tag_13.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
                 _tmp$13 = 25;
               } else {
                 if (97 <= _bind$13 && _bind$13 <= 113) {
-                  _tag_13.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
                   _tmp$13 = 25;
                 } else {
                   if (_bind$13 === 114) {
-                    _tag_13.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
                     _tmp$13 = 33;
                   } else {
                     if (115 <= _bind$13 && _bind$13 <= 122) {
-                      _tag_13.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
                       _tmp$13 = 25;
                     } else {
                       break _L$2;
@@ -12234,6 +12179,7 @@ function moonbitlang$ulex$lib$parser$$token$132$(lexbuf) {
           break;
         }
         case 29: {
+          _tag_5.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
           const _bind$14 = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$next_as_int$131$(lexbuf$2);
           let _tmp$14;
           if (_bind$14 === 39) {
@@ -12273,7 +12219,6 @@ function moonbitlang$ulex$lib$parser$$token$132$(lexbuf) {
               break;
             }
             case 117: {
-              _tag_8.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
               _tmp$15 = 38;
               break;
             }
@@ -12282,7 +12227,6 @@ function moonbitlang$ulex$lib$parser$$token$132$(lexbuf) {
               break;
             }
             case 120: {
-              _tag_6.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
               _tmp$15 = 35;
               break;
             }
@@ -12330,6 +12274,7 @@ function moonbitlang$ulex$lib$parser$$token$132$(lexbuf) {
           break;
         }
         case 32: {
+          _tag_13.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
           _L$30: {
             _L$31: {
               const _bind$17 = matched.val;
@@ -12350,27 +12295,21 @@ function moonbitlang$ulex$lib$parser$$token$132$(lexbuf) {
           const _bind$17 = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$next_as_int$131$(lexbuf$2);
           let _tmp$17;
           if (48 <= _bind$17 && _bind$17 <= 57) {
-            _tag_13.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
             _tmp$17 = 25;
           } else {
             if (65 <= _bind$17 && _bind$17 <= 90) {
-              _tag_13.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
               _tmp$17 = 25;
             } else {
               if (_bind$17 === 95) {
-                _tag_13.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
                 _tmp$17 = 25;
               } else {
                 if (97 <= _bind$17 && _bind$17 <= 100) {
-                  _tag_13.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
                   _tmp$17 = 25;
                 } else {
                   if (_bind$17 === 101) {
-                    _tag_13.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
                     _tmp$17 = 46;
                   } else {
                     if (102 <= _bind$17 && _bind$17 <= 122) {
-                      _tag_13.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
                       _tmp$17 = 25;
                     } else {
                       break _L$2;
@@ -12384,6 +12323,7 @@ function moonbitlang$ulex$lib$parser$$token$132$(lexbuf) {
           break;
         }
         case 33: {
+          _tag_13.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
           _L$31: {
             _L$32: {
               const _bind$18 = matched.val;
@@ -12404,27 +12344,21 @@ function moonbitlang$ulex$lib$parser$$token$132$(lexbuf) {
           const _bind$18 = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$next_as_int$131$(lexbuf$2);
           let _tmp$18;
           if (48 <= _bind$18 && _bind$18 <= 57) {
-            _tag_13.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
             _tmp$18 = 25;
           } else {
             if (65 <= _bind$18 && _bind$18 <= 90) {
-              _tag_13.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
               _tmp$18 = 25;
             } else {
               if (_bind$18 === 95) {
-                _tag_13.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
                 _tmp$18 = 25;
               } else {
                 if (97 <= _bind$18 && _bind$18 <= 114) {
-                  _tag_13.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
                   _tmp$18 = 25;
                 } else {
                   if (_bind$18 === 115) {
-                    _tag_13.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
                     _tmp$18 = 47;
                   } else {
                     if (116 <= _bind$18 && _bind$18 <= 122) {
-                      _tag_13.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
                       _tmp$18 = 25;
                     } else {
                       break _L$2;
@@ -12458,6 +12392,7 @@ function moonbitlang$ulex$lib$parser$$token$132$(lexbuf) {
           break _L$2;
         }
         case 35: {
+          _tag_6.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
           const _bind$19 = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$next_as_int$131$(lexbuf$2);
           let _tmp$19;
           if (48 <= _bind$19 && _bind$19 <= 57) {
@@ -12499,6 +12434,7 @@ function moonbitlang$ulex$lib$parser$$token$132$(lexbuf) {
           break;
         }
         case 38: {
+          _tag_8.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
           const _bind$22 = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$next_as_int$131$(lexbuf$2);
           let _tmp$22;
           if (48 <= _bind$22 && _bind$22 <= 57) {
@@ -12511,7 +12447,6 @@ function moonbitlang$ulex$lib$parser$$token$132$(lexbuf) {
                 _tmp$22 = 51;
               } else {
                 if (_bind$22 === 123) {
-                  _tag_10.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
                   _tmp$22 = 52;
                 } else {
                   break _L$2;
@@ -12634,6 +12569,7 @@ function moonbitlang$ulex$lib$parser$$token$132$(lexbuf) {
           break;
         }
         case 46: {
+          _tag_13.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
           _L$35: {
             _L$36: {
               const _bind$29 = matched.val;
@@ -12654,38 +12590,28 @@ function moonbitlang$ulex$lib$parser$$token$132$(lexbuf) {
           const _bind$29 = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$next_as_int$131$(lexbuf$2);
           let _tmp$29;
           if (9 <= _bind$29 && _bind$29 <= 10) {
-            _tag_0.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
-            _tag_2.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
             _tmp$29 = 58;
           } else {
             switch (_bind$29) {
               case 13: {
-                _tag_0.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
-                _tag_2.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
                 _tmp$29 = 58;
                 break;
               }
               case 32: {
-                _tag_0.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
-                _tag_2.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
                 _tmp$29 = 58;
                 break;
               }
               default: {
                 if (48 <= _bind$29 && _bind$29 <= 57) {
-                  _tag_13.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
                   _tmp$29 = 25;
                 } else {
                   if (65 <= _bind$29 && _bind$29 <= 90) {
-                    _tag_13.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
                     _tmp$29 = 25;
                   } else {
                     if (_bind$29 === 95) {
-                      _tag_13.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
                       _tmp$29 = 25;
                     } else {
                       if (97 <= _bind$29 && _bind$29 <= 122) {
-                        _tag_13.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
                         _tmp$29 = 25;
                       } else {
                         break _L$2;
@@ -12700,6 +12626,7 @@ function moonbitlang$ulex$lib$parser$$token$132$(lexbuf) {
           break;
         }
         case 47: {
+          _tag_13.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
           _L$36: {
             _L$37: {
               const _bind$30 = matched.val;
@@ -12720,27 +12647,21 @@ function moonbitlang$ulex$lib$parser$$token$132$(lexbuf) {
           const _bind$30 = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$next_as_int$131$(lexbuf$2);
           let _tmp$30;
           if (48 <= _bind$30 && _bind$30 <= 57) {
-            _tag_13.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
             _tmp$30 = 25;
           } else {
             if (65 <= _bind$30 && _bind$30 <= 90) {
-              _tag_13.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
               _tmp$30 = 25;
             } else {
               if (_bind$30 === 95) {
-                _tag_13.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
                 _tmp$30 = 25;
               } else {
                 if (97 <= _bind$30 && _bind$30 <= 100) {
-                  _tag_13.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
                   _tmp$30 = 25;
                 } else {
                   if (_bind$30 === 101) {
-                    _tag_13.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
                     _tmp$30 = 59;
                   } else {
                     if (102 <= _bind$30 && _bind$30 <= 122) {
-                      _tag_13.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
                       _tmp$30 = 25;
                     } else {
                       break _L$2;
@@ -12757,15 +12678,12 @@ function moonbitlang$ulex$lib$parser$$token$132$(lexbuf) {
           const _bind$31 = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$next_as_int$131$(lexbuf$2);
           let _tmp$31;
           if (48 <= _bind$31 && _bind$31 <= 57) {
-            _tag_7.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
             _tmp$31 = 60;
           } else {
             if (65 <= _bind$31 && _bind$31 <= 70) {
-              _tag_7.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
               _tmp$31 = 60;
             } else {
               if (97 <= _bind$31 && _bind$31 <= 102) {
-                _tag_7.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
                 _tmp$31 = 60;
               } else {
                 break _L$2;
@@ -12835,18 +12753,16 @@ function moonbitlang$ulex$lib$parser$$token$132$(lexbuf) {
           break;
         }
         case 52: {
+          _tag_10.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
           const _bind$33 = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$next_as_int$131$(lexbuf$2);
           let _tmp$33;
           if (48 <= _bind$33 && _bind$33 <= 57) {
-            _tag_11.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
             _tmp$33 = 62;
           } else {
             if (65 <= _bind$33 && _bind$33 <= 70) {
-              _tag_11.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
               _tmp$33 = 62;
             } else {
               if (97 <= _bind$33 && _bind$33 <= 102) {
-                _tag_11.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
                 _tmp$33 = 62;
               } else {
                 break _L$2;
@@ -12957,34 +12873,28 @@ function moonbitlang$ulex$lib$parser$$token$132$(lexbuf) {
           break _L$2;
         }
         case 58: {
+          _tag_0.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
+          _tag_2.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
           const _bind$34 = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$next_as_int$131$(lexbuf$2);
           let _tmp$34;
           if (9 <= _bind$34 && _bind$34 <= 10) {
-            _tag_0.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
-            _tag_2.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
             _tmp$34 = 58;
           } else {
             switch (_bind$34) {
               case 13: {
-                _tag_0.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
-                _tag_2.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
                 _tmp$34 = 58;
                 break;
               }
               case 32: {
-                _tag_0.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
-                _tag_2.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
                 _tmp$34 = 58;
                 break;
               }
               case 95: {
-                _tag_1.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
                 _tmp$34 = 63;
                 break;
               }
               default: {
                 if (97 <= _bind$34 && _bind$34 <= 122) {
-                  _tag_1.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
                   _tmp$34 = 63;
                 } else {
                   break _L$2;
@@ -12996,6 +12906,7 @@ function moonbitlang$ulex$lib$parser$$token$132$(lexbuf) {
           break;
         }
         case 59: {
+          _tag_13.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
           _L$44: {
             _L$45: {
               const _bind$35 = matched.val;
@@ -13029,19 +12940,15 @@ function moonbitlang$ulex$lib$parser$$token$132$(lexbuf) {
               }
               default: {
                 if (48 <= _bind$35 && _bind$35 <= 57) {
-                  _tag_13.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
                   _tmp$35 = 25;
                 } else {
                   if (65 <= _bind$35 && _bind$35 <= 90) {
-                    _tag_13.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
                     _tmp$35 = 25;
                   } else {
                     if (_bind$35 === 95) {
-                      _tag_13.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
                       _tmp$35 = 25;
                     } else {
                       if (97 <= _bind$35 && _bind$35 <= 122) {
-                        _tag_13.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
                         _tmp$35 = 25;
                       } else {
                         if (_bind$35 === 123) {
@@ -13060,6 +12967,7 @@ function moonbitlang$ulex$lib$parser$$token$132$(lexbuf) {
           break;
         }
         case 60: {
+          _tag_7.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
           const _bind$36 = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$next_as_int$131$(lexbuf$2);
           let _tmp$36;
           if (_bind$36 === 39) {
@@ -13090,18 +12998,16 @@ function moonbitlang$ulex$lib$parser$$token$132$(lexbuf) {
           break;
         }
         case 62: {
+          _tag_11.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
           const _bind$38 = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$next_as_int$131$(lexbuf$2);
           let _tmp$38;
           if (48 <= _bind$38 && _bind$38 <= 57) {
-            _tag_11.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
             _tmp$38 = 62;
           } else {
             if (65 <= _bind$38 && _bind$38 <= 70) {
-              _tag_11.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
               _tmp$38 = 62;
             } else {
               if (97 <= _bind$38 && _bind$38 <= 102) {
-                _tag_11.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
                 _tmp$38 = 62;
               } else {
                 if (_bind$38 === 125) {
@@ -13116,54 +13022,38 @@ function moonbitlang$ulex$lib$parser$$token$132$(lexbuf) {
           break;
         }
         case 63: {
+          _tag_1.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
           const _bind$39 = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$next_as_int$131$(lexbuf$2);
           let _tmp$39;
           if (0 <= _bind$39 && _bind$39 <= 47) {
-            _tag_3.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
             _tmp$39 = 70;
           } else {
             if (48 <= _bind$39 && _bind$39 <= 57) {
-              _tag_1.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
-              _tag_3.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
-              _tag_1_1 = _tag_1.val;
               _tmp$39 = 69;
             } else {
               if (58 <= _bind$39 && _bind$39 <= 64) {
-                _tag_3.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
                 _tmp$39 = 70;
               } else {
                 if (65 <= _bind$39 && _bind$39 <= 90) {
-                  _tag_1.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
-                  _tag_3.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
-                  _tag_1_1 = _tag_1.val;
                   _tmp$39 = 69;
                 } else {
                   if (91 <= _bind$39 && _bind$39 <= 94) {
-                    _tag_3.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
                     _tmp$39 = 70;
                   } else {
                     switch (_bind$39) {
                       case 95: {
-                        _tag_1.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
-                        _tag_3.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
-                        _tag_1_1 = _tag_1.val;
                         _tmp$39 = 69;
                         break;
                       }
                       case 96: {
-                        _tag_3.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
                         _tmp$39 = 70;
                         break;
                       }
                       default: {
                         if (97 <= _bind$39 && _bind$39 <= 122) {
-                          _tag_1.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
-                          _tag_3.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
-                          _tag_1_1 = _tag_1.val;
                           _tmp$39 = 69;
                         } else {
                           if (124 <= _bind$39 && _bind$39 <= 1114111) {
-                            _tag_3.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
                             _tmp$39 = 70;
                           } else {
                             break _L$2;
@@ -13250,15 +13140,12 @@ function moonbitlang$ulex$lib$parser$$token$132$(lexbuf) {
           const _bind$41 = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$next_as_int$131$(lexbuf$2);
           let _tmp$41;
           if (48 <= _bind$41 && _bind$41 <= 57) {
-            _tag_9.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
             _tmp$41 = 71;
           } else {
             if (65 <= _bind$41 && _bind$41 <= 70) {
-              _tag_9.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
               _tmp$41 = 71;
             } else {
               if (97 <= _bind$41 && _bind$41 <= 102) {
-                _tag_9.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
                 _tmp$41 = 71;
               } else {
                 break _L$2;
@@ -13280,85 +13167,61 @@ function moonbitlang$ulex$lib$parser$$token$132$(lexbuf) {
           break;
         }
         case 69: {
+          _tag_1.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
+          _tag_3.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
+          _tag_1_1 = _tag_1.val;
           const _bind$43 = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$next_as_int$131$(lexbuf$2);
           let _tmp$43;
           if (0 <= _bind$43 && _bind$43 <= 8) {
-            _tag_3.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
             _tmp$43 = 70;
           } else {
             if (9 <= _bind$43 && _bind$43 <= 10) {
-              _tag_3.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
-              _tag_3_1 = _tag_3.val;
               _tmp$43 = 74;
             } else {
               if (11 <= _bind$43 && _bind$43 <= 12) {
-                _tag_3.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
                 _tmp$43 = 70;
               } else {
                 if (_bind$43 === 13) {
-                  _tag_3.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
-                  _tag_3_1 = _tag_3.val;
                   _tmp$43 = 74;
                 } else {
                   if (14 <= _bind$43 && _bind$43 <= 31) {
-                    _tag_3.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
                     _tmp$43 = 70;
                   } else {
                     if (_bind$43 === 32) {
-                      _tag_3.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
-                      _tag_3_1 = _tag_3.val;
                       _tmp$43 = 74;
                     } else {
                       if (33 <= _bind$43 && _bind$43 <= 47) {
-                        _tag_3.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
                         _tmp$43 = 70;
                       } else {
                         if (48 <= _bind$43 && _bind$43 <= 57) {
-                          _tag_1.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
-                          _tag_3.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
-                          _tag_1_1 = _tag_1.val;
                           _tmp$43 = 69;
                         } else {
                           if (58 <= _bind$43 && _bind$43 <= 64) {
-                            _tag_3.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
                             _tmp$43 = 70;
                           } else {
                             if (65 <= _bind$43 && _bind$43 <= 90) {
-                              _tag_1.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
-                              _tag_3.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
-                              _tag_1_1 = _tag_1.val;
                               _tmp$43 = 69;
                             } else {
                               if (91 <= _bind$43 && _bind$43 <= 94) {
-                                _tag_3.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
                                 _tmp$43 = 70;
                               } else {
                                 switch (_bind$43) {
                                   case 95: {
-                                    _tag_1.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
-                                    _tag_3.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
-                                    _tag_1_1 = _tag_1.val;
                                     _tmp$43 = 69;
                                     break;
                                   }
                                   case 96: {
-                                    _tag_3.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
                                     _tmp$43 = 70;
                                     break;
                                   }
                                   default: {
                                     if (97 <= _bind$43 && _bind$43 <= 122) {
-                                      _tag_1.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
-                                      _tag_3.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
-                                      _tag_1_1 = _tag_1.val;
                                       _tmp$43 = 69;
                                     } else {
                                       if (_bind$43 === 123) {
-                                        _tag_1.val = _tag_1_1;
                                         _tmp$43 = 73;
                                       } else {
                                         if (124 <= _bind$43 && _bind$43 <= 1114111) {
-                                          _tag_3.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
                                           _tmp$43 = 70;
                                         } else {
                                           break _L$2;
@@ -13382,44 +13245,34 @@ function moonbitlang$ulex$lib$parser$$token$132$(lexbuf) {
           break;
         }
         case 70: {
+          _tag_3.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
           const _bind$44 = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$next_as_int$131$(lexbuf$2);
           let _tmp$44;
           if (0 <= _bind$44 && _bind$44 <= 8) {
-            _tag_3.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
             _tmp$44 = 70;
           } else {
             if (9 <= _bind$44 && _bind$44 <= 10) {
-              _tag_3.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
-              _tag_3_1 = _tag_3.val;
               _tmp$44 = 75;
             } else {
               if (11 <= _bind$44 && _bind$44 <= 12) {
-                _tag_3.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
                 _tmp$44 = 70;
               } else {
                 if (_bind$44 === 13) {
-                  _tag_3.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
-                  _tag_3_1 = _tag_3.val;
                   _tmp$44 = 75;
                 } else {
                   if (14 <= _bind$44 && _bind$44 <= 31) {
-                    _tag_3.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
                     _tmp$44 = 70;
                   } else {
                     if (_bind$44 === 32) {
-                      _tag_3.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
-                      _tag_3_1 = _tag_3.val;
                       _tmp$44 = 75;
                     } else {
                       if (33 <= _bind$44 && _bind$44 <= 122) {
-                        _tag_3.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
                         _tmp$44 = 70;
                       } else {
                         if (_bind$44 === 123) {
                           _tmp$44 = 73;
                         } else {
                           if (124 <= _bind$44 && _bind$44 <= 1114111) {
-                            _tag_3.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
                             _tmp$44 = 70;
                           } else {
                             break _L$2;
@@ -13436,6 +13289,7 @@ function moonbitlang$ulex$lib$parser$$token$132$(lexbuf) {
           break;
         }
         case 71: {
+          _tag_9.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
           const _bind$45 = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$next_as_int$131$(lexbuf$2);
           let _tmp$45;
           if (_bind$45 === 39) {
@@ -13487,44 +13341,35 @@ function moonbitlang$ulex$lib$parser$$token$132$(lexbuf) {
           break _L$2;
         }
         case 74: {
+          _tag_3.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
+          _tag_3_1 = _tag_3.val;
           const _bind$46 = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$next_as_int$131$(lexbuf$2);
           let _tmp$46;
           if (0 <= _bind$46 && _bind$46 <= 8) {
-            _tag_3.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
             _tmp$46 = 70;
           } else {
             if (9 <= _bind$46 && _bind$46 <= 10) {
-              _tag_3.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
-              _tag_3_1 = _tag_3.val;
               _tmp$46 = 75;
             } else {
               if (11 <= _bind$46 && _bind$46 <= 12) {
-                _tag_3.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
                 _tmp$46 = 70;
               } else {
                 if (_bind$46 === 13) {
-                  _tag_3.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
-                  _tag_3_1 = _tag_3.val;
                   _tmp$46 = 75;
                 } else {
                   if (14 <= _bind$46 && _bind$46 <= 31) {
-                    _tag_3.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
                     _tmp$46 = 70;
                   } else {
                     if (_bind$46 === 32) {
-                      _tag_3.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
-                      _tag_3_1 = _tag_3.val;
                       _tmp$46 = 75;
                     } else {
                       if (33 <= _bind$46 && _bind$46 <= 122) {
-                        _tag_3.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
                         _tmp$46 = 70;
                       } else {
                         if (_bind$46 === 123) {
                           _tmp$46 = 73;
                         } else {
                           if (124 <= _bind$46 && _bind$46 <= 1114111) {
-                            _tag_3.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
                             _tmp$46 = 70;
                           } else {
                             break _L$2;
@@ -13541,44 +13386,35 @@ function moonbitlang$ulex$lib$parser$$token$132$(lexbuf) {
           break;
         }
         case 75: {
+          _tag_3.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
+          _tag_3_1 = _tag_3.val;
           const _bind$47 = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$next_as_int$131$(lexbuf$2);
           let _tmp$47;
           if (0 <= _bind$47 && _bind$47 <= 8) {
-            _tag_3.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
             _tmp$47 = 70;
           } else {
             if (9 <= _bind$47 && _bind$47 <= 10) {
-              _tag_3.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
-              _tag_3_1 = _tag_3.val;
               _tmp$47 = 75;
             } else {
               if (11 <= _bind$47 && _bind$47 <= 12) {
-                _tag_3.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
                 _tmp$47 = 70;
               } else {
                 if (_bind$47 === 13) {
-                  _tag_3.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
-                  _tag_3_1 = _tag_3.val;
                   _tmp$47 = 75;
                 } else {
                   if (14 <= _bind$47 && _bind$47 <= 31) {
-                    _tag_3.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
                     _tmp$47 = 70;
                   } else {
                     if (_bind$47 === 32) {
-                      _tag_3.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
-                      _tag_3_1 = _tag_3.val;
                       _tmp$47 = 75;
                     } else {
                       if (33 <= _bind$47 && _bind$47 <= 122) {
-                        _tag_3.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
                         _tmp$47 = 70;
                       } else {
                         if (_bind$47 === 123) {
                           _tmp$47 = 73;
                         } else {
                           if (124 <= _bind$47 && _bind$47 <= 1114111) {
-                            _tag_3.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
                             _tmp$47 = 70;
                           } else {
                             break _L$2;
@@ -16444,7 +16280,7 @@ function moonbitlang$ulex$lib$automaton$$DFA$new(code_blocks, captures) {
   const _bind = [];
   const _bind$2 = moonbitlang$core$builtin$$Map$from_array$93$([]);
   const _bind$3 = moonbitlang$core$builtin$$Map$new$91$(moonbitlang$core$builtin$$Map$new$46$capacity$46$default$91$());
-  return { graph: _bind, tag_actions: _bind$2, end_nodes: _bind$3, code_blocks: code_blocks, captures: captures, node_count: 0 };
+  return { graph: _bind, start_node: -1, tag_actions: _bind$2, end_nodes: _bind$3, code_blocks: code_blocks, captures: captures, node_count: 0 };
 }
 function moonbitlang$ulex$lib$automaton$$DFA$new_node(self) {
   const id = self.node_count;
@@ -16611,9 +16447,9 @@ function moonbitlang$ulex$lib$automaton$$from_nfa$46$get_id$124$182(_env, state)
     return node;
   });
 }
-function moonbitlang$ulex$lib$automaton$$from_nfa$46$42$func$124$599(_env, _p) {
-  const _bind = _env._1;
-  const _tag_state = _env._0;
+function moonbitlang$ulex$lib$automaton$$from_nfa$46$42$func$124$600(_env, _p) {
+  const _tag_state = _env._1;
+  const _bind = _env._0;
   return _bind((_p$2) => {
     const _cset = _p$2._0;
     const _x = _p$2._1;
@@ -16648,6 +16484,7 @@ function moonbitlang$ulex$lib$automaton$$DFA$from_nfa(nfa) {
   const queue = moonbitlang$core$queue$$new$33$();
   const _env = { _0: dfa, _1: node_map, _2: nfa, _3: queue };
   const start_node = moonbitlang$ulex$lib$automaton$$from_nfa$46$get_id$124$182(_env, _initial_state);
+  dfa.start_node = start_node;
   moonbitlang$core$builtin$$Map$op_set$93$(dfa.tag_actions, start_node, _start_action);
   while (true) {
     if (!moonbitlang$core$queue$$T$is_empty$33$(queue)) {
@@ -16672,8 +16509,8 @@ function moonbitlang$ulex$lib$automaton$$DFA$from_nfa(nfa) {
         const _nfa_node = _p$2._0;
         const _tag_state = _p$2._1;
         const _bind$4 = moonbitlang$core$array$$Array$iter$109$(_nfa_node.trans);
-        const _env$2 = { _0: _tag_state, _1: _bind$4 };
-        return moonbitlang$ulex$lib$automaton$$from_nfa$46$42$func$124$599(_env$2, _p);
+        const _env$2 = { _0: _bind$4, _1: _tag_state };
+        return moonbitlang$ulex$lib$automaton$$from_nfa$46$42$func$124$600(_env$2, _p);
       });
       const nfa_trans = { val: [] };
       const all_char_set = { val: moonbitlang$ulex$lib$util$eof_char_set$$empty };
@@ -16886,8 +16723,8 @@ function moonbitlang$ulex$lib$automaton$$lower_unicode_charclass_to_utf8$46$add_
 }
 function moonbitlang$ulex$lib$automaton$$lower_unicode_charclass_to_utf8$46$process_endpoint$124$138(_env, bytes) {
   const range_cset = _env._2;
-  const _env$2 = _env._1;
-  const _num_bytes = _env._0;
+  const _num_bytes = _env._1;
+  const _env$2 = _env._0;
   let _tmp = _num_bytes;
   while (true) {
     const i = _tmp;
@@ -16935,7 +16772,7 @@ function moonbitlang$ulex$lib$automaton$$lower_unicode_charclass_to_utf8(cset) {
                   const range_cset = moonbitlang$ulex$lib$util$eof_char_set$$range(_min, _max);
                   const min_bytes = moonbitlang$x$encoding$$encode(0, moonbitlang$core$string$$String$make(1, _min));
                   const max_bytes = moonbitlang$x$encoding$$encode(0, moonbitlang$core$string$$String$make(1, _max));
-                  const _env$2 = { _0: _num_bytes, _1: _env, _2: range_cset };
+                  const _env$2 = { _0: _env, _1: _num_bytes, _2: range_cset };
                   moonbitlang$ulex$lib$automaton$$lower_unicode_charclass_to_utf8$46$process_endpoint$124$138(_env$2, min_bytes);
                   const mid_range_csets = moonbitlang$ulex$lib$util$eof_char_set$$EofCharSet$op_sub(moonbitlang$ulex$lib$util$eof_char_set$$EofCharSet$op_sub(range_cset, moonbitlang$ulex$lib$automaton$$get_masked_range_cset(min_bytes, _num_bytes, 1)), moonbitlang$ulex$lib$automaton$$get_masked_range_cset(max_bytes, _num_bytes, 1));
                   const _bind$4 = moonbitlang$ulex$lib$util$eof_char_set$$EofCharSet$iter_ranges(mid_range_csets);
@@ -17213,11 +17050,11 @@ function moonbitlang$ulex$lib$codegen$internal$codeblock_parser$$scan_codeblock_
     const _tag_3 = { val: -1 };
     const _tag_4 = { val: -1 };
     const _tag_5 = { val: -1 };
-    _tag_4.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
     _L$2: while (true) {
       const _bind = state;
       switch (_bind) {
         case 0: {
+          _tag_4.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
           _L$3: {
             _L$4: {
               const _bind$2 = matched.val;
@@ -17241,7 +17078,6 @@ function moonbitlang$ulex$lib$codegen$internal$codeblock_parser$$scan_codeblock_
             _tmp$3 = 3;
           } else {
             if (_bind$2 === 36) {
-              _tag_0.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
               _tmp$3 = 1;
             } else {
               if (37 <= _bind$2 && _bind$2 <= 122) {
@@ -17275,6 +17111,7 @@ function moonbitlang$ulex$lib$codegen$internal$codeblock_parser$$scan_codeblock_
           break;
         }
         case 1: {
+          _tag_0.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
           _L$4: {
             _L$5: {
               const _bind$3 = matched.val;
@@ -17883,7 +17720,6 @@ function moonbitlang$ulex$lib$codegen$internal$codeblock_parser$$scan_codeblock_
                   _tmp$15 = 8;
                 } else {
                   if (_bind$14 === 115) {
-                    _tag_1.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
                     _tmp$15 = 17;
                   } else {
                     if (116 <= _bind$14 && _bind$14 <= 122) {
@@ -17948,6 +17784,7 @@ function moonbitlang$ulex$lib$codegen$internal$codeblock_parser$$scan_codeblock_
           break;
         }
         case 17: {
+          _tag_1.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
           _L$20: {
             _L$21: {
               const _bind$16 = matched.val;
@@ -17968,7 +17805,6 @@ function moonbitlang$ulex$lib$codegen$internal$codeblock_parser$$scan_codeblock_
           const _bind$16 = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$next_as_int$131$(lexbuf$2);
           let _tmp$17;
           if (_bind$16 === 40) {
-            _tag_2.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
             _tmp$17 = 19;
           } else {
             if (48 <= _bind$16 && _bind$16 <= 57) {
@@ -18041,30 +17877,26 @@ function moonbitlang$ulex$lib$codegen$internal$codeblock_parser$$scan_codeblock_
           break;
         }
         case 19: {
+          _tag_2.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
           const _bind$18 = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$next_as_int$131$(lexbuf$2);
           let _tmp$19;
           switch (_bind$18) {
             case 9: {
-              _tag_2.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
               _tmp$19 = 22;
               break;
             }
             case 32: {
-              _tag_2.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
               _tmp$19 = 22;
               break;
             }
             default: {
               if (65 <= _bind$18 && _bind$18 <= 90) {
-                _tag_3.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
                 _tmp$19 = 21;
               } else {
                 if (_bind$18 === 95) {
-                  _tag_3.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
                   _tmp$19 = 21;
                 } else {
                   if (97 <= _bind$18 && _bind$18 <= 122) {
-                    _tag_3.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
                     _tmp$19 = 21;
                   } else {
                     break _L$2;
@@ -18109,7 +17941,6 @@ function moonbitlang$ulex$lib$codegen$internal$codeblock_parser$$scan_codeblock_
                   _tmp$20 = 8;
                 } else {
                   if (_bind$19 === 115) {
-                    _tag_1.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
                     _tmp$20 = 23;
                   } else {
                     if (116 <= _bind$19 && _bind$19 <= 122) {
@@ -18126,6 +17957,7 @@ function moonbitlang$ulex$lib$codegen$internal$codeblock_parser$$scan_codeblock_
           break;
         }
         case 21: {
+          _tag_3.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
           const _bind$20 = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$next_as_int$131$(lexbuf$2);
           let _tmp$21;
           switch (_bind$20) {
@@ -18138,25 +17970,20 @@ function moonbitlang$ulex$lib$codegen$internal$codeblock_parser$$scan_codeblock_
               break;
             }
             case 41: {
-              _tag_5.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
               _tmp$21 = 26;
               break;
             }
             default: {
               if (48 <= _bind$20 && _bind$20 <= 57) {
-                _tag_3.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
                 _tmp$21 = 24;
               } else {
                 if (65 <= _bind$20 && _bind$20 <= 90) {
-                  _tag_3.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
                   _tmp$21 = 24;
                 } else {
                   if (_bind$20 === 95) {
-                    _tag_3.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
                     _tmp$21 = 24;
                   } else {
                     if (97 <= _bind$20 && _bind$20 <= 122) {
-                      _tag_3.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
                       _tmp$21 = 24;
                     } else {
                       break _L$2;
@@ -18170,30 +17997,26 @@ function moonbitlang$ulex$lib$codegen$internal$codeblock_parser$$scan_codeblock_
           break;
         }
         case 22: {
+          _tag_2.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
           const _bind$21 = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$next_as_int$131$(lexbuf$2);
           let _tmp$22;
           switch (_bind$21) {
             case 9: {
-              _tag_2.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
               _tmp$22 = 22;
               break;
             }
             case 32: {
-              _tag_2.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
               _tmp$22 = 22;
               break;
             }
             default: {
               if (65 <= _bind$21 && _bind$21 <= 90) {
-                _tag_3.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
                 _tmp$22 = 21;
               } else {
                 if (_bind$21 === 95) {
-                  _tag_3.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
                   _tmp$22 = 21;
                 } else {
                   if (97 <= _bind$21 && _bind$21 <= 122) {
-                    _tag_3.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
                     _tmp$22 = 21;
                   } else {
                     break _L$2;
@@ -18206,6 +18029,7 @@ function moonbitlang$ulex$lib$codegen$internal$codeblock_parser$$scan_codeblock_
           break;
         }
         case 23: {
+          _tag_1.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
           _L$23: {
             _L$24: {
               const _bind$22 = matched.val;
@@ -18226,7 +18050,6 @@ function moonbitlang$ulex$lib$codegen$internal$codeblock_parser$$scan_codeblock_
           const _bind$22 = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$next_as_int$131$(lexbuf$2);
           let _tmp$23;
           if (_bind$22 === 40) {
-            _tag_2.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
             _tmp$23 = 19;
           } else {
             if (48 <= _bind$22 && _bind$22 <= 57) {
@@ -18251,6 +18074,7 @@ function moonbitlang$ulex$lib$codegen$internal$codeblock_parser$$scan_codeblock_
           break;
         }
         case 24: {
+          _tag_3.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
           const _bind$23 = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$next_as_int$131$(lexbuf$2);
           let _tmp$24;
           switch (_bind$23) {
@@ -18263,25 +18087,20 @@ function moonbitlang$ulex$lib$codegen$internal$codeblock_parser$$scan_codeblock_
               break;
             }
             case 41: {
-              _tag_5.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
               _tmp$24 = 26;
               break;
             }
             default: {
               if (48 <= _bind$23 && _bind$23 <= 57) {
-                _tag_3.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
                 _tmp$24 = 24;
               } else {
                 if (65 <= _bind$23 && _bind$23 <= 90) {
-                  _tag_3.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
                   _tmp$24 = 24;
                 } else {
                   if (_bind$23 === 95) {
-                    _tag_3.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
                     _tmp$24 = 24;
                   } else {
                     if (97 <= _bind$23 && _bind$23 <= 122) {
-                      _tag_3.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
                       _tmp$24 = 24;
                     } else {
                       break _L$2;
@@ -18307,7 +18126,6 @@ function moonbitlang$ulex$lib$codegen$internal$codeblock_parser$$scan_codeblock_
               break;
             }
             case 41: {
-              _tag_5.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
               _tmp$25 = 26;
               break;
             }
@@ -18319,6 +18137,7 @@ function moonbitlang$ulex$lib$codegen$internal$codeblock_parser$$scan_codeblock_
           break;
         }
         case 26: {
+          _tag_5.val = moonbitlang$ulex$45$runtime$lexbuf$$Lexbuf$curr_pos$131$(lexbuf$2);
           _L$24: {
             _L$25: {
               const _bind$25 = matched.val;
@@ -18538,7 +18357,7 @@ function moonbitlang$ulex$lib$codegen$$codegen_rule(rule, code_unit, default_enc
     encoding = undefined;
   }
   const dfa = moonbitlang$ulex$lib$automaton$$DFA$from_rule(rule, encoding);
-  moonbitlang$core$builtin$$Logger$write_string$12$(out, `fn ${moonbitlang$core$builtin$$Show$to_string$6$(rule.signature)} {\n  let mut matched = None\n  let mut state = 0\n`);
+  moonbitlang$core$builtin$$Logger$write_string$12$(out, `fn ${moonbitlang$core$builtin$$Show$to_string$6$(rule.signature)} {\n  let mut matched = None\n  let mut state = ${moonbitlang$core$builtin$$Show$to_string$5$(dfa.start_node)}\n`);
   const all_tag_actions = moonbitlang$core$sorted_set$$new$17$();
   const _bind = moonbitlang$core$builtin$$Map$iter2$93$(dfa.tag_actions);
   _bind((__, tag_action) => {

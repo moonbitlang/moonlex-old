@@ -91,7 +91,7 @@ fn codegen_rule(
   out.write_string(
     $|fn \{rule.signature} {
     $|  let mut matched = None
-    $|  let mut state = 0
+    $|  let mut state = \{dfa.start_node}
     $|
     ,
   )

@@ -73,6 +73,7 @@ fn tagState_min(self : TagState, other : TagState) -> TagState {
 ///|
 pub(all) struct DFA {
   graph : Array[Array[(@eof_char_set.T, Int)]] // indexed by node_id
+  mut start_node : Int
   tag_actions : Map[Int, TagAction] // indexed by node_id
   end_nodes : Map[Int, (Int, Array[((Tag, Int), (Tag, Int))])]
   // (pattern_id, [(begin_tag, rank), (end_tag, rank))])
@@ -84,10 +85,11 @@ pub(all) struct DFA {
 ///|
 fn DFA::new(
   code_blocks : Array[CodeBlock],
-  captures : Array[Array[(String, @type.VarType)]],
+  captures : Array[Array[(String, @type.VarType)]]
 ) -> DFA {
   {
     graph: [],
+    start_node: -1,
     tag_actions: {},
     code_blocks,
     captures,
@@ -281,6 +283,7 @@ fn DFA::from_nfa(nfa : NFA) -> DFA {
   }
 
   let start_node = get_id(initial_state)
+  dfa.start_node = start_node
   dfa.tag_actions[start_node] = start_action
   while not(queue.is_empty()) {
     let cur_state = queue.pop().unwrap()
