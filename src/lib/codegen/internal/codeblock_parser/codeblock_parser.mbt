@@ -20,19 +20,16 @@ fn scan_codeblock_rbrace[T](subst : Array[SubstItem], lexbuf : @lexbuf.T[T, Char
   let mut _tag_3 = -1
   let mut _tag_4 = -1
   let mut _tag_5 = -1
-  _tag_4 = lexbuf.curr_pos()
   while true {
     match state {
       0 => {
+        _tag_4 = lexbuf.curr_pos()
         if matched is (None | Some((5..<_, _, _))) {
           matched = Some((5, lexbuf.curr_pos(), []))
         }
         state = match lexbuf.next_as_int() {
           0..=35 => 3
-          36 => {
-            _tag_0 = lexbuf.curr_pos()
-            1
-          }
+          36 => 1
           37..=122 => 3
           123 => 2
           124 => 3
@@ -42,6 +39,7 @@ fn scan_codeblock_rbrace[T](subst : Array[SubstItem], lexbuf : @lexbuf.T[T, Char
         }
       }
       1 => {
+        _tag_0 = lexbuf.curr_pos()
         if matched is (None | Some((4..<_, _, _))) {
           matched = Some((4, lexbuf.curr_pos(), []))
         }
@@ -218,10 +216,7 @@ fn scan_codeblock_rbrace[T](subst : Array[SubstItem], lexbuf : @lexbuf.T[T, Char
           65..=90 => 8
           95 => 8
           97..=114 => 8
-          115 => {
-            _tag_1 = lexbuf.curr_pos()
-            17
-          }
+          115 => 17
           116..=122 => 8
           _ => break
         }
@@ -241,14 +236,12 @@ fn scan_codeblock_rbrace[T](subst : Array[SubstItem], lexbuf : @lexbuf.T[T, Char
         }
       }
       17 => {
+        _tag_1 = lexbuf.curr_pos()
         if matched is (None | Some((3..<_, _, _))) {
           matched = Some((3, lexbuf.curr_pos(), []))
         }
         state = match lexbuf.next_as_int() {
-          40 => {
-            _tag_2 = lexbuf.curr_pos()
-            19
-          }
+          40 => 19
           48..=57 => 8
           65..=90 => 8
           95 => 8
@@ -271,27 +264,13 @@ fn scan_codeblock_rbrace[T](subst : Array[SubstItem], lexbuf : @lexbuf.T[T, Char
         }
       }
       19 => {
+        _tag_2 = lexbuf.curr_pos()
         state = match lexbuf.next_as_int() {
-          9 => {
-            _tag_2 = lexbuf.curr_pos()
-            22
-          }
-          32 => {
-            _tag_2 = lexbuf.curr_pos()
-            22
-          }
-          65..=90 => {
-            _tag_3 = lexbuf.curr_pos()
-            21
-          }
-          95 => {
-            _tag_3 = lexbuf.curr_pos()
-            21
-          }
-          97..=122 => {
-            _tag_3 = lexbuf.curr_pos()
-            21
-          }
+          9 => 22
+          32 => 22
+          65..=90 => 21
+          95 => 21
+          97..=122 => 21
           _ => break
         }
       }
@@ -304,75 +283,42 @@ fn scan_codeblock_rbrace[T](subst : Array[SubstItem], lexbuf : @lexbuf.T[T, Char
           65..=90 => 8
           95 => 8
           97..=114 => 8
-          115 => {
-            _tag_1 = lexbuf.curr_pos()
-            23
-          }
+          115 => 23
           116..=122 => 8
           _ => break
         }
       }
       21 => {
+        _tag_3 = lexbuf.curr_pos()
         state = match lexbuf.next_as_int() {
           9 => 25
           32 => 25
-          41 => {
-            _tag_5 = lexbuf.curr_pos()
-            26
-          }
-          48..=57 => {
-            _tag_3 = lexbuf.curr_pos()
-            24
-          }
-          65..=90 => {
-            _tag_3 = lexbuf.curr_pos()
-            24
-          }
-          95 => {
-            _tag_3 = lexbuf.curr_pos()
-            24
-          }
-          97..=122 => {
-            _tag_3 = lexbuf.curr_pos()
-            24
-          }
+          41 => 26
+          48..=57 => 24
+          65..=90 => 24
+          95 => 24
+          97..=122 => 24
           _ => break
         }
       }
       22 => {
+        _tag_2 = lexbuf.curr_pos()
         state = match lexbuf.next_as_int() {
-          9 => {
-            _tag_2 = lexbuf.curr_pos()
-            22
-          }
-          32 => {
-            _tag_2 = lexbuf.curr_pos()
-            22
-          }
-          65..=90 => {
-            _tag_3 = lexbuf.curr_pos()
-            21
-          }
-          95 => {
-            _tag_3 = lexbuf.curr_pos()
-            21
-          }
-          97..=122 => {
-            _tag_3 = lexbuf.curr_pos()
-            21
-          }
+          9 => 22
+          32 => 22
+          65..=90 => 21
+          95 => 21
+          97..=122 => 21
           _ => break
         }
       }
       23 => {
+        _tag_1 = lexbuf.curr_pos()
         if matched is (None | Some((3..<_, _, _))) {
           matched = Some((3, lexbuf.curr_pos(), []))
         }
         state = match lexbuf.next_as_int() {
-          40 => {
-            _tag_2 = lexbuf.curr_pos()
-            19
-          }
+          40 => 19
           48..=57 => 8
           65..=90 => 8
           95 => 8
@@ -381,29 +327,15 @@ fn scan_codeblock_rbrace[T](subst : Array[SubstItem], lexbuf : @lexbuf.T[T, Char
         }
       }
       24 => {
+        _tag_3 = lexbuf.curr_pos()
         state = match lexbuf.next_as_int() {
           9 => 25
           32 => 25
-          41 => {
-            _tag_5 = lexbuf.curr_pos()
-            26
-          }
-          48..=57 => {
-            _tag_3 = lexbuf.curr_pos()
-            24
-          }
-          65..=90 => {
-            _tag_3 = lexbuf.curr_pos()
-            24
-          }
-          95 => {
-            _tag_3 = lexbuf.curr_pos()
-            24
-          }
-          97..=122 => {
-            _tag_3 = lexbuf.curr_pos()
-            24
-          }
+          41 => 26
+          48..=57 => 24
+          65..=90 => 24
+          95 => 24
+          97..=122 => 24
           _ => break
         }
       }
@@ -411,14 +343,12 @@ fn scan_codeblock_rbrace[T](subst : Array[SubstItem], lexbuf : @lexbuf.T[T, Char
         state = match lexbuf.next_as_int() {
           9 => 25
           32 => 25
-          41 => {
-            _tag_5 = lexbuf.curr_pos()
-            26
-          }
+          41 => 26
           _ => break
         }
       }
       26 => {
+        _tag_5 = lexbuf.curr_pos()
         if matched is (None | Some((2..<_, _, _))) {
           matched = Some((2, lexbuf.curr_pos(), [(_tag_0, _tag_1), (_tag_2, _tag_3), (_tag_4, _tag_5)]))
         }

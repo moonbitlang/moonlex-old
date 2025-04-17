@@ -7,29 +7,20 @@ fn count[T](lines : Int, words : Int, chars : Int, lexbuf : @lexbuf.T[T, Char, S
   let mut state = 0
   let mut _tag_0 = -1
   let mut _tag_1 = -1
-  _tag_0 = lexbuf.curr_pos()
   while true {
     match state {
       0 => {
+        _tag_0 = lexbuf.curr_pos()
         if matched is (None | Some((3..<_, _, _))) {
           matched = Some((3, lexbuf.curr_pos(), []))
         }
         state = match lexbuf.next_as_int() {
-          0..=8 => {
-            _tag_1 = lexbuf.curr_pos()
-            3
-          }
+          0..=8 => 3
           9 => 2
           10 => 1
-          11..=31 => {
-            _tag_1 = lexbuf.curr_pos()
-            3
-          }
+          11..=31 => 3
           32 => 2
-          33..=1114111 => {
-            _tag_1 = lexbuf.curr_pos()
-            3
-          }
+          33..=1114111 => 3
           _ => break
         }
       }
@@ -46,42 +37,26 @@ fn count[T](lines : Int, words : Int, chars : Int, lexbuf : @lexbuf.T[T, Char, S
         break
       }
       3 => {
+        _tag_1 = lexbuf.curr_pos()
         if matched is (None | Some((1..<_, _, _))) {
           matched = Some((1, lexbuf.curr_pos(), [(_tag_0, _tag_1)]))
         }
         state = match lexbuf.next_as_int() {
-          0..=8 => {
-            _tag_1 = lexbuf.curr_pos()
-            4
-          }
-          11..=31 => {
-            _tag_1 = lexbuf.curr_pos()
-            4
-          }
-          33..=1114111 => {
-            _tag_1 = lexbuf.curr_pos()
-            4
-          }
+          0..=8 => 4
+          11..=31 => 4
+          33..=1114111 => 4
           _ => break
         }
       }
       4 => {
+        _tag_1 = lexbuf.curr_pos()
         if matched is (None | Some((1..<_, _, _))) {
           matched = Some((1, lexbuf.curr_pos(), [(_tag_0, _tag_1)]))
         }
         state = match lexbuf.next_as_int() {
-          0..=8 => {
-            _tag_1 = lexbuf.curr_pos()
-            4
-          }
-          11..=31 => {
-            _tag_1 = lexbuf.curr_pos()
-            4
-          }
-          33..=1114111 => {
-            _tag_1 = lexbuf.curr_pos()
-            4
-          }
+          0..=8 => 4
+          11..=31 => 4
+          33..=1114111 => 4
           _ => break
         }
       }

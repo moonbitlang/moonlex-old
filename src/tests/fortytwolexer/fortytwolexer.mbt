@@ -6,24 +6,18 @@ fn scan_newline[T](lexbuf : @lexbuf.T[T, Char, String, Int]) -> Int  {
   let mut state = 0
   let mut _tag_0 = -1
   let mut _tag_1 = -1
-  _tag_0 = lexbuf.curr_pos()
   while true {
     match state {
       0 => {
+        _tag_0 = lexbuf.curr_pos()
         if matched is (None | Some((2..<_, _, _))) {
           matched = Some((2, lexbuf.curr_pos(), []))
         }
         state = match lexbuf.next_as_int() {
           0..=9 => 1
-          10 => {
-            _tag_1 = lexbuf.curr_pos()
-            2
-          }
+          10 => 2
           11..=12 => 1
-          13 => {
-            _tag_1 = lexbuf.curr_pos()
-            3
-          }
+          13 => 3
           14..=1114111 => 1
           _ => break
         }
@@ -35,24 +29,24 @@ fn scan_newline[T](lexbuf : @lexbuf.T[T, Char, String, Int]) -> Int  {
         break
       }
       2 => {
+        _tag_1 = lexbuf.curr_pos()
         if matched is (None | Some((0..<_, _, _))) {
           matched = Some((0, lexbuf.curr_pos(), [(_tag_0, _tag_1)]))
         }
         break
       }
       3 => {
+        _tag_1 = lexbuf.curr_pos()
         if matched is (None | Some((0..<_, _, _))) {
           matched = Some((0, lexbuf.curr_pos(), [(_tag_0, _tag_1)]))
         }
         state = match lexbuf.next_as_int() {
-          10 => {
-            _tag_1 = lexbuf.curr_pos()
-            4
-          }
+          10 => 4
           _ => break
         }
       }
       4 => {
+        _tag_1 = lexbuf.curr_pos()
         if matched is (None | Some((0..<_, _, _))) {
           matched = Some((0, lexbuf.curr_pos(), [(_tag_0, _tag_1)]))
         }

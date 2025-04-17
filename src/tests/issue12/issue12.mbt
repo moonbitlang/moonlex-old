@@ -5,19 +5,17 @@ fn test_func[T](lexbuf : @lexbuf.T[T, Char, String, Int]) -> String  {
   let mut state = 0
   let mut _tag_0 = -1
   let mut _tag_1 = -1
-  _tag_0 = lexbuf.curr_pos()
   while true {
     match state {
       0 => {
+        _tag_0 = lexbuf.curr_pos()
         state = match lexbuf.next_as_int() {
-          97 => {
-            _tag_1 = lexbuf.curr_pos()
-            1
-          }
+          97 => 1
           _ => break
         }
       }
       1 => {
+        _tag_1 = lexbuf.curr_pos()
         if matched is (None | Some((0..<_, _, _))) {
           matched = Some((0, lexbuf.curr_pos(), [(_tag_0, _tag_1)]))
         }
@@ -28,23 +26,18 @@ fn test_func[T](lexbuf : @lexbuf.T[T, Char, String, Int]) -> String  {
       }
       2 => {
         state = match lexbuf.next_as_int() {
-          97 => {
-            _tag_1 = lexbuf.curr_pos()
-            3
-          }
+          97 => 3
           98 => 2
           _ => break
         }
       }
       3 => {
+        _tag_1 = lexbuf.curr_pos()
         if matched is (None | Some((0..<_, _, _))) {
           matched = Some((0, lexbuf.curr_pos(), [(_tag_0, _tag_1)]))
         }
         state = match lexbuf.next_as_int() {
-          97 => {
-            _tag_1 = lexbuf.curr_pos()
-            3
-          }
+          97 => 3
           98 => 2
           _ => break
         }

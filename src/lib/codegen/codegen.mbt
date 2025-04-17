@@ -37,13 +37,11 @@ fn rewrite_codeblock(
 
 ///|
 fn group_trans(
-  trans : Array[(@eof_char_set.T, (Int, @automaton.TagAction))]
-) -> Array[((Int, Int), (Int, @automaton.TagAction))] {
+  trans : Array[(@eof_char_set.T, Int)]
+) -> Array[((Int, Int), Int)] {
   let char_set_by_state = {}
-  let tag_action_by_state = {}
   for tran in trans {
-    let (char_set, (next_state, tag_action)) = tran
-    tag_action_by_state[next_state] = tag_action
+    let (char_set, next_state) = tran
     match char_set_by_state[next_state] {
       None => char_set_by_state[next_state] = char_set
       Some(existing_char_set) =>
@@ -53,8 +51,7 @@ fn group_trans(
   let result = char_set_by_state
     .iter()
     .flat_map(fn {
-      (state, char_set) => {
-        let action = tag_action_by_state[state].unwrap()
+      (state, char_set) =>
         char_set
         .iter_ranges()
         .map(fn {
@@ -70,10 +67,9 @@ fn group_trans(
                   Char(c) => c.to_int()
                 },
               ),
-              (state, action),
+              state,
             )
         })
-      }
     })
     .to_array()
   result.sort()
@@ -100,12 +96,8 @@ fn codegen_rule(
     ,
   )
   let all_tag_actions = @sorted_set.new()
-  all_tag_actions.add(dfa.start_action)
-  for _, trans in dfa.graph {
-    for tran in trans {
-      let (_, (_, tag_action)) = tran
-      all_tag_actions.add(tag_action)
-    }
+  for _, tag_action in dfa.tag_actions {
+    all_tag_actions.add(tag_action)
   }
   let all_tag_vars = @sorted_set.new()
   for tag_action in all_tag_actions {
@@ -135,15 +127,6 @@ fn codegen_rule(
     )
   }
   let start_tags = @sorted_set.new()
-  for op in dfa.start_action._ {
-    match op {
-      Set(dest~) => start_tags.add(dest.0)
-      Copy(dest~, src~) => {
-        start_tags.add(dest.0)
-        start_tags.add(src.0)
-      }
-    }
-  }
   for tag in start_tags {
     out.write_string(
       $|  \{gen_tag_var(tag, 0)} = lexbuf.curr_pos()
@@ -163,6 +146,29 @@ fn codegen_rule(
       $|
       ,
     )
+    fn gen_inline_tag_action(tag_action : @automaton.TagAction) -> String? {
+      let buf = []
+      for op in tag_action._ {
+        match op {
+          Set(dest~) =>
+            buf.push("\{gen_tag_var(dest.0, dest.1)} = lexbuf.curr_pos()")
+          Copy(dest~, src~) =>
+            buf.push(
+              "\{gen_tag_var(dest.0, dest.1)} = \{gen_tag_var(src.0, src.1)}",
+            )
+        }
+      }
+      if buf.is_empty() {
+        None
+      } else {
+        Some(buf.iter().map(fn { x => "        \{x}" }).join("\n"))
+      }
+    }
+
+    if gen_inline_tag_action(dfa.tag_actions[state_num].unwrap())
+      is Some(tag_action_code) {
+      out.write_string("\{tag_action_code}\n")
+    }
     if dfa.end_nodes[state_num] is Some((pattern_id, captures)) {
       out.write_string(
         $|        if matched is (None | Some((\{pattern_id}..<_, _, _))) {
@@ -187,25 +193,6 @@ fn codegen_rule(
         ,
       )
     }
-    fn gen_inline_tag_action(tag_action : @automaton.TagAction) -> String? {
-      let buf = []
-      for op in tag_action._ {
-        match op {
-          Set(dest~) =>
-            buf.push("\{gen_tag_var(dest.0, dest.1)} = lexbuf.curr_pos()")
-          Copy(dest~, src~) =>
-            buf.push(
-              "\{gen_tag_var(dest.0, dest.1)} = \{gen_tag_var(src.0, src.1)}",
-            )
-        }
-      }
-      if buf.is_empty() {
-        None
-      } else {
-        Some(buf.iter().map(fn { x => "            \{x}" }).join("\n"))
-      }
-    }
-
     let grouped_trans = group_trans(trans)
     if grouped_trans.is_empty() {
       out.write_string(
@@ -220,29 +207,17 @@ fn codegen_rule(
         ,
       )
       for tran in grouped_trans {
-        let ((first_char, last_char), (next_state, tag_action)) = tran
+        let ((first_char, last_char), next_state) = tran
         let pattern = if first_char == last_char {
           "\{first_char}"
         } else {
           "\{first_char}..=\{last_char}"
         }
-        match gen_inline_tag_action(tag_action) {
-          None =>
-            out.write_string(
-              $|          \{pattern} => \{next_state}
-              $|
-              ,
-            )
-          Some(tag_action_code) =>
-            out.write_string(
-              $|          \{pattern} => {
-              $|\{tag_action_code}
-              $|            \{next_state}
-              $|          }
-              $|
-              ,
-            )
-        }
+        out.write_string(
+          $|          \{pattern} => \{next_state}
+          $|
+          ,
+        )
       }
       out.write_string(
         $|          _ => break

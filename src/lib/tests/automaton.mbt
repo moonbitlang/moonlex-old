@@ -84,14 +84,11 @@ fn dfa2dots(dfa : @automaton.DFA, name~ : String = "dfa") -> DotGraph {
   let dots = DotGraph::new(name~)
   for node, edges in dfa.graph {
     for edge in edges {
-      let (cset, (target, action)) = edge
+      let (cset, target) = edge
       for ch in cset {
-        let mut edge_info = match ch.repr() {
+        let edge_info = match ch.repr() {
           Eof => "$"
           Char(c) => "\{c}"
-        }
-        if action._.length() != 0 {
-          edge_info = edge_info + "\{action._}"
         }
         dots.add_edge(from=node, to=target, edge_info=repr(edge_info))
       }

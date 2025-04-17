@@ -72,12 +72,12 @@ fn tagState_min(self : TagState, other : TagState) -> TagState {
 
 ///|
 pub(all) struct DFA {
-  graph : Array[Array[(@eof_char_set.T, (Int, TagAction))]] // indexed by node_id
+  graph : Array[Array[(@eof_char_set.T, Int)]] // indexed by node_id
+  tag_actions : Map[Int, TagAction] // indexed by node_id
   end_nodes : Map[Int, (Int, Array[((Tag, Int), (Tag, Int))])]
   // (pattern_id, [(begin_tag, rank), (end_tag, rank))])
   code_blocks : Array[CodeBlock] // indexed by pattern_id
   captures : Array[Array[(String, @type.VarType)]] // indexed by pattern_id
-  start_action : TagAction
   mut node_count : Int
 } derive(Show)
 
@@ -85,13 +85,12 @@ pub(all) struct DFA {
 fn DFA::new(
   code_blocks : Array[CodeBlock],
   captures : Array[Array[(String, @type.VarType)]],
-  start_action : TagAction
 ) -> DFA {
   {
     graph: [],
+    tag_actions: {},
     code_blocks,
     captures,
-    start_action,
     end_nodes: Map::new(),
     node_count: 0,
   }
@@ -106,14 +105,8 @@ fn DFA::new_node(self : DFA) -> Int {
 }
 
 ///|
-fn DFA::add_edge(
-  self : DFA,
-  from : Int,
-  e : @eof_char_set.T,
-  action : TagAction,
-  to : Int
-) -> Unit {
-  self.graph[from].push((e, (to, action)))
+fn DFA::add_edge(self : DFA, from : Int, e : @eof_char_set.T, to : Int) -> Unit {
+  self.graph[from].push((e, to))
 }
 
 ///|
@@ -202,7 +195,7 @@ fn DFA::from_nfa(nfa : NFA) -> DFA {
     nfa.tag_count,
   )
   let captures = nfa.captures.map(fn(x) { x.map(fn(y) { y.0 }) })
-  let dfa = DFA::new(nfa.code_blocks, captures, start_action)
+  let dfa = DFA::new(nfa.code_blocks, captures)
   let node_map : Map[State, Int] = Map::new()
   let queue = @queue.new()
   fn get_id(state : State) -> Int {
@@ -287,7 +280,8 @@ fn DFA::from_nfa(nfa : NFA) -> DFA {
     next_states.iter().to_array()
   }
 
-  let _ = get_id(initial_state)
+  let start_node = get_id(initial_state)
+  dfa.tag_actions[start_node] = start_action
   while not(queue.is_empty()) {
     let cur_state = queue.pop().unwrap()
     let from_n = node_map.get(cur_state).unwrap()
@@ -296,7 +290,8 @@ fn DFA::from_nfa(nfa : NFA) -> DFA {
       let (cset, state) = tran
       let (state, action) = state_canonicalize(state, nfa.tag_count)
       let to_n = get_id(state)
-      dfa.add_edge(from_n, cset, action, to_n)
+      dfa.tag_actions[to_n] = action
+      dfa.add_edge(from_n, cset, to_n)
     }
   }
   dfa
