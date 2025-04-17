@@ -108,6 +108,7 @@ fn DFA::new_node(self : DFA) -> Int {
 
 ///|
 fn DFA::add_edge(self : DFA, from : Int, e : @eof_char_set.T, to : Int) -> Unit {
+  guard not(self.graph[from].iter().any(fn(x) { e.subset(x.0) }))
   self.graph[from].push((e, to))
 }
 
