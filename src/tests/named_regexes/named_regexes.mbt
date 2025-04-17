@@ -7,21 +7,18 @@ fn lex_is_number[T, C, S, P](lexbuf : @lexbuf.T[T, C, S, P]) -> Bool  {
     match state {
       0 => {
         state = match lexbuf.next_as_int() {
-          0..=47 => 3
+          0..=47 => 1
           48 => 2
-          49..=57 => 1
-          58..=1114111 => 3
+          49..=57 => 3
+          58..=1114111 => 1
           _ => break
         }
       }
       1 => {
-        if matched is (None | Some((0..<_, _, _))) {
-          matched = Some((0, lexbuf.curr_pos(), []))
+        if matched is (None | Some((1..<_, _, _))) {
+          matched = Some((1, lexbuf.curr_pos(), []))
         }
-        state = match lexbuf.next_as_int() {
-          48..=57 => 4
-          _ => break
-        }
+        break
       }
       2 => {
         if matched is (None | Some((0..<_, _, _))) {
@@ -30,17 +27,11 @@ fn lex_is_number[T, C, S, P](lexbuf : @lexbuf.T[T, C, S, P]) -> Bool  {
         break
       }
       3 => {
-        if matched is (None | Some((1..<_, _, _))) {
-          matched = Some((1, lexbuf.curr_pos(), []))
-        }
-        break
-      }
-      4 => {
         if matched is (None | Some((0..<_, _, _))) {
           matched = Some((0, lexbuf.curr_pos(), []))
         }
         state = match lexbuf.next_as_int() {
-          48..=57 => 4
+          48..=57 => 3
           _ => break
         }
       }

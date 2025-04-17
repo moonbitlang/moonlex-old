@@ -28,17 +28,23 @@ fn scan_codeblock_rbrace[T](subst : Array[SubstItem], lexbuf : @lexbuf.T[T, Char
           matched = Some((5, lexbuf.curr_pos(), []))
         }
         state = match lexbuf.next_as_int() {
-          0..=35 => 3
-          36 => 1
-          37..=122 => 3
-          123 => 2
-          124 => 3
+          0..=35 => 1
+          36 => 2
+          37..=122 => 1
+          123 => 3
+          124 => 1
           125 => 4
-          126..=1114111 => 3
+          126..=1114111 => 1
           _ => break
         }
       }
       1 => {
+        if matched is (None | Some((4..<_, _, _))) {
+          matched = Some((4, lexbuf.curr_pos(), []))
+        }
+        break
+      }
+      2 => {
         _tag_0 = lexbuf.curr_pos()
         if matched is (None | Some((4..<_, _, _))) {
           matched = Some((4, lexbuf.curr_pos(), []))
@@ -54,15 +60,9 @@ fn scan_codeblock_rbrace[T](subst : Array[SubstItem], lexbuf : @lexbuf.T[T, Char
           _ => break
         }
       }
-      2 => {
+      3 => {
         if matched is (None | Some((0..<_, _, _))) {
           matched = Some((0, lexbuf.curr_pos(), []))
-        }
-        break
-      }
-      3 => {
-        if matched is (None | Some((4..<_, _, _))) {
-          matched = Some((4, lexbuf.curr_pos(), []))
         }
         break
       }
@@ -77,10 +77,10 @@ fn scan_codeblock_rbrace[T](subst : Array[SubstItem], lexbuf : @lexbuf.T[T, Char
           matched = Some((3, lexbuf.curr_pos(), []))
         }
         state = match lexbuf.next_as_int() {
-          48..=57 => 8
-          65..=90 => 8
-          95 => 8
-          97..=122 => 8
+          48..=57 => 5
+          65..=90 => 5
+          95 => 5
+          97..=122 => 5
           _ => break
         }
       }
@@ -89,12 +89,12 @@ fn scan_codeblock_rbrace[T](subst : Array[SubstItem], lexbuf : @lexbuf.T[T, Char
           matched = Some((3, lexbuf.curr_pos(), []))
         }
         state = match lexbuf.next_as_int() {
-          48..=57 => 8
-          65..=90 => 8
-          95 => 8
-          97..=109 => 8
-          110 => 9
-          111..=122 => 8
+          48..=57 => 5
+          65..=90 => 5
+          95 => 5
+          97..=109 => 5
+          110 => 8
+          111..=122 => 5
           _ => break
         }
       }
@@ -103,12 +103,12 @@ fn scan_codeblock_rbrace[T](subst : Array[SubstItem], lexbuf : @lexbuf.T[T, Char
           matched = Some((3, lexbuf.curr_pos(), []))
         }
         state = match lexbuf.next_as_int() {
-          48..=57 => 8
-          65..=90 => 8
-          95 => 8
-          97..=115 => 8
-          116 => 10
-          117..=122 => 8
+          48..=57 => 5
+          65..=90 => 5
+          95 => 5
+          97..=115 => 5
+          116 => 9
+          117..=122 => 5
           _ => break
         }
       }
@@ -117,10 +117,12 @@ fn scan_codeblock_rbrace[T](subst : Array[SubstItem], lexbuf : @lexbuf.T[T, Char
           matched = Some((3, lexbuf.curr_pos(), []))
         }
         state = match lexbuf.next_as_int() {
-          48..=57 => 8
-          65..=90 => 8
-          95 => 8
-          97..=122 => 8
+          48..=57 => 5
+          65..=90 => 5
+          95 => 5
+          97..=99 => 5
+          100 => 10
+          101..=122 => 5
           _ => break
         }
       }
@@ -129,12 +131,11 @@ fn scan_codeblock_rbrace[T](subst : Array[SubstItem], lexbuf : @lexbuf.T[T, Char
           matched = Some((3, lexbuf.curr_pos(), []))
         }
         state = match lexbuf.next_as_int() {
-          48..=57 => 8
-          65..=90 => 8
-          95 => 8
-          97..=99 => 8
-          100 => 11
-          101..=122 => 8
+          48..=57 => 5
+          65..=90 => 5
+          95 => 5
+          97 => 11
+          98..=122 => 5
           _ => break
         }
       }
@@ -143,11 +144,12 @@ fn scan_codeblock_rbrace[T](subst : Array[SubstItem], lexbuf : @lexbuf.T[T, Char
           matched = Some((3, lexbuf.curr_pos(), []))
         }
         state = match lexbuf.next_as_int() {
-          48..=57 => 8
-          65..=90 => 8
-          95 => 8
-          97 => 12
-          98..=122 => 8
+          48..=57 => 5
+          65..=90 => 5
+          95 => 5
+          97..=111 => 5
+          112 => 12
+          113..=122 => 5
           _ => break
         }
       }
@@ -156,12 +158,12 @@ fn scan_codeblock_rbrace[T](subst : Array[SubstItem], lexbuf : @lexbuf.T[T, Char
           matched = Some((3, lexbuf.curr_pos(), []))
         }
         state = match lexbuf.next_as_int() {
-          48..=57 => 8
-          65..=90 => 8
-          95 => 8
-          97..=111 => 8
-          112 => 13
-          113..=122 => 8
+          48..=57 => 5
+          65..=90 => 5
+          95 => 5
+          97..=113 => 5
+          114 => 13
+          115..=122 => 5
           _ => break
         }
       }
@@ -170,12 +172,12 @@ fn scan_codeblock_rbrace[T](subst : Array[SubstItem], lexbuf : @lexbuf.T[T, Char
           matched = Some((3, lexbuf.curr_pos(), []))
         }
         state = match lexbuf.next_as_int() {
-          48..=57 => 8
-          65..=90 => 8
-          95 => 8
-          97..=113 => 8
-          114 => 14
-          115..=122 => 8
+          48..=57 => 5
+          65..=90 => 5
+          95 => 5
+          97..=110 => 5
+          111 => 14
+          112..=122 => 5
           _ => break
         }
       }
@@ -184,12 +186,12 @@ fn scan_codeblock_rbrace[T](subst : Array[SubstItem], lexbuf : @lexbuf.T[T, Char
           matched = Some((3, lexbuf.curr_pos(), []))
         }
         state = match lexbuf.next_as_int() {
-          48..=57 => 8
-          65..=90 => 8
-          95 => 8
-          97..=110 => 8
-          111 => 15
-          112..=122 => 8
+          48..=57 => 5
+          65..=90 => 5
+          95 => 5
+          97..=115 => 5
+          116 => 10
+          117..=122 => 5
           _ => break
         }
       }
@@ -198,156 +200,62 @@ fn scan_codeblock_rbrace[T](subst : Array[SubstItem], lexbuf : @lexbuf.T[T, Char
           matched = Some((3, lexbuf.curr_pos(), []))
         }
         state = match lexbuf.next_as_int() {
-          48..=57 => 8
-          65..=90 => 8
-          95 => 8
-          97..=115 => 8
-          116 => 16
-          117..=122 => 8
+          48..=57 => 5
+          65..=90 => 5
+          95 => 5
+          97..=114 => 5
+          115 => 15
+          116..=122 => 5
           _ => break
         }
       }
       15 => {
+        _tag_1 = lexbuf.curr_pos()
         if matched is (None | Some((3..<_, _, _))) {
           matched = Some((3, lexbuf.curr_pos(), []))
         }
         state = match lexbuf.next_as_int() {
-          48..=57 => 8
-          65..=90 => 8
-          95 => 8
-          97..=114 => 8
-          115 => 17
-          116..=122 => 8
+          40 => 16
+          48..=57 => 5
+          65..=90 => 5
+          95 => 5
+          97..=122 => 5
           _ => break
         }
       }
       16 => {
-        if matched is (None | Some((3..<_, _, _))) {
-          matched = Some((3, lexbuf.curr_pos(), []))
-        }
+        _tag_2 = lexbuf.curr_pos()
         state = match lexbuf.next_as_int() {
-          48..=57 => 8
-          65..=90 => 8
-          95 => 8
-          97..=111 => 8
-          112 => 18
-          113..=122 => 8
+          9 => 16
+          32 => 16
+          65..=90 => 17
+          95 => 17
+          97..=122 => 17
           _ => break
         }
       }
       17 => {
-        _tag_1 = lexbuf.curr_pos()
-        if matched is (None | Some((3..<_, _, _))) {
-          matched = Some((3, lexbuf.curr_pos(), []))
-        }
+        _tag_3 = lexbuf.curr_pos()
         state = match lexbuf.next_as_int() {
-          40 => 19
-          48..=57 => 8
-          65..=90 => 8
-          95 => 8
-          97..=122 => 8
+          9 => 18
+          32 => 18
+          41 => 19
+          48..=57 => 17
+          65..=90 => 17
+          95 => 17
+          97..=122 => 17
           _ => break
         }
       }
       18 => {
-        if matched is (None | Some((3..<_, _, _))) {
-          matched = Some((3, lexbuf.curr_pos(), []))
-        }
         state = match lexbuf.next_as_int() {
-          48..=57 => 8
-          65..=90 => 8
-          95 => 8
-          97..=110 => 8
-          111 => 20
-          112..=122 => 8
+          9 => 18
+          32 => 18
+          41 => 19
           _ => break
         }
       }
       19 => {
-        _tag_2 = lexbuf.curr_pos()
-        state = match lexbuf.next_as_int() {
-          9 => 22
-          32 => 22
-          65..=90 => 21
-          95 => 21
-          97..=122 => 21
-          _ => break
-        }
-      }
-      20 => {
-        if matched is (None | Some((3..<_, _, _))) {
-          matched = Some((3, lexbuf.curr_pos(), []))
-        }
-        state = match lexbuf.next_as_int() {
-          48..=57 => 8
-          65..=90 => 8
-          95 => 8
-          97..=114 => 8
-          115 => 23
-          116..=122 => 8
-          _ => break
-        }
-      }
-      21 => {
-        _tag_3 = lexbuf.curr_pos()
-        state = match lexbuf.next_as_int() {
-          9 => 25
-          32 => 25
-          41 => 26
-          48..=57 => 24
-          65..=90 => 24
-          95 => 24
-          97..=122 => 24
-          _ => break
-        }
-      }
-      22 => {
-        _tag_2 = lexbuf.curr_pos()
-        state = match lexbuf.next_as_int() {
-          9 => 22
-          32 => 22
-          65..=90 => 21
-          95 => 21
-          97..=122 => 21
-          _ => break
-        }
-      }
-      23 => {
-        _tag_1 = lexbuf.curr_pos()
-        if matched is (None | Some((3..<_, _, _))) {
-          matched = Some((3, lexbuf.curr_pos(), []))
-        }
-        state = match lexbuf.next_as_int() {
-          40 => 19
-          48..=57 => 8
-          65..=90 => 8
-          95 => 8
-          97..=122 => 8
-          _ => break
-        }
-      }
-      24 => {
-        _tag_3 = lexbuf.curr_pos()
-        state = match lexbuf.next_as_int() {
-          9 => 25
-          32 => 25
-          41 => 26
-          48..=57 => 24
-          65..=90 => 24
-          95 => 24
-          97..=122 => 24
-          _ => break
-        }
-      }
-      25 => {
-        state = match lexbuf.next_as_int() {
-          9 => 25
-          32 => 25
-          41 => 26
-          _ => break
-        }
-      }
-      26 => {
         _tag_5 = lexbuf.curr_pos()
         if matched is (None | Some((2..<_, _, _))) {
           matched = Some((2, lexbuf.curr_pos(), [(_tag_0, _tag_1), (_tag_2, _tag_3), (_tag_4, _tag_5)]))
