@@ -108,7 +108,14 @@ fn DFA::new_node(self : DFA) -> Int {
 
 ///|
 fn DFA::add_edge(self : DFA, from : Int, e : @eof_char_set.T, to : Int) -> Unit {
-  guard not(self.graph[from].iter().any(fn(x) { e.subset(x.0) }))
+  for tran in self.graph[from] {
+    if tran.0 == e && tran.1 == to {
+      return
+    }
+    if e.subset(tran.0) {
+      panic()
+    }
+  }
   self.graph[from].push((e, to))
 }
 
@@ -303,6 +310,7 @@ fn DFA::from_nfa(nfa : NFA) -> DFA {
 
 ///|
 pub fn DFA::from_rule(rule : Rule, encoding~ : @type.Encoding?) -> DFA {
-  // TODO: dfa minimization
-  DFA::from_nfa(NFA::from_rule(rule, encoding~))
+  let dfa = DFA::from_nfa(NFA::from_rule(rule, encoding~))
+  let min_dfa = DFA::minimize(dfa)
+  min_dfa
 }
