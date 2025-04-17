@@ -41,16 +41,9 @@ fn scan_newline[T](lexbuf : @lexbuf.T[T, Char, String, Int]) -> Int  {
           matched = Some((0, lexbuf.curr_pos(), [(_tag_0, _tag_1)]))
         }
         state = match lexbuf.next_as_int() {
-          10 => 4
+          10 => 2
           _ => break
         }
-      }
-      4 => {
-        _tag_1 = lexbuf.curr_pos()
-        if matched is (None | Some((0..<_, _, _))) {
-          matched = Some((0, lexbuf.curr_pos(), [(_tag_0, _tag_1)]))
-        }
-        break
       }
       _ => panic()
     }

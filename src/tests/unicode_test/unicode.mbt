@@ -7,37 +7,31 @@ fn lex_unicode[T](lexbuf : @lexbuf.T[T, Char, String, Int]) -> Int  {
     match state {
       0 => {
         state = match lexbuf.next_as_int() {
-          0..=12352 => 2
-          12353..=12438 => 1
-          12439..=12440 => 2
-          12441..=12447 => 1
-          12448..=25104 => 2
-          25105 => 4
-          25106..=134070 => 2
-          134071 => 3
-          134072..=1114111 => 2
+          0..=12352 => 1
+          12353..=12438 => 2
+          12439..=12440 => 1
+          12441..=12447 => 2
+          12448..=25104 => 1
+          25105 => 3
+          25106..=134070 => 1
+          134071 => 4
+          134072..=1114111 => 1
           _ => break
         }
       }
       1 => {
-        if matched is (None | Some((2..<_, _, _))) {
-          matched = Some((2, lexbuf.curr_pos(), []))
-        }
-        break
-      }
-      2 => {
         if matched is (None | Some((3..<_, _, _))) {
           matched = Some((3, lexbuf.curr_pos(), []))
         }
         break
       }
-      3 => {
-        if matched is (None | Some((1..<_, _, _))) {
-          matched = Some((1, lexbuf.curr_pos(), []))
+      2 => {
+        if matched is (None | Some((2..<_, _, _))) {
+          matched = Some((2, lexbuf.curr_pos(), []))
         }
         break
       }
-      4 => {
+      3 => {
         if matched is (None | Some((3..<_, _, _))) {
           matched = Some((3, lexbuf.curr_pos(), []))
         }
@@ -45,6 +39,12 @@ fn lex_unicode[T](lexbuf : @lexbuf.T[T, Char, String, Int]) -> Int  {
           29233 => 5
           _ => break
         }
+      }
+      4 => {
+        if matched is (None | Some((1..<_, _, _))) {
+          matched = Some((1, lexbuf.curr_pos(), []))
+        }
+        break
       }
       5 => {
         state = match lexbuf.next_as_int() {

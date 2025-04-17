@@ -33,47 +33,36 @@ fn lex_utf8(lexbuf : @lexbuf.T, buf : StringBuilder) -> Unit!MalformedUtf8Error 
         _tag_6 = lexbuf.curr_pos()
         _tag_12 = lexbuf.curr_pos()
         state = match lexbuf.next_as_int() {
-          -1 => 3
-          0..=127 => 1
-          128..=193 => 2
-          194..=223 => 5
-          224..=239 => 6
-          240..=244 => 4
-          245..=1114111 => 2
+          -1 => 1
+          0..=127 => 2
+          128..=193 => 3
+          194..=223 => 4
+          224..=239 => 5
+          240..=244 => 6
+          245..=1114111 => 3
           _ => break
         }
       }
       1 => {
+        if matched is (None | Some((0..<_, _, _))) {
+          matched = Some((0, lexbuf.curr_pos(), []))
+        }
+        break
+      }
+      2 => {
         _tag_1 = lexbuf.curr_pos()
         if matched is (None | Some((1..<_, _, _))) {
           matched = Some((1, lexbuf.curr_pos(), [(_tag_0, _tag_1)]))
         }
         break
       }
-      2 => {
+      3 => {
         if matched is (None | Some((5..<_, _, _))) {
           matched = Some((5, lexbuf.curr_pos(), []))
-        }
-        break
-      }
-      3 => {
-        if matched is (None | Some((0..<_, _, _))) {
-          matched = Some((0, lexbuf.curr_pos(), []))
         }
         break
       }
       4 => {
-        _tag_13 = lexbuf.curr_pos()
-        _tag_14 = lexbuf.curr_pos()
-        if matched is (None | Some((5..<_, _, _))) {
-          matched = Some((5, lexbuf.curr_pos(), []))
-        }
-        state = match lexbuf.next_as_int() {
-          128..=191 => 7
-          _ => break
-        }
-      }
-      5 => {
         _tag_3 = lexbuf.curr_pos()
         _tag_4 = lexbuf.curr_pos()
         if matched is (None | Some((5..<_, _, _))) {
@@ -84,7 +73,7 @@ fn lex_utf8(lexbuf : @lexbuf.T, buf : StringBuilder) -> Unit!MalformedUtf8Error 
           _ => break
         }
       }
-      6 => {
+      5 => {
         _tag_7 = lexbuf.curr_pos()
         _tag_8 = lexbuf.curr_pos()
         if matched is (None | Some((5..<_, _, _))) {
@@ -92,6 +81,17 @@ fn lex_utf8(lexbuf : @lexbuf.T, buf : StringBuilder) -> Unit!MalformedUtf8Error 
         }
         state = match lexbuf.next_as_int() {
           128..=191 => 9
+          _ => break
+        }
+      }
+      6 => {
+        _tag_13 = lexbuf.curr_pos()
+        _tag_14 = lexbuf.curr_pos()
+        if matched is (None | Some((5..<_, _, _))) {
+          matched = Some((5, lexbuf.curr_pos(), []))
+        }
+        state = match lexbuf.next_as_int() {
+          128..=191 => 7
           _ => break
         }
       }

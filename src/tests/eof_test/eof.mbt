@@ -14,22 +14,22 @@ fn token[T, C, S, P](lexbuf : @lexbuf.T[T, C, S, P]) -> Token  {
     match state {
       0 => {
         state = match lexbuf.next_as_int() {
-          -1 => 2
-          0..=36 => 1
+          -1 => 1
+          0..=36 => 2
           37 => 3
-          38..=1114111 => 1
+          38..=1114111 => 2
           _ => break
         }
       }
       1 => {
-        if matched is (None | Some((2..<_, _, _))) {
-          matched = Some((2, lexbuf.curr_pos(), []))
+        if matched is (None | Some((3..<_, _, _))) {
+          matched = Some((3, lexbuf.curr_pos(), []))
         }
         break
       }
       2 => {
-        if matched is (None | Some((3..<_, _, _))) {
-          matched = Some((3, lexbuf.curr_pos(), []))
+        if matched is (None | Some((2..<_, _, _))) {
+          matched = Some((2, lexbuf.curr_pos(), []))
         }
         break
       }

@@ -15,20 +15,26 @@ fn count[T](lines : Int, words : Int, chars : Int, lexbuf : @lexbuf.T[T, Char, S
           matched = Some((3, lexbuf.curr_pos(), []))
         }
         state = match lexbuf.next_as_int() {
-          0..=8 => 3
+          0..=8 => 1
           9 => 2
-          10 => 1
-          11..=31 => 3
+          10 => 3
+          11..=31 => 1
           32 => 2
-          33..=1114111 => 3
+          33..=1114111 => 1
           _ => break
         }
       }
       1 => {
-        if matched is (None | Some((0..<_, _, _))) {
-          matched = Some((0, lexbuf.curr_pos(), []))
+        _tag_1 = lexbuf.curr_pos()
+        if matched is (None | Some((1..<_, _, _))) {
+          matched = Some((1, lexbuf.curr_pos(), [(_tag_0, _tag_1)]))
         }
-        break
+        state = match lexbuf.next_as_int() {
+          0..=8 => 1
+          11..=31 => 1
+          33..=1114111 => 1
+          _ => break
+        }
       }
       2 => {
         if matched is (None | Some((2..<_, _, _))) {
@@ -37,28 +43,10 @@ fn count[T](lines : Int, words : Int, chars : Int, lexbuf : @lexbuf.T[T, Char, S
         break
       }
       3 => {
-        _tag_1 = lexbuf.curr_pos()
-        if matched is (None | Some((1..<_, _, _))) {
-          matched = Some((1, lexbuf.curr_pos(), [(_tag_0, _tag_1)]))
+        if matched is (None | Some((0..<_, _, _))) {
+          matched = Some((0, lexbuf.curr_pos(), []))
         }
-        state = match lexbuf.next_as_int() {
-          0..=8 => 4
-          11..=31 => 4
-          33..=1114111 => 4
-          _ => break
-        }
-      }
-      4 => {
-        _tag_1 = lexbuf.curr_pos()
-        if matched is (None | Some((1..<_, _, _))) {
-          matched = Some((1, lexbuf.curr_pos(), [(_tag_0, _tag_1)]))
-        }
-        state = match lexbuf.next_as_int() {
-          0..=8 => 4
-          11..=31 => 4
-          33..=1114111 => 4
-          _ => break
-        }
+        break
       }
       _ => panic()
     }
