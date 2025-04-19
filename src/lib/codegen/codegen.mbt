@@ -269,36 +269,18 @@ fn codegen_rule(
         false
       }
 
-      fn end_pos_used_in_subst(name : String) -> Bool {
-        for item in subst {
-          match item.desc {
-            EndPosOf(n) => if n == name { return true }
-            StartPosOf(_) => ()
-          }
-        }
-        false
-      }
-
       match var_type {
-        Char => {
+        Char =>
           out.write_string(
-            $|      let _start_pos_of_\{name} = _captures[\{capture_id}].0
-            $|      let \{name} = lexbuf.unsafe_get(_start_pos_of_\{name})
+            $|      let (_start_pos_of_\{name}, _end_pos_of_\{name}) = _captures[\{capture_id}]
+            $|      let \{name} = lexbuf.get_char(_start_pos_of_\{name}, _end_pos_of_\{name})
             $|
             ,
           )
-          if end_pos_used_in_subst(name) {
-            out.write_string(
-              $|      let _end_pos_of_\{name} = _captures[\{capture_id}].1
-              $|
-              ,
-            )
-          }
-        }
         String =>
           out.write_string(
             $|      let (_start_pos_of_\{name}, _end_pos_of_\{name}) = _captures[\{capture_id}]
-            $|      let \{name} = lexbuf.sub_lexeme(_start_pos_of_\{name}, _end_pos_of_\{name})
+            $|      let \{name} = lexbuf.get_string(_start_pos_of_\{name}, _end_pos_of_\{name})
             $|
             ,
           )

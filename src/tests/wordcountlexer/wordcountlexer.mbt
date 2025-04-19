@@ -64,7 +64,7 @@ fn count[T](lines : Int, words : Int, chars : Int, lexbuf : @lexbuf.T[T, Char, S
     }
     1 => {
       let (_start_pos_of_word, _end_pos_of_word) = _captures[0]
-      let word = lexbuf.sub_lexeme(_start_pos_of_word, _end_pos_of_word)
+      let word = lexbuf.get_string(_start_pos_of_word, _end_pos_of_word)
 
       let new_chars = chars + word.length()
       count(lines, words + 1, new_chars, lexbuf)

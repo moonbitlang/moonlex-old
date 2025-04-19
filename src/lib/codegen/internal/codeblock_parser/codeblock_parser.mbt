@@ -284,11 +284,11 @@ fn scan_codeblock_rbrace[T](subst : Array[SubstItem], lexbuf : @lexbuf.T[T, Char
     }
     2 => {
       let (_start_pos_of_t1, _end_pos_of_t1) = _captures[0]
-      let t1 = lexbuf.sub_lexeme(_start_pos_of_t1, _end_pos_of_t1)
+      let t1 = lexbuf.get_string(_start_pos_of_t1, _end_pos_of_t1)
       let (_start_pos_of_t2, _end_pos_of_t2) = _captures[1]
-      let t2 = lexbuf.sub_lexeme(_start_pos_of_t2, _end_pos_of_t2)
+      let t2 = lexbuf.get_string(_start_pos_of_t2, _end_pos_of_t2)
       let (_start_pos_of_t, _end_pos_of_t) = _captures[2]
-      let t = lexbuf.sub_lexeme(_start_pos_of_t, _end_pos_of_t)
+      let t = lexbuf.get_string(_start_pos_of_t, _end_pos_of_t)
       let _ = t
 
       subst.push({ 

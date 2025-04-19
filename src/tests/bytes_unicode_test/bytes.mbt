@@ -3,9 +3,12 @@
 fn lex_unicode(lexbuf : @lexbuf.T) -> Int  {
   let mut matched = None
   let mut state = 0
+  let mut _tag_0 = -1
+  let mut _tag_1 = -1
   while true {
     match state {
       0 => {
+        _tag_0 = lexbuf.curr_pos()
         state = match lexbuf.next_as_int() {
           0..=127 => 1
           194..=223 => 2
@@ -40,7 +43,7 @@ fn lex_unicode(lexbuf : @lexbuf.T) -> Int  {
       4 => {
         state = match lexbuf.next_as_int() {
           128 => 2
-          129..=130 => 10
+          129..=130 => 9
           131..=191 => 2
           _ => break
         }
@@ -48,7 +51,7 @@ fn lex_unicode(lexbuf : @lexbuf.T) -> Int  {
       5 => {
         state = match lexbuf.next_as_int() {
           128..=135 => 2
-          136 => 9
+          136 => 10
           137..=191 => 2
           _ => break
         }
@@ -77,15 +80,15 @@ fn lex_unicode(lexbuf : @lexbuf.T) -> Int  {
       }
       9 => {
         state = match lexbuf.next_as_int() {
-          128..=144 => 1
-          145 => 12
-          146..=191 => 1
+          128..=191 => 12
           _ => break
         }
       }
       10 => {
         state = match lexbuf.next_as_int() {
-          128..=191 => 13
+          128..=144 => 1
+          145 => 13
+          146..=191 => 1
           _ => break
         }
       }
@@ -98,6 +101,13 @@ fn lex_unicode(lexbuf : @lexbuf.T) -> Int  {
         }
       }
       12 => {
+        _tag_1 = lexbuf.curr_pos()
+        if matched is (None | Some((2..<_, _, _))) {
+          matched = Some((2, lexbuf.curr_pos(), [(_tag_0, _tag_1)]))
+        }
+        break
+      }
+      13 => {
         if matched is (None | Some((3..<_, _, _))) {
           matched = Some((3, lexbuf.curr_pos(), []))
         }
@@ -105,12 +115,6 @@ fn lex_unicode(lexbuf : @lexbuf.T) -> Int  {
           231 => 15
           _ => break
         }
-      }
-      13 => {
-        if matched is (None | Some((2..<_, _, _))) {
-          matched = Some((2, lexbuf.curr_pos(), []))
-        }
-        break
       }
       14 => {
         if matched is (None | Some((1..<_, _, _))) {
@@ -190,7 +194,15 @@ fn lex_unicode(lexbuf : @lexbuf.T) -> Int  {
  2 
     }
     2 => {
- 3 
+      let (_start_pos_of_c, _end_pos_of_c) = _captures[0]
+      let c = lexbuf.get_char(_start_pos_of_c, _end_pos_of_c)
+
+      if c == 'あ' {
+        3
+      } else {
+        5
+      }
+    
     }
     3 => {
  4 

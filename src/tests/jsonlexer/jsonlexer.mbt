@@ -346,12 +346,12 @@ fn token[T](lexbuf : @lexbuf.T[T, Char, String, Int]) -> Token!LexError  {
     }
     1 => {
       let (_start_pos_of_t, _end_pos_of_t) = _captures[0]
-      let t = lexbuf.sub_lexeme(_start_pos_of_t, _end_pos_of_t)
+      let t = lexbuf.get_string(_start_pos_of_t, _end_pos_of_t)
  NUMBER(t) 
     }
     2 => {
-      let _start_pos_of_t = _captures[0].0
-      let t = lexbuf.unsafe_get(_start_pos_of_t)
+      let (_start_pos_of_t, _end_pos_of_t) = _captures[0]
+      let t = lexbuf.get_char(_start_pos_of_t, _end_pos_of_t)
 
       let buf = StringBuilder::new()
       buf.write_char(t)
@@ -387,8 +387,8 @@ fn token[T](lexbuf : @lexbuf.T[T, Char, String, Int]) -> Token!LexError  {
  NULL 
     }
     12 => {
-      let _start_pos_of_t = _captures[0].0
-      let t = lexbuf.unsafe_get(_start_pos_of_t)
+      let (_start_pos_of_t, _end_pos_of_t) = _captures[0]
+      let t = lexbuf.get_char(_start_pos_of_t, _end_pos_of_t)
  raise(Unrecognized(String::make(1, t))) 
     }
     13 => {
@@ -524,29 +524,29 @@ fn lex_string[T](buf : StringBuilder, lexbuf : @lexbuf.T[T, Char, String, Int]) 
   lexbuf.reset(marked_pos)
   match pattern_id {
     0 => {
-      let _start_pos_of_t = _captures[0].0
-      let t = lexbuf.unsafe_get(_start_pos_of_t)
+      let (_start_pos_of_t, _end_pos_of_t) = _captures[0]
+      let t = lexbuf.get_char(_start_pos_of_t, _end_pos_of_t)
  buf.write_char(t) 
     }
     1 => {
       let (_start_pos_of_t, _end_pos_of_t) = _captures[0]
-      let t = lexbuf.sub_lexeme(_start_pos_of_t, _end_pos_of_t)
+      let t = lexbuf.get_string(_start_pos_of_t, _end_pos_of_t)
  
       buf.write_string(t)
       lex_string!(buf, lexbuf)
     
     }
     2 => {
-      let _start_pos_of_t = _captures[0].0
-      let t = lexbuf.unsafe_get(_start_pos_of_t)
+      let (_start_pos_of_t, _end_pos_of_t) = _captures[0]
+      let t = lexbuf.get_char(_start_pos_of_t, _end_pos_of_t)
  
       buf.write_char(t)
       lex_string!(buf, lexbuf)
     
     }
     3 => {
-      let _start_pos_of_t = _captures[0].0
-      let t = lexbuf.unsafe_get(_start_pos_of_t)
+      let (_start_pos_of_t, _end_pos_of_t) = _captures[0]
+      let t = lexbuf.get_char(_start_pos_of_t, _end_pos_of_t)
  raise(Unrecognized(String::make(1, t))) 
     }
     4 => {

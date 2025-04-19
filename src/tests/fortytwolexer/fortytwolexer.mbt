@@ -58,7 +58,7 @@ fn scan_newline[T](lexbuf : @lexbuf.T[T, Char, String, Int]) -> Int  {
   match pattern_id {
     0 => {
       let (_start_pos_of_t, _end_pos_of_t) = _captures[0]
-      let t = lexbuf.sub_lexeme(_start_pos_of_t, _end_pos_of_t)
+      let t = lexbuf.get_string(_start_pos_of_t, _end_pos_of_t)
       let _ = t
 
       _start_pos_of_t

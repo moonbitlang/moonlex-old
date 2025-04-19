@@ -55,7 +55,7 @@ fn test_func[T](lexbuf : @lexbuf.T[T, Char, String, Int]) -> String  {
   match pattern_id {
     0 => {
       let (_start_pos_of_t2, _end_pos_of_t2) = _captures[0]
-      let t2 = lexbuf.sub_lexeme(_start_pos_of_t2, _end_pos_of_t2)
+      let t2 = lexbuf.get_string(_start_pos_of_t2, _end_pos_of_t2)
 
       t2
     

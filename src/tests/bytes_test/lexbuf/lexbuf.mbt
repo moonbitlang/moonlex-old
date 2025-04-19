@@ -52,12 +52,12 @@ pub fn BytesLexbuf::reset(self : BytesLexbuf, pos : Int) -> Unit {
 }
 
 ///|
-pub fn BytesLexbuf::unsafe_get(self : BytesLexbuf, pos : Int) -> Byte {
-  return self.content.unsafe_get(pos)
+pub fn BytesLexbuf::get_char(self : BytesLexbuf, start : Int, _end : Int) -> Byte {
+  return self.content.unsafe_get(start)
 }
 
 ///|
-pub fn BytesLexbuf::sub_lexeme(
+pub fn BytesLexbuf::get_string(
   self : BytesLexbuf,
   start : Int,
   end : Int
