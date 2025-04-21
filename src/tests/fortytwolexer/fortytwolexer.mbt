@@ -1,12 +1,11 @@
 
 
 
-fn scan_newline[T](lexbuf : @lexbuf.T[T, Char, String, Int]) -> Int  {
+fn scan_newline[T : @lexbuf.IStringLexbuf](lexbuf : T) -> Int  {
   let mut matched_pat = @int.max_value
   // FIXME: use -1 if we need to support capture as option
-  let start_pos = lexbuf.curr_pos()
-  let mut matched_pos = start_pos
-  let _captures = FixedArray::make(2, start_pos)
+  let mut matched_pos = lexbuf.curr_pos()
+  let _captures = FixedArray::make(2, matched_pos)
   let mut _tag_0 = -1
   let mut _tag_1 = -1
   loop 0 {
@@ -63,7 +62,7 @@ fn scan_newline[T](lexbuf : @lexbuf.T[T, Char, String, Int]) -> Int  {
     panic()
   }
 
-  lexbuf.reset(matched_pos)
+  lexbuf.reset(pos=matched_pos)
   match matched_pat {
     0 => {
       let _start_pos_of_t = _captures[0]

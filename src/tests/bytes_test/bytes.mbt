@@ -5,9 +5,8 @@ pub type! MalformedUtf8Error
 fn lex_utf8(lexbuf : @lexbuf.T, buf : StringBuilder) -> Unit!MalformedUtf8Error  {
   let mut matched_pat = @int.max_value
   // FIXME: use -1 if we need to support capture as option
-  let start_pos = lexbuf.curr_pos()
-  let mut matched_pos = start_pos
-  let _captures = FixedArray::make(8, start_pos)
+  let mut matched_pos = lexbuf.curr_pos()
+  let _captures = FixedArray::make(8, matched_pos)
   let mut _tag_0 = -1
   let mut _tag_1 = -1
   let mut _tag_2 = -1
@@ -179,7 +178,7 @@ fn lex_utf8(lexbuf : @lexbuf.T, buf : StringBuilder) -> Unit!MalformedUtf8Error 
     panic()
   }
 
-  lexbuf.reset(matched_pos)
+  lexbuf.reset(pos=matched_pos)
   match matched_pat {
     0 => {
  () 

@@ -3,7 +3,7 @@
   "rules": [
     {
       "name": "token",
-      "signature": "token[T](lexbuf : @lexbuf.T[T, Char, String, Int]) -> Token ",
+      "signature": "token[T : @lexbuf.IStringLexbuf](lexbuf : T) -> Token ",
       "patterns": [
         [
           {
@@ -1568,7 +1568,7 @@
     },
     {
       "name": "string_inner_rquote",
-      "signature": "string_inner_rquote[T](buffer : StringBuilder, lexbuf : @lexbuf.T[T, Char, String, Int]) -> Unit ",
+      "signature": "string_inner_rquote[T : @lexbuf.IStringLexbuf](buffer : StringBuilder, lexbuf : T) -> Unit ",
       "patterns": [
         [
           {
@@ -2123,7 +2123,7 @@
     },
     {
       "name": "code_rbrace",
-      "signature": "code_rbrace[T](buffer : StringBuilder, lexbuf : @lexbuf.T[T, Char, String, Int]) -> Unit ",
+      "signature": "code_rbrace[T : @lexbuf.IStringLexbuf](buffer : StringBuilder, lexbuf : T) -> Unit ",
       "patterns": [
         [
           {

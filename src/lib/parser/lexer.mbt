@@ -1,11 +1,10 @@
 
 
-fn token[T](lexbuf : @lexbuf.T[T, Char, String, Int]) -> Token  {
+fn token[T : @lexbuf.IStringLexbuf](lexbuf : T) -> Token  {
   let mut matched_pat = @int.max_value
   // FIXME: use -1 if we need to support capture as option
-  let start_pos = lexbuf.curr_pos()
-  let mut matched_pos = start_pos
-  let _captures = FixedArray::make(4, start_pos)
+  let mut matched_pos = lexbuf.curr_pos()
+  let _captures = FixedArray::make(4, matched_pos)
   let mut _tag_0 = -1
   let mut _tag_1 = -1
   let mut _tag_1_1 = -1
@@ -782,7 +781,7 @@ fn token[T](lexbuf : @lexbuf.T[T, Char, String, Int]) -> Token  {
     panic()
   }
 
-  lexbuf.reset(matched_pos)
+  lexbuf.reset(pos=matched_pos)
   match matched_pat {
     0 => {
  token(lexbuf) 
@@ -941,12 +940,11 @@ fn token[T](lexbuf : @lexbuf.T[T, Char, String, Int]) -> Token  {
 }
 
 
-fn string_inner_rquote[T](buffer : StringBuilder, lexbuf : @lexbuf.T[T, Char, String, Int]) -> Unit  {
+fn string_inner_rquote[T : @lexbuf.IStringLexbuf](buffer : StringBuilder, lexbuf : T) -> Unit  {
   let mut matched_pat = @int.max_value
   // FIXME: use -1 if we need to support capture as option
-  let start_pos = lexbuf.curr_pos()
-  let mut matched_pos = start_pos
-  let _captures = FixedArray::make(2, start_pos)
+  let mut matched_pos = lexbuf.curr_pos()
+  let _captures = FixedArray::make(2, matched_pos)
   let mut _tag_0 = -1
   let mut _tag_1 = -1
   let mut _tag_2 = -1
@@ -1188,7 +1186,7 @@ fn string_inner_rquote[T](buffer : StringBuilder, lexbuf : @lexbuf.T[T, Char, St
     panic()
   }
 
-  lexbuf.reset(matched_pos)
+  lexbuf.reset(pos=matched_pos)
   match matched_pat {
     0 => {
  () 
@@ -1279,12 +1277,11 @@ fn string_inner_rquote[T](buffer : StringBuilder, lexbuf : @lexbuf.T[T, Char, St
 }
 
 
-fn code_rbrace[T](buffer : StringBuilder, lexbuf : @lexbuf.T[T, Char, String, Int]) -> Unit  {
+fn code_rbrace[T : @lexbuf.IStringLexbuf](buffer : StringBuilder, lexbuf : T) -> Unit  {
   let mut matched_pat = @int.max_value
   // FIXME: use -1 if we need to support capture as option
-  let start_pos = lexbuf.curr_pos()
-  let mut matched_pos = start_pos
-  let _captures = FixedArray::make(2, start_pos)
+  let mut matched_pos = lexbuf.curr_pos()
+  let _captures = FixedArray::make(2, matched_pos)
   let mut _tag_0 = -1
   let mut _tag_1 = -1
   let mut _tag_2 = -1
@@ -1468,7 +1465,7 @@ fn code_rbrace[T](buffer : StringBuilder, lexbuf : @lexbuf.T[T, Char, String, In
     panic()
   }
 
-  lexbuf.reset(matched_pos)
+  lexbuf.reset(pos=matched_pos)
   match matched_pat {
     0 => {
       let _start_pos_of_t = _captures[0]

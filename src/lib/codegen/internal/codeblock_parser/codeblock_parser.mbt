@@ -11,12 +11,11 @@ pub(all) struct SubstItem {
 }
 
 
-fn scan_codeblock_rbrace[T](subst : Array[SubstItem], lexbuf : @lexbuf.T[T, Char, String, Int]) -> Unit  {
+fn scan_codeblock_rbrace[T : @lexbuf.IStringLexbuf](subst : Array[SubstItem], lexbuf : T) -> Unit  {
   let mut matched_pat = @int.max_value
   // FIXME: use -1 if we need to support capture as option
-  let start_pos = lexbuf.curr_pos()
-  let mut matched_pos = start_pos
-  let _captures = FixedArray::make(6, start_pos)
+  let mut matched_pos = lexbuf.curr_pos()
+  let _captures = FixedArray::make(6, matched_pos)
   let mut _tag_0 = -1
   let mut _tag_1 = -1
   let mut _tag_2 = -1
@@ -295,7 +294,7 @@ fn scan_codeblock_rbrace[T](subst : Array[SubstItem], lexbuf : @lexbuf.T[T, Char
     panic()
   }
 
-  lexbuf.reset(matched_pos)
+  lexbuf.reset(pos=matched_pos)
   match matched_pat {
     0 => {
 
@@ -349,7 +348,7 @@ fn scan_codeblock_rbrace[T](subst : Array[SubstItem], lexbuf : @lexbuf.T[T, Char
 
 
 pub fn parse_codeblock(str : String) -> Array[SubstItem] {
-  let lexbuf = @lexbuf.from_string(str)
+  let lexbuf = @lexbuf.StringLexbuf::from_string(str)
   let subst = []
   scan_codeblock_rbrace(subst, lexbuf)
   subst

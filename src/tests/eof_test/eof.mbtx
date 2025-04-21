@@ -7,7 +7,7 @@ priv enum Token {
 } derive(ToJson)
 }
 
-rule token[T, C, S, P](lexbuf : @lexbuf.T[T, C, S, P]) -> Token {
+rule token[T : @lexbuf.IStringLexbuf](lexbuf : T) -> Token {
   parse {
     "%" eof => { PERCENT_EOF }
     "%" => { PERCENT }

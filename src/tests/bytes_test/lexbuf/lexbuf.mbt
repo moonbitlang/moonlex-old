@@ -47,7 +47,7 @@ pub fn BytesLexbuf::curr_pos(self : BytesLexbuf) -> Int {
 }
 
 ///|
-pub fn BytesLexbuf::reset(self : BytesLexbuf, pos : Int) -> Unit {
+pub fn BytesLexbuf::reset(self : BytesLexbuf, pos~ : Int) -> Unit {
   self.pos = pos
 }
 

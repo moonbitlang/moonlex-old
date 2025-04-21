@@ -21,12 +21,11 @@ pub type! LexError {
 }
 
 
-fn token[T](lexbuf : @lexbuf.T[T, Char, String, Int]) -> Token!LexError  {
+fn token[T : @lexbuf.IStringLexbuf](lexbuf : T) -> Token!LexError  {
   let mut matched_pat = @int.max_value
   // FIXME: use -1 if we need to support capture as option
-  let start_pos = lexbuf.curr_pos()
-  let mut matched_pos = start_pos
-  let _captures = FixedArray::make(2, start_pos)
+  let mut matched_pos = lexbuf.curr_pos()
+  let _captures = FixedArray::make(2, matched_pos)
   let mut _tag_0 = -1
   let mut _tag_1 = -1
   let mut _tag_2 = -1
@@ -387,7 +386,7 @@ fn token[T](lexbuf : @lexbuf.T[T, Char, String, Int]) -> Token!LexError  {
     panic()
   }
 
-  lexbuf.reset(matched_pos)
+  lexbuf.reset(pos=matched_pos)
   match matched_pat {
     0 => {
  WHITESPACE 
@@ -450,12 +449,11 @@ fn token[T](lexbuf : @lexbuf.T[T, Char, String, Int]) -> Token!LexError  {
 }
 
 
-fn lex_string[T](buf : StringBuilder, lexbuf : @lexbuf.T[T, Char, String, Int]) -> Unit!LexError  {
+fn lex_string[T : @lexbuf.IStringLexbuf](buf : StringBuilder, lexbuf : T) -> Unit!LexError  {
   let mut matched_pat = @int.max_value
   // FIXME: use -1 if we need to support capture as option
-  let start_pos = lexbuf.curr_pos()
-  let mut matched_pos = start_pos
-  let _captures = FixedArray::make(2, start_pos)
+  let mut matched_pos = lexbuf.curr_pos()
+  let _captures = FixedArray::make(2, matched_pos)
   let mut _tag_0 = -1
   let mut _tag_1 = -1
   let mut _tag_2 = -1
@@ -589,7 +587,7 @@ fn lex_string[T](buf : StringBuilder, lexbuf : @lexbuf.T[T, Char, String, Int]) 
     panic()
   }
 
-  lexbuf.reset(matched_pos)
+  lexbuf.reset(pos=matched_pos)
   match matched_pat {
     0 => {
       let _start_pos_of_t = _captures[0]

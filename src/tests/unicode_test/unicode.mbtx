@@ -1,4 +1,4 @@
-rule lex_unicode[T](lexbuf : @lexbuf.T[T, Char, String, Int]) -> Int {
+rule lex_unicode[T : @lexbuf.IStringLexbuf](lexbuf : T) -> Int {
   parse {
     "我爱中国" => { 1 }
     '𠮷' => { 2 }
@@ -10,7 +10,7 @@ rule lex_unicode[T](lexbuf : @lexbuf.T[T, Char, String, Int]) -> Int {
 
 {
 fn classify(str : String) -> Int {
-  let lexbuf = @lexbuf.from_string(str)
+  let lexbuf = @lexbuf.StringLexbuf::from_string(str)
   lex_unicode(lexbuf)
 }
 }

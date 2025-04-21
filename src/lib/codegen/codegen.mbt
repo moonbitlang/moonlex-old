@@ -249,7 +249,7 @@ fn codegen_rule(
     $|    panic()
     $|  }
     $|
-    $|  lexbuf.reset(matched_pos)
+    $|  lexbuf.reset(pos=matched_pos)
     $|  match matched_pat {
     $|
     ,

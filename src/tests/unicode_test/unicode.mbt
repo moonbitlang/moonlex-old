@@ -1,11 +1,10 @@
 
 
-fn lex_unicode[T](lexbuf : @lexbuf.T[T, Char, String, Int]) -> Int  {
+fn lex_unicode[T : @lexbuf.IStringLexbuf](lexbuf : T) -> Int  {
   let mut matched_pat = @int.max_value
   // FIXME: use -1 if we need to support capture as option
-  let start_pos = lexbuf.curr_pos()
-  let mut matched_pos = start_pos
-  let _captures = FixedArray::make(0, start_pos)
+  let mut matched_pos = lexbuf.curr_pos()
+  let _captures = FixedArray::make(0, matched_pos)
   loop 0 {
     0 => {
       continue match lexbuf.next_as_int() {
@@ -79,7 +78,7 @@ fn lex_unicode[T](lexbuf : @lexbuf.T[T, Char, String, Int]) -> Int  {
     panic()
   }
 
-  lexbuf.reset(matched_pos)
+  lexbuf.reset(pos=matched_pos)
   match matched_pat {
     0 => {
  1 
@@ -101,6 +100,6 @@ fn lex_unicode[T](lexbuf : @lexbuf.T[T, Char, String, Int]) -> Int  {
 
 
 fn classify(str : String) -> Int {
-  let lexbuf = @lexbuf.from_string(str)
+  let lexbuf = @lexbuf.StringLexbuf::from_string(str)
   lex_unicode(lexbuf)
 }

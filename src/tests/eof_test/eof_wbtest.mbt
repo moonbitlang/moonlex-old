@@ -1,6 +1,6 @@
 ///|
 test {
-  let lexbuf = @lexbuf.from_string("%a\x00%")
+  let lexbuf = @lexbuf.StringLexbuf::from_string("%a\x00%")
   let tokens = []
   while true {
     let tok = token(lexbuf)
