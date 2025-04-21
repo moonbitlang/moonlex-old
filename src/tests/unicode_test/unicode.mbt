@@ -2,9 +2,9 @@
 
 fn lex_unicode[T : @lexbuf.IStringLexbuf](lexbuf : T) -> Int  {
   let mut matched_pat = @int.max_value
-  // FIXME: use -1 if we need to support capture as option
-  let mut matched_pos = lexbuf.curr_pos()
-  let _captures = FixedArray::make(0, matched_pos)
+  let mut matched_pos = -1
+  let mut _capture_0_start = -1
+  let mut _capture_0_end = -1
   loop 0 {
     0 => {
       continue match lexbuf.next_as_int() {

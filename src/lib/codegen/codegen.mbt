@@ -97,12 +97,18 @@ fn codegen_rule(
   out.write_string(
     $|fn \{rule.signature} {
     $|  let mut matched_pat = @int.max_value
-    $|  // FIXME: use -1 if we need to support capture as option
-    $|  let mut matched_pos = lexbuf.curr_pos()
-    $|  let _captures = FixedArray::make(\{max_num_capture_vars * 2}, matched_pos)
+    $|  let mut matched_pos = -1
     $|
     ,
   )
+  for i in 0..=max_num_capture_vars {
+    out.write_string(
+      $|  let mut _capture_\{i}_start = -1
+      $|  let mut _capture_\{i}_end = -1
+      $|
+      ,
+    )
+  }
   let all_tag_actions = @sorted_set.new()
   for _, tag_action in dfa.tag_actions {
     all_tag_actions.add(tag_action)
@@ -188,8 +194,8 @@ fn codegen_rule(
         let ((begin_tag, begin_rank), (end_tag, end_rank)) = capture
         let begin_tag_var = gen_tag_var(begin_tag, begin_rank)
         let end_tag_var = gen_tag_var(end_tag, end_rank)
-        out.write_string("        _captures[\{index * 2}] = \{begin_tag_var}\n")
-        out.write_string("        _captures[\{index * 2 + 1}] = \{end_tag_var}\n")
+        out.write_string("        _capture_\{index}_start = \{begin_tag_var}\n")
+        out.write_string("        _capture_\{index}_end = \{end_tag_var}\n")
       }
       out.write_string(
         $|      }
@@ -275,16 +281,16 @@ fn codegen_rule(
       match var_type {
         Char =>
           out.write_string(
-            $|      let _start_pos_of_\{name} = _captures[\{capture_id * 2}]
-            $|      let _end_pos_of_\{name} = _captures[\{capture_id * 2 + 1}]
+            $|      let _start_pos_of_\{name} = _capture_\{capture_id}_start
+            $|      let _end_pos_of_\{name} = _capture_\{capture_id}_end
             $|      let \{name} = lexbuf.get_char(_start_pos_of_\{name}, _end_pos_of_\{name})
             $|
             ,
           )
         String =>
           out.write_string(
-            $|      let _start_pos_of_\{name} = _captures[\{capture_id * 2}]
-            $|      let _end_pos_of_\{name} = _captures[\{capture_id * 2 + 1}]
+            $|      let _start_pos_of_\{name} = _capture_\{capture_id}_start
+            $|      let _end_pos_of_\{name} = _capture_\{capture_id}_end
             $|      let \{name} = lexbuf.get_string(_start_pos_of_\{name}, _end_pos_of_\{name})
             $|
             ,

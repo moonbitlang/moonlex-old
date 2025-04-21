@@ -4,9 +4,11 @@
 
 fn count[T : @lexbuf.IStringLexbuf](lines : Int, words : Int, chars : Int, lexbuf : T) -> (Int, Int, Int)  {
   let mut matched_pat = @int.max_value
-  // FIXME: use -1 if we need to support capture as option
-  let mut matched_pos = lexbuf.curr_pos()
-  let _captures = FixedArray::make(2, matched_pos)
+  let mut matched_pos = -1
+  let mut _capture_0_start = -1
+  let mut _capture_0_end = -1
+  let mut _capture_1_start = -1
+  let mut _capture_1_end = -1
   let mut _tag_0 = -1
   let mut _tag_1 = -1
   loop 0 {
@@ -31,8 +33,8 @@ fn count[T : @lexbuf.IStringLexbuf](lines : Int, words : Int, chars : Int, lexbu
       if matched_pat >= 1 {
         matched_pat = 1
         matched_pos = lexbuf.curr_pos()
-        _captures[0] = _tag_0
-        _captures[1] = _tag_1
+        _capture_0_start = _tag_0
+        _capture_0_end = _tag_1
       }
       continue match lexbuf.next_as_int() {
         0..=8 => 1
@@ -69,8 +71,8 @@ fn count[T : @lexbuf.IStringLexbuf](lines : Int, words : Int, chars : Int, lexbu
  count(lines + 1, words, chars + 1, lexbuf) 
     }
     1 => {
-      let _start_pos_of_word = _captures[0]
-      let _end_pos_of_word = _captures[1]
+      let _start_pos_of_word = _capture_0_start
+      let _end_pos_of_word = _capture_0_end
       let word = lexbuf.get_string(_start_pos_of_word, _end_pos_of_word)
 
       let new_chars = chars + word.length()

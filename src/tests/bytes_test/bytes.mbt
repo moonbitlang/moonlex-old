@@ -4,9 +4,17 @@ pub type! MalformedUtf8Error
 
 fn lex_utf8(lexbuf : @lexbuf.T, buf : StringBuilder) -> Unit!MalformedUtf8Error  {
   let mut matched_pat = @int.max_value
-  // FIXME: use -1 if we need to support capture as option
-  let mut matched_pos = lexbuf.curr_pos()
-  let _captures = FixedArray::make(8, matched_pos)
+  let mut matched_pos = -1
+  let mut _capture_0_start = -1
+  let mut _capture_0_end = -1
+  let mut _capture_1_start = -1
+  let mut _capture_1_end = -1
+  let mut _capture_2_start = -1
+  let mut _capture_2_end = -1
+  let mut _capture_3_start = -1
+  let mut _capture_3_end = -1
+  let mut _capture_4_start = -1
+  let mut _capture_4_end = -1
   let mut _tag_0 = -1
   let mut _tag_1 = -1
   let mut _tag_2 = -1
@@ -56,8 +64,8 @@ fn lex_utf8(lexbuf : @lexbuf.T, buf : StringBuilder) -> Unit!MalformedUtf8Error 
       if matched_pat >= 1 {
         matched_pat = 1
         matched_pos = lexbuf.curr_pos()
-        _captures[0] = _tag_0
-        _captures[1] = _tag_1
+        _capture_0_start = _tag_0
+        _capture_0_end = _tag_1
       }
       break
     }
@@ -117,10 +125,10 @@ fn lex_utf8(lexbuf : @lexbuf.T, buf : StringBuilder) -> Unit!MalformedUtf8Error 
       if matched_pat >= 2 {
         matched_pat = 2
         matched_pos = lexbuf.curr_pos()
-        _captures[0] = _tag_2
-        _captures[1] = _tag_3
-        _captures[2] = _tag_4
-        _captures[3] = _tag_5
+        _capture_0_start = _tag_2
+        _capture_0_end = _tag_3
+        _capture_1_start = _tag_4
+        _capture_1_end = _tag_5
       }
       break
     }
@@ -145,12 +153,12 @@ fn lex_utf8(lexbuf : @lexbuf.T, buf : StringBuilder) -> Unit!MalformedUtf8Error 
       if matched_pat >= 3 {
         matched_pat = 3
         matched_pos = lexbuf.curr_pos()
-        _captures[0] = _tag_6
-        _captures[1] = _tag_7
-        _captures[2] = _tag_8
-        _captures[3] = _tag_9
-        _captures[4] = _tag_10
-        _captures[5] = _tag_11
+        _capture_0_start = _tag_6
+        _capture_0_end = _tag_7
+        _capture_1_start = _tag_8
+        _capture_1_end = _tag_9
+        _capture_2_start = _tag_10
+        _capture_2_end = _tag_11
       }
       break
     }
@@ -159,14 +167,14 @@ fn lex_utf8(lexbuf : @lexbuf.T, buf : StringBuilder) -> Unit!MalformedUtf8Error 
       if matched_pat >= 4 {
         matched_pat = 4
         matched_pos = lexbuf.curr_pos()
-        _captures[0] = _tag_12
-        _captures[1] = _tag_13
-        _captures[2] = _tag_14
-        _captures[3] = _tag_15
-        _captures[4] = _tag_16
-        _captures[5] = _tag_17
-        _captures[6] = _tag_18
-        _captures[7] = _tag_19
+        _capture_0_start = _tag_12
+        _capture_0_end = _tag_13
+        _capture_1_start = _tag_14
+        _capture_1_end = _tag_15
+        _capture_2_start = _tag_16
+        _capture_2_end = _tag_17
+        _capture_3_start = _tag_18
+        _capture_3_end = _tag_19
       }
       break
     }
@@ -184,8 +192,8 @@ fn lex_utf8(lexbuf : @lexbuf.T, buf : StringBuilder) -> Unit!MalformedUtf8Error 
  () 
     }
     1 => {
-      let _start_pos_of_t = _captures[0]
-      let _end_pos_of_t = _captures[1]
+      let _start_pos_of_t = _capture_0_start
+      let _end_pos_of_t = _capture_0_end
       let t = lexbuf.get_char(_start_pos_of_t, _end_pos_of_t)
  
       let c = Char::from_int(t.to_int())
@@ -194,11 +202,11 @@ fn lex_utf8(lexbuf : @lexbuf.T, buf : StringBuilder) -> Unit!MalformedUtf8Error 
     
     }
     2 => {
-      let _start_pos_of_t1 = _captures[0]
-      let _end_pos_of_t1 = _captures[1]
+      let _start_pos_of_t1 = _capture_0_start
+      let _end_pos_of_t1 = _capture_0_end
       let t1 = lexbuf.get_char(_start_pos_of_t1, _end_pos_of_t1)
-      let _start_pos_of_t2 = _captures[2]
-      let _end_pos_of_t2 = _captures[3]
+      let _start_pos_of_t2 = _capture_1_start
+      let _end_pos_of_t2 = _capture_1_end
       let t2 = lexbuf.get_char(_start_pos_of_t2, _end_pos_of_t2)
 
       let c = Char::from_int((t1.to_int() & 0x1f) << 6 | (t2.to_int() & 0x3f))
@@ -207,14 +215,14 @@ fn lex_utf8(lexbuf : @lexbuf.T, buf : StringBuilder) -> Unit!MalformedUtf8Error 
     
     }
     3 => {
-      let _start_pos_of_t1 = _captures[0]
-      let _end_pos_of_t1 = _captures[1]
+      let _start_pos_of_t1 = _capture_0_start
+      let _end_pos_of_t1 = _capture_0_end
       let t1 = lexbuf.get_char(_start_pos_of_t1, _end_pos_of_t1)
-      let _start_pos_of_t2 = _captures[2]
-      let _end_pos_of_t2 = _captures[3]
+      let _start_pos_of_t2 = _capture_1_start
+      let _end_pos_of_t2 = _capture_1_end
       let t2 = lexbuf.get_char(_start_pos_of_t2, _end_pos_of_t2)
-      let _start_pos_of_t3 = _captures[4]
-      let _end_pos_of_t3 = _captures[5]
+      let _start_pos_of_t3 = _capture_2_start
+      let _end_pos_of_t3 = _capture_2_end
       let t3 = lexbuf.get_char(_start_pos_of_t3, _end_pos_of_t3)
 
       let c = Char::from_int((t1.to_int() & 0x0f) << 12 | (t2.to_int() & 0x3f) << 6 | (t3.to_int() & 0x3f))
@@ -223,17 +231,17 @@ fn lex_utf8(lexbuf : @lexbuf.T, buf : StringBuilder) -> Unit!MalformedUtf8Error 
     
     }
     4 => {
-      let _start_pos_of_t1 = _captures[0]
-      let _end_pos_of_t1 = _captures[1]
+      let _start_pos_of_t1 = _capture_0_start
+      let _end_pos_of_t1 = _capture_0_end
       let t1 = lexbuf.get_char(_start_pos_of_t1, _end_pos_of_t1)
-      let _start_pos_of_t2 = _captures[2]
-      let _end_pos_of_t2 = _captures[3]
+      let _start_pos_of_t2 = _capture_1_start
+      let _end_pos_of_t2 = _capture_1_end
       let t2 = lexbuf.get_char(_start_pos_of_t2, _end_pos_of_t2)
-      let _start_pos_of_t3 = _captures[4]
-      let _end_pos_of_t3 = _captures[5]
+      let _start_pos_of_t3 = _capture_2_start
+      let _end_pos_of_t3 = _capture_2_end
       let t3 = lexbuf.get_char(_start_pos_of_t3, _end_pos_of_t3)
-      let _start_pos_of_t4 = _captures[6]
-      let _end_pos_of_t4 = _captures[7]
+      let _start_pos_of_t4 = _capture_3_start
+      let _end_pos_of_t4 = _capture_3_end
       let t4 = lexbuf.get_char(_start_pos_of_t4, _end_pos_of_t4)
 
       let c = Char::from_int((t1.to_int() & 0x07) << 18 | (t2.to_int() & 0x3f) << 12 | (t3.to_int() & 0x3f) << 6 | (t4.to_int() & 0x3f))

@@ -13,9 +13,15 @@ pub(all) struct SubstItem {
 
 fn scan_codeblock_rbrace[T : @lexbuf.IStringLexbuf](subst : Array[SubstItem], lexbuf : T) -> Unit  {
   let mut matched_pat = @int.max_value
-  // FIXME: use -1 if we need to support capture as option
-  let mut matched_pos = lexbuf.curr_pos()
-  let _captures = FixedArray::make(6, matched_pos)
+  let mut matched_pos = -1
+  let mut _capture_0_start = -1
+  let mut _capture_0_end = -1
+  let mut _capture_1_start = -1
+  let mut _capture_1_end = -1
+  let mut _capture_2_start = -1
+  let mut _capture_2_end = -1
+  let mut _capture_3_start = -1
+  let mut _capture_3_end = -1
   let mut _tag_0 = -1
   let mut _tag_1 = -1
   let mut _tag_2 = -1
@@ -277,12 +283,12 @@ fn scan_codeblock_rbrace[T : @lexbuf.IStringLexbuf](subst : Array[SubstItem], le
       if matched_pat >= 2 {
         matched_pat = 2
         matched_pos = lexbuf.curr_pos()
-        _captures[0] = _tag_0
-        _captures[1] = _tag_1
-        _captures[2] = _tag_2
-        _captures[3] = _tag_3
-        _captures[4] = _tag_4
-        _captures[5] = _tag_5
+        _capture_0_start = _tag_0
+        _capture_0_end = _tag_1
+        _capture_1_start = _tag_2
+        _capture_1_end = _tag_3
+        _capture_2_start = _tag_4
+        _capture_2_end = _tag_5
       }
       break
     }
@@ -306,14 +312,14 @@ fn scan_codeblock_rbrace[T : @lexbuf.IStringLexbuf](subst : Array[SubstItem], le
  () 
     }
     2 => {
-      let _start_pos_of_t1 = _captures[0]
-      let _end_pos_of_t1 = _captures[1]
+      let _start_pos_of_t1 = _capture_0_start
+      let _end_pos_of_t1 = _capture_0_end
       let t1 = lexbuf.get_string(_start_pos_of_t1, _end_pos_of_t1)
-      let _start_pos_of_t2 = _captures[2]
-      let _end_pos_of_t2 = _captures[3]
+      let _start_pos_of_t2 = _capture_1_start
+      let _end_pos_of_t2 = _capture_1_end
       let t2 = lexbuf.get_string(_start_pos_of_t2, _end_pos_of_t2)
-      let _start_pos_of_t = _captures[4]
-      let _end_pos_of_t = _captures[5]
+      let _start_pos_of_t = _capture_2_start
+      let _end_pos_of_t = _capture_2_end
       let t = lexbuf.get_string(_start_pos_of_t, _end_pos_of_t)
       let _ = t
 

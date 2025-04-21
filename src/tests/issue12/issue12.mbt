@@ -2,9 +2,11 @@
 
 fn test_func[T : @lexbuf.IStringLexbuf](lexbuf : T) -> String  {
   let mut matched_pat = @int.max_value
-  // FIXME: use -1 if we need to support capture as option
-  let mut matched_pos = lexbuf.curr_pos()
-  let _captures = FixedArray::make(2, matched_pos)
+  let mut matched_pos = -1
+  let mut _capture_0_start = -1
+  let mut _capture_0_end = -1
+  let mut _capture_1_start = -1
+  let mut _capture_1_end = -1
   let mut _tag_0 = -1
   let mut _tag_1 = -1
   loop 0 {
@@ -20,8 +22,8 @@ fn test_func[T : @lexbuf.IStringLexbuf](lexbuf : T) -> String  {
       if matched_pat >= 0 {
         matched_pat = 0
         matched_pos = lexbuf.curr_pos()
-        _captures[0] = _tag_0
-        _captures[1] = _tag_1
+        _capture_0_start = _tag_0
+        _capture_0_end = _tag_1
       }
       continue match lexbuf.next_as_int() {
         97..=98 => 2
@@ -40,8 +42,8 @@ fn test_func[T : @lexbuf.IStringLexbuf](lexbuf : T) -> String  {
       if matched_pat >= 0 {
         matched_pat = 0
         matched_pos = lexbuf.curr_pos()
-        _captures[0] = _tag_0
-        _captures[1] = _tag_1
+        _capture_0_start = _tag_0
+        _capture_0_end = _tag_1
       }
       continue match lexbuf.next_as_int() {
         97 => 3
@@ -60,8 +62,8 @@ fn test_func[T : @lexbuf.IStringLexbuf](lexbuf : T) -> String  {
   lexbuf.reset(pos=matched_pos)
   match matched_pat {
     0 => {
-      let _start_pos_of_t2 = _captures[0]
-      let _end_pos_of_t2 = _captures[1]
+      let _start_pos_of_t2 = _capture_0_start
+      let _end_pos_of_t2 = _capture_0_end
       let t2 = lexbuf.get_string(_start_pos_of_t2, _end_pos_of_t2)
 
       t2
