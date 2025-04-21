@@ -1562,7 +1562,7 @@
             },
             "1": "t"
           },
-          "\n      match t {\n        \"eof\" => EOF\n        \"let\" => LET\n        \"as\" => AS\n        _ => LC_IDENT(t)\n      }\n    "
+          "\n      match t {\n        \"eof\" => EOF\n        \"let\" | \"regex\" => LET\n        \"as\" => AS\n        _ => LC_IDENT(t)\n      }\n    "
         ]
       ]
     },

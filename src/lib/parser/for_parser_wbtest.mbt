@@ -66,7 +66,7 @@ let lexer_src : String =
   #|    lc_ident as t => {
   #|      match t {
   #|        "eof" => EOF
-  #|        "let" => LET
+  #|        "let" | "regex" => LET
   #|        "as" => AS
   #|        _ => LC_IDENT(t)
   #|      }
