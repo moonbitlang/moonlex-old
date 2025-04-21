@@ -60,7 +60,7 @@ rule token[T : @lexbuf.IStringLexbuf](lexbuf : T) -> Token {
     lc_ident as t => {
       match t {
         "eof" => EOF
-        "let" | "regex" => LET
+        "regex" => REGEX
         "as" => AS
         _ => LC_IDENT(t)
       }

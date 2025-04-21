@@ -303,7 +303,7 @@ $64$moonbitlang$47$ulex$47$lib$47$util$47$eof_char_set$46$EofCharRepr$Char.proto
 const $64$moonbitlang$47$ulex$47$lib$47$parser$46$Token$EOI = { $tag: 0 };
 const $64$moonbitlang$47$ulex$47$lib$47$parser$46$Token$EOF = { $tag: 1 };
 const $64$moonbitlang$47$ulex$47$lib$47$parser$46$Token$PARSE_LBRACE = { $tag: 2 };
-const $64$moonbitlang$47$ulex$47$lib$47$parser$46$Token$LET = { $tag: 3 };
+const $64$moonbitlang$47$ulex$47$lib$47$parser$46$Token$REGEX = { $tag: 3 };
 const $64$moonbitlang$47$ulex$47$lib$47$parser$46$Token$AS = { $tag: 4 };
 const $64$moonbitlang$47$ulex$47$lib$47$parser$46$Token$UNDERSCORE = { $tag: 5 };
 const $64$moonbitlang$47$ulex$47$lib$47$parser$46$Token$RBRACE = { $tag: 6 };
@@ -11545,7 +11545,7 @@ function moonbitlang$core$builtin$$Show$output$70$(_x_423, _x_424) {
       return;
     }
     case 3: {
-      _x_424.method_0(_x_424.self, "LET");
+      _x_424.method_0(_x_424.self, "REGEX");
       return;
     }
     case 4: {
@@ -14144,26 +14144,20 @@ function moonbitlang$ulex$lib$parser$$token$144$(lexbuf) {
           const _start_pos_of_t$5 = _capture_0_start;
           const _end_pos_of_t$5 = _capture_0_end;
           const t$5 = moonbitlang$ulex$45$runtime$lexbuf$$IStringLexbuf$get_string$144$(lexbuf$2, _start_pos_of_t$5, _end_pos_of_t$5);
-          _L$3: {
-            switch (t$5) {
-              case "eof": {
-                return $64$moonbitlang$47$ulex$47$lib$47$parser$46$Token$EOF;
-              }
-              case "let": {
-                break _L$3;
-              }
-              case "regex": {
-                break _L$3;
-              }
-              case "as": {
-                return $64$moonbitlang$47$ulex$47$lib$47$parser$46$Token$AS;
-              }
-              default: {
-                return new $64$moonbitlang$47$ulex$47$lib$47$parser$46$Token$LC_IDENT(t$5);
-              }
+          switch (t$5) {
+            case "eof": {
+              return $64$moonbitlang$47$ulex$47$lib$47$parser$46$Token$EOF;
+            }
+            case "regex": {
+              return $64$moonbitlang$47$ulex$47$lib$47$parser$46$Token$REGEX;
+            }
+            case "as": {
+              return $64$moonbitlang$47$ulex$47$lib$47$parser$46$Token$AS;
+            }
+            default: {
+              return new $64$moonbitlang$47$ulex$47$lib$47$parser$46$Token$LC_IDENT(t$5);
             }
           }
-          return $64$moonbitlang$47$ulex$47$lib$47$parser$46$Token$LET;
         }
         default: {
           return $panic();
@@ -16034,7 +16028,7 @@ function moonbitlang$core$builtin$$Show$output$73$(self, logger) {
       break;
     }
     case 3: {
-      _tmp = "\"let\"";
+      _tmp = "\"regex\"";
       break;
     }
     case 4: {
@@ -18991,7 +18985,7 @@ function Yoorkin$trie$$T$lookup$146$(self, path) {
     }
   }
 }
-function Yoorkin$trie$$add$46$aux$47$5757(value, _param1, _param2) {
+function Yoorkin$trie$$add$46$aux$47$5756(value, _param1, _param2) {
   if (_param1.len === 0) {
     return { value: value, forks: _param2.forks };
   } else {
@@ -19001,12 +18995,12 @@ function Yoorkin$trie$$add$46$aux$47$5757(value, _param1, _param2) {
     const _some = _param1.len - 0 | 0;
     const _x$2 = { buf: _tmp, start: _tmp$2, len: _some - 1 | 0 };
     const subtree = moonbitlang$core$option$$Option$or$68$(moonbitlang$core$immut$sorted_map$$T$op_get$54$(_param2.forks, _x), { value: undefined, forks: moonbitlang$core$immut$sorted_map$$new$54$() });
-    return { value: _param2.value, forks: moonbitlang$core$immut$sorted_map$$T$add$54$(_param2.forks, _x, Yoorkin$trie$$add$46$aux$47$5757(value, _x$2, subtree)) };
+    return { value: _param2.value, forks: moonbitlang$core$immut$sorted_map$$T$add$54$(_param2.forks, _x, Yoorkin$trie$$add$46$aux$47$5756(value, _x$2, subtree)) };
   }
 }
 function Yoorkin$trie$$T$add$146$(self, path, value) {
   const _bind = moonbitlang$core$string$$String$to_array(path);
-  return Yoorkin$trie$$add$46$aux$47$5757(value, { buf: _bind, start: 0, len: _bind.length }, self);
+  return Yoorkin$trie$$add$46$aux$47$5756(value, { buf: _bind, start: 0, len: _bind.length }, self);
 }
 function Yoorkin$trie$$empty$146$() {
   return { value: undefined, forks: moonbitlang$core$immut$sorted_map$$new$54$() };

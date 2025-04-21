@@ -10,7 +10,7 @@ pub(all) enum Token {
   EOI
   EOF
   PARSE_LBRACE
-  LET
+  REGEX
   AS
   UNDERSCORE
   RBRACE
@@ -40,7 +40,7 @@ pub fn Token::kind(self : Token) -> TokenKind {
     EOI => TK_EOI
     EOF => TK_EOF
     PARSE_LBRACE => TK_PARSE_LBRACE
-    LET => TK_LET
+    REGEX => TK_REGEX
     AS => TK_AS
     UNDERSCORE => TK_UNDERSCORE
     RBRACE => TK_RBRACE
@@ -70,7 +70,7 @@ pub(all) enum TokenKind {
   TK_EOI
   TK_EOF
   TK_PARSE_LBRACE
-  TK_LET
+  TK_REGEX
   TK_AS
   TK_UNDERSCORE
   TK_RBRACE
@@ -101,7 +101,7 @@ pub impl Show for TokenKind with output(self, logger) {
       TK_EOI => "EOI"
       TK_EOF => "\"eof\""
       TK_PARSE_LBRACE => "\"parse {\""
-      TK_LET => "\"let\""
+      TK_REGEX => "\"regex\""
       TK_AS => "\"as\""
       TK_UNDERSCORE => "\"_\""
       TK_RBRACE => "\"}\""
@@ -174,7 +174,7 @@ priv enum YYSymbol {
   T_EOI
   T_EOF
   T_PARSE_LBRACE
-  T_LET
+  T_REGEX
   T_AS
   T_UNDERSCORE
   T_RBRACE
@@ -542,7 +542,7 @@ fn yy_action_39(_last_pos : Position, _args : ArrayView[(YYObj, Position, Positi
 }
 
 // file:///./parser.mbty
-// 82|    "let" LC_IDENT "=" regex ";"        { named_regexes.set($2, $4) }
+// 82|    "regex" LC_IDENT "=" regex ";"        { named_regexes.set($2, $4) }
 fn yy_action_40(_last_pos : Position, _args : ArrayView[(YYObj, Position, Position)]) -> YYObj {
   guard _args[1].0 is YYObj_String(_dollar2)
   guard _args[3].0 is YYObj__type_Regex(_dollar4)
@@ -568,7 +568,7 @@ fn yy_input(token : Token, _start_pos : Position, _end_pos : Position) -> (YYSym
     EOI => (T_EOI, YYObj_Void)
     EOF => (T_EOF, YYObj_Void)
     PARSE_LBRACE => (T_PARSE_LBRACE, YYObj_Void)
-    LET => (T_LET, YYObj_Void)
+    REGEX => (T_REGEX, YYObj_Void)
     AS => (T_AS, YYObj_Void)
     UNDERSCORE => (T_UNDERSCORE, YYObj_Void)
     RBRACE => (T_RBRACE, YYObj_Void)
@@ -1056,8 +1056,8 @@ fn yy_state_40(_lookahead : YYSymbol) -> YYDecision {
 // [0, lex_eoi → • lex cleanup EOI, $]
 // [3, lex → •, EOI]
 // [4, lex → • header named_regex_list nonempty_rule_list trailer, EOI]
-// [5, header → • LBRACE_CODE_RBRACE, LET / RULE_LC_IDENT_LPAREN_CODE_RPAREN_ARROW_CODE_LBRACE]
-// [6, header → •, LET / RULE_LC_IDENT_LPAREN_CODE_RPAREN_ARROW_CODE_LBRACE]
+// [5, header → • LBRACE_CODE_RBRACE, REGEX / RULE_LC_IDENT_LPAREN_CODE_RPAREN_ARROW_CODE_LBRACE]
+// [6, header → •, REGEX / RULE_LC_IDENT_LPAREN_CODE_RPAREN_ARROW_CODE_LBRACE]
 // [43, lex_eoi_prime → • lex_eoi, $]
 fn yy_state_41(_lookahead : YYSymbol) -> YYDecision {
   match _lookahead {
@@ -1066,7 +1066,7 @@ fn yy_state_41(_lookahead : YYSymbol) -> YYDecision {
     NT_header => Shift(yy_state_44)
     NT_lex => Shift(yy_state_68)
     T_EOI => Reduce(0, NT_lex, yy_action_17)
-    T_LET | T_RULE_LC_IDENT_LPAREN_CODE_RPAREN_ARROW_CODE_LBRACE => Reduce(0, NT_header, yy_action_0)
+    T_REGEX | T_RULE_LC_IDENT_LPAREN_CODE_RPAREN_ARROW_CODE_LBRACE => Reduce(0, NT_header, yy_action_0)
     _ => Error
   }
 }
@@ -1076,7 +1076,7 @@ fn yy_state_42(_lookahead : YYSymbol) -> YYDecision {
   Accept
 }
 
-// [5, header → LBRACE_CODE_RBRACE •, LET / RULE_LC_IDENT_LPAREN_CODE_RPAREN_ARROW_CODE_LBRACE]
+// [5, header → LBRACE_CODE_RBRACE •, REGEX / RULE_LC_IDENT_LPAREN_CODE_RPAREN_ARROW_CODE_LBRACE]
 fn yy_state_43(_lookahead : YYSymbol) -> YYDecision {
   ReduceNoLookahead(1, NT_header, yy_action_21)
 }
@@ -1084,10 +1084,10 @@ fn yy_state_43(_lookahead : YYSymbol) -> YYDecision {
 // [4, lex → header • named_regex_list nonempty_rule_list trailer, EOI]
 // [9, named_regex_list → • named_regex named_regex_list, RULE_LC_IDENT_LPAREN_CODE_RPAREN_ARROW_CODE_LBRACE]
 // [10, named_regex_list → •, RULE_LC_IDENT_LPAREN_CODE_RPAREN_ARROW_CODE_LBRACE]
-// [11, named_regex → • LET LC_IDENT EQ regex SEMICOLON, LET / RULE_LC_IDENT_LPAREN_CODE_RPAREN_ARROW_CODE_LBRACE]
+// [11, named_regex → • REGEX LC_IDENT EQ regex SEMICOLON, REGEX / RULE_LC_IDENT_LPAREN_CODE_RPAREN_ARROW_CODE_LBRACE]
 fn yy_state_44(_lookahead : YYSymbol) -> YYDecision {
   match _lookahead {
-    T_LET => Shift(yy_state_45)
+    T_REGEX => Shift(yy_state_45)
     NT_named_regex => Shift(yy_state_50)
     NT_named_regex_list => Shift(yy_state_52)
     T_RULE_LC_IDENT_LPAREN_CODE_RPAREN_ARROW_CODE_LBRACE => Reduce(0, NT_named_regex_list, yy_action_3)
@@ -1095,7 +1095,7 @@ fn yy_state_44(_lookahead : YYSymbol) -> YYDecision {
   }
 }
 
-// [11, named_regex → LET • LC_IDENT EQ regex SEMICOLON, LET / RULE_LC_IDENT_LPAREN_CODE_RPAREN_ARROW_CODE_LBRACE]
+// [11, named_regex → REGEX • LC_IDENT EQ regex SEMICOLON, REGEX / RULE_LC_IDENT_LPAREN_CODE_RPAREN_ARROW_CODE_LBRACE]
 fn yy_state_45(_lookahead : YYSymbol) -> YYDecision {
   match _lookahead {
     T_LC_IDENT => Shift(yy_state_46)
@@ -1103,7 +1103,7 @@ fn yy_state_45(_lookahead : YYSymbol) -> YYDecision {
   }
 }
 
-// [11, named_regex → LET LC_IDENT • EQ regex SEMICOLON, LET / RULE_LC_IDENT_LPAREN_CODE_RPAREN_ARROW_CODE_LBRACE]
+// [11, named_regex → REGEX LC_IDENT • EQ regex SEMICOLON, REGEX / RULE_LC_IDENT_LPAREN_CODE_RPAREN_ARROW_CODE_LBRACE]
 fn yy_state_46(_lookahead : YYSymbol) -> YYDecision {
   match _lookahead {
     T_EQ => Shift(yy_state_47)
@@ -1111,7 +1111,7 @@ fn yy_state_46(_lookahead : YYSymbol) -> YYDecision {
   }
 }
 
-// [11, named_regex → LET LC_IDENT EQ • regex SEMICOLON, LET / RULE_LC_IDENT_LPAREN_CODE_RPAREN_ARROW_CODE_LBRACE]
+// [11, named_regex → REGEX LC_IDENT EQ • regex SEMICOLON, REGEX / RULE_LC_IDENT_LPAREN_CODE_RPAREN_ARROW_CODE_LBRACE]
 // [18, regex → • alias, SEMICOLON]
 // [19, alias → • alternation, SEMICOLON]
 // [20, alias → • alternation AS LC_IDENT, SEMICOLON]
@@ -1153,7 +1153,7 @@ fn yy_state_47(_lookahead : YYSymbol) -> YYDecision {
   }
 }
 
-// [11, named_regex → LET LC_IDENT EQ regex • SEMICOLON, LET / RULE_LC_IDENT_LPAREN_CODE_RPAREN_ARROW_CODE_LBRACE]
+// [11, named_regex → REGEX LC_IDENT EQ regex • SEMICOLON, REGEX / RULE_LC_IDENT_LPAREN_CODE_RPAREN_ARROW_CODE_LBRACE]
 fn yy_state_48(_lookahead : YYSymbol) -> YYDecision {
   match _lookahead {
     T_SEMICOLON => Shift(yy_state_49)
@@ -1161,7 +1161,7 @@ fn yy_state_48(_lookahead : YYSymbol) -> YYDecision {
   }
 }
 
-// [11, named_regex → LET LC_IDENT EQ regex SEMICOLON •, LET / RULE_LC_IDENT_LPAREN_CODE_RPAREN_ARROW_CODE_LBRACE]
+// [11, named_regex → REGEX LC_IDENT EQ regex SEMICOLON •, REGEX / RULE_LC_IDENT_LPAREN_CODE_RPAREN_ARROW_CODE_LBRACE]
 fn yy_state_49(_lookahead : YYSymbol) -> YYDecision {
   ReduceNoLookahead(5, NT_named_regex, yy_action_40)
 }
@@ -1169,10 +1169,10 @@ fn yy_state_49(_lookahead : YYSymbol) -> YYDecision {
 // [9, named_regex_list → • named_regex named_regex_list, RULE_LC_IDENT_LPAREN_CODE_RPAREN_ARROW_CODE_LBRACE]
 // [9, named_regex_list → named_regex • named_regex_list, RULE_LC_IDENT_LPAREN_CODE_RPAREN_ARROW_CODE_LBRACE]
 // [10, named_regex_list → •, RULE_LC_IDENT_LPAREN_CODE_RPAREN_ARROW_CODE_LBRACE]
-// [11, named_regex → • LET LC_IDENT EQ regex SEMICOLON, LET / RULE_LC_IDENT_LPAREN_CODE_RPAREN_ARROW_CODE_LBRACE]
+// [11, named_regex → • REGEX LC_IDENT EQ regex SEMICOLON, REGEX / RULE_LC_IDENT_LPAREN_CODE_RPAREN_ARROW_CODE_LBRACE]
 fn yy_state_50(_lookahead : YYSymbol) -> YYDecision {
   match _lookahead {
-    T_LET => Shift(yy_state_45)
+    T_REGEX => Shift(yy_state_45)
     NT_named_regex => Shift(yy_state_50)
     NT_named_regex_list => Shift(yy_state_51)
     T_RULE_LC_IDENT_LPAREN_CODE_RPAREN_ARROW_CODE_LBRACE => Reduce(0, NT_named_regex_list, yy_action_3)
@@ -1519,7 +1519,7 @@ fn error(stack : @immut/list.T[YYState], token : Token, loc : (Position, Positio
     }
     go(stack)
   }
-  for term in ([(T_EOI, TK_EOI), (T_EOF, TK_EOF), (T_PARSE_LBRACE, TK_PARSE_LBRACE), (T_LET, TK_LET), (T_AS, TK_AS), (T_UNDERSCORE, TK_UNDERSCORE), (T_RBRACE, TK_RBRACE), (T_LPAREN, TK_LPAREN), (T_RPAREN, TK_RPAREN), (T_LBRACKET, TK_LBRACKET), (T_RBRACKET, TK_RBRACKET), (T_EQ, TK_EQ), (T_COLON, TK_COLON), (T_SEMICOLON, TK_SEMICOLON), (T_FAT_ARROW, TK_FAT_ARROW), (T_BAR, TK_BAR), (T_STAR, TK_STAR), (T_PLUS, TK_PLUS), (T_QUESTION, TK_QUESTION), (T_MINUS, TK_MINUS), (T_CARET, TK_CARET), (T_RULE_LC_IDENT_LPAREN_CODE_RPAREN_ARROW_CODE_LBRACE, TK_RULE_LC_IDENT_LPAREN_CODE_RPAREN_ARROW_CODE_LBRACE), (T_LBRACE_CODE_RBRACE, TK_LBRACE_CODE_RBRACE), (T_LC_IDENT, TK_LC_IDENT), (T_CHAR, TK_CHAR), (T_STRING, TK_STRING)] : Array[(YYSymbol, TokenKind)]) {
+  for term in ([(T_EOI, TK_EOI), (T_EOF, TK_EOF), (T_PARSE_LBRACE, TK_PARSE_LBRACE), (T_REGEX, TK_REGEX), (T_AS, TK_AS), (T_UNDERSCORE, TK_UNDERSCORE), (T_RBRACE, TK_RBRACE), (T_LPAREN, TK_LPAREN), (T_RPAREN, TK_RPAREN), (T_LBRACKET, TK_LBRACKET), (T_RBRACKET, TK_RBRACKET), (T_EQ, TK_EQ), (T_COLON, TK_COLON), (T_SEMICOLON, TK_SEMICOLON), (T_FAT_ARROW, TK_FAT_ARROW), (T_BAR, TK_BAR), (T_STAR, TK_STAR), (T_PLUS, TK_PLUS), (T_QUESTION, TK_QUESTION), (T_MINUS, TK_MINUS), (T_CARET, TK_CARET), (T_RULE_LC_IDENT_LPAREN_CODE_RPAREN_ARROW_CODE_LBRACE, TK_RULE_LC_IDENT_LPAREN_CODE_RPAREN_ARROW_CODE_LBRACE), (T_LBRACE_CODE_RBRACE, TK_LBRACE_CODE_RBRACE), (T_LC_IDENT, TK_LC_IDENT), (T_CHAR, TK_CHAR), (T_STRING, TK_STRING)] : Array[(YYSymbol, TokenKind)]) {
     try_add(term.0, term.1)
   }
   raise UnexpectedToken(token, loc, expected)

@@ -933,7 +933,7 @@ fn token[T : @lexbuf.IStringLexbuf](lexbuf : T) -> Token  {
 
       match t {
         "eof" => EOF
-        "let" | "regex" => LET
+        "regex" => REGEX
         "as" => AS
         _ => LC_IDENT(t)
       }

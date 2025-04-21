@@ -6,7 +6,7 @@
 %token EOI
 %token EOF          "eof"
 %token PARSE_LBRACE "parse {"
-%token LET          "let"
+%token REGEX        "regex"
 %token AS           "as"
 %token UNDERSCORE   "_"
 %token RBRACE       "}"
@@ -79,7 +79,7 @@ named_regex_list -> Unit
   ;
 
 named_regex -> Unit
-  : "let" LC_IDENT "=" regex ";"        { named_regexes.set($2, $4) }
+  : "regex" LC_IDENT "=" regex ";"        { named_regexes.set($2, $4) }
   ;
 
 nonempty_rule_list -> @immut/list.T[@type.Rule]
