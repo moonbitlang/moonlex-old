@@ -1,51 +1,55 @@
 
 
 fn lex_is_number[T, C, S, P](lexbuf : @lexbuf.T[T, C, S, P]) -> Bool  {
-  let mut matched = None
-  let mut state = 0
-  while true {
-    match state {
-      0 => {
-        state = match lexbuf.next_as_int() {
-          0..=47 => 1
-          48 => 2
-          49..=57 => 3
-          58..=1114111 => 1
-          _ => break
-        }
+  let mut matched_pat = @int.max_value
+  // FIXME: use -1 if we need to support capture as option
+  let start_pos = lexbuf.curr_pos()
+  let mut matched_pos = start_pos
+  let _captures = FixedArray::make(0, start_pos)
+  loop 0 {
+    0 => {
+      continue match lexbuf.next_as_int() {
+        0..=47 => 1
+        48 => 2
+        49..=57 => 3
+        58..=1114111 => 1
+        _ => break
       }
-      1 => {
-        if matched is (None | Some((1..<_, _, _))) {
-          matched = Some((1, lexbuf.curr_pos(), []))
-        }
-        break
-      }
-      2 => {
-        if matched is (None | Some((0..<_, _, _))) {
-          matched = Some((0, lexbuf.curr_pos(), []))
-        }
-        break
-      }
-      3 => {
-        if matched is (None | Some((0..<_, _, _))) {
-          matched = Some((0, lexbuf.curr_pos(), []))
-        }
-        state = match lexbuf.next_as_int() {
-          48..=57 => 3
-          _ => break
-        }
-      }
-      _ => panic()
     }
+    1 => {
+      if matched_pat >= 1 {
+        matched_pat = 1
+        matched_pos = lexbuf.curr_pos()
+      }
+      break
+    }
+    2 => {
+      if matched_pat >= 0 {
+        matched_pat = 0
+        matched_pos = lexbuf.curr_pos()
+      }
+      break
+    }
+    3 => {
+      if matched_pat >= 0 {
+        matched_pat = 0
+        matched_pos = lexbuf.curr_pos()
+      }
+      continue match lexbuf.next_as_int() {
+        48..=57 => 3
+        _ => break
+      }
+    }
+    _ => panic()
   }
 
-  guard matched is Some((pattern_id, marked_pos, _captures)) else {
-    // No pattern matched
+  guard matched_pat <= 1 else {
+    // No pattern matched_pat
     panic()
   }
 
-  lexbuf.reset(marked_pos)
-  match pattern_id {
+  lexbuf.reset(matched_pos)
+  match matched_pat {
     0 => {
  true 
     }

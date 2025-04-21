@@ -3,67 +3,75 @@
 
 
 fn count[T](lines : Int, words : Int, chars : Int, lexbuf : @lexbuf.T[T, Char, String, Int]) -> (Int, Int, Int)  {
-  let mut matched = None
-  let mut state = 0
+  let mut matched_pat = @int.max_value
+  // FIXME: use -1 if we need to support capture as option
+  let start_pos = lexbuf.curr_pos()
+  let mut matched_pos = start_pos
+  let _captures = FixedArray::make(2, start_pos)
   let mut _tag_0 = -1
   let mut _tag_1 = -1
-  while true {
-    match state {
-      0 => {
-        _tag_0 = lexbuf.curr_pos()
-        if matched is (None | Some((3..<_, _, _))) {
-          matched = Some((3, lexbuf.curr_pos(), []))
-        }
-        state = match lexbuf.next_as_int() {
-          0..=8 => 1
-          9 => 2
-          10 => 3
-          11..=31 => 1
-          32 => 2
-          33..=1114111 => 1
-          _ => break
-        }
+  loop 0 {
+    0 => {
+      _tag_0 = lexbuf.curr_pos()
+      if matched_pat >= 3 {
+        matched_pat = 3
+        matched_pos = lexbuf.curr_pos()
       }
-      1 => {
-        _tag_1 = lexbuf.curr_pos()
-        if matched is (None | Some((1..<_, _, _))) {
-          matched = Some((1, lexbuf.curr_pos(), [(_tag_0, _tag_1)]))
-        }
-        state = match lexbuf.next_as_int() {
-          0..=8 => 1
-          11..=31 => 1
-          33..=1114111 => 1
-          _ => break
-        }
+      continue match lexbuf.next_as_int() {
+        0..=8 => 1
+        9 => 2
+        10 => 3
+        11..=31 => 1
+        32 => 2
+        33..=1114111 => 1
+        _ => break
       }
-      2 => {
-        if matched is (None | Some((2..<_, _, _))) {
-          matched = Some((2, lexbuf.curr_pos(), []))
-        }
-        break
-      }
-      3 => {
-        if matched is (None | Some((0..<_, _, _))) {
-          matched = Some((0, lexbuf.curr_pos(), []))
-        }
-        break
-      }
-      _ => panic()
     }
+    1 => {
+      _tag_1 = lexbuf.curr_pos()
+      if matched_pat >= 1 {
+        matched_pat = 1
+        matched_pos = lexbuf.curr_pos()
+        _captures[0] = _tag_0
+        _captures[1] = _tag_1
+      }
+      continue match lexbuf.next_as_int() {
+        0..=8 => 1
+        11..=31 => 1
+        33..=1114111 => 1
+        _ => break
+      }
+    }
+    2 => {
+      if matched_pat >= 2 {
+        matched_pat = 2
+        matched_pos = lexbuf.curr_pos()
+      }
+      break
+    }
+    3 => {
+      if matched_pat >= 0 {
+        matched_pat = 0
+        matched_pos = lexbuf.curr_pos()
+      }
+      break
+    }
+    _ => panic()
   }
 
-  guard matched is Some((pattern_id, marked_pos, _captures)) else {
-    // No pattern matched
+  guard matched_pat <= 3 else {
+    // No pattern matched_pat
     panic()
   }
 
-  lexbuf.reset(marked_pos)
-  match pattern_id {
+  lexbuf.reset(matched_pos)
+  match matched_pat {
     0 => {
  count(lines + 1, words, chars + 1, lexbuf) 
     }
     1 => {
-      let (_start_pos_of_word, _end_pos_of_word) = _captures[0]
+      let _start_pos_of_word = _captures[0]
+      let _end_pos_of_word = _captures[1]
       let word = lexbuf.get_string(_start_pos_of_word, _end_pos_of_word)
 
       let new_chars = chars + word.length()

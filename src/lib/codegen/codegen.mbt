@@ -88,10 +88,18 @@ fn codegen_rule(
     CodeUnit2 | CodeUnit4 => None
   }
   let dfa = @automaton.DFA::from_rule(rule, encoding~)
+  let max_num_capture_vars = dfa.captures
+    .iter()
+    .map(fn(vars) { vars.length() })
+    .maximum()
+    .or(0)
+  let max_pattern_id = dfa.code_blocks.length() - 1
   out.write_string(
     $|fn \{rule.signature} {
-    $|  let mut matched = None
-    $|  let mut state = \{dfa.start_node}
+    $|  let mut matched_pat = @int.max_value
+    $|  // FIXME: use -1 if we need to support capture as option
+    $|  let mut matched_pos = lexbuf.curr_pos()
+    $|  let _captures = FixedArray::make(\{max_num_capture_vars * 2}, matched_pos)
     $|
     ,
   )
@@ -135,14 +143,13 @@ fn codegen_rule(
     )
   }
   out.write_string(
-    $|  while true {
-    $|    match state {
+    $|  loop \{dfa.start_node} {
     $|
     ,
   )
   for state_num, trans in dfa.graph {
     out.write_string(
-      $|      \{state_num} => {
+      $|    \{state_num} => {
       $|
       ,
     )
@@ -161,7 +168,7 @@ fn codegen_rule(
       if buf.is_empty() {
         None
       } else {
-        Some(buf.iter().map(fn { x => "        \{x}" }).join("\n"))
+        Some(buf.iter().map(fn { x => "      \{x}" }).join("\n"))
       }
     }
 
@@ -171,24 +178,21 @@ fn codegen_rule(
     }
     if dfa.end_nodes[state_num] is Some((pattern_id, captures)) {
       out.write_string(
-        $|        if matched is (None | Some((\{pattern_id}..<_, _, _))) {
-        $|          matched = Some((\{pattern_id}, lexbuf.curr_pos(), [
+        $|      if matched_pat >= \{pattern_id} {
+        $|        matched_pat = \{pattern_id}
+        $|        matched_pos = lexbuf.curr_pos()
+        $|
         ,
       )
-      let mut is_first = true
-      for capture in captures {
+      for index, capture in captures {
         let ((begin_tag, begin_rank), (end_tag, end_rank)) = capture
         let begin_tag_var = gen_tag_var(begin_tag, begin_rank)
         let end_tag_var = gen_tag_var(end_tag, end_rank)
-        if not(is_first) {
-          out.write_string(", ")
-        }
-        out.write_string("(\{begin_tag_var}, \{end_tag_var})")
-        is_first = false
+        out.write_string("        _captures[\{index * 2}] = \{begin_tag_var}\n")
+        out.write_string("        _captures[\{index * 2 + 1}] = \{end_tag_var}\n")
       }
-      out.write_string("]))\n")
       out.write_string(
-        $|        }
+        $|      }
         $|
         ,
       )
@@ -196,13 +200,13 @@ fn codegen_rule(
     let grouped_trans = group_trans(trans)
     if grouped_trans.is_empty() {
       out.write_string(
-        $|        break
+        $|      break
         $|
         ,
       )
     } else {
       out.write_string(
-        $|        state = match lexbuf.next_as_int() {
+        $|      continue match lexbuf.next_as_int() {
         $|
         ,
       )
@@ -214,40 +218,39 @@ fn codegen_rule(
           "\{first_char}..=\{last_char}"
         }
         out.write_string(
-          $|          \{pattern} => \{next_state}
+          $|        \{pattern} => \{next_state}
           $|
           ,
         )
       }
       out.write_string(
-        $|          _ => break
-        $|        }
+        $|        _ => break
+        $|      }
         $|
         ,
       )
     }
     out.write_string(
-      $|      }
+      $|    }
       $|
       ,
     )
   }
   out.write_string(
-    $|      _ => panic()
-    $|    }
+    $|    _ => panic()
     $|  }
     $|
     ,
   )
   out.write_string(
     $|
-    $|  guard matched is Some((pattern_id, marked_pos, _captures)) else {
-    $|    // No pattern matched
+    $|  guard matched_pat <= \{max_pattern_id} else {
+    $|    // No pattern matched_pat
     $|    panic()
     $|  }
     $|
-    $|  lexbuf.reset(marked_pos)
-    $|  match pattern_id {
+    $|  lexbuf.reset(matched_pos)
+    $|  match matched_pat {
     $|
     ,
   )
@@ -272,14 +275,16 @@ fn codegen_rule(
       match var_type {
         Char =>
           out.write_string(
-            $|      let (_start_pos_of_\{name}, _end_pos_of_\{name}) = _captures[\{capture_id}]
+            $|      let _start_pos_of_\{name} = _captures[\{capture_id * 2}]
+            $|      let _end_pos_of_\{name} = _captures[\{capture_id * 2 + 1}]
             $|      let \{name} = lexbuf.get_char(_start_pos_of_\{name}, _end_pos_of_\{name})
             $|
             ,
           )
         String =>
           out.write_string(
-            $|      let (_start_pos_of_\{name}, _end_pos_of_\{name}) = _captures[\{capture_id}]
+            $|      let _start_pos_of_\{name} = _captures[\{capture_id * 2}]
+            $|      let _end_pos_of_\{name} = _captures[\{capture_id * 2 + 1}]
             $|      let \{name} = lexbuf.get_string(_start_pos_of_\{name}, _end_pos_of_\{name})
             $|
             ,
