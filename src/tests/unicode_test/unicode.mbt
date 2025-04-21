@@ -1,8 +1,10 @@
 
 
 fn lex_unicode[T : @lexbuf.IStringLexbuf](lexbuf : T) -> Int  {
-  let mut matched_pat = @int.max_value
-  let mut matched_pos = -1
+  // The matched pattern id
+  let mut matched = @int.max_value
+  let mut _end_pos = -1
+  let mut _start_pos = lexbuf.curr_pos()
   let mut _capture_0_start = -1
   let mut _capture_0_end = -1
   loop 0 {
@@ -21,23 +23,23 @@ fn lex_unicode[T : @lexbuf.IStringLexbuf](lexbuf : T) -> Int  {
       }
     }
     1 => {
-      if matched_pat >= 3 {
-        matched_pat = 3
-        matched_pos = lexbuf.curr_pos()
+      if matched >= 3 {
+        matched = 3
+        _end_pos = lexbuf.curr_pos()
       }
       break
     }
     2 => {
-      if matched_pat >= 2 {
-        matched_pat = 2
-        matched_pos = lexbuf.curr_pos()
+      if matched >= 2 {
+        matched = 2
+        _end_pos = lexbuf.curr_pos()
       }
       break
     }
     3 => {
-      if matched_pat >= 3 {
-        matched_pat = 3
-        matched_pos = lexbuf.curr_pos()
+      if matched >= 3 {
+        matched = 3
+        _end_pos = lexbuf.curr_pos()
       }
       continue match lexbuf.next_as_int() {
         29233 => 5
@@ -45,9 +47,9 @@ fn lex_unicode[T : @lexbuf.IStringLexbuf](lexbuf : T) -> Int  {
       }
     }
     4 => {
-      if matched_pat >= 1 {
-        matched_pat = 1
-        matched_pos = lexbuf.curr_pos()
+      if matched >= 1 {
+        matched = 1
+        _end_pos = lexbuf.curr_pos()
       }
       break
     }
@@ -64,22 +66,22 @@ fn lex_unicode[T : @lexbuf.IStringLexbuf](lexbuf : T) -> Int  {
       }
     }
     7 => {
-      if matched_pat >= 0 {
-        matched_pat = 0
-        matched_pos = lexbuf.curr_pos()
+      if matched >= 0 {
+        matched = 0
+        _end_pos = lexbuf.curr_pos()
       }
       break
     }
     _ => panic()
   }
 
-  guard matched_pat <= 3 else {
-    // No pattern matched_pat
+  guard matched <= 3 else {
+    // No pattern matched
     panic()
   }
 
-  lexbuf.reset(pos=matched_pos)
-  match matched_pat {
+  lexbuf.reset(pos=_end_pos)
+  match matched {
     0 => {
  1 
     }

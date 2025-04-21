@@ -26,6 +26,8 @@ fn rewrite_codeblock(
     match item.desc {
       StartPosOf(name) => buf.write_string("_start_pos_of_\{name}")
       EndPosOf(name) => buf.write_string("_end_pos_of_\{name}")
+      StartPos => buf.write_string("_start_pos")
+      EndPos => buf.write_string("_end_pos")
     }
     last_index = item.end
   }
@@ -96,8 +98,10 @@ fn codegen_rule(
   let max_pattern_id = dfa.code_blocks.length() - 1
   out.write_string(
     $|fn \{rule.signature} {
-    $|  let mut matched_pat = @int.max_value
-    $|  let mut matched_pos = -1
+    $|  // The matched pattern id
+    $|  let mut matched = @int.max_value
+    $|  let mut _end_pos = -1
+    $|  let mut _start_pos = lexbuf.curr_pos()
     $|
     ,
   )
@@ -184,9 +188,9 @@ fn codegen_rule(
     }
     if dfa.end_nodes[state_num] is Some((pattern_id, captures)) {
       out.write_string(
-        $|      if matched_pat >= \{pattern_id} {
-        $|        matched_pat = \{pattern_id}
-        $|        matched_pos = lexbuf.curr_pos()
+        $|      if matched >= \{pattern_id} {
+        $|        matched = \{pattern_id}
+        $|        _end_pos = lexbuf.curr_pos()
         $|
         ,
       )
@@ -250,13 +254,13 @@ fn codegen_rule(
   )
   out.write_string(
     $|
-    $|  guard matched_pat <= \{max_pattern_id} else {
-    $|    // No pattern matched_pat
+    $|  guard matched <= \{max_pattern_id} else {
+    $|    // No pattern matched
     $|    panic()
     $|  }
     $|
-    $|  lexbuf.reset(pos=matched_pos)
-    $|  match matched_pat {
+    $|  lexbuf.reset(pos=_end_pos)
+    $|  match matched {
     $|
     ,
   )
@@ -273,6 +277,7 @@ fn codegen_rule(
         for item in subst {
           match item.desc {
             StartPosOf(n) | EndPosOf(n) => if n == name { return true }
+            StartPos | EndPos => ()
           }
         }
         false

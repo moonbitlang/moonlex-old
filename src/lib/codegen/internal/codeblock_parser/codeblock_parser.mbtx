@@ -2,6 +2,8 @@
 pub(all) enum SubstItemDesc {
   StartPosOf(String)
   EndPosOf(String)
+  StartPos
+  EndPos
 }
 
 pub(all) struct SubstItem {
@@ -30,7 +32,18 @@ rule scan_codeblock_rbrace[T : @lexbuf.IStringLexbuf](subst : Array[SubstItem], 
       })
       scan_codeblock_rbrace(subst, lexbuf)
     }
-    "$" ['A'-'Z' 'a'-'z' '_'] ['A'-'Z' 'a'-'z' '0'-'9' '_']* => {
+    "$" (['A'-'Z' 'a'-'z' '_'] ['A'-'Z' 'a'-'z' '0'-'9' '_']* as t1) as t => {
+      if t1 is ("startpos" | "endpos") {
+        subst.push({ 
+          start: $startpos(t), 
+          end: $endpos(t), 
+          desc: match t1 {
+            "startpos" => StartPos
+            "endpos" => EndPos
+            _ => panic()
+          }
+        })
+      }
       scan_codeblock_rbrace(subst, lexbuf)
     }
     _ => { scan_codeblock_rbrace(subst, lexbuf) }

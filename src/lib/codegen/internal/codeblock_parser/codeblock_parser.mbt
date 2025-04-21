@@ -2,6 +2,8 @@
 pub(all) enum SubstItemDesc {
   StartPosOf(String)
   EndPosOf(String)
+  StartPos
+  EndPos
 }
 
 pub(all) struct SubstItem {
@@ -12,8 +14,10 @@ pub(all) struct SubstItem {
 
 
 fn scan_codeblock_rbrace[T : @lexbuf.IStringLexbuf](subst : Array[SubstItem], lexbuf : T) -> Unit  {
-  let mut matched_pat = @int.max_value
-  let mut matched_pos = -1
+  // The matched pattern id
+  let mut matched = @int.max_value
+  let mut _end_pos = -1
+  let mut _start_pos = lexbuf.curr_pos()
   let mut _capture_0_start = -1
   let mut _capture_0_end = -1
   let mut _capture_1_start = -1
@@ -28,12 +32,17 @@ fn scan_codeblock_rbrace[T : @lexbuf.IStringLexbuf](subst : Array[SubstItem], le
   let mut _tag_3 = -1
   let mut _tag_4 = -1
   let mut _tag_5 = -1
+  let mut _tag_6 = -1
+  let mut _tag_7 = -1
+  let mut _tag_8 = -1
+  let mut _tag_9 = -1
   loop 0 {
     0 => {
       _tag_4 = lexbuf.curr_pos()
-      if matched_pat >= 5 {
-        matched_pat = 5
-        matched_pos = lexbuf.curr_pos()
+      _tag_8 = lexbuf.curr_pos()
+      if matched >= 5 {
+        matched = 5
+        _end_pos = lexbuf.curr_pos()
       }
       continue match lexbuf.next_as_int() {
         0..=35 => 1
@@ -47,17 +56,18 @@ fn scan_codeblock_rbrace[T : @lexbuf.IStringLexbuf](subst : Array[SubstItem], le
       }
     }
     1 => {
-      if matched_pat >= 4 {
-        matched_pat = 4
-        matched_pos = lexbuf.curr_pos()
+      if matched >= 4 {
+        matched = 4
+        _end_pos = lexbuf.curr_pos()
       }
       break
     }
     2 => {
       _tag_0 = lexbuf.curr_pos()
-      if matched_pat >= 4 {
-        matched_pat = 4
-        matched_pos = lexbuf.curr_pos()
+      _tag_6 = lexbuf.curr_pos()
+      if matched >= 4 {
+        matched = 4
+        _end_pos = lexbuf.curr_pos()
       }
       continue match lexbuf.next_as_int() {
         65..=90 => 5
@@ -71,23 +81,29 @@ fn scan_codeblock_rbrace[T : @lexbuf.IStringLexbuf](subst : Array[SubstItem], le
       }
     }
     3 => {
-      if matched_pat >= 0 {
-        matched_pat = 0
-        matched_pos = lexbuf.curr_pos()
+      if matched >= 0 {
+        matched = 0
+        _end_pos = lexbuf.curr_pos()
       }
       break
     }
     4 => {
-      if matched_pat >= 1 {
-        matched_pat = 1
-        matched_pos = lexbuf.curr_pos()
+      if matched >= 1 {
+        matched = 1
+        _end_pos = lexbuf.curr_pos()
       }
       break
     }
     5 => {
-      if matched_pat >= 3 {
-        matched_pat = 3
-        matched_pos = lexbuf.curr_pos()
+      _tag_7 = lexbuf.curr_pos()
+      _tag_9 = lexbuf.curr_pos()
+      if matched >= 3 {
+        matched = 3
+        _end_pos = lexbuf.curr_pos()
+        _capture_0_start = _tag_6
+        _capture_0_end = _tag_7
+        _capture_1_start = _tag_8
+        _capture_1_end = _tag_9
       }
       continue match lexbuf.next_as_int() {
         48..=57 => 5
@@ -98,9 +114,15 @@ fn scan_codeblock_rbrace[T : @lexbuf.IStringLexbuf](subst : Array[SubstItem], le
       }
     }
     6 => {
-      if matched_pat >= 3 {
-        matched_pat = 3
-        matched_pos = lexbuf.curr_pos()
+      _tag_7 = lexbuf.curr_pos()
+      _tag_9 = lexbuf.curr_pos()
+      if matched >= 3 {
+        matched = 3
+        _end_pos = lexbuf.curr_pos()
+        _capture_0_start = _tag_6
+        _capture_0_end = _tag_7
+        _capture_1_start = _tag_8
+        _capture_1_end = _tag_9
       }
       continue match lexbuf.next_as_int() {
         48..=57 => 5
@@ -113,9 +135,15 @@ fn scan_codeblock_rbrace[T : @lexbuf.IStringLexbuf](subst : Array[SubstItem], le
       }
     }
     7 => {
-      if matched_pat >= 3 {
-        matched_pat = 3
-        matched_pos = lexbuf.curr_pos()
+      _tag_7 = lexbuf.curr_pos()
+      _tag_9 = lexbuf.curr_pos()
+      if matched >= 3 {
+        matched = 3
+        _end_pos = lexbuf.curr_pos()
+        _capture_0_start = _tag_6
+        _capture_0_end = _tag_7
+        _capture_1_start = _tag_8
+        _capture_1_end = _tag_9
       }
       continue match lexbuf.next_as_int() {
         48..=57 => 5
@@ -128,9 +156,15 @@ fn scan_codeblock_rbrace[T : @lexbuf.IStringLexbuf](subst : Array[SubstItem], le
       }
     }
     8 => {
-      if matched_pat >= 3 {
-        matched_pat = 3
-        matched_pos = lexbuf.curr_pos()
+      _tag_7 = lexbuf.curr_pos()
+      _tag_9 = lexbuf.curr_pos()
+      if matched >= 3 {
+        matched = 3
+        _end_pos = lexbuf.curr_pos()
+        _capture_0_start = _tag_6
+        _capture_0_end = _tag_7
+        _capture_1_start = _tag_8
+        _capture_1_end = _tag_9
       }
       continue match lexbuf.next_as_int() {
         48..=57 => 5
@@ -143,9 +177,15 @@ fn scan_codeblock_rbrace[T : @lexbuf.IStringLexbuf](subst : Array[SubstItem], le
       }
     }
     9 => {
-      if matched_pat >= 3 {
-        matched_pat = 3
-        matched_pos = lexbuf.curr_pos()
+      _tag_7 = lexbuf.curr_pos()
+      _tag_9 = lexbuf.curr_pos()
+      if matched >= 3 {
+        matched = 3
+        _end_pos = lexbuf.curr_pos()
+        _capture_0_start = _tag_6
+        _capture_0_end = _tag_7
+        _capture_1_start = _tag_8
+        _capture_1_end = _tag_9
       }
       continue match lexbuf.next_as_int() {
         48..=57 => 5
@@ -157,9 +197,15 @@ fn scan_codeblock_rbrace[T : @lexbuf.IStringLexbuf](subst : Array[SubstItem], le
       }
     }
     10 => {
-      if matched_pat >= 3 {
-        matched_pat = 3
-        matched_pos = lexbuf.curr_pos()
+      _tag_7 = lexbuf.curr_pos()
+      _tag_9 = lexbuf.curr_pos()
+      if matched >= 3 {
+        matched = 3
+        _end_pos = lexbuf.curr_pos()
+        _capture_0_start = _tag_6
+        _capture_0_end = _tag_7
+        _capture_1_start = _tag_8
+        _capture_1_end = _tag_9
       }
       continue match lexbuf.next_as_int() {
         48..=57 => 5
@@ -172,9 +218,15 @@ fn scan_codeblock_rbrace[T : @lexbuf.IStringLexbuf](subst : Array[SubstItem], le
       }
     }
     11 => {
-      if matched_pat >= 3 {
-        matched_pat = 3
-        matched_pos = lexbuf.curr_pos()
+      _tag_7 = lexbuf.curr_pos()
+      _tag_9 = lexbuf.curr_pos()
+      if matched >= 3 {
+        matched = 3
+        _end_pos = lexbuf.curr_pos()
+        _capture_0_start = _tag_6
+        _capture_0_end = _tag_7
+        _capture_1_start = _tag_8
+        _capture_1_end = _tag_9
       }
       continue match lexbuf.next_as_int() {
         48..=57 => 5
@@ -187,9 +239,15 @@ fn scan_codeblock_rbrace[T : @lexbuf.IStringLexbuf](subst : Array[SubstItem], le
       }
     }
     12 => {
-      if matched_pat >= 3 {
-        matched_pat = 3
-        matched_pos = lexbuf.curr_pos()
+      _tag_7 = lexbuf.curr_pos()
+      _tag_9 = lexbuf.curr_pos()
+      if matched >= 3 {
+        matched = 3
+        _end_pos = lexbuf.curr_pos()
+        _capture_0_start = _tag_6
+        _capture_0_end = _tag_7
+        _capture_1_start = _tag_8
+        _capture_1_end = _tag_9
       }
       continue match lexbuf.next_as_int() {
         48..=57 => 5
@@ -202,9 +260,15 @@ fn scan_codeblock_rbrace[T : @lexbuf.IStringLexbuf](subst : Array[SubstItem], le
       }
     }
     13 => {
-      if matched_pat >= 3 {
-        matched_pat = 3
-        matched_pos = lexbuf.curr_pos()
+      _tag_7 = lexbuf.curr_pos()
+      _tag_9 = lexbuf.curr_pos()
+      if matched >= 3 {
+        matched = 3
+        _end_pos = lexbuf.curr_pos()
+        _capture_0_start = _tag_6
+        _capture_0_end = _tag_7
+        _capture_1_start = _tag_8
+        _capture_1_end = _tag_9
       }
       continue match lexbuf.next_as_int() {
         48..=57 => 5
@@ -217,9 +281,15 @@ fn scan_codeblock_rbrace[T : @lexbuf.IStringLexbuf](subst : Array[SubstItem], le
       }
     }
     14 => {
-      if matched_pat >= 3 {
-        matched_pat = 3
-        matched_pos = lexbuf.curr_pos()
+      _tag_7 = lexbuf.curr_pos()
+      _tag_9 = lexbuf.curr_pos()
+      if matched >= 3 {
+        matched = 3
+        _end_pos = lexbuf.curr_pos()
+        _capture_0_start = _tag_6
+        _capture_0_end = _tag_7
+        _capture_1_start = _tag_8
+        _capture_1_end = _tag_9
       }
       continue match lexbuf.next_as_int() {
         48..=57 => 5
@@ -233,9 +303,15 @@ fn scan_codeblock_rbrace[T : @lexbuf.IStringLexbuf](subst : Array[SubstItem], le
     }
     15 => {
       _tag_1 = lexbuf.curr_pos()
-      if matched_pat >= 3 {
-        matched_pat = 3
-        matched_pos = lexbuf.curr_pos()
+      _tag_7 = lexbuf.curr_pos()
+      _tag_9 = lexbuf.curr_pos()
+      if matched >= 3 {
+        matched = 3
+        _end_pos = lexbuf.curr_pos()
+        _capture_0_start = _tag_6
+        _capture_0_end = _tag_7
+        _capture_1_start = _tag_8
+        _capture_1_end = _tag_9
       }
       continue match lexbuf.next_as_int() {
         40 => 16
@@ -280,9 +356,9 @@ fn scan_codeblock_rbrace[T : @lexbuf.IStringLexbuf](subst : Array[SubstItem], le
     }
     19 => {
       _tag_5 = lexbuf.curr_pos()
-      if matched_pat >= 2 {
-        matched_pat = 2
-        matched_pos = lexbuf.curr_pos()
+      if matched >= 2 {
+        matched = 2
+        _end_pos = lexbuf.curr_pos()
         _capture_0_start = _tag_0
         _capture_0_end = _tag_1
         _capture_1_start = _tag_2
@@ -295,13 +371,13 @@ fn scan_codeblock_rbrace[T : @lexbuf.IStringLexbuf](subst : Array[SubstItem], le
     _ => panic()
   }
 
-  guard matched_pat <= 5 else {
-    // No pattern matched_pat
+  guard matched <= 5 else {
+    // No pattern matched
     panic()
   }
 
-  lexbuf.reset(pos=matched_pos)
-  match matched_pat {
+  lexbuf.reset(pos=_end_pos)
+  match matched {
     0 => {
 
       scan_codeblock_rbrace(subst, lexbuf)
@@ -336,7 +412,25 @@ fn scan_codeblock_rbrace[T : @lexbuf.IStringLexbuf](subst : Array[SubstItem], le
     
     }
     3 => {
+      let _start_pos_of_t1 = _capture_0_start
+      let _end_pos_of_t1 = _capture_0_end
+      let t1 = lexbuf.get_string(_start_pos_of_t1, _end_pos_of_t1)
+      let _start_pos_of_t = _capture_1_start
+      let _end_pos_of_t = _capture_1_end
+      let t = lexbuf.get_string(_start_pos_of_t, _end_pos_of_t)
+      let _ = t
 
+      if t1 is ("startpos" | "endpos") {
+        subst.push({ 
+          start: _start_pos_of_t, 
+          end: _end_pos_of_t, 
+          desc: match t1 {
+            "startpos" => StartPos
+            "endpos" => EndPos
+            _ => panic()
+          }
+        })
+      }
       scan_codeblock_rbrace(subst, lexbuf)
     
     }

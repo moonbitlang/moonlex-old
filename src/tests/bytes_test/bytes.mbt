@@ -3,8 +3,10 @@ pub type! MalformedUtf8Error
 
 
 fn lex_utf8(lexbuf : @lexbuf.T, buf : StringBuilder) -> Unit!MalformedUtf8Error  {
-  let mut matched_pat = @int.max_value
-  let mut matched_pos = -1
+  // The matched pattern id
+  let mut matched = @int.max_value
+  let mut _end_pos = -1
+  let mut _start_pos = lexbuf.curr_pos()
   let mut _capture_0_start = -1
   let mut _capture_0_end = -1
   let mut _capture_1_start = -1
@@ -53,35 +55,35 @@ fn lex_utf8(lexbuf : @lexbuf.T, buf : StringBuilder) -> Unit!MalformedUtf8Error 
       }
     }
     1 => {
-      if matched_pat >= 0 {
-        matched_pat = 0
-        matched_pos = lexbuf.curr_pos()
+      if matched >= 0 {
+        matched = 0
+        _end_pos = lexbuf.curr_pos()
       }
       break
     }
     2 => {
       _tag_1 = lexbuf.curr_pos()
-      if matched_pat >= 1 {
-        matched_pat = 1
-        matched_pos = lexbuf.curr_pos()
+      if matched >= 1 {
+        matched = 1
+        _end_pos = lexbuf.curr_pos()
         _capture_0_start = _tag_0
         _capture_0_end = _tag_1
       }
       break
     }
     3 => {
-      if matched_pat >= 5 {
-        matched_pat = 5
-        matched_pos = lexbuf.curr_pos()
+      if matched >= 5 {
+        matched = 5
+        _end_pos = lexbuf.curr_pos()
       }
       break
     }
     4 => {
       _tag_3 = lexbuf.curr_pos()
       _tag_4 = lexbuf.curr_pos()
-      if matched_pat >= 5 {
-        matched_pat = 5
-        matched_pos = lexbuf.curr_pos()
+      if matched >= 5 {
+        matched = 5
+        _end_pos = lexbuf.curr_pos()
       }
       continue match lexbuf.next_as_int() {
         128..=191 => 8
@@ -91,9 +93,9 @@ fn lex_utf8(lexbuf : @lexbuf.T, buf : StringBuilder) -> Unit!MalformedUtf8Error 
     5 => {
       _tag_7 = lexbuf.curr_pos()
       _tag_8 = lexbuf.curr_pos()
-      if matched_pat >= 5 {
-        matched_pat = 5
-        matched_pos = lexbuf.curr_pos()
+      if matched >= 5 {
+        matched = 5
+        _end_pos = lexbuf.curr_pos()
       }
       continue match lexbuf.next_as_int() {
         128..=191 => 9
@@ -103,9 +105,9 @@ fn lex_utf8(lexbuf : @lexbuf.T, buf : StringBuilder) -> Unit!MalformedUtf8Error 
     6 => {
       _tag_13 = lexbuf.curr_pos()
       _tag_14 = lexbuf.curr_pos()
-      if matched_pat >= 5 {
-        matched_pat = 5
-        matched_pos = lexbuf.curr_pos()
+      if matched >= 5 {
+        matched = 5
+        _end_pos = lexbuf.curr_pos()
       }
       continue match lexbuf.next_as_int() {
         128..=191 => 7
@@ -122,9 +124,9 @@ fn lex_utf8(lexbuf : @lexbuf.T, buf : StringBuilder) -> Unit!MalformedUtf8Error 
     }
     8 => {
       _tag_5 = lexbuf.curr_pos()
-      if matched_pat >= 2 {
-        matched_pat = 2
-        matched_pos = lexbuf.curr_pos()
+      if matched >= 2 {
+        matched = 2
+        _end_pos = lexbuf.curr_pos()
         _capture_0_start = _tag_2
         _capture_0_end = _tag_3
         _capture_1_start = _tag_4
@@ -150,9 +152,9 @@ fn lex_utf8(lexbuf : @lexbuf.T, buf : StringBuilder) -> Unit!MalformedUtf8Error 
     }
     11 => {
       _tag_11 = lexbuf.curr_pos()
-      if matched_pat >= 3 {
-        matched_pat = 3
-        matched_pos = lexbuf.curr_pos()
+      if matched >= 3 {
+        matched = 3
+        _end_pos = lexbuf.curr_pos()
         _capture_0_start = _tag_6
         _capture_0_end = _tag_7
         _capture_1_start = _tag_8
@@ -164,9 +166,9 @@ fn lex_utf8(lexbuf : @lexbuf.T, buf : StringBuilder) -> Unit!MalformedUtf8Error 
     }
     12 => {
       _tag_19 = lexbuf.curr_pos()
-      if matched_pat >= 4 {
-        matched_pat = 4
-        matched_pos = lexbuf.curr_pos()
+      if matched >= 4 {
+        matched = 4
+        _end_pos = lexbuf.curr_pos()
         _capture_0_start = _tag_12
         _capture_0_end = _tag_13
         _capture_1_start = _tag_14
@@ -181,13 +183,13 @@ fn lex_utf8(lexbuf : @lexbuf.T, buf : StringBuilder) -> Unit!MalformedUtf8Error 
     _ => panic()
   }
 
-  guard matched_pat <= 5 else {
-    // No pattern matched_pat
+  guard matched <= 5 else {
+    // No pattern matched
     panic()
   }
 
-  lexbuf.reset(pos=matched_pos)
-  match matched_pat {
+  lexbuf.reset(pos=_end_pos)
+  match matched {
     0 => {
  () 
     }
