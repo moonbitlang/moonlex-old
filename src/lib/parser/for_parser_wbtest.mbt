@@ -2,11 +2,9 @@
 
 ///|
 let lexer_src : String =
-  #|{}
-  #|
-  #|let ws = [' ' '\t' '\r' '\n']+;
-  #|let hex_digit = ['0'-'9' 'A'-'F' 'a'-'f'];
-  #|let lc_ident = ['a'-'z' '_'] ['A'-'Z' 'a'-'z' '_' '0'-'9']*;
+  #|regex ws = [' ' '\t' '\r' '\n']+;
+  #|regex hex_digit = ['0'-'9' 'A'-'F' 'a'-'f'];
+  #|regex lc_ident = ['a'-'z' '_'] ['A'-'Z' 'a'-'z' '_' '0'-'9']*;
   #|
   #|rule token[T : @lexbuf.IStringLexbuf](lexbuf : T) -> Token {
   #|  parse {

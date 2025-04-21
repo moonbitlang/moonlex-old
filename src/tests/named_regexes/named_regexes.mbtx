@@ -1,7 +1,5 @@
-{}
-
-let digit = ['0'-'9'];
-let number = '0' | ['1'-'9'] digit*;
+regex digit = ['0'-'9'];
+regex number = '0' | ['1'-'9'] digit*;
 
 rule lex_is_number[T : @lexbuf.IStringLexbuf](lexbuf : T) -> Bool {
     parse {
