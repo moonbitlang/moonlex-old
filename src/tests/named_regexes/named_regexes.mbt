@@ -52,9 +52,11 @@ fn lex_is_number[T : @lexbuf.IStringLexbuf](lexbuf : T) -> Bool  {
   lexbuf.reset(pos=_end_pos)
   match matched {
     0 => {
+      ()
  true 
     }
     1 => {
+      ()
  false 
     }
     _ => panic()

@@ -393,15 +393,18 @@ fn token[T : @lexbuf.IStringLexbuf](lexbuf : T) -> Token!LexError  {
   lexbuf.reset(pos=_end_pos)
   match matched {
     0 => {
+      ()
  WHITESPACE 
     }
     1 => {
+      ()
       let _start_pos_of_t = _capture_0_start
       let _end_pos_of_t = _capture_0_end
       let t = lexbuf.get_string(_start_pos_of_t, _end_pos_of_t)
  NUMBER(t) 
     }
     2 => {
+      ()
       let _start_pos_of_t = _capture_0_start
       let _end_pos_of_t = _capture_0_end
       let t = lexbuf.get_char(_start_pos_of_t, _end_pos_of_t)
@@ -413,39 +416,50 @@ fn token[T : @lexbuf.IStringLexbuf](lexbuf : T) -> Token!LexError  {
     
     }
     3 => {
+      ()
  LBRACE 
     }
     4 => {
+      ()
  RBRACE 
     }
     5 => {
+      ()
  LBRACKET 
     }
     6 => {
+      ()
  RBRACKET 
     }
     7 => {
+      ()
  COMMA 
     }
     8 => {
+      ()
  COLON 
     }
     9 => {
+      ()
  TRUE 
     }
     10 => {
+      ()
  FALSE 
     }
     11 => {
+      ()
  NULL 
     }
     12 => {
+      ()
       let _start_pos_of_t = _capture_0_start
       let _end_pos_of_t = _capture_0_end
       let t = lexbuf.get_char(_start_pos_of_t, _end_pos_of_t)
  raise(Unrecognized(String::make(1, t))) 
     }
     13 => {
+      ()
  raise(EndOfFile) 
     }
     _ => panic()
@@ -598,12 +612,14 @@ fn lex_string[T : @lexbuf.IStringLexbuf](buf : StringBuilder, lexbuf : T) -> Uni
   lexbuf.reset(pos=_end_pos)
   match matched {
     0 => {
+      ()
       let _start_pos_of_t = _capture_0_start
       let _end_pos_of_t = _capture_0_end
       let t = lexbuf.get_char(_start_pos_of_t, _end_pos_of_t)
  buf.write_char(t) 
     }
     1 => {
+      ()
       let _start_pos_of_t = _capture_0_start
       let _end_pos_of_t = _capture_0_end
       let t = lexbuf.get_string(_start_pos_of_t, _end_pos_of_t)
@@ -613,6 +629,7 @@ fn lex_string[T : @lexbuf.IStringLexbuf](buf : StringBuilder, lexbuf : T) -> Uni
     
     }
     2 => {
+      ()
       let _start_pos_of_t = _capture_0_start
       let _end_pos_of_t = _capture_0_end
       let t = lexbuf.get_char(_start_pos_of_t, _end_pos_of_t)
@@ -622,12 +639,14 @@ fn lex_string[T : @lexbuf.IStringLexbuf](buf : StringBuilder, lexbuf : T) -> Uni
     
     }
     3 => {
+      ()
       let _start_pos_of_t = _capture_0_start
       let _end_pos_of_t = _capture_0_end
       let t = lexbuf.get_char(_start_pos_of_t, _end_pos_of_t)
  raise(Unrecognized(String::make(1, t))) 
     }
     4 => {
+      ()
  raise(UnexpectedEndOfFile) 
     }
     _ => panic()

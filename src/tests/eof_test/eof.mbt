@@ -66,15 +66,19 @@ fn token[T : @lexbuf.IStringLexbuf](lexbuf : T) -> Token  {
   lexbuf.reset(pos=_end_pos)
   match matched {
     0 => {
+      ()
  PERCENT_EOF 
     }
     1 => {
+      ()
  PERCENT 
     }
     2 => {
+      ()
  NON_PERCENT 
     }
     3 => {
+      ()
  EOF 
     }
     _ => panic()

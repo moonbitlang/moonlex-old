@@ -199,12 +199,15 @@ fn lex_unicode(lexbuf : @lexbuf.T) -> Int  {
   lexbuf.reset(pos=_end_pos)
   match matched {
     0 => {
+      ()
  1 
     }
     1 => {
+      ()
  2 
     }
     2 => {
+      ()
       let _start_pos_of_c = _capture_0_start
       let _end_pos_of_c = _capture_0_end
       let c = lexbuf.get_char(_start_pos_of_c, _end_pos_of_c)
@@ -217,6 +220,7 @@ fn lex_unicode(lexbuf : @lexbuf.T) -> Int  {
     
     }
     3 => {
+      ()
  4 
     }
     _ => panic()

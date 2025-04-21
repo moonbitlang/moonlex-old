@@ -83,15 +83,19 @@ fn lex_unicode[T : @lexbuf.IStringLexbuf](lexbuf : T) -> Int  {
   lexbuf.reset(pos=_end_pos)
   match matched {
     0 => {
+      ()
  1 
     }
     1 => {
+      ()
  2 
     }
     2 => {
+      ()
  3 
     }
     3 => {
+      ()
  4 
     }
     _ => panic()

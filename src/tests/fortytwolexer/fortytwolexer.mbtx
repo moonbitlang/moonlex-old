@@ -3,8 +3,8 @@
 
 rule scan_newline[T : @lexbuf.IStringLexbuf](lexbuf : T) -> Int {
   parse {
-    ('\r'? '\n' | '\r') as t => {
-      $startpos(t)
+    '\r'? '\n' | '\r' => {
+      $startpos
     }
     _ => { scan_newline(lexbuf) }
     "" => { -1 }

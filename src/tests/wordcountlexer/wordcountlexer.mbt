@@ -70,9 +70,11 @@ fn count[T : @lexbuf.IStringLexbuf](lines : Int, words : Int, chars : Int, lexbu
   lexbuf.reset(pos=_end_pos)
   match matched {
     0 => {
+      ()
  count(lines + 1, words, chars + 1, lexbuf) 
     }
     1 => {
+      ()
       let _start_pos_of_word = _capture_0_start
       let _end_pos_of_word = _capture_0_end
       let word = lexbuf.get_string(_start_pos_of_word, _end_pos_of_word)
@@ -82,9 +84,11 @@ fn count[T : @lexbuf.IStringLexbuf](lines : Int, words : Int, chars : Int, lexbu
     
     }
     2 => {
+      ()
  count(lines, words, chars + 1, lexbuf) 
     }
     3 => {
+      ()
  (lines, words, chars) 
     }
     _ => panic()

@@ -265,8 +265,10 @@ fn codegen_rule(
     ,
   )
   for pattern_id, codeblock in dfa.code_blocks {
+    // The `()` is to avoid `{ xxx }` to be interpreted as a record
     out.write_string(
       $|    \{pattern_id} => {
+      $|      ()
       $|
       ,
     )

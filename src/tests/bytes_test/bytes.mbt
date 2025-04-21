@@ -191,9 +191,11 @@ fn lex_utf8(lexbuf : @lexbuf.T, buf : StringBuilder) -> Unit!MalformedUtf8Error 
   lexbuf.reset(pos=_end_pos)
   match matched {
     0 => {
+      ()
  () 
     }
     1 => {
+      ()
       let _start_pos_of_t = _capture_0_start
       let _end_pos_of_t = _capture_0_end
       let t = lexbuf.get_char(_start_pos_of_t, _end_pos_of_t)
@@ -204,6 +206,7 @@ fn lex_utf8(lexbuf : @lexbuf.T, buf : StringBuilder) -> Unit!MalformedUtf8Error 
     
     }
     2 => {
+      ()
       let _start_pos_of_t1 = _capture_0_start
       let _end_pos_of_t1 = _capture_0_end
       let t1 = lexbuf.get_char(_start_pos_of_t1, _end_pos_of_t1)
@@ -217,6 +220,7 @@ fn lex_utf8(lexbuf : @lexbuf.T, buf : StringBuilder) -> Unit!MalformedUtf8Error 
     
     }
     3 => {
+      ()
       let _start_pos_of_t1 = _capture_0_start
       let _end_pos_of_t1 = _capture_0_end
       let t1 = lexbuf.get_char(_start_pos_of_t1, _end_pos_of_t1)
@@ -233,6 +237,7 @@ fn lex_utf8(lexbuf : @lexbuf.T, buf : StringBuilder) -> Unit!MalformedUtf8Error 
     
     }
     4 => {
+      ()
       let _start_pos_of_t1 = _capture_0_start
       let _end_pos_of_t1 = _capture_0_end
       let t1 = lexbuf.get_char(_start_pos_of_t1, _end_pos_of_t1)
@@ -252,6 +257,7 @@ fn lex_utf8(lexbuf : @lexbuf.T, buf : StringBuilder) -> Unit!MalformedUtf8Error 
     
     }
     5 => {
+      ()
  raise MalformedUtf8Error 
     }
     _ => panic()
