@@ -1,3 +1,16 @@
+## ulex 0.2.0
+
+### Breaking Change
+
+- The `let` regex declaration now use `regex` keyword instead of `let`.
+
+### New Features
+
+- Support capture single character regex as character.
+- Support `$startpos` and `$endpos` no need to specify capture variable in actions.
+- Now `@lexengine` is no longer required, and `@lexbuf` is now optional.
+- Support `--code-unit 1` and `--default-encoding utf-8` cli options.
+
 ## ulex 0.1.0
 
 ### Breaking Change
