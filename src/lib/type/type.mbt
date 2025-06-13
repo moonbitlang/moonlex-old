@@ -68,7 +68,7 @@ pub fn get_capture_names(self : Regex) -> Array[String] {
 ///|
 fn get_capture_names_rec(self : Regex) -> Iter[String] {
   match self {
-    Capture(re, name) => re.get_capture_names_rec().append(name)
+    Capture(re, name) => re.get_capture_names_rec() + Iter::singleton(name)
     Repetition(re) | Option(re) => re.get_capture_names_rec()
     Alter(re1, re2) | Concat(re1, re2) =>
       re1.get_capture_names_rec().concat(re2.get_capture_names_rec())
@@ -77,7 +77,7 @@ fn get_capture_names_rec(self : Regex) -> Iter[String] {
 }
 
 ///|
-pub typealias CodeBlock = String
+pub typealias String as CodeBlock
 
 ///|
 pub(all) struct Rule {
@@ -101,7 +101,7 @@ pub fn eliminate_named(self : Lex) -> Lex {
   let named_regexes = Map::from_array(self.named_regexes)
   fn eliminate_named_regex(re : Regex) -> Regex {
     match re {
-      Underscore | EOF | ReStr(_) | ReChar(_) | CharSet(_)  => re
+      Underscore | EOF | ReStr(_) | ReChar(_) | CharSet(_) => re
       Repetition(re) => Repetition(eliminate_named_regex(re))
       Option(re) => Option(eliminate_named_regex(re))
       Alter(re1, re2) =>

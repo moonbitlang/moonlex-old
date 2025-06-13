@@ -94,50 +94,77 @@ pub fn run(self : LexEngine, lexbuf : Lexbuf) -> (Int, Array[(Int, Int)]) {
 
 
 
-let test_func_tag_action_row_1 : Array[Int] = []
-let test_func_tag_action_row_2 : Array[Int] = [-1]
-let test_func_tag_action_row_0 : Array[Int] = [0]
 
-let test_func_tag_action_1 : Array[Array[Int]] = [test_func_tag_action_row_0, test_func_tag_action_row_1]
-let test_func_tag_action_0 : Array[Array[Int]] = [test_func_tag_action_row_0, test_func_tag_action_row_2]
+let token_tag_action_0 : Array[Array[Int]] = []
 
-fn test_func_state_0(input : LexInput) -> (LexState, LexTagAction) {
+fn token_state_0(input : LexInput) -> (LexState, LexTagAction) {
   match input {
-    97 => (1, test_func_tag_action_0)
+    65..=90 => (1, token_tag_action_0)
+    95 => (1, token_tag_action_0)
+    97..=107 => (1, token_tag_action_0)
+    108 => (2, token_tag_action_0)
+    109..=122 => (1, token_tag_action_0)
     _ => (-1, [])
   }
 }
-fn test_func_state_1(input : LexInput) -> (LexState, LexTagAction) {
+fn token_state_1(input : LexInput) -> (LexState, LexTagAction) {
   match input {
-    97..=98 => (2, test_func_tag_action_1)
+    48..=57 => (3, token_tag_action_0)
+    65..=90 => (3, token_tag_action_0)
+    95 => (3, token_tag_action_0)
+    97..=122 => (3, token_tag_action_0)
     _ => (-1, [])
   }
 }
-fn test_func_state_2(input : LexInput) -> (LexState, LexTagAction) {
+fn token_state_2(input : LexInput) -> (LexState, LexTagAction) {
   match input {
-    97 => (3, test_func_tag_action_0)
-    98 => (2, test_func_tag_action_1)
+    48..=57 => (3, token_tag_action_0)
+    65..=90 => (3, token_tag_action_0)
+    95 => (3, token_tag_action_0)
+    97..=100 => (3, token_tag_action_0)
+    101 => (4, token_tag_action_0)
+    102..=122 => (3, token_tag_action_0)
     _ => (-1, [])
   }
 }
-fn test_func_state_3(input : LexInput) -> (LexState, LexTagAction) {
+fn token_state_3(input : LexInput) -> (LexState, LexTagAction) {
   match input {
-    97 => (3, test_func_tag_action_0)
-    98 => (2, test_func_tag_action_1)
+    48..=57 => (3, token_tag_action_0)
+    65..=90 => (3, token_tag_action_0)
+    95 => (3, token_tag_action_0)
+    97..=122 => (3, token_tag_action_0)
+    _ => (-1, [])
+  }
+}
+fn token_state_4(input : LexInput) -> (LexState, LexTagAction) {
+  match input {
+    48..=57 => (3, token_tag_action_0)
+    65..=90 => (3, token_tag_action_0)
+    95 => (3, token_tag_action_0)
+    97..=115 => (3, token_tag_action_0)
+    116 => (5, token_tag_action_0)
+    117..=122 => (3, token_tag_action_0)
+    _ => (-1, [])
+  }
+}
+fn token_state_5(input : LexInput) -> (LexState, LexTagAction) {
+  match input {
+    48..=57 => (3, token_tag_action_0)
+    65..=90 => (3, token_tag_action_0)
+    95 => (3, token_tag_action_0)
+    97..=122 => (3, token_tag_action_0)
     _ => (-1, [])
   }
 }
 
-let __mbtlex_engine_test_func: LexEngine = { graph: [test_func_state_0, test_func_state_1, test_func_state_2, test_func_state_3, ], end_nodes: [None, Some((0, [((0, 0), (1, 0))])), None, Some((0, [((0, 0), (1, 0))]))], start_tags: [0], code_blocks_n: 1 }
-fn test_func( lexbuf : Lexbuf ) -> String {
-  match __mbtlex_engine_test_func.run(lexbuf) {
+let __mbtlex_engine_token: LexEngine = { graph: [token_state_0, token_state_1, token_state_2, token_state_3, token_state_4, token_state_5, ], end_nodes: [None, Some((1, [])), Some((1, [])), Some((1, [])), Some((1, [])), Some((0, []))], start_tags: [], code_blocks_n: 2 }
+fn token( lexbuf : Lexbuf ) -> String {
+  match __mbtlex_engine_token.run(lexbuf) {
     (0, __mbtlex_captures) => {
-  let (_start_pos_of_t2, _end_pos_of_t2) = __mbtlex_captures[0]
-  let t2: String = lexbuf.substring(_start_pos_of_t2, _end_pos_of_t2)
-  
-
-      t2
-    
+ "keyword" 
+    }
+    (1, __mbtlex_captures) => {
+ "ident" 
     }
     _ => abort("lex: fail to match")
   }

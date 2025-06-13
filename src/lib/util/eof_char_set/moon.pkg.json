@@ -1,6 +1,7 @@
 {
   "import": [
     "moonbitlang/lex/lib/util/diet",
-    "moonbitlang/lex/lib/util/bounded_enum"
+    "moonbitlang/lex/lib/util/bounded_enum",
+    "moonbitlang/lex/lib/util/char_set"
   ]
 }

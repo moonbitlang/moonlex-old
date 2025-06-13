@@ -13,9 +13,9 @@ pub fn Lexbuf::from_string(content : String) -> Lexbuf {
 ///|
 fn next(self : Lexbuf) -> Char? {
   if self.pos < self.content.length() {
-    let ch = self.content[self.pos]
+    let ch = self.content.charcode_at(self.pos)
     self.pos += 1
-    Some(ch)
+    Some(ch.unsafe_to_char())
   } else {
     None
   }
@@ -27,13 +27,13 @@ fn substring(self : Lexbuf, start : Int, end : Int) -> String {
 }
 
 ///|
-typealias LexTagAction = Array[Array[Int]]
+typealias Array[Array[Int]] as LexTagAction
 
 ///|
-typealias LexState = Int
+typealias Int as LexState
 
 ///|
-typealias LexInput = Int
+typealias Int as LexInput
 
 ///|
 pub(all) struct LexEngine {
@@ -47,7 +47,7 @@ pub(all) struct LexEngine {
 pub fn run(self : LexEngine, lexbuf : Lexbuf) -> (Int, Array[(Int, Int)]) {
   let mut state = 0
   let mut tagState : Array[Array[Int]] = []
-  let backtrace = Array::make(self.code_blocks_n, None)
+  let mut longest_match = None
   for tag in self.start_tags {
     while tagState.length() <= tag {
       tagState.push([])
@@ -56,7 +56,7 @@ pub fn run(self : LexEngine, lexbuf : Lexbuf) -> (Int, Array[(Int, Int)]) {
   }
   while state != -1 {
     match self.end_nodes[state] {
-      Some(t) => backtrace[t.0] = Some((lexbuf.pos, state, tagState))
+      Some(t) => longest_match = Some((t.0, lexbuf.pos, state, tagState))
       _ => ()
     }
     let b = match lexbuf.next() {
@@ -79,19 +79,15 @@ pub fn run(self : LexEngine, lexbuf : Lexbuf) -> (Int, Array[(Int, Int)]) {
     }
     tagState = new_tagState
   }
-  for index, b in backtrace {
-    match b {
-      Some((p, state, tagState)) => {
-        lexbuf.pos = p
-        let captures = self.end_nodes[state].unwrap().1.map(fn {
-          ((b_t, b_r), (e_t, e_r)) => (tagState[b_t][b_r], tagState[e_t][e_r])
-        })
-        break (index, captures)
-      }
-      None => ()
+  match longest_match {
+    None => (self.code_blocks_n, [])
+    Some((index, pos, state, tagState)) => {
+      lexbuf.pos = pos
+      let captures = self.end_nodes[state].unwrap().1.map(fn {
+        ((b_t, b_r), (e_t, e_r)) => (tagState[b_t][b_r], tagState[e_t][e_r])
+      })
+      (index, captures)
     }
-  } else {
-    (self.code_blocks_n, [])
   }
 }
 
@@ -797,7 +793,7 @@ fn token( lexbuf : Lexbuf ) -> Token {
   let (_start_pos_of_t, _end_pos_of_t) = __mbtlex_captures[0]
   let t: String = lexbuf.substring(_start_pos_of_t, _end_pos_of_t)
   
- CHAR(t[0]) 
+ CHAR(t.char_at(0)) 
     }
     (22, __mbtlex_captures) => {
  CHAR('\u{08}') 
@@ -825,8 +821,8 @@ fn token( lexbuf : Lexbuf ) -> Token {
   let t: String = lexbuf.substring(_start_pos_of_t, _end_pos_of_t)
   
 
-      let code = @strconv.parse_int?(t, base=16).unwrap()
-      CHAR(Char::from_int(code))
+      let code = (try? @strconv.parse_int(t, base=16)).unwrap()
+      CHAR(code.unsafe_to_char())
     
     }
     (30, __mbtlex_captures) => {
@@ -834,8 +830,8 @@ fn token( lexbuf : Lexbuf ) -> Token {
   let t: String = lexbuf.substring(_start_pos_of_t, _end_pos_of_t)
   
 
-      let code = @strconv.parse_int?(t, base=16).unwrap()
-      CHAR(Char::from_int(code))
+      let code = (try? @strconv.parse_int(t, base=16)).unwrap()
+      CHAR(code.unsafe_to_char())
     
     }
     (31, __mbtlex_captures) => {
@@ -843,8 +839,8 @@ fn token( lexbuf : Lexbuf ) -> Token {
   let t: String = lexbuf.substring(_start_pos_of_t, _end_pos_of_t)
   
 
-      let code = @strconv.parse_int?(t, base=16).unwrap()
-      CHAR(Char::from_int(code))
+      let code = (try? @strconv.parse_int(t, base=16)).unwrap()
+      CHAR(code.unsafe_to_char())
     
     }
     (32, __mbtlex_captures) => {
@@ -1116,8 +1112,8 @@ fn string_inner_rquote( buffer : StringBuilder, lexbuf : Lexbuf ) -> Unit {
   let t: String = lexbuf.substring(_start_pos_of_t, _end_pos_of_t)
   
 
-      let code = @strconv.parse_int?(t, base=16).unwrap()
-      buffer.write_char(Char::from_int(code))
+      let code = (try? @strconv.parse_int(t, base=16)).unwrap()
+      buffer.write_char(code.unsafe_to_char())
     
     }
     (9, __mbtlex_captures) => {
@@ -1125,8 +1121,8 @@ fn string_inner_rquote( buffer : StringBuilder, lexbuf : Lexbuf ) -> Unit {
   let t: String = lexbuf.substring(_start_pos_of_t, _end_pos_of_t)
   
 
-      let code = @strconv.parse_int?(t, base=16).unwrap()
-      buffer.write_char(Char::from_int(code))
+      let code = (try? @strconv.parse_int(t, base=16)).unwrap()
+      buffer.write_char(code.unsafe_to_char())
     
     }
     (10, __mbtlex_captures) => {
@@ -1134,8 +1130,8 @@ fn string_inner_rquote( buffer : StringBuilder, lexbuf : Lexbuf ) -> Unit {
   let t: String = lexbuf.substring(_start_pos_of_t, _end_pos_of_t)
   
 
-      let code = @strconv.parse_int?(t, base=16).unwrap()
-      buffer.write_char(Char::from_int(code))
+      let code = (try? @strconv.parse_int(t, base=16)).unwrap()
+      buffer.write_char(code.unsafe_to_char())
     
     }
     (11, __mbtlex_captures) => {

@@ -41,7 +41,7 @@ let lexer_src : String =
   #|    "?" => { QUESTION }
   #|    "-" => { MINUS }
   #|    "^" => { CARET }
-  #|    '\'' ([^ '\'' '\\'] as t) '\'' => { CHAR(t[0]) }
+  #|    '\'' ([^ '\'' '\\'] as t) '\'' => { CHAR(t.char_at(0)) }
   #|    '\'' "\\b" '\'' => { CHAR('\u{08}') }
   #|    '\'' "\\t" '\'' => { CHAR('\t') }
   #|    '\'' "\\v" '\'' => { CHAR('\u{0b}') }
@@ -50,16 +50,16 @@ let lexer_src : String =
   #|    '\'' "\\\\" '\'' => { CHAR('\\') }
   #|    '\'' "\\'" '\'' => { CHAR('\'') }
   #|    '\'' "\\x" ((hex_digit hex_digit) as t) '\'' => {
-  #|      let code = @strconv.parse_int?(t, base=16).unwrap()
-  #|      CHAR(Char::from_int(code))
+  #|      let code = (try? @strconv.parse_int(t, base=16)).unwrap()
+  #|      CHAR(code.unsafe_to_char())
   #|    }
   #|    '\'' "\\u" ((hex_digit hex_digit hex_digit hex_digit) as t) '\'' => {
-  #|      let code = @strconv.parse_int?(t, base=16).unwrap()
-  #|      CHAR(Char::from_int(code))
+  #|      let code = (try? @strconv.parse_int(t, base=16)).unwrap()
+  #|      CHAR(code.unsafe_to_char())
   #|    }
   #|    '\'' "\\u{" (hex_digit+ as t) '}' '\'' => {
-  #|      let code = @strconv.parse_int?(t, base=16).unwrap()
-  #|      CHAR(Char::from_int(code))
+  #|      let code = (try? @strconv.parse_int(t, base=16)).unwrap()
+  #|      CHAR(code.unsafe_to_char())
   #|    }
   #|    '"' => {
   #|      let buffer = StringBuilder::new()
@@ -109,16 +109,16 @@ let lexer_src : String =
   #|      string_inner_rquote(buffer, lexbuf)
   #|    }
   #|    "\\x" ((hex_digit hex_digit) as t) '\'' => {
-  #|      let code = @strconv.parse_int?(t, base=16).unwrap()
-  #|      buffer.write_char(Char::from_int(code))
+  #|      let code = (try? @strconv.parse_int(t, base=16)).unwrap()
+  #|      buffer.write_char(code.unsafe_to_char())
   #|    }
   #|    "\\u" ((hex_digit hex_digit hex_digit hex_digit) as t) '\'' => {
-  #|      let code = @strconv.parse_int?(t, base=16).unwrap()
-  #|      buffer.write_char(Char::from_int(code))
+  #|      let code = (try? @strconv.parse_int(t, base=16)).unwrap()
+  #|      buffer.write_char(code.unsafe_to_char())
   #|    }
   #|    "\\u{" (hex_digit+ as t) '}' '\'' => {
-  #|      let code = @strconv.parse_int?(t, base=16).unwrap()
-  #|      buffer.write_char(Char::from_int(code))
+  #|      let code = (try? @strconv.parse_int(t, base=16)).unwrap()
+  #|      buffer.write_char(code.unsafe_to_char())
   #|    }
   #|    _ as t => {
   #|      buffer.write_string(t)

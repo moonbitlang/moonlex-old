@@ -49,18 +49,18 @@ fn update_by_tags(self : TagState, tags : @bitset.T) -> TagState {
 }
 
 ///|
-fn tagState_min(self : TagState, other : TagState) -> TagState {
-  for i = 0; i < self._.length(); i = i + 1 {
-    match (self._[i], other._[i]) {
+fn tagState_min(self_ : TagState, other : TagState) -> TagState {
+  for i = 0; i < self_._.length(); i = i + 1 {
+    match (self_._[i], other._[i]) {
       (None, _) => break other
-      (_, None) => break self
+      (_, None) => break self_
       (Some(r1), Some(r2)) =>
         if r1 != r2 {
-          break if r1 < r2 { self } else { other }
+          break if r1 < r2 { self_ } else { other }
         }
     }
   } else {
-    self
+    self_
   }
 }
 
@@ -111,7 +111,7 @@ fn DFA::add_edge(
 }
 
 ///|
-typealias State = @immut/hashmap.T[NFANode, TagState]
+typealias @immut/hashmap.T[NFANode, TagState] as State
 
 ///|
 fn state_canonicalize(state : State, tag_count : Int) -> (State, TagAction) {
@@ -209,7 +209,7 @@ fn DFA::from_nfa(nfa : NFA) -> DFA {
     let char_set_by_nfa_target = {}
     for nfa_tran in nfa_trans {
       let (cset, target) = nfa_tran
-      match char_set_by_nfa_target[target] {
+      match char_set_by_nfa_target.get(target) {
         None => char_set_by_nfa_target[target] = cset
         Some(old_cset) => char_set_by_nfa_target[target] = old_cset + cset
       }
@@ -243,9 +243,9 @@ fn DFA::from_nfa(nfa : NFA) -> DFA {
       let (cset, targets) = tran
       for target in targets {
         let (step_node, from_tagState, tag) = target
-        let mut state_map = next_states[cset].or_else(fn() {
-          @immut/hashmap.new()
-        })
+        let mut state_map = next_states
+          .get(cset)
+          .or_else(fn() { @immut/hashmap.new() })
         guard tag.is_empty() else {
           // only eps-edge has tag
           abort("error")

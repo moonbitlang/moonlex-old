@@ -26,10 +26,8 @@ fn main {
     return
   }
   guard input_file.val != "" else { abort("Input file is required") }
-  let lexer_spec_src = @fs.read_file_to_string?(input_file.val).unwrap()
-  let lex = try {
-    @parser.parse_lex_from_string!(lexer_spec_src)
-  } catch {
+  let lexer_spec_src = (try? @fs.read_file_to_string(input_file.val)).unwrap()
+  let lex = @parser.parse_lex_from_string(lexer_spec_src) catch {
     err => {
       println(err)
       panic()
@@ -40,6 +38,6 @@ fn main {
   if output_file.val == "" {
     println(output)
   } else {
-    @fs.write_string_to_file?(output_file.val, output).unwrap()
+    (try? @fs.write_string_to_file(output_file.val, output)).unwrap()
   }
 }

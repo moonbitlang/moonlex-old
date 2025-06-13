@@ -3,10 +3,10 @@ pub fn codegen_lex(lex : Lex) -> String {
   [
     runtime,
     lex.header,
-    lex.rules.map(codegen_rule) |> @string.concat(separator="\n"),
+    lex.rules.map(codegen_rule) |> _.join("\n"),
     lex.trailer,
   ]
-  |> @string.concat(separator="\n\n")
+  |> _.join("\n\n")
 }
 
 ///|
@@ -40,7 +40,7 @@ fn group_trans(
   for tran in trans {
     let (char_set, (next_state, tag_action)) = tran
     tag_action_by_state[next_state] = tag_action
-    match char_set_by_state[next_state] {
+    match char_set_by_state.get(next_state) {
       None => char_set_by_state[next_state] = char_set
       Some(existing_char_set) =>
         char_set_by_state[next_state] = char_set.union(existing_char_set)
@@ -50,7 +50,7 @@ fn group_trans(
     .iter()
     .flat_map(fn {
       (state, char_set) => {
-        let action = tag_action_by_state[state].unwrap()
+        let action = tag_action_by_state.get(state).unwrap()
         char_set
         .iter_ranges()
         .map(fn {
@@ -83,7 +83,7 @@ fn codegen_rule(rule : Rule) -> String {
   let mut next_tag_action_row_id = 0
   let tag_action_row_dedup = @sorted_map.new()
   fn get_tag_action_row_id(tag_action_row : Array[Int]) -> Int {
-    match tag_action_row_dedup[tag_action_row] {
+    match tag_action_row_dedup.get(tag_action_row) {
       Some(id) => id
       None => {
         let id = next_tag_action_row_id
@@ -97,7 +97,7 @@ fn codegen_rule(rule : Rule) -> String {
   let mut next_tag_action_id = 0
   let tag_action_dedup = @sorted_map.new()
   fn get_tag_action_id(tag_action : @automaton.TagAction) -> Int {
-    match tag_action_dedup[tag_action._] {
+    match tag_action_dedup.get(tag_action._) {
       Some(id) => id
       None => {
         let id = next_tag_action_id
@@ -202,7 +202,7 @@ fn codegen_rule(rule : Rule) -> String {
       rule.return_type,
       "{",
     ]
-    |> @string.concat(separator=" "),
+    |> _.join(" "),
     [
       ["  match \{engine}.run(lexbuf) {"],
       Array::makei(dfa.code_blocks.length(), fn(i) {
@@ -233,14 +233,14 @@ fn codegen_rule(rule : Rule) -> String {
           ["    }"],
         ]
         |> Array::flatten()
-        |> @string.concat(separator="\n")
+        |> _.join("\n")
       }),
       ["    _ => abort(\"lex: fail to match\")"],
       ["  }"],
     ]
     |> Array::flatten()
-    |> @string.concat(separator="\n"),
+    |> _.join("\n"),
     "}",
   ]
-  |> @string.concat(separator="\n")
+  |> _.join("\n")
 }

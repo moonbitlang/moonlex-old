@@ -1,5 +1,5 @@
 ///|
-pub typealias T = Bitset
+pub typealias Bitset as T
 
 ///|
 struct Bitset {

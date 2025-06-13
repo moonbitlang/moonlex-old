@@ -1,7 +1,7 @@
 ///|
-pub fn parse_lex_from_string(input : String) -> @type.Lex!ParseError {
+pub fn parse_lex_from_string(input : String) -> @type.Lex raise ParseError {
   let lexbuf = Lexbuf::from_string(input)
-  lex_eoi!(
+  lex_eoi(
     fn() {
       let tok = token(lexbuf)
       (tok, (), ())
@@ -11,9 +11,9 @@ pub fn parse_lex_from_string(input : String) -> @type.Lex!ParseError {
 }
 
 ///|
-pub fn parse_regex_from_string(input : String) -> @type.Regex!ParseError {
+pub fn parse_regex_from_string(input : String) -> @type.Regex raise ParseError {
   let lexbuf = Lexbuf::from_string(input)
-  regex_eoi!(
+  regex_eoi(
     fn() {
       let tok = token(lexbuf)
       (tok, (), ())

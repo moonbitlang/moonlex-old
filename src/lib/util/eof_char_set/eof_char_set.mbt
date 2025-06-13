@@ -1,8 +1,17 @@
 ///|
-pub typealias T = EofCharSet
+pub typealias EofCharSet as T
 
 ///|
 type EofCharSet @diet.T[EofChar] derive(Default, Eq, Compare, Hash)
+
+///|
+pub fn from_char_set(cset : @char_set.T) -> EofCharSet {
+  let mut result = empty
+  for r in cset.iter_ranges() {
+    result += range(r.0, r.1)
+  }
+  result
+}
 
 ///|
 pub let empty : EofCharSet = @diet.empty()
@@ -36,12 +45,12 @@ pub fn negated(self : EofCharSet) -> EofCharSet {
 
 ///|
 pub fn is_empty(self : EofCharSet) -> Bool {
-  @diet.is_empty(self._)
+  self._.is_empty()
 }
 
 ///|
 pub fn contains(self : EofCharSet, x : Char) -> Bool {
-  @diet.contains(self._, EofChar::char(x))
+  self._.contains(EofChar::char(x))
 }
 
 ///|
@@ -70,7 +79,7 @@ pub fn intersection(self : EofCharSet, other : EofCharSet) -> EofCharSet {
 
 ///|
 pub fn complement(self : EofCharSet) -> EofCharSet {
-  @diet.complement(self._)
+  self._.complement()
 }
 
 ///|
@@ -89,23 +98,23 @@ pub fn disjoint(self : EofCharSet, other : EofCharSet) -> Bool {
 }
 
 ///|
-pub fn EofCharSet::op_neg(self : EofCharSet) -> EofCharSet {
-  complement(self)
+pub impl Neg for EofCharSet with op_neg(self) {
+  self.complement()
 }
 
 ///|
-pub fn EofCharSet::op_add(self : EofCharSet, other : EofCharSet) -> EofCharSet {
-  union(self, other)
+pub impl Add for EofCharSet with op_add(self, other) {
+  self.union(other)
 }
 
 ///|
-pub fn EofCharSet::op_sub(self : EofCharSet, other : EofCharSet) -> EofCharSet {
-  difference(self, other)
+pub impl Sub for EofCharSet with op_sub(self, other) {
+  self.difference(other)
 }
 
 ///|
-pub fn EofCharSet::land(self : EofCharSet, other : EofCharSet) -> EofCharSet {
-  intersection(self, other)
+pub impl BitAnd for EofCharSet with land(self : EofCharSet, other : EofCharSet) -> EofCharSet {
+  self.intersection(other)
 }
 
 ///|
