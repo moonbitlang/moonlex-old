@@ -1,3 +1,7 @@
+## 0.3.5
+
+- Default to longest match
+
 ## 0.2.0
 
 - Internal: Rewrite the parser in moonlex/moonyacc.
