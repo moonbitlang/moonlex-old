@@ -110,7 +110,7 @@ pub fn[N : @bounded_enum.T] complement(self : Tree[N]) -> Tree[N] {
 fn[N : @bounded_enum.T] complement_aux(
   min : N,
   max : N,
-  t : Tree[N]
+  t : Tree[N],
 ) -> Tree[N] {
   match t {
     Empty => interval(min, max)

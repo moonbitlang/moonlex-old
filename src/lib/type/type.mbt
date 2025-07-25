@@ -26,7 +26,7 @@ pub fn check_legal(self : Regex) -> Bool {
 fn check_legal_rec(
   self : Regex,
   names : Set[String],
-  ban_capture : Bool
+  ban_capture : Bool,
 ) -> Bool {
   match self {
     Capture(re, name) =>

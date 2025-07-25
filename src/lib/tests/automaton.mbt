@@ -90,8 +90,8 @@ fn dfa2dots(dfa : @automaton.DFA, name~ : String = "dfa") -> DotGraph {
           Eof => "$"
           Char(c) => "\{c}"
         }
-        if action._.length() != 0 {
-          edge_info = edge_info + "\{action._}"
+        if action.inner().length() != 0 {
+          edge_info = edge_info + "\{action.inner()}"
         }
         dots.add_edge(from=node, to=target, edge_info=repr(edge_info))
       }

@@ -14,10 +14,11 @@ let runtime : String =
   #|}
   #|
   #|// NOTE: MoonBit do have unboxed Option[Char] optimization
+  #|
   #|///|
   #|fn next(self : Lexbuf) -> Char? {
   #|  if self.pos < self.content.length() {
-  #|    let ch = self.content.charcode_at(self.pos)
+  #|    let ch = self.content[self.pos]
   #|    self.pos += 1
   #|    Some(ch.unsafe_to_char())
   #|  } else {
@@ -26,7 +27,7 @@ let runtime : String =
   #|}
   #|
   #|///|
-  #|fn substring(self : Lexbuf, start : Int, end : Int) -> String {
+  #|fn Lexbuf::substring(self : Lexbuf, start : Int, end : Int) -> String {
   #|  self.content.substring(start~, end~)
   #|}
   #|
@@ -87,8 +88,9 @@ let runtime : String =
   #|    None => (self.code_blocks_n, [])
   #|    Some((index, pos, state, tagState)) => {
   #|      lexbuf.pos = pos
-  #|      let captures = self.end_nodes[state].unwrap().1.map(fn {
-  #|        ((b_t, b_r), (e_t, e_r)) => (tagState[b_t][b_r], tagState[e_t][e_r])
+  #|      let captures = self.end_nodes[state].unwrap().1.map(fn(it) {
+  #|        let ((b_t, b_r), (e_t, e_r)) = it
+  #|        (tagState[b_t][b_r], tagState[e_t][e_r])
   #|      })
   #|      (index, captures)
   #|    }

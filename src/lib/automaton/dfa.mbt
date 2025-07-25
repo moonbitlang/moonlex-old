@@ -6,16 +6,16 @@ pub(all) type TagAction Array[Array[Int]] derive(Show) // indexed by tag_id, ran
 // tag_i <- tag_{mat[tag][i]}, tag_{-1} = cur_pos
 
 ///|
-priv type TagState Array[Int?] derive(Eq, Show) // indexed by tag_id
+priv type TagState Array[Int?] derive(Eq) // indexed by tag_id
 
 ///|
 impl Hash for TagState with hash_combine(self, hasher) {
-  self._.each(fn(x) { hasher.combine(x) })
+  self.inner().each(fn(x) { hasher.combine(x) })
 }
 
 ///|
 impl Compare for TagState with compare(self, other) {
-  self._.compare(other._)
+  self.inner().compare(other.inner())
 }
 
 ///|
@@ -25,21 +25,21 @@ fn TagState::new(size : Int) -> TagState {
 
 ///|
 fn copy(self : TagState) -> TagState {
-  self._.copy()
+  self.inner().copy()
 }
 
 ///|
 fn update_by_tag(self : TagState, tag : Tag, rank : Int) -> TagState {
-  let r = self._[tag]
+  let r = self.inner()[tag]
   if r.is_empty() || r.unwrap() > rank {
-    self._[tag] = Some(rank)
+    self.inner()[tag] = Some(rank)
   }
   self
 }
 
 ///|
 fn update_by_tags(self : TagState, tags : @bitset.T) -> TagState {
-  for i = 0; i < self._.length(); i = i + 1 {
+  for i = 0; i < self.inner().length(); i = i + 1 {
     if tags.get(i) {
       let _ = self.update_by_tag(i, -1)
 
@@ -50,8 +50,8 @@ fn update_by_tags(self : TagState, tags : @bitset.T) -> TagState {
 
 ///|
 fn tagState_min(self_ : TagState, other : TagState) -> TagState {
-  for i = 0; i < self_._.length(); i = i + 1 {
-    match (self_._[i], other._[i]) {
+  for i = 0; i < self_.inner().length(); i = i + 1 {
+    match (self_.inner()[i], other.inner()[i]) {
       (None, _) => break other
       (_, None) => break self_
       (Some(r1), Some(r2)) =>
@@ -79,7 +79,7 @@ pub(all) struct DFA {
 fn DFA::new(
   code_blocks : Array[CodeBlock],
   captures : Array[Array[String]],
-  start_action : TagAction
+  start_action : TagAction,
 ) -> DFA {
   {
     graph: [],
@@ -105,7 +105,7 @@ fn DFA::add_edge(
   from : Int,
   e : @eof_char_set.T,
   action : TagAction,
-  to : Int
+  to : Int,
 ) -> Unit {
   self.graph[from].push((e, (to, action)))
 }
@@ -118,7 +118,7 @@ fn state_canonicalize(state : State, tag_count : Int) -> (State, TagAction) {
   let mat = Array::makei(tag_count, fn(_i) { [] })
   for pair in state.iter() {
     let tags = pair.1
-    for tag, rank in tags._ {
+    for tag, rank in tags.inner() {
       if not(rank.is_empty()) {
         mat[tag].push(rank.unwrap())
       }
@@ -129,7 +129,9 @@ fn state_canonicalize(state : State, tag_count : Int) -> (State, TagAction) {
     .iter()
     .map(fn(pair) {
       let tags = pair.1
-      tags._.mapi_inplace(fn(tag, op) {
+      tags
+      .inner()
+      .mapi_inplace(fn(tag, op) {
         op.map(fn(x) {
           for index, y in mat[tag] {
             if x == y {
@@ -153,7 +155,7 @@ fn register_node(self : DFA, nfa : NFA, node : Int, os : State) -> Unit {
     .filter_map(fn(x) { nfa.end_nodes.get(x.0.num) })
     .collect()
   guard not(code_blocks.is_empty()) else { return () }
-  let min_code_block = code_blocks.fold(init=code_blocks[0], @math.minimum)
+  let min_code_block = code_blocks.fold(init=code_blocks[0], @cmp.minimum)
   let end_nodes = os
     .iter()
     .filter(fn(x) { nfa.end_nodes.get(x.0.num) == Some(min_code_block) })
@@ -163,9 +165,12 @@ fn register_node(self : DFA, nfa : NFA, node : Int, os : State) -> Unit {
     abort("error")
   }
   let tagState = end_nodes[0].1
-  let min_tags = nfa.captures[min_code_block].map(fn {
-    (_name, (begin, end)) =>
-      ((begin, tagState._[begin].unwrap()), (end, tagState._[end].unwrap()))
+  let min_tags = nfa.captures[min_code_block].map(fn(it) {
+    let (_name, (begin, end)) = it
+    (
+      (begin, tagState.inner()[begin].unwrap()),
+      (end, tagState.inner()[end].unwrap()),
+    )
   })
   self.end_nodes.set(node, (min_code_block, min_tags))
 }
@@ -176,7 +181,10 @@ fn DFA::from_nfa(nfa : NFA) -> DFA {
   let initial = eps_closure[0]
   let initial_state = initial
     .iter()
-    .map(fn { (x, y) => (x, TagState::new(nfa.tag_count).update_by_tags(y)) })
+    .map(fn(it) {
+      let (x, y) = it
+      (x, TagState::new(nfa.tag_count).update_by_tags(y))
+    })
     |> @immut/hashmap.from_iter
   let (initial_state, start_action) = state_canonicalize(
     initial_state,
@@ -202,7 +210,10 @@ fn DFA::from_nfa(nfa : NFA) -> DFA {
         let (nfa_node, tag_state) = p
         nfa_node.trans
         .iter()
-        .map(fn { (cset, (target, tag)) => (cset, (target, tag_state, tag)) })
+        .map(fn(it) {
+          let (cset, (target, tag)) = it
+          (cset, (target, tag_state, tag))
+        })
       })
 
     // Merge char_sets by target
@@ -245,7 +256,7 @@ fn DFA::from_nfa(nfa : NFA) -> DFA {
         let (step_node, from_tagState, tag) = target
         let mut state_map = next_states
           .get(cset)
-          .or_else(fn() { @immut/hashmap.new() })
+          .unwrap_or_else(fn() { @immut/hashmap.new() })
         guard tag.is_empty() else {
           // only eps-edge has tag
           abort("error")
@@ -254,7 +265,7 @@ fn DFA::from_nfa(nfa : NFA) -> DFA {
         for pair in eps_closure[step_node.num] {
           let (eps_node, bits) = pair
           let upd_tagState = step_tagState.copy().update_by_tags(bits)
-          let old_tagState = state_map[eps_node]
+          let old_tagState = state_map.get(eps_node)
           let new_tagState = if old_tagState.is_empty() {
             upd_tagState
           } else {

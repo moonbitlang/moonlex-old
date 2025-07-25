@@ -1,9 +1,9 @@
 {
   "name": "moonbitlang/lex",
-  "version": "0.3.5",
+  "version": "0.3.6",
   "deps": {
     "Yoorkin/ArgParser": "0.1.9",
-    "moonbitlang/x": "0.4.23"
+    "moonbitlang/x": "0.4.31"
   },
   "readme": "README.md",
   "repository": "",

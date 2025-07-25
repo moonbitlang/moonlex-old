@@ -24,7 +24,7 @@ pub fn add_edge(
   self : DotGraph,
   from~ : Int,
   to~ : Int,
-  edge_info? : String
+  edge_info? : String,
 ) -> Unit {
   self.edges.push((from, to, edge_info))
 }
@@ -34,7 +34,7 @@ fn set_node(
   self : DotGraph,
   node~ : Int,
   nodeType~ : NodeType,
-  label? : String
+  label? : String,
 ) -> Unit {
   self.nodes.set(node, (nodeType, label))
 }
@@ -44,28 +44,28 @@ fn to_graphviz(self : DotGraph) -> String {
   [
     "digraph \{self.name} {",
     self.edges.map(fn(e) {
-      let (from, to, info) = e._
+      let (from, to, info) = e.inner()
       "\t\{from} -> \{to}" + info.map_or("", fn(t) { "[label=\{t}]" })
     })
     |> _.join("\n"),
     self.nodes
     .iter()
-    .map(fn {
-      (node, (nodeType, label)) =>
-        [
-          node.to_string(),
-          "[",
-          "shape=",
-          match nodeType {
-            Normal => "circle"
-            Accepted => "box"
-          },
-          ",",
-          "label=",
-          label.or(node.to_string()),
-          "]",
-        ]
-        |> _.join("")
+    .map(fn(it) {
+      let (node, (nodeType, label)) = it
+      [
+        node.to_string(),
+        "[",
+        "shape=",
+        match nodeType {
+          Normal => "circle"
+          Accepted => "box"
+        },
+        ",",
+        "label=",
+        label.unwrap_or(node.to_string()),
+        "]",
+      ]
+      |> _.join("")
     })
     .collect()
     |> _.join("\n"),
@@ -86,7 +86,7 @@ fn to_mermaid(self : DotGraph) -> String {
     styles,
     "graph TD",
     self.edges.map(fn(e) {
-      let (from, to, edge_info) = e._
+      let (from, to, edge_info) = e.inner()
       from.to_string() +
       "-->" +
       edge_info.map_or("", fn(s) { "|" + s + "|" }) +
@@ -98,8 +98,8 @@ fn to_mermaid(self : DotGraph) -> String {
     .map(fn(n) {
       let (node, (nodeType, label)) = n
       match nodeType {
-        Normal => "\{node}((\{label.or(node.to_string())}))"
-        Accepted => "\{node}[\{label.or(node.to_string())}]"
+        Normal => "\{node}((\{label.unwrap_or(node.to_string())}))"
+        Accepted => "\{node}[\{label.unwrap_or(node.to_string())}]"
       }
     })
     .collect()

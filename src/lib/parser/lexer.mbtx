@@ -37,7 +37,7 @@ rule token() -> Token {
     "?" => { QUESTION }
     "-" => { MINUS }
     "^" => { CARET }
-    '\'' ([^ '\'' '\\'] as t) '\'' => { CHAR(t.char_at(0)) }
+    '\'' ([^ '\'' '\\'] as t) '\'' => { CHAR(t.get_char(0).unwrap()) }
     '\'' "\\b" '\'' => { CHAR('\u{08}') }
     '\'' "\\t" '\'' => { CHAR('\t') }
     '\'' "\\v" '\'' => { CHAR('\u{0b}') }

@@ -12,7 +12,7 @@ pub fn codegen_lex(lex : Lex) -> String {
 ///|
 fn rewrite_codeblock(
   codeblock : @type.CodeBlock,
-  subst : Array[@codeblock_parser.SubstItem]
+  subst : Array[@codeblock_parser.SubstItem],
 ) -> @type.CodeBlock {
   let buf = StringBuilder::new()
   let mut last_index = 0
@@ -33,7 +33,7 @@ fn rewrite_codeblock(
 
 ///|
 fn group_trans(
-  trans : Array[(@eof_char_set.T, (Int, @automaton.TagAction))]
+  trans : Array[(@eof_char_set.T, (Int, @automaton.TagAction))],
 ) -> Array[((Int, Int), (Int, Array[Array[Int]]))] {
   let char_set_by_state = {}
   let tag_action_by_state = {}
@@ -48,28 +48,27 @@ fn group_trans(
   }
   let result = char_set_by_state
     .iter()
-    .flat_map(fn {
-      (state, char_set) => {
-        let action = tag_action_by_state.get(state).unwrap()
-        char_set
-        .iter_ranges()
-        .map(fn {
-          (min, max) =>
-            (
-              (
-                match min.repr() {
-                  Eof => -1
-                  Char(c) => c.to_int()
-                },
-                match max.repr() {
-                  Eof => -1
-                  Char(c) => c.to_int()
-                },
-              ),
-              (state, action._),
-            )
-        })
-      }
+    .flat_map(fn(it) {
+      let (state, char_set) = it
+      let action = tag_action_by_state.get(state).unwrap()
+      char_set
+      .iter_ranges()
+      .map(fn(it) {
+        let (min, max) = it
+        (
+          (
+            match min.repr() {
+              Eof => -1
+              Char(c) => c.to_int()
+            },
+            match max.repr() {
+              Eof => -1
+              Char(c) => c.to_int()
+            },
+          ),
+          (state, action.inner()),
+        )
+      })
     })
     .to_array()
   result.sort()
@@ -97,11 +96,11 @@ fn codegen_rule(rule : Rule) -> String {
   let mut next_tag_action_id = 0
   let tag_action_dedup = @sorted_map.new()
   fn get_tag_action_id(tag_action : @automaton.TagAction) -> Int {
-    match tag_action_dedup.get(tag_action._) {
+    match tag_action_dedup.get(tag_action.inner()) {
       Some(id) => id
       None => {
         let id = next_tag_action_id
-        tag_action_dedup[tag_action._] = id
+        tag_action_dedup[tag_action.inner()] = id
         next_tag_action_id += 1
         id
       }
@@ -113,37 +112,42 @@ fn codegen_rule(rule : Rule) -> String {
   graph_code.write_string("[")
   for state_num, trans in dfa.graph {
     states_code.write_string(
-      $|fn \{rule.name}_state_\{state_num}(input : LexInput) -> (LexState, LexTagAction) {
-      $|  match input {
-      $|
-      ,
+      (
+        $|fn \{rule.name}_state_\{state_num}(input : LexInput) -> (LexState, LexTagAction) {
+        $|  match input {
+        $|
+      ),
     )
     for tran in group_trans(trans) {
       let ((first_char, last_char), (next_state, tag_action)) = tran
       if first_char == last_char {
         states_code.write_string(
-          $|    \{first_char} => (\{next_state}, \{rule.name}_tag_action_\{get_tag_action_id(tag_action)})
-          $|
-          ,
+          (
+            $|    \{first_char} => (\{next_state}, \{rule.name}_tag_action_\{get_tag_action_id(tag_action)})
+            $|
+          ),
         )
       } else {
         states_code.write_string(
-          $|    \{first_char}..=\{last_char} => (\{next_state}, \{rule.name}_tag_action_\{get_tag_action_id(tag_action)})
-          $|
-          ,
+          (
+            $|    \{first_char}..=\{last_char} => (\{next_state}, \{rule.name}_tag_action_\{get_tag_action_id(tag_action)})
+            $|
+          ),
         )
       }
     }
     states_code.write_string(
-      $|    _ => (-1, [])
-      $|
-      ,
+      (
+        $|    _ => (-1, [])
+        $|
+      ),
     )
     states_code.write_string(
-      $|  }
-      $|}
-      $|
-      ,
+      (
+        $|  }
+        $|}
+        $|
+      ),
     )
     graph_code.write_string("\{rule.name}_state_\{state_num}, ")
   }
@@ -166,13 +170,14 @@ fn codegen_rule(rule : Rule) -> String {
     }
     rows_code.write_string("]")
     shared_tag_actions_code.write_string(
-      $|let \{rule.name}_tag_action_\{id} : Array[Array[Int]] = \{rows_code}
-      $|
-      ,
+      (
+        $|let \{rule.name}_tag_action_\{id} : Array[Array[Int]] = \{rows_code}
+        $|
+      ),
     )
   }
   let start_tags : Array[Int] = []
-  for index, action in dfa.start_action._ {
+  for index, action in dfa.start_action.inner() {
     if not(action.is_empty()) {
       start_tags.push(index)
     }
@@ -180,9 +185,10 @@ fn codegen_rule(rule : Rule) -> String {
   let shared_tag_action_rows_code = StringBuilder::new()
   for tag_action_row, id in tag_action_row_dedup {
     shared_tag_action_rows_code.write_string(
-      $|let \{rule.name}_tag_action_row_\{id} : Array[Int] = \{tag_action_row}
-      $|
-      ,
+      (
+        $|let \{rule.name}_tag_action_row_\{id} : Array[Int] = \{tag_action_row}
+        $|
+      ),
     )
   }
   [
@@ -225,9 +231,11 @@ fn codegen_rule(rule : Rule) -> String {
             } else {
               ""
             }
-            $|  let (_start_pos_of_\{name}, _end_pos_of_\{name}) = __mbtlex_captures[\{i}]
-            $|  let \{name}: String = lexbuf.substring(_start_pos_of_\{name}, _end_pos_of_\{name})
-            $|  \{inject_ignore}
+            (
+              $|  let (_start_pos_of_\{name}, _end_pos_of_\{name}) = __mbtlex_captures[\{i}]
+              $|  let \{name}: String = lexbuf.substring(_start_pos_of_\{name}, _end_pos_of_\{name})
+              $|  \{inject_ignore}
+            )
           }),
           [rewrite_codeblock(codeblock, subst)],
           ["    }"],

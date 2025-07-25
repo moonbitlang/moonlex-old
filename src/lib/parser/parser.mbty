@@ -60,18 +60,18 @@ trailer -> String
   |                                     { "" }
   ;
 
-named_regex_list -> @immut/list.T[(String, @type.Regex)]
-  : named_regex named_regex_list        { Cons($1, $2) }
-  | { Nil }
+named_regex_list -> @list.T[(String, @type.Regex)]
+  : named_regex named_regex_list        { @list.construct($1, $2) }
+  | { @list.empty() }
   ;
 
 named_regex -> (String, @type.Regex)
   : "let" LC_IDENT "=" regex ";"        { ($2, $4) }
   ;
 
-nonempty_rule_list -> @immut/list.T[@type.Rule]
-  : rule                                { Cons($1, Nil) }
-  | rule nonempty_rule_list             { Cons($1, $2) }
+nonempty_rule_list -> @list.T[@type.Rule]
+  : rule                                { @list.construct($1, @list.empty()) }
+  | rule nonempty_rule_list             { @list.construct($1, $2) }
   ;
 
 rule -> @type.Rule
@@ -83,9 +83,9 @@ rule -> @type.Rule
                                         }
   ;
 
-rule_item_list -> @immut/list.T[(@type.Regex, @type.CodeBlock)]
-  : rule_item rule_item_list            { Cons($1, $2) }
-  |                                     { Nil }
+rule_item_list -> @list.T[(@type.Regex, @type.CodeBlock)]
+  : rule_item rule_item_list            { @list.construct($1, $2) }
+  |                                     { @list.empty() }
   ;
 
 rule_item -> (@type.Regex, @type.CodeBlock)

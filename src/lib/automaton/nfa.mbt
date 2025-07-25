@@ -88,7 +88,7 @@ fn add_edge(
   from : NFANode,
   s : Input,
   tag~ : Tag? = None,
-  to : NFANode
+  to : NFANode,
 ) -> Unit {
   ignore(self)
   match s {
@@ -103,7 +103,7 @@ fn register_regex(
   node : NFANode,
   re : Regex,
   code_block : CodeBlock,
-  name2tag : (String) -> (Tag, Tag)
+  name2tag : (String) -> (Tag, Tag),
 ) -> Unit {
   let final_ = self.register_regex_rec(node, re, name2tag)
   let id = self.code_blocks.length()
@@ -116,7 +116,7 @@ fn register_regex_rec(
   self : NFA,
   node : NFANode,
   re : Regex,
-  name2tag : (String) -> (Tag, Tag)
+  name2tag : (String) -> (Tag, Tag),
 ) -> NFANode {
   // return the final_ point of re for convience in building
   match re {
