@@ -138,7 +138,7 @@ test {
                 "1": { "$tag": "ReChar", "0": "'" },
               },
             },
-            " CHAR(t.char_at(0)) ",
+            " CHAR(t.get_char(0).unwrap()) ",
           ],
           [
             {

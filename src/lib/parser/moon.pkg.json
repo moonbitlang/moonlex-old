@@ -10,7 +10,7 @@
       "output": "parser.mbt"
     },
     {
-      "command": "node $mod_dir/boot/snapshot/moonlex.js $input -o $output",
+      "command": "node $mod_dir/boot/snapshot/moonlex.cjs $input -o $output",
       "input": "lexer.mbtx",
       "output": "lexer.mbt"
     },
