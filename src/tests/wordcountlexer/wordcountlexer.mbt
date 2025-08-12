@@ -93,28 +93,18 @@ pub fn run(self : LexEngine, lexbuf : Lexbuf) -> (Int, Array[(Int, Int)]) {
   }
 }
 
+
+
 // translate from https://ohama.github.io/ocaml/ocamllex-tutorial/examples/wordcount/
 
-///|
+
 let count_tag_action_row_0 : Array[Int] = []
-
-///|
 let count_tag_action_row_2 : Array[Int] = [-1]
-
-///|
 let count_tag_action_row_1 : Array[Int] = [0]
 
-///|
-let count_tag_action_1 : Array[Array[Int]] = [
-  count_tag_action_row_0, count_tag_action_row_0,
-]
+let count_tag_action_1 : Array[Array[Int]] = [count_tag_action_row_0, count_tag_action_row_0]
+let count_tag_action_0 : Array[Array[Int]] = [count_tag_action_row_1, count_tag_action_row_2]
 
-///|
-let count_tag_action_0 : Array[Array[Int]] = [
-  count_tag_action_row_1, count_tag_action_row_2,
-]
-
-///|
 fn count_state_0(input : LexInput) -> (LexState, LexTagAction) {
   match input {
     0..=8 => (3, count_tag_action_0)
@@ -126,22 +116,16 @@ fn count_state_0(input : LexInput) -> (LexState, LexTagAction) {
     _ => (-1, [])
   }
 }
-
-///|
 fn count_state_1(input : LexInput) -> (LexState, LexTagAction) {
   match input {
     _ => (-1, [])
   }
 }
-
-///|
 fn count_state_2(input : LexInput) -> (LexState, LexTagAction) {
   match input {
     _ => (-1, [])
   }
 }
-
-///|
 fn count_state_3(input : LexInput) -> (LexState, LexTagAction) {
   match input {
     0..=8 => (4, count_tag_action_0)
@@ -150,8 +134,6 @@ fn count_state_3(input : LexInput) -> (LexState, LexTagAction) {
     _ => (-1, [])
   }
 }
-
-///|
 fn count_state_4(input : LexInput) -> (LexState, LexTagAction) {
   match input {
     0..=8 => (4, count_tag_action_0)
@@ -161,39 +143,29 @@ fn count_state_4(input : LexInput) -> (LexState, LexTagAction) {
   }
 }
 
-///|
-let __mbtlex_engine_count : LexEngine = {
-  graph: [
-    count_state_0, count_state_1, count_state_2, count_state_3, count_state_4,
-  ],
-  end_nodes: [
-    Some((3, [])),
-    Some((2, [])),
-    Some((0, [])),
-    Some((1, [((0, 0), (1, 0))])),
-    Some((1, [((0, 0), (1, 0))])),
-  ],
-  start_tags: [0],
-  code_blocks_n: 4,
-}
-
-///|
-fn count(
-  lines : Int,
-  words : Int,
-  chars : Int,
-  lexbuf : Lexbuf,
-) -> (Int, Int, Int) {
+let __mbtlex_engine_count: LexEngine = { graph: [count_state_0, count_state_1, count_state_2, count_state_3, count_state_4, ], end_nodes: [Some((3, [])), Some((2, [])), Some((0, [])), Some((1, [((0, 0), (1, 0))])), Some((1, [((0, 0), (1, 0))]))], start_tags: [0], code_blocks_n: 4 }
+fn count( lines : Int, words : Int, chars : Int, lexbuf : Lexbuf ) -> (Int, Int, Int) {
   match __mbtlex_engine_count.run(lexbuf) {
-    (0, __mbtlex_captures) => count(lines + 1, words, chars + 1, lexbuf)
+    (0, __mbtlex_captures) => {
+ count(lines + 1, words, chars + 1, lexbuf) 
+    }
     (1, __mbtlex_captures) => {
-      let (_start_pos_of_word, _end_pos_of_word) = __mbtlex_captures[0]
-      let word : String = lexbuf.substring(_start_pos_of_word, _end_pos_of_word)
+  let (_start_pos_of_word, _end_pos_of_word) = __mbtlex_captures[0]
+  let word: String = lexbuf.substring(_start_pos_of_word, _end_pos_of_word)
+  
+
       let new_chars = chars + word.length()
       count(lines, words + 1, new_chars, lexbuf)
+    
     }
-    (2, __mbtlex_captures) => count(lines, words, chars + 1, lexbuf)
-    (3, __mbtlex_captures) => (lines, words, chars)
+    (2, __mbtlex_captures) => {
+ count(lines, words, chars + 1, lexbuf) 
+    }
+    (3, __mbtlex_captures) => {
+ (lines, words, chars) 
+    }
     _ => abort("lex: fail to match")
   }
 }
+
+

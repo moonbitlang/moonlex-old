@@ -93,10 +93,12 @@ pub fn run(self : LexEngine, lexbuf : Lexbuf) -> (Int, Array[(Int, Int)]) {
   }
 }
 
-///|
+
+
+
+
 let lex_is_number_tag_action_0 : Array[Array[Int]] = []
 
-///|
 fn lex_is_number_state_0(input : LexInput) -> (LexState, LexTagAction) {
   match input {
     0..=47 => (1, lex_is_number_tag_action_0)
@@ -106,30 +108,22 @@ fn lex_is_number_state_0(input : LexInput) -> (LexState, LexTagAction) {
     _ => (-1, [])
   }
 }
-
-///|
 fn lex_is_number_state_1(input : LexInput) -> (LexState, LexTagAction) {
   match input {
     _ => (-1, [])
   }
 }
-
-///|
 fn lex_is_number_state_2(input : LexInput) -> (LexState, LexTagAction) {
   match input {
     48..=57 => (4, lex_is_number_tag_action_0)
     _ => (-1, [])
   }
 }
-
-///|
 fn lex_is_number_state_3(input : LexInput) -> (LexState, LexTagAction) {
   match input {
     _ => (-1, [])
   }
 }
-
-///|
 fn lex_is_number_state_4(input : LexInput) -> (LexState, LexTagAction) {
   match input {
     48..=57 => (4, lex_is_number_tag_action_0)
@@ -137,28 +131,21 @@ fn lex_is_number_state_4(input : LexInput) -> (LexState, LexTagAction) {
   }
 }
 
-///|
-let __mbtlex_engine_lex_is_number : LexEngine = {
-  graph: [
-    lex_is_number_state_0, lex_is_number_state_1, lex_is_number_state_2, lex_is_number_state_3,
-    lex_is_number_state_4,
-  ],
-  end_nodes: [None, Some((1, [])), Some((0, [])), Some((0, [])), Some((0, []))],
-  start_tags: [],
-  code_blocks_n: 2,
-}
-
-///|
-fn lex_is_number(lexbuf : Lexbuf) -> Bool {
+let __mbtlex_engine_lex_is_number: LexEngine = { graph: [lex_is_number_state_0, lex_is_number_state_1, lex_is_number_state_2, lex_is_number_state_3, lex_is_number_state_4, ], end_nodes: [None, Some((1, [])), Some((0, [])), Some((0, [])), Some((0, []))], start_tags: [], code_blocks_n: 2 }
+fn lex_is_number( lexbuf : Lexbuf ) -> Bool {
   match __mbtlex_engine_lex_is_number.run(lexbuf) {
-    (0, __mbtlex_captures) => true
-    (1, __mbtlex_captures) => false
+    (0, __mbtlex_captures) => {
+ true 
+    }
+    (1, __mbtlex_captures) => {
+ false 
+    }
     _ => abort("lex: fail to match")
   }
 }
 
-///|
+
 pub fn is_number(str : String) -> Bool {
-  let lexbuf = Lexbuf::from_string(str)
-  lex_is_number(lexbuf)
+    let lexbuf = Lexbuf::from_string(str)
+    lex_is_number(lexbuf)
 }
