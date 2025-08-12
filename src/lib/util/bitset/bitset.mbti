@@ -1,0 +1,24 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "moonbitlang/lex/lib/util/bitset"
+
+// Values
+fn new(Int) -> Bitset
+
+// Errors
+
+// Types and methods
+type Bitset
+fn Bitset::copy(Self) -> Self
+fn Bitset::get(Self, Int) -> Bool
+fn Bitset::length(Self) -> Int
+fn Bitset::set(Self, Int, Bool) -> Unit
+fn Bitset::union(Self, Self) -> Self
+impl Eq for Bitset
+impl Hash for Bitset
+impl Show for Bitset
+
+// Type aliases
+pub typealias Bitset as T
+
+// Traits
+

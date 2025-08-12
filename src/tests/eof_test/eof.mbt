@@ -100,7 +100,7 @@ priv enum Token {
   PERCENT_EOF
   NON_PERCENT
   EOF
-} derive(ToJson)
+} derive(ToJson(style = "legacy"))
 
 
 

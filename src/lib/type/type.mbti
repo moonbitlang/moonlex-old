@@ -1,0 +1,55 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "moonbitlang/lex/lib/type"
+
+import(
+  "moonbitlang/lex/lib/util/eof_char_set"
+)
+
+// Values
+
+// Errors
+
+// Types and methods
+pub(all) struct Lex {
+  header : String
+  named_regexes : Array[(String, Regex)]
+  rules : Array[Rule]
+  trailer : String
+}
+fn Lex::eliminate_named(Self) -> Self
+impl Show for Lex
+impl ToJson for Lex
+
+pub(all) enum Regex {
+  Underscore
+  EOF
+  ReStr(String)
+  ReChar(Char)
+  CharSet(@eof_char_set.EofCharSet)
+  Repetition(Regex)
+  Option(Regex)
+  Alter(Regex, Regex)
+  Concat(Regex, Regex)
+  Capture(Regex, String)
+  Named(String)
+}
+fn Regex::check_legal(Self) -> Bool
+fn Regex::get_capture_names(Self) -> Array[String]
+impl Eq for Regex
+impl Show for Regex
+impl ToJson for Regex
+
+pub(all) struct Rule {
+  name : String
+  return_type : String
+  params : String
+  patterns : Array[(Regex, String)]
+}
+impl Show for Rule
+impl ToJson for Rule
+
+// Type aliases
+pub typealias String as CodeBlock
+
+// Traits
+

@@ -1,0 +1,62 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "moonbitlang/lex/lib/automaton"
+
+import(
+  "moonbitlang/core/immut/sorted_set"
+  "moonbitlang/lex/lib/type"
+  "moonbitlang/lex/lib/util/eof_char_set"
+)
+
+// Values
+
+// Errors
+
+// Types and methods
+pub(all) struct DFA {
+  graph : Array[Array[(@eof_char_set.EofCharSet, (Int, TagAction))]]
+  end_nodes : Map[Int, (Int, Array[((Int, Int), (Int, Int))])]
+  code_blocks : Array[String]
+  captures : Array[Array[String]]
+  start_action : TagAction
+  mut node_count : Int
+}
+fn DFA::from_rule(@type.Rule) -> Self
+impl Show for DFA
+
+pub(all) enum Input {
+  Eps
+  EChar(@eof_char_set.EofCharSet)
+}
+impl Eq for Input
+impl Hash for Input
+impl Show for Input
+
+pub(all) struct NFA {
+  graph : Array[NFANode]
+  end_nodes : Map[Int, Int]
+  code_blocks : Array[String]
+  captures : Array[Array[(String, (Int, Int))]]
+  mut node_count : Int
+  mut tag_count : Int
+}
+fn NFA::from_rule(@type.Rule) -> Self
+impl Show for NFA
+
+pub(all) struct NFANode {
+  num : Int
+  mut eps : @sorted_set.T[(NFANode, Int?)]
+  mut trans : Array[(@eof_char_set.EofCharSet, (NFANode, Int?))]
+}
+impl Compare for NFANode
+impl Eq for NFANode
+impl Hash for NFANode
+impl Show for NFANode
+
+pub(all) struct TagAction(Array[Array[Int]])
+fn TagAction::inner(Self) -> Array[Array[Int]]
+impl Show for TagAction
+
+// Type aliases
+
+// Traits
+
