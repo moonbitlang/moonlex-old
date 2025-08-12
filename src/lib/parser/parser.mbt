@@ -129,11 +129,11 @@ priv suberror YYObj_Char Char
 
 priv suberror YYObj_String String
 
-priv suberror YYObj__list_T__type_Rule_ @list.T[@type.Rule]
+priv suberror YYObj__list_List__type_Rule_ @list.List[@type.Rule]
 
-priv suberror YYObj__list_T__String___type_Regex__ @list.T[(String, @type.Regex)]
+priv suberror YYObj__list_List__String___type_Regex__ @list.List[(String, @type.Regex)]
 
-priv suberror YYObj__list_T___type_Regex___type_CodeBlock__ @list.T[(@type.Regex, @type.CodeBlock)]
+priv suberror YYObj__list_List___type_Regex___type_CodeBlock__ @list.List[(@type.Regex, @type.CodeBlock)]
 
 priv suberror YYObj__type_Lex @type.Lex
 
@@ -361,8 +361,8 @@ fn yy_action_18(_last_pos : Unit, _args : ArrayView[(YYObj, Unit, Unit)]) -> YYO
 // 87|    rule_item rule_item_list            { @list.construct($1, $2) }
 fn yy_action_19(_last_pos : Unit, _args : ArrayView[(YYObj, Unit, Unit)]) -> YYObj {
   guard _args[0].0 is YYObj___type_Regex___type_CodeBlock_(_dollar1)
-  guard _args[1].0 is YYObj__list_T___type_Regex___type_CodeBlock__(_dollar2)
-  YYObj__list_T___type_Regex___type_CodeBlock__({();  @list.construct(_dollar1, _dollar2) })
+  guard _args[1].0 is YYObj__list_List___type_Regex___type_CodeBlock__(_dollar2)
+  YYObj__list_List___type_Regex___type_CodeBlock__({();  @list.construct(_dollar1, _dollar2) })
 }
 
 // file:///./parser.mbty
@@ -382,15 +382,15 @@ fn yy_action_21(_last_pos : Unit, _args : ArrayView[(YYObj, Unit, Unit)]) -> YYO
 // 74|    rule nonempty_rule_list             { @list.construct($1, $2) }
 fn yy_action_22(_last_pos : Unit, _args : ArrayView[(YYObj, Unit, Unit)]) -> YYObj {
   guard _args[0].0 is YYObj__type_Rule(_dollar1)
-  guard _args[1].0 is YYObj__list_T__type_Rule_(_dollar2)
-  YYObj__list_T__type_Rule_({();  @list.construct(_dollar1, _dollar2) })
+  guard _args[1].0 is YYObj__list_List__type_Rule_(_dollar2)
+  YYObj__list_List__type_Rule_({();  @list.construct(_dollar1, _dollar2) })
 }
 
 // file:///./parser.mbty
 // 73|    rule                                { @list.construct($1, @list.empty()) }
 fn yy_action_23(_last_pos : Unit, _args : ArrayView[(YYObj, Unit, Unit)]) -> YYObj {
   guard _args[0].0 is YYObj__type_Rule(_dollar1)
-  YYObj__list_T__type_Rule_({();  @list.construct(_dollar1, @list.empty()) })
+  YYObj__list_List__type_Rule_({();  @list.construct(_dollar1, @list.empty()) })
 }
 
 // file:///./parser.mbty
@@ -418,7 +418,7 @@ fn yy_action_26(_last_pos : Unit, _args : ArrayView[(YYObj, Unit, Unit)]) -> YYO
 // file:///./parser.mbty
 // 88|                                        { @list.empty() }
 fn yy_action_27(_last_pos : Unit, _args : ArrayView[(YYObj, Unit, Unit)]) -> YYObj {
-  YYObj__list_T___type_Regex___type_CodeBlock__({();  @list.empty() })
+  YYObj__list_List___type_Regex___type_CodeBlock__({();  @list.empty() })
 }
 
 // file:///./parser.mbty
@@ -430,7 +430,7 @@ fn yy_action_28(_last_pos : Unit, _args : ArrayView[(YYObj, Unit, Unit)]) -> YYO
 // file:///./parser.mbty
 // 65|    { @list.empty() }
 fn yy_action_29(_last_pos : Unit, _args : ArrayView[(YYObj, Unit, Unit)]) -> YYObj {
-  YYObj__list_T__String___type_Regex__({();  @list.empty() })
+  YYObj__list_List__String___type_Regex__({();  @list.empty() })
 }
 
 // file:///./parser.mbty
@@ -450,8 +450,8 @@ fn yy_action_31(_last_pos : Unit, _args : ArrayView[(YYObj, Unit, Unit)]) -> YYO
 // 64|    named_regex named_regex_list        { @list.construct($1, $2) }
 fn yy_action_32(_last_pos : Unit, _args : ArrayView[(YYObj, Unit, Unit)]) -> YYObj {
   guard _args[0].0 is YYObj__String___type_Regex_(_dollar1)
-  guard _args[1].0 is YYObj__list_T__String___type_Regex__(_dollar2)
-  YYObj__list_T__String___type_Regex__({();  @list.construct(_dollar1, _dollar2) })
+  guard _args[1].0 is YYObj__list_List__String___type_Regex__(_dollar2)
+  YYObj__list_List__String___type_Regex__({();  @list.construct(_dollar1, _dollar2) })
 }
 
 // file:///./parser.mbty
@@ -468,8 +468,8 @@ fn yy_action_33(_last_pos : Unit, _args : ArrayView[(YYObj, Unit, Unit)]) -> YYO
 // 50|                                        }
 fn yy_action_34(_last_pos : Unit, _args : ArrayView[(YYObj, Unit, Unit)]) -> YYObj {
   guard _args[0].0 is YYObj_String(_dollar1)
-  guard _args[1].0 is YYObj__list_T__String___type_Regex__(_dollar2)
-  guard _args[2].0 is YYObj__list_T__type_Rule_(_dollar3)
+  guard _args[1].0 is YYObj__list_List__String___type_Regex__(_dollar2)
+  guard _args[2].0 is YYObj__list_List__type_Rule_(_dollar3)
   guard _args[3].0 is YYObj_String(_dollar4)
   YYObj__type_Lex({(); 
                                           { header: _dollar1, named_regexes: _dollar2.to_array(), rules: _dollar3.to_array(), trailer: _dollar4 }
@@ -500,7 +500,7 @@ fn yy_action_36(_last_pos : Unit, _args : ArrayView[(YYObj, Unit, Unit)]) -> YYO
 // 83|                                        }
 fn yy_action_37(_last_pos : Unit, _args : ArrayView[(YYObj, Unit, Unit)]) -> YYObj {
   guard _args[0].0 is YYObj__String__String__String_(_dollar1)
-  guard _args[2].0 is YYObj__list_T___type_Regex___type_CodeBlock__(_dollar3)
+  guard _args[2].0 is YYObj__list_List___type_Regex___type_CodeBlock__(_dollar3)
   YYObj__type_Rule({(); 
                                           let (name, params, return_type) = _dollar1
                                           let patterns = _dollar3.to_array()
@@ -1306,7 +1306,7 @@ fn[T] yy_parse(
   start : YYState,
   return_ : (YYObj) -> T
 ) -> T raise ParseError {
-  let mut state_stack : @list.T[YYState] = @list.construct(start, @list.empty())
+  let mut state_stack : @list.List[YYState] = @list.construct(start, @list.empty())
   let data_stack : Array[(YYObj, Unit, Unit)] = []
   let mut last_pos = start_pos
   let mut state = start
@@ -1377,17 +1377,17 @@ fn[T] yy_parse(
   panic()
 }
 
-fn error(stack : @list.T[YYState], token : Token, loc : (Unit, Unit)) -> Unit raise ParseError {
+fn error(stack : @list.List[YYState], token : Token, loc : (Unit, Unit)) -> Unit raise ParseError {
   let expected = []
   fn try_add(symbol : YYSymbol, kind : TokenKind) {
-    fn go(stack : @list.T[YYState]) {
+    fn go(stack : @list.List[YYState]) {
       match stack {
         Empty => ()
         More(state, ..) => {
           match state(symbol) {
             Accept | Shift(_) => expected.push(kind)
             Reduce(count, symbol, _) | ReduceNoLookahead(count, symbol, _) => {
-              fn inner_go(stack : @list.T[YYState], count, symbol) {
+              fn inner_go(stack : @list.List[YYState], count, symbol) {
                 let stack = stack.drop(count)
                 guard stack is More(state, ..)
                 match state(symbol) {

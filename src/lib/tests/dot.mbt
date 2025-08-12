@@ -1,5 +1,5 @@
 ///|
-type Edge (Int, Int, String?) // from, to, edge_info
+struct Edge((Int, Int, String?)) // from, to, edge_info
 
 ///|
 enum NodeType {
@@ -26,7 +26,7 @@ pub fn add_edge(
   to~ : Int,
   edge_info? : String,
 ) -> Unit {
-  self.edges.push((from, to, edge_info))
+  self.edges.push(Edge((from, to, edge_info)))
 }
 
 ///|
@@ -44,7 +44,7 @@ fn to_graphviz(self : DotGraph) -> String {
   [
     "digraph \{self.name} {",
     self.edges.map(fn(e) {
-      let (from, to, info) = e.inner()
+      let (from, to, info) = e.0
       "\t\{from} -> \{to}" + info.map_or("", fn(t) { "[label=\{t}]" })
     })
     |> _.join("\n"),
@@ -86,7 +86,7 @@ fn to_mermaid(self : DotGraph) -> String {
     styles,
     "graph TD",
     self.edges.map(fn(e) {
-      let (from, to, edge_info) = e.inner()
+      let (from, to, edge_info) = e.0
       from.to_string() +
       "-->" +
       edge_info.map_or("", fn(s) { "|" + s + "|" }) +

@@ -11,7 +11,7 @@ pub(all) enum Regex {
   Concat(Regex, Regex)
   Capture(Regex, String)
   Named(String)
-} derive(Show, Eq, ToJson)
+} derive(Show, Eq, ToJson(style="legacy"))
 
 ///|
 pub fn check_legal(self : Regex) -> Bool {
