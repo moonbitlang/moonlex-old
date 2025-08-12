@@ -8,22 +8,50 @@ test {
         "ws",
         {
           "$tag": "Repetition",
-          "0": { "$tag": "CharSet", "0": [[9, 10], [13, 13], [32, 32]] },
+          "0": {
+            "$tag": "CharSet",
+            "0": [
+              [["EofChar", 9], ["EofChar", 10]],
+              [["EofChar", 13], ["EofChar", 13]],
+              [["EofChar", 32], ["EofChar", 32]],
+            ],
+          },
         },
       ],
-      ["hex_digit", { "$tag": "CharSet", "0": [[48, 57], [65, 70], [97, 102]] }],
+      [
+        "hex_digit",
+        {
+          "$tag": "CharSet",
+          "0": [
+            [["EofChar", 48], ["EofChar", 57]],
+            [["EofChar", 65], ["EofChar", 70]],
+            [["EofChar", 97], ["EofChar", 102]],
+          ],
+        },
+      ],
       [
         "lc_ident",
         {
           "$tag": "Concat",
-          "0": { "$tag": "CharSet", "0": [[95, 95], [97, 122]] },
+          "0": {
+            "$tag": "CharSet",
+            "0": [
+              [["EofChar", 95], ["EofChar", 95]],
+              [["EofChar", 97], ["EofChar", 122]],
+            ],
+          },
           "1": {
             "$tag": "Option",
             "0": {
               "$tag": "Repetition",
               "0": {
                 "$tag": "CharSet",
-                "0": [[48, 57], [65, 90], [95, 95], [97, 122]],
+                "0": [
+                  [["EofChar", 48], ["EofChar", 57]],
+                  [["EofChar", 65], ["EofChar", 90]],
+                  [["EofChar", 95], ["EofChar", 95]],
+                  [["EofChar", 97], ["EofChar", 122]],
+                ],
               },
             },
           },
@@ -47,7 +75,13 @@ test {
                   "$tag": "Option",
                   "0": {
                     "$tag": "Repetition",
-                    "0": { "$tag": "CharSet", "0": [[0, 9], [11, 1114111]] },
+                    "0": {
+                      "$tag": "CharSet",
+                      "0": [
+                        [["EofChar", 0], ["EofChar", 9]],
+                        [["EofChar", 11], ["EofChar", 1114111]],
+                      ],
+                    },
                   },
                 },
                 "1": { "$tag": "Option", "0": { "$tag": "ReChar", "0": "\n" } },
@@ -131,7 +165,11 @@ test {
                   "$tag": "Capture",
                   "0": {
                     "$tag": "CharSet",
-                    "0": [[0, 38], [40, 91], [93, 1114111]],
+                    "0": [
+                      [["EofChar", 0], ["EofChar", 38]],
+                      [["EofChar", 40], ["EofChar", 91]],
+                      [["EofChar", 93], ["EofChar", 1114111]],
+                    ],
                   },
                   "1": "t",
                 },
@@ -474,11 +512,11 @@ test {
                         "0": {
                           "$tag": "CharSet",
                           "0": [
-                            [0, 8],
-                            [11, 12],
-                            [14, 31],
-                            [33, 122],
-                            [124, 1114111],
+                            [["EofChar", 0], ["EofChar", 8]],
+                            [["EofChar", 11], ["EofChar", 12]],
+                            [["EofChar", 14], ["EofChar", 31]],
+                            [["EofChar", 33], ["EofChar", 122]],
+                            [["EofChar", 124], ["EofChar", 1114111]],
                           ],
                         },
                         "1": {
@@ -494,11 +532,11 @@ test {
                               "1": {
                                 "$tag": "CharSet",
                                 "0": [
-                                  [0, 8],
-                                  [11, 12],
-                                  [14, 31],
-                                  [33, 122],
-                                  [124, 1114111],
+                                  [["EofChar", 0], ["EofChar", 8]],
+                                  [["EofChar", 11], ["EofChar", 12]],
+                                  [["EofChar", 14], ["EofChar", 31]],
+                                  [["EofChar", 33], ["EofChar", 122]],
+                                  [["EofChar", 124], ["EofChar", 1114111]],
                                 ],
                               },
                             },
@@ -538,7 +576,13 @@ test {
                   "$tag": "Concat",
                   "0": {
                     "$tag": "Repetition",
-                    "0": { "$tag": "CharSet", "0": [[0, 9], [11, 1114111]] },
+                    "0": {
+                      "$tag": "CharSet",
+                      "0": [
+                        [["EofChar", 0], ["EofChar", 9]],
+                        [["EofChar", 11], ["EofChar", 1114111]],
+                      ],
+                    },
                   },
                   "1": { "$tag": "ReChar", "0": "\n" },
                 },
@@ -563,7 +607,11 @@ test {
                         "$tag": "Alter",
                         "0": {
                           "$tag": "CharSet",
-                          "0": [[0, 33], [35, 91], [93, 1114111]],
+                          "0": [
+                            [["EofChar", 0], ["EofChar", 33]],
+                            [["EofChar", 35], ["EofChar", 91]],
+                            [["EofChar", 93], ["EofChar", 1114111]],
+                          ],
                         },
                         "1": {
                           "$tag": "Concat",
@@ -590,7 +638,11 @@ test {
                   "$tag": "Concat",
                   "0": {
                     "$tag": "CharSet",
-                    "0": [[0, 38], [40, 91], [93, 1114111]],
+                    "0": [
+                      [["EofChar", 0], ["EofChar", 38]],
+                      [["EofChar", 40], ["EofChar", 91]],
+                      [["EofChar", 93], ["EofChar", 1114111]],
+                    ],
                   },
                   "1": { "$tag": "ReChar", "0": "'" },
                 },
