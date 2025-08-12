@@ -93,8 +93,7 @@ pub fn run(self : LexEngine, lexbuf : Lexbuf) -> (Int, Array[(Int, Int)]) {
   }
 }
 
-
-
+///|
 priv enum Token {
   PERCENT
   PERCENT_EOF
@@ -102,10 +101,10 @@ priv enum Token {
   EOF
 } derive(ToJson)
 
-
-
+///|
 let token_tag_action_0 : Array[Array[Int]] = []
 
+///|
 fn token_state_0(input : LexInput) -> (LexState, LexTagAction) {
   match input {
     -1 => (1, token_tag_action_0)
@@ -115,44 +114,53 @@ fn token_state_0(input : LexInput) -> (LexState, LexTagAction) {
     _ => (-1, [])
   }
 }
+
+///|
 fn token_state_1(input : LexInput) -> (LexState, LexTagAction) {
   match input {
     _ => (-1, [])
   }
 }
+
+///|
 fn token_state_2(input : LexInput) -> (LexState, LexTagAction) {
   match input {
     _ => (-1, [])
   }
 }
+
+///|
 fn token_state_3(input : LexInput) -> (LexState, LexTagAction) {
   match input {
     -1 => (4, token_tag_action_0)
     _ => (-1, [])
   }
 }
+
+///|
 fn token_state_4(input : LexInput) -> (LexState, LexTagAction) {
   match input {
     _ => (-1, [])
   }
 }
 
-let __mbtlex_engine_token: LexEngine = { graph: [token_state_0, token_state_1, token_state_2, token_state_3, token_state_4, ], end_nodes: [None, Some((3, [])), Some((2, [])), Some((1, [])), Some((0, []))], start_tags: [], code_blocks_n: 4 }
-fn token( lexbuf : Lexbuf ) -> Token {
+///|
+let __mbtlex_engine_token : LexEngine = {
+  graph: [
+    token_state_0, token_state_1, token_state_2, token_state_3, token_state_4,
+  ],
+  end_nodes: [None, Some((3, [])), Some((2, [])), Some((1, [])), Some((0, []))],
+  start_tags: [],
+  code_blocks_n: 4,
+}
+
+///|
+fn token(lexbuf : Lexbuf) -> Token {
   match __mbtlex_engine_token.run(lexbuf) {
-    (0, __mbtlex_captures) => {
- PERCENT_EOF 
-    }
-    (1, __mbtlex_captures) => {
- PERCENT 
-    }
-    (2, __mbtlex_captures) => {
- NON_PERCENT 
-    }
-    (3, __mbtlex_captures) => {
- EOF 
-    }
+    (0, __mbtlex_captures) => PERCENT_EOF
+    (1, __mbtlex_captures) => PERCENT
+    (2, __mbtlex_captures) => NON_PERCENT
+    (3, __mbtlex_captures) => EOF
     _ => abort("lex: fail to match")
   }
 }
-

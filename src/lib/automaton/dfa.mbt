@@ -2,11 +2,11 @@
 //        Automata and Application to Regular Expressions
 
 ///|
-pub(all) type TagAction Array[Array[Int]] derive(Show) // indexed by tag_id, rank
+pub(all) struct TagAction(Array[Array[Int]]) derive(Show) // indexed by tag_id, rank
 // tag_i <- tag_{mat[tag][i]}, tag_{-1} = cur_pos
 
 ///|
-priv type TagState Array[Int?] derive(Eq) // indexed by tag_id
+priv struct TagState(Array[Int?]) derive(Eq) // indexed by tag_id
 
 ///|
 impl Hash for TagState with hash_combine(self, hasher) {
