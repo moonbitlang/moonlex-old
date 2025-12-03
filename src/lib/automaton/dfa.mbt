@@ -24,12 +24,12 @@ fn TagState::new(size : Int) -> TagState {
 }
 
 ///|
-fn copy(self : TagState) -> TagState {
+fn TagState::copy(self : TagState) -> TagState {
   self.inner().copy()
 }
 
 ///|
-fn update_by_tag(self : TagState, tag : Tag, rank : Int) -> TagState {
+fn TagState::update_by_tag(self : TagState, tag : Tag, rank : Int) -> TagState {
   let r = self.inner()[tag]
   if r.is_empty() || r.unwrap() > rank {
     self.inner()[tag] = Some(rank)
@@ -38,7 +38,7 @@ fn update_by_tag(self : TagState, tag : Tag, rank : Int) -> TagState {
 }
 
 ///|
-fn update_by_tags(self : TagState, tags : @bitset.T) -> TagState {
+fn TagState::update_by_tags(self : TagState, tags : @bitset.T) -> TagState {
   for i = 0; i < self.inner().length(); i = i + 1 {
     if tags.get(i) {
       let _ = self.update_by_tag(i, -1)
@@ -111,7 +111,7 @@ fn DFA::add_edge(
 }
 
 ///|
-typealias @immut/hashmap.T[NFANode, TagState] as State
+type State = @immut/hashmap.T[NFANode, TagState]
 
 ///|
 fn state_canonicalize(state : State, tag_count : Int) -> (State, TagAction) {
@@ -149,7 +149,7 @@ fn state_canonicalize(state : State, tag_count : Int) -> (State, TagAction) {
 }
 
 ///|
-fn register_node(self : DFA, nfa : NFA, node : Int, os : State) -> Unit {
+fn DFA::register_node(self : DFA, nfa : NFA, node : Int, os : State) -> Unit {
   let code_blocks = os
     .iter()
     .filter_map(fn(x) { nfa.end_nodes.get(x.0.num) })

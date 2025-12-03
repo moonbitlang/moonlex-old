@@ -26,52 +26,52 @@ pub fn of_array(arr : Array[Char]) -> CharSet {
 }
 
 ///|
-pub fn negated(self : CharSet) -> CharSet {
+pub fn CharSet::negated(self : CharSet) -> CharSet {
   self.complement()
 }
 
 ///|
-pub fn is_empty(self : CharSet) -> Bool {
+pub fn CharSet::is_empty(self : CharSet) -> Bool {
   self.inner().is_empty()
 }
 
 ///|
-pub fn contains(self : CharSet, x : Char) -> Bool {
+pub fn CharSet::contains(self : CharSet, x : Char) -> Bool {
   self.inner().contains(x)
 }
 
 ///|
-pub fn slice(self : CharSet, min? : Char, max? : Char) -> CharSet {
+pub fn CharSet::slice(self : CharSet, min? : Char, max? : Char) -> CharSet {
   self.inner().slice(min?, max?)
 }
 
 ///|
-pub fn union(self : CharSet, other : CharSet) -> CharSet {
+pub fn CharSet::union(self : CharSet, other : CharSet) -> CharSet {
   @diet.union(self.inner(), other.inner())
 }
 
 ///|
-pub fn intersection(self : CharSet, other : CharSet) -> CharSet {
+pub fn CharSet::intersection(self : CharSet, other : CharSet) -> CharSet {
   @diet.intersection(self.inner(), other.inner())
 }
 
 ///|
-pub fn complement(self : CharSet) -> CharSet {
+pub fn CharSet::complement(self : CharSet) -> CharSet {
   self.inner().complement()
 }
 
 ///|
-pub fn difference(self : CharSet, other : CharSet) -> CharSet {
+pub fn CharSet::difference(self : CharSet, other : CharSet) -> CharSet {
   @diet.difference(self.inner(), other.inner())
 }
 
 ///|
-pub fn subset(self : CharSet, other : CharSet) -> Bool {
+pub fn CharSet::subset(self : CharSet, other : CharSet) -> Bool {
   self.difference(other).is_empty()
 }
 
 ///|
-pub fn disjoint(self : CharSet, other : CharSet) -> Bool {
+pub fn CharSet::disjoint(self : CharSet, other : CharSet) -> Bool {
   self.intersection(other).is_empty()
 }
 
@@ -96,12 +96,12 @@ pub impl BitAnd for CharSet with land(self : CharSet, other : CharSet) -> CharSe
 }
 
 ///|
-pub fn iter_ranges(self : CharSet) -> Iter[(Char, Char)] {
+pub fn CharSet::iter_ranges(self : CharSet) -> Iter[(Char, Char)] {
   self.inner().iter_intervals()
 }
 
 ///|
-pub fn iter(self : CharSet) -> Iter[Char] {
+pub fn CharSet::iter(self : CharSet) -> Iter[Char] {
   self.inner().iter()
 }
 

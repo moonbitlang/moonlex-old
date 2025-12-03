@@ -12,9 +12,9 @@ pub fn Lexbuf::from_string(content : String) -> Lexbuf {
 // NOTE: MoonBit do have unboxed Option[Char] optimization
 
 ///|
-fn next(self : Lexbuf) -> Char? {
+fn Lexbuf::next(self : Lexbuf) -> Char? {
   if self.pos < self.content.length() {
-    let ch = self.content[self.pos]
+    let ch = self.content.code_unit_at(self.pos).to_int()
     self.pos += 1
     Some(ch.unsafe_to_char())
   } else {
@@ -24,11 +24,11 @@ fn next(self : Lexbuf) -> Char? {
 
 ///|
 fn Lexbuf::substring(self : Lexbuf, start : Int, end : Int) -> String {
-  self.content.substring(start~, end~)
+  self.content[start:end]
 }
 
 ///|
-typealias Array[Array[Int]] as LexTagAction
+type LexTagAction = Array[Array[Int]]
 
 ///|
 typealias Int as LexState
@@ -45,7 +45,10 @@ pub(all) struct LexEngine {
 }
 
 ///|
-pub fn run(self : LexEngine, lexbuf : Lexbuf) -> (Int, Array[(Int, Int)]) {
+pub fn LexEngine::run(
+  self : LexEngine,
+  lexbuf : Lexbuf,
+) -> (Int, Array[(Int, Int)]) {
   let mut state = 0
   let mut tagState : Array[Array[Int]] = []
   let mut longest_match = None
@@ -93,28 +96,42 @@ pub fn run(self : LexEngine, lexbuf : Lexbuf) -> (Int, Array[(Int, Int)]) {
   }
 }
 
-
-
-
+///|
 let test_func_tag_action_row_1 : Array[Int] = []
+
+///|
 let test_func_tag_action_row_2 : Array[Int] = [-1]
+
+///|
 let test_func_tag_action_row_0 : Array[Int] = [0]
 
-let test_func_tag_action_1 : Array[Array[Int]] = [test_func_tag_action_row_0, test_func_tag_action_row_1]
-let test_func_tag_action_0 : Array[Array[Int]] = [test_func_tag_action_row_0, test_func_tag_action_row_2]
+///|
+let test_func_tag_action_1 : Array[Array[Int]] = [
+  test_func_tag_action_row_0, test_func_tag_action_row_1,
+]
 
+///|
+let test_func_tag_action_0 : Array[Array[Int]] = [
+  test_func_tag_action_row_0, test_func_tag_action_row_2,
+]
+
+///|
 fn test_func_state_0(input : LexInput) -> (LexState, LexTagAction) {
   match input {
     97 => (1, test_func_tag_action_0)
     _ => (-1, [])
   }
 }
+
+///|
 fn test_func_state_1(input : LexInput) -> (LexState, LexTagAction) {
   match input {
     97..=98 => (2, test_func_tag_action_1)
     _ => (-1, [])
   }
 }
+
+///|
 fn test_func_state_2(input : LexInput) -> (LexState, LexTagAction) {
   match input {
     97 => (3, test_func_tag_action_0)
@@ -122,6 +139,8 @@ fn test_func_state_2(input : LexInput) -> (LexState, LexTagAction) {
     _ => (-1, [])
   }
 }
+
+///|
 fn test_func_state_3(input : LexInput) -> (LexState, LexTagAction) {
   match input {
     97 => (3, test_func_tag_action_0)
@@ -130,19 +149,29 @@ fn test_func_state_3(input : LexInput) -> (LexState, LexTagAction) {
   }
 }
 
-let __mbtlex_engine_test_func: LexEngine = { graph: [test_func_state_0, test_func_state_1, test_func_state_2, test_func_state_3, ], end_nodes: [None, Some((0, [((0, 0), (1, 0))])), None, Some((0, [((0, 0), (1, 0))]))], start_tags: [0], code_blocks_n: 1 }
-fn test_func( lexbuf : Lexbuf ) -> String {
+///|
+let __mbtlex_engine_test_func : LexEngine = {
+  graph: [
+    test_func_state_0, test_func_state_1, test_func_state_2, test_func_state_3,
+  ],
+  end_nodes: [
+    None,
+    Some((0, [((0, 0), (1, 0))])),
+    None,
+    Some((0, [((0, 0), (1, 0))])),
+  ],
+  start_tags: [0],
+  code_blocks_n: 1,
+}
+
+///|
+fn test_func(lexbuf : Lexbuf) -> String {
   match __mbtlex_engine_test_func.run(lexbuf) {
     (0, __mbtlex_captures) => {
-  let (_start_pos_of_t2, _end_pos_of_t2) = __mbtlex_captures[0]
-  let t2: String = lexbuf.substring(_start_pos_of_t2, _end_pos_of_t2)
-  
-
+      let (_start_pos_of_t2, _end_pos_of_t2) = __mbtlex_captures[0]
+      let t2 : String = lexbuf.substring(_start_pos_of_t2, _end_pos_of_t2)
       t2
-    
     }
     _ => abort("lex: fail to match")
   }
 }
-
-

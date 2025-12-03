@@ -73,7 +73,7 @@ pub fn NFA::from_rule(rule : Rule) -> NFA {
 }
 
 ///|
-fn new_node(self : NFA) -> NFANode {
+fn NFA::new_node(self : NFA) -> NFANode {
   let new_id = self.node_count
   self.node_count += 1
   let node = NFANode::{ num: new_id, eps: @immut/sorted_set.new(), trans: [] }
@@ -83,11 +83,11 @@ fn new_node(self : NFA) -> NFANode {
 }
 
 ///|
-fn add_edge(
+fn NFA::add_edge(
   self : NFA,
   from : NFANode,
   s : Input,
-  tag~ : Tag? = None,
+  tag? : Tag? = None,
   to : NFANode,
 ) -> Unit {
   ignore(self)
@@ -98,7 +98,7 @@ fn add_edge(
 }
 
 ///|
-fn register_regex(
+fn NFA::register_regex(
   self : NFA,
   node : NFANode,
   re : Regex,
@@ -112,7 +112,7 @@ fn register_regex(
 }
 
 ///|
-fn register_regex_rec(
+fn NFA::register_regex_rec(
   self : NFA,
   node : NFANode,
   re : Regex,
@@ -195,7 +195,9 @@ fn register_regex_rec(
 }
 
 ///|
-fn get_eps_closure(self : NFA) -> Array[@immut/hashmap.T[NFANode, @bitset.T]] {
+fn NFA::get_eps_closure(
+  self : NFA,
+) -> Array[@immut/hashmap.T[NFANode, @bitset.T]] {
   Array::map(self.graph, fn(x) {
     let empty_bits = @bitset.new(self.tag_count)
     let result = Map::from_array([(x, empty_bits)])

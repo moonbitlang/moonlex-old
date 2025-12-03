@@ -13,23 +13,23 @@ pub fn new(len : Int) -> Bitset {
 }
 
 ///|
-pub fn copy(self : Bitset) -> Bitset {
+pub fn Bitset::copy(self : Bitset) -> Bitset {
   { bits: self.bits.copy(), len: self.len }
 }
 
 ///|
-pub fn get(self : Bitset, index : Int) -> Bool {
+pub fn Bitset::get(self : Bitset, index : Int) -> Bool {
   (self.bits[index / 32] & (1 << (index % 32))) != 0
 }
 
 ///|
-pub fn set(self : Bitset, index : Int, value : Bool) -> Unit {
+pub fn Bitset::set(self : Bitset, index : Int, value : Bool) -> Unit {
   let t = index / 32
   self.bits[t] = self.bits[t] | (value.to_int() << index)
 }
 
 ///|
-pub fn union(self : Bitset, other : Bitset) -> Bitset {
+pub fn Bitset::union(self : Bitset, other : Bitset) -> Bitset {
   if self.len != other.len {
     abort("")
   } else {
@@ -43,7 +43,7 @@ pub fn union(self : Bitset, other : Bitset) -> Bitset {
 }
 
 ///|
-pub fn length(self : Bitset) -> Int {
+pub fn Bitset::length(self : Bitset) -> Int {
   self.len
 }
 

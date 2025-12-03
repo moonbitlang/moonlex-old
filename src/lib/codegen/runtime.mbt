@@ -18,7 +18,7 @@ let runtime : String =
   #|///|
   #|fn next(self : Lexbuf) -> Char? {
   #|  if self.pos < self.content.length() {
-  #|    let ch = self.content[self.pos]
+  #|    let ch = self.content.code_unit_at(self.pos).to_int()
   #|    self.pos += 1
   #|    Some(ch.unsafe_to_char())
   #|  } else {
@@ -28,7 +28,7 @@ let runtime : String =
   #|
   #|///|
   #|fn Lexbuf::substring(self : Lexbuf, start : Int, end : Int) -> String {
-  #|  self.content.substring(start~, end~)
+  #|  self.content[start:end]
   #|}
   #|
   #|///|

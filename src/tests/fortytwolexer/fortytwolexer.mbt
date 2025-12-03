@@ -12,9 +12,9 @@ pub fn Lexbuf::from_string(content : String) -> Lexbuf {
 // NOTE: MoonBit do have unboxed Option[Char] optimization
 
 ///|
-fn next(self : Lexbuf) -> Char? {
+fn Lexbuf::next(self : Lexbuf) -> Char? {
   if self.pos < self.content.length() {
-    let ch = self.content[self.pos]
+    let ch = self.content.code_unit_at(self.pos).to_int()
     self.pos += 1
     Some(ch.unsafe_to_char())
   } else {
@@ -24,11 +24,11 @@ fn next(self : Lexbuf) -> Char? {
 
 ///|
 fn Lexbuf::substring(self : Lexbuf, start : Int, end : Int) -> String {
-  self.content.substring(start~, end~)
+  self.content[start:end]
 }
 
 ///|
-typealias Array[Array[Int]] as LexTagAction
+type LexTagAction = Array[Array[Int]]
 
 ///|
 typealias Int as LexState
@@ -45,7 +45,10 @@ pub(all) struct LexEngine {
 }
 
 ///|
-pub fn run(self : LexEngine, lexbuf : Lexbuf) -> (Int, Array[(Int, Int)]) {
+pub fn LexEngine::run(
+  self : LexEngine,
+  lexbuf : Lexbuf,
+) -> (Int, Array[(Int, Int)]) {
   let mut state = 0
   let mut tagState : Array[Array[Int]] = []
   let mut longest_match = None
@@ -93,17 +96,26 @@ pub fn run(self : LexEngine, lexbuf : Lexbuf) -> (Int, Array[(Int, Int)]) {
   }
 }
 
-
-
-
-
+///|
 let scan_newline_tag_action_row_0 : Array[Int] = []
+
+///|
 let scan_newline_tag_action_row_2 : Array[Int] = [-1]
+
+///|
 let scan_newline_tag_action_row_1 : Array[Int] = [0]
 
-let scan_newline_tag_action_0 : Array[Array[Int]] = [scan_newline_tag_action_row_0, scan_newline_tag_action_row_0]
-let scan_newline_tag_action_1 : Array[Array[Int]] = [scan_newline_tag_action_row_1, scan_newline_tag_action_row_2]
+///|
+let scan_newline_tag_action_0 : Array[Array[Int]] = [
+  scan_newline_tag_action_row_0, scan_newline_tag_action_row_0,
+]
 
+///|
+let scan_newline_tag_action_1 : Array[Array[Int]] = [
+  scan_newline_tag_action_row_1, scan_newline_tag_action_row_2,
+]
+
+///|
 fn scan_newline_state_0(input : LexInput) -> (LexState, LexTagAction) {
   match input {
     0..=9 => (3, scan_newline_tag_action_0)
@@ -114,47 +126,64 @@ fn scan_newline_state_0(input : LexInput) -> (LexState, LexTagAction) {
     _ => (-1, [])
   }
 }
+
+///|
 fn scan_newline_state_1(input : LexInput) -> (LexState, LexTagAction) {
   match input {
     10 => (4, scan_newline_tag_action_1)
     _ => (-1, [])
   }
 }
+
+///|
 fn scan_newline_state_2(input : LexInput) -> (LexState, LexTagAction) {
   match input {
     _ => (-1, [])
   }
 }
+
+///|
 fn scan_newline_state_3(input : LexInput) -> (LexState, LexTagAction) {
   match input {
     _ => (-1, [])
   }
 }
+
+///|
 fn scan_newline_state_4(input : LexInput) -> (LexState, LexTagAction) {
   match input {
     _ => (-1, [])
   }
 }
 
-let __mbtlex_engine_scan_newline: LexEngine = { graph: [scan_newline_state_0, scan_newline_state_1, scan_newline_state_2, scan_newline_state_3, scan_newline_state_4, ], end_nodes: [Some((2, [])), Some((0, [((0, 0), (1, 0))])), Some((0, [((0, 0), (1, 0))])), Some((1, [])), Some((0, [((0, 0), (1, 0))]))], start_tags: [0], code_blocks_n: 3 }
-fn scan_newline( lexbuf : Lexbuf ) -> Int {
+///|
+let __mbtlex_engine_scan_newline : LexEngine = {
+  graph: [
+    scan_newline_state_0, scan_newline_state_1, scan_newline_state_2, scan_newline_state_3,
+    scan_newline_state_4,
+  ],
+  end_nodes: [
+    Some((2, [])),
+    Some((0, [((0, 0), (1, 0))])),
+    Some((0, [((0, 0), (1, 0))])),
+    Some((1, [])),
+    Some((0, [((0, 0), (1, 0))])),
+  ],
+  start_tags: [0],
+  code_blocks_n: 3,
+}
+
+///|
+fn scan_newline(lexbuf : Lexbuf) -> Int {
   match __mbtlex_engine_scan_newline.run(lexbuf) {
     (0, __mbtlex_captures) => {
-  let (_start_pos_of_t, _end_pos_of_t) = __mbtlex_captures[0]
-  let t: String = lexbuf.substring(_start_pos_of_t, _end_pos_of_t)
-  ignore(t)
-
+      let (_start_pos_of_t, _end_pos_of_t) = __mbtlex_captures[0]
+      let t : String = lexbuf.substring(_start_pos_of_t, _end_pos_of_t)
+      ignore(t)
       _start_pos_of_t
-    
     }
-    (1, __mbtlex_captures) => {
- scan_newline(lexbuf) 
-    }
-    (2, __mbtlex_captures) => {
- -1 
-    }
+    (1, __mbtlex_captures) => scan_newline(lexbuf)
+    (2, __mbtlex_captures) => -1
     _ => abort("lex: fail to match")
   }
 }
-
-
