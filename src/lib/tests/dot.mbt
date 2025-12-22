@@ -15,12 +15,12 @@ pub(all) struct DotGraph {
 }
 
 ///|
-pub fn DotGraph::new(name~ : String = "graph") -> DotGraph {
+pub fn DotGraph::new(name? : String = "graph") -> DotGraph {
   { edges: [], nodes: Map::new(), name }
 }
 
 ///|
-pub fn add_edge(
+pub fn DotGraph::add_edge(
   self : DotGraph,
   from~ : Int,
   to~ : Int,
@@ -30,7 +30,7 @@ pub fn add_edge(
 }
 
 ///|
-fn set_node(
+fn DotGraph::set_node(
   self : DotGraph,
   node~ : Int,
   nodeType~ : NodeType,
@@ -40,7 +40,7 @@ fn set_node(
 }
 
 ///|
-fn to_graphviz(self : DotGraph) -> String {
+fn DotGraph::to_graphviz(self : DotGraph) -> String {
   [
     "digraph \{self.name} {",
     self.edges.map(fn(e) {
@@ -75,7 +75,7 @@ fn to_graphviz(self : DotGraph) -> String {
 }
 
 ///|
-fn to_mermaid(self : DotGraph) -> String {
+fn DotGraph::to_mermaid(self : DotGraph) -> String {
   let styles =
     #|---
     #|  config:
