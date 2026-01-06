@@ -24,7 +24,7 @@ fn Lexbuf::next(self : Lexbuf) -> Char? {
 
 ///|
 fn Lexbuf::substring(self : Lexbuf, start : Int, end : Int) -> String {
-  self.content[start:end].to_string()
+  (try? self.content[start:end]).unwrap().to_string()
 }
 
 ///|
@@ -602,4 +602,5 @@ fn lex_string( buf : StringBuilder, lexbuf : Lexbuf ) -> Unit raise LexError {
     _ => abort("lex: fail to match")
   }
 }
+
 

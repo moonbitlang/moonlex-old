@@ -24,7 +24,7 @@ fn Lexbuf::next(self : Lexbuf) -> Char? {
 
 ///|
 fn Lexbuf::substring(self : Lexbuf, start : Int, end : Int) -> String {
-  self.content[start:end].to_string()
+  (try? self.content[start:end]).unwrap().to_string()
 }
 
 ///|
@@ -158,3 +158,4 @@ fn token( lexbuf : Lexbuf ) -> Token {
     _ => abort("lex: fail to match")
   }
 }
+

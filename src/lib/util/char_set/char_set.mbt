@@ -76,17 +76,17 @@ pub fn CharSet::disjoint(self : CharSet, other : CharSet) -> Bool {
 }
 
 ///|
-pub impl Neg for CharSet with op_neg(self) {
+pub impl Neg for CharSet with neg(self) {
   self.complement()
 }
 
 ///|
-pub impl Add for CharSet with op_add(self, other) {
+pub impl Add for CharSet with add(self, other) {
   self.union(other)
 }
 
 ///|
-pub impl Sub for CharSet with op_sub(self, other) {
+pub impl Sub for CharSet with sub(self, other) {
   self.difference(other)
 }
 
@@ -110,6 +110,7 @@ pub impl Show for CharSet with output(self, logger) {
   logger.write_iter(
     self
     .iter_ranges()
+    .iter()
     .map(it => {
       let (min, max) = it
       "@char_set.range(\{repr(min)}, \{repr(max)})"

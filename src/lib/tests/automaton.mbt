@@ -10,26 +10,28 @@ fn nfa2dots(nfa : @automaton.NFA, name? : String = "nfa") -> DotGraph {
   for node in nfa.graph {
     for target in node.eps {
       let mut edge_info = "ε"
-      if not(target.1.is_empty()) {
-        edge_info = edge_info + "/\{target.1.unwrap()}"
+      match target.1 {
+        Some(tag) => edge_info = edge_info + "/\{tag}"
+        None => ()
       }
       dots.add_edge(from=node.num, to=target.0.num, edge_info=repr(edge_info))
     }
     for edge in node.trans {
       let (cset, target) = edge
-      for ch in cset {
+      for ch in cset.iter() {
         let mut edge_info = match ch.repr() {
           Eof => "$"
           Char(c) => "\{c}"
         }
-        if not(target.1.is_empty()) {
-          edge_info = edge_info + "/\{target.1.unwrap()}"
+        match target.1 {
+          Some(tag) => edge_info = edge_info + "/\{tag}"
+          None => ()
         }
         dots.add_edge(from=node.num, to=target.0.num, edge_info=repr(edge_info))
       }
     }
     let end_node = nfa.end_nodes.get(node.num)
-    if end_node.is_empty() {
+    if end_node is None {
       dots.set_node(node=node.num, nodeType=Normal)
     } else {
       let pattern = end_node.unwrap()
@@ -44,7 +46,7 @@ fn nfa2dots(nfa : @automaton.NFA, name? : String = "nfa") -> DotGraph {
 }
 
 ///|
-test "nfa simple_regex graphviz" (it : @test.T) {
+test "nfa simple_regex graphviz" (it : @test.Test) {
   let rule = simple_rule("(('a' | 'b')*\"cd\"?)+")
   let nfa = @automaton.NFA::from_rule(rule)
   let dots = nfa2dots(nfa, name="simple_regex")
@@ -53,7 +55,7 @@ test "nfa simple_regex graphviz" (it : @test.T) {
 }
 
 ///|
-test "nfa simple_regex mermaid" (it : @test.T) {
+test "nfa simple_regex mermaid" (it : @test.Test) {
   let rule = simple_rule("(('a' | 'b')*\"cd\"?)+")
   let nfa = @automaton.NFA::from_rule(rule)
   let dots = nfa2dots(nfa, name="simple_regex")
@@ -62,7 +64,7 @@ test "nfa simple_regex mermaid" (it : @test.T) {
 }
 
 ///|
-test "nfa a_star_capture graphviz" (it : @test.T) {
+test "nfa a_star_capture graphviz" (it : @test.Test) {
   let rule = simple_rule("'a'*('a'+ as cap)'a'")
   let nfa = @automaton.NFA::from_rule(rule)
   let dots = nfa2dots(nfa, name="a_star_capture")
@@ -71,7 +73,7 @@ test "nfa a_star_capture graphviz" (it : @test.T) {
 }
 
 ///|
-test "nfa a_star_capture mermaid" (it : @test.T) {
+test "nfa a_star_capture mermaid" (it : @test.Test) {
   let rule = simple_rule("'a'*('a'+ as cap)'a'")
   let nfa = @automaton.NFA::from_rule(rule)
   let dots = nfa2dots(nfa, name="a_star_capture")
@@ -85,7 +87,7 @@ fn dfa2dots(dfa : @automaton.DFA, name? : String = "dfa") -> DotGraph {
   for node, edges in dfa.graph {
     for edge in edges {
       let (cset, (target, action)) = edge
-      for ch in cset {
+      for ch in cset.iter() {
         let mut edge_info = match ch.repr() {
           Eof => "$"
           Char(c) => "\{c}"
@@ -97,7 +99,7 @@ fn dfa2dots(dfa : @automaton.DFA, name? : String = "dfa") -> DotGraph {
       }
     }
     let end_node = dfa.end_nodes.get(node)
-    if end_node.is_empty() {
+    if end_node is None {
       dots.set_node(node~, nodeType=Normal)
     } else {
       let (pattern, tags) = end_node.unwrap()
@@ -112,7 +114,7 @@ fn dfa2dots(dfa : @automaton.DFA, name? : String = "dfa") -> DotGraph {
 }
 
 ///|
-test "dfa simple_regex graphviz" (it : @test.T) {
+test "dfa simple_regex graphviz" (it : @test.Test) {
   let rule = simple_rule("(('a' | 'b')*\"cd\"?)+")
   let dfa = @automaton.DFA::from_rule(rule)
   let dots = dfa2dots(dfa, name="simple_regex")
@@ -121,7 +123,7 @@ test "dfa simple_regex graphviz" (it : @test.T) {
 }
 
 ///|
-test "dfa simple_regex mermaid" (it : @test.T) {
+test "dfa simple_regex mermaid" (it : @test.Test) {
   let rule = simple_rule("(('a' | 'b')*\"cd\"?)+")
   let dfa = @automaton.DFA::from_rule(rule)
   let dots = dfa2dots(dfa, name="simple_regex")
@@ -130,7 +132,7 @@ test "dfa simple_regex mermaid" (it : @test.T) {
 }
 
 ///|
-test "dfa a_star_capture graphviz" (it : @test.T) {
+test "dfa a_star_capture graphviz" (it : @test.Test) {
   let rule = simple_rule("'a'*('a'+ as cap)'a'")
   let dfa = @automaton.DFA::from_rule(rule)
   let dots = dfa2dots(dfa, name="a_star_capture")
@@ -139,7 +141,7 @@ test "dfa a_star_capture graphviz" (it : @test.T) {
 }
 
 ///|
-test "dfa a_star_capture mermaid" (it : @test.T) {
+test "dfa a_star_capture mermaid" (it : @test.Test) {
   let rule = simple_rule("'a'*('a'+ as cap)'a'")
   let dfa = @automaton.DFA::from_rule(rule)
   let dots = dfa2dots(dfa, name="a_star_capture")

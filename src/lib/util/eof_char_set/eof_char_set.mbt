@@ -112,17 +112,17 @@ pub fn EofCharSet::disjoint(self : EofCharSet, other : EofCharSet) -> Bool {
 }
 
 ///|
-pub impl Neg for EofCharSet with op_neg(self) {
+pub impl Neg for EofCharSet with neg(self) {
   self.complement()
 }
 
 ///|
-pub impl Add for EofCharSet with op_add(self, other) {
+pub impl Add for EofCharSet with add(self, other) {
   self.union(other)
 }
 
 ///|
-pub impl Sub for EofCharSet with op_sub(self, other) {
+pub impl Sub for EofCharSet with sub(self, other) {
   self.difference(other)
 }
 
@@ -146,6 +146,7 @@ pub impl Show for EofCharSet with output(self, logger) {
   logger.write_iter(
     self
     .iter_ranges()
+    .iter()
     .map(fn(it) {
       let (min, max) = it
       "@eof_char_set.range(\{repr(min)}, \{repr(max)})"

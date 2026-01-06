@@ -31,7 +31,7 @@ fn TagState::copy(self : TagState) -> TagState {
 ///|
 fn TagState::update_by_tag(self : TagState, tag : Tag, rank : Int) -> TagState {
   let r = self.0[tag]
-  if r.is_empty() || r.unwrap() > rank {
+  if r is None || r.unwrap() > rank {
     self.0[tag] = Some(rank)
   }
   self
@@ -111,7 +111,7 @@ fn DFA::add_edge(
 }
 
 ///|
-type State = @immut/hashmap.T[NFANode, TagState]
+type State = @immut/hashmap.HashMap[NFANode, TagState]
 
 ///|
 fn state_canonicalize(state : State, tag_count : Int) -> (State, TagAction) {
@@ -119,19 +119,20 @@ fn state_canonicalize(state : State, tag_count : Int) -> (State, TagAction) {
   for pair in state.iter() {
     let tags = pair.1
     for tag, rank in tags.0 {
-      if not(rank.is_empty()) {
-        mat[tag].push(rank.unwrap())
+      match rank {
+        Some(value) => mat[tag].push(value)
+        None => ()
       }
     }
   }
-  mat.map_inplace(fn(x) { @sorted_set.from_iter(x.iter()).to_array() })
+  mat.map_in_place(fn(x) { @sorted_set.from_iter(x.iter()).to_array() })
   let new_state = state
     .iter()
     .map(fn(pair) {
       let tags = pair.1
       tags
       .0
-      .mapi_inplace(fn(tag, op) {
+      .mapi_in_place(fn(tag, op) {
         op.map(fn(x) {
           for index, y in mat[tag] {
             if x == y {
@@ -257,7 +258,7 @@ fn DFA::from_nfa(nfa : NFA) -> DFA {
         let mut state_map = next_states
           .get(cset)
           .unwrap_or_else(fn() { @immut/hashmap.new() })
-        guard tag.is_empty() else {
+        guard tag is None else {
           // only eps-edge has tag
           abort("error")
         }
@@ -266,7 +267,7 @@ fn DFA::from_nfa(nfa : NFA) -> DFA {
           let (eps_node, bits) = pair
           let upd_tagState = step_tagState.copy().update_by_tags(bits)
           let old_tagState = state_map.get(eps_node)
-          let new_tagState = if old_tagState.is_empty() {
+          let new_tagState = if old_tagState is None {
             upd_tagState
           } else {
             tagState_min(upd_tagState, old_tagState.unwrap())

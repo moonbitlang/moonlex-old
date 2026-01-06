@@ -5,4 +5,4 @@ enum Tree[T] {
 }
 
 ///|
-pub type T = Tree
+pub type T[A] = Tree[A]

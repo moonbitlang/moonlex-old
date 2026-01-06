@@ -1,6 +1,6 @@
 ///|
 pub fn[N] Tree::iter_intervals(self : Tree[N]) -> Iterator[(N, N)] {
-  let mut iter = InorderIterator::new(self)
+  let iter = InorderIterator::new(self)
   Iterator::new(fn() { iter.next() })
 }
 

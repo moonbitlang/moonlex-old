@@ -20,12 +20,12 @@ pub(all) struct NFA {
 ///|
 pub(all) struct NFANode {
   num : Int
-  mut eps : @immut/sorted_set.T[(NFANode, Tag?)]
+  mut eps : @immut/sorted_set.SortedSet[(NFANode, Tag?)]
   mut trans : Array[(@eof_char_set.T, (NFANode, Tag?))]
 } derive(Show)
 
 ///|
-pub impl Eq for NFANode with op_equal(self, other) {
+pub impl Eq for NFANode with equal(self, other) {
   self.num == other.num
 }
 
@@ -197,7 +197,7 @@ fn NFA::register_regex_rec(
 ///|
 fn NFA::get_eps_closure(
   self : NFA,
-) -> Array[@immut/hashmap.T[NFANode, @bitset.T]] {
+) -> Array[@immut/hashmap.HashMap[NFANode, @bitset.T]] {
   Array::map(self.graph, fn(x) {
     let empty_bits = @bitset.new(self.tag_count)
     let result = Map::from_array([(x, empty_bits)])
@@ -212,9 +212,12 @@ fn NFA::get_eps_closure(
       for e in o.eps {
         let (u, tag) = e
         let mut new_u_bits = get_bits(u).union(o_bits)
-        if not(tag.is_empty()) {
-          new_u_bits = new_u_bits.copy()
-          new_u_bits.set(tag.unwrap(), true)
+        match tag {
+          Some(tag_value) => {
+            new_u_bits = new_u_bits.copy()
+            new_u_bits.set(tag_value, true)
+          }
+          None => ()
         }
         if Some(new_u_bits) != result.get(u) {
           result.set(u, new_u_bits)
