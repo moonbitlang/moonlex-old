@@ -66,7 +66,7 @@ fn group_trans(
               Char(c) => c.to_int()
             },
           ),
-          (state, action.inner()),
+          (state, action.0),
         )
       })
     })
@@ -96,11 +96,11 @@ fn codegen_rule(rule : Rule) -> String {
   let mut next_tag_action_id = 0
   let tag_action_dedup = @sorted_map.new()
   fn get_tag_action_id(tag_action : @automaton.TagAction) -> Int {
-    match tag_action_dedup.get(tag_action.inner()) {
+    match tag_action_dedup.get(tag_action.0) {
       Some(id) => id
       None => {
         let id = next_tag_action_id
-        tag_action_dedup[tag_action.inner()] = id
+        tag_action_dedup[tag_action.0] = id
         next_tag_action_id += 1
         id
       }
@@ -177,7 +177,7 @@ fn codegen_rule(rule : Rule) -> String {
     )
   }
   let start_tags : Array[Int] = []
-  for index, action in dfa.start_action.inner() {
+  for index, action in dfa.start_action.0 {
     if not(action.is_empty()) {
       start_tags.push(index)
     }

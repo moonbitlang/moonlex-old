@@ -1,8 +1,8 @@
 ///|
-typealias @type.Regex
+using @type {type Regex}
 
 ///|
-typealias @type.CodeBlock
+using @type {type CodeBlock}
 
 ///|
-typealias @type.Rule
+using @type {type Rule}

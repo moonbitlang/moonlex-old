@@ -5,7 +5,7 @@ fn simple_rule(re_str : String) -> @type.Rule {
 }
 
 ///|
-fn nfa2dots(nfa : @automaton.NFA, name~ : String = "nfa") -> DotGraph {
+fn nfa2dots(nfa : @automaton.NFA, name? : String = "nfa") -> DotGraph {
   let dots = DotGraph::new(name~)
   for node in nfa.graph {
     for target in node.eps {
@@ -80,7 +80,7 @@ test "nfa a_star_capture mermaid" (it : @test.T) {
 }
 
 ///|
-fn dfa2dots(dfa : @automaton.DFA, name~ : String = "dfa") -> DotGraph {
+fn dfa2dots(dfa : @automaton.DFA, name? : String = "dfa") -> DotGraph {
   let dots = DotGraph::new(name~)
   for node, edges in dfa.graph {
     for edge in edges {
@@ -90,8 +90,8 @@ fn dfa2dots(dfa : @automaton.DFA, name~ : String = "dfa") -> DotGraph {
           Eof => "$"
           Char(c) => "\{c}"
         }
-        if action.inner().length() != 0 {
-          edge_info = edge_info + "\{action.inner()}"
+        if action.0.length() != 0 {
+          edge_info = edge_info + "\{action.0}"
         }
         dots.add_edge(from=node, to=target, edge_info=repr(edge_info))
       }
