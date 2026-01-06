@@ -61,9 +61,7 @@ pub fn EofCharSet::slice(
   min? : Char,
   max? : Char,
 ) -> EofCharSet {
-  self
-  .0
-  .slice(
+  self.0.slice(
     min?=match min {
       None => None
       Some(c) => Some(EofChar::char(c))
@@ -132,7 +130,9 @@ pub impl BitAnd for EofCharSet with land(self : EofCharSet, other : EofCharSet) 
 }
 
 ///|
-pub fn EofCharSet::iter_ranges(self : EofCharSet) -> Iterator[(EofChar, EofChar)] {
+pub fn EofCharSet::iter_ranges(
+  self : EofCharSet,
+) -> Iterator[(EofChar, EofChar)] {
   self.0.iter_intervals()
 }
 

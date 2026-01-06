@@ -130,9 +130,7 @@ fn state_canonicalize(state : State, tag_count : Int) -> (State, TagAction) {
     .iter()
     .map(fn(pair) {
       let tags = pair.1
-      tags
-      .0
-      .mapi_in_place(fn(tag, op) {
+      tags.0.mapi_in_place(fn(tag, op) {
         op.map(fn(x) {
           for index, y in mat[tag] {
             if x == y {
@@ -168,10 +166,7 @@ fn DFA::register_node(self : DFA, nfa : NFA, node : Int, os : State) -> Unit {
   let tagState = end_nodes[0].1
   let min_tags = nfa.captures[min_code_block].map(fn(it) {
     let (_name, (begin, end)) = it
-    (
-      (begin, tagState.0[begin].unwrap()),
-      (end, tagState.0[end].unwrap()),
-    )
+    ((begin, tagState.0[begin].unwrap()), (end, tagState.0[end].unwrap()))
   })
   self.end_nodes.set(node, (min_code_block, min_tags))
 }
