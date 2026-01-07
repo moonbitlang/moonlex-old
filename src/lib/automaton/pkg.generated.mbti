@@ -20,16 +20,16 @@ pub(all) struct DFA {
   start_action : TagAction
   mut node_count : Int
 }
-fn DFA::from_rule(@type.Rule) -> Self
-impl Show for DFA
+pub fn DFA::from_rule(@type.Rule) -> Self
+pub impl Show for DFA
 
 pub(all) enum Input {
   Eps
   EChar(@eof_char_set.EofCharSet)
 }
-impl Eq for Input
-impl Hash for Input
-impl Show for Input
+pub impl Eq for Input
+pub impl Hash for Input
+pub impl Show for Input
 
 pub(all) struct NFA {
   graph : Array[NFANode]
@@ -39,22 +39,23 @@ pub(all) struct NFA {
   mut node_count : Int
   mut tag_count : Int
 }
-fn NFA::from_rule(@type.Rule) -> Self
-impl Show for NFA
+pub fn NFA::from_rule(@type.Rule) -> Self
+pub impl Show for NFA
 
 pub(all) struct NFANode {
   num : Int
-  mut eps : @sorted_set.T[(NFANode, Int?)]
+  mut eps : @sorted_set.SortedSet[(NFANode, Int?)]
   mut trans : Array[(@eof_char_set.EofCharSet, (NFANode, Int?))]
 }
-impl Compare for NFANode
-impl Eq for NFANode
-impl Hash for NFANode
-impl Show for NFANode
+pub impl Compare for NFANode
+pub impl Eq for NFANode
+pub impl Hash for NFANode
+pub impl Show for NFANode
 
 pub(all) struct TagAction(Array[Array[Int]])
-fn TagAction::inner(Self) -> Array[Array[Int]]
-impl Show for TagAction
+#deprecated
+pub fn TagAction::inner(Self) -> Array[Array[Int]]
+pub impl Show for TagAction
 
 // Type aliases
 

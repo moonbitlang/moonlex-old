@@ -8,14 +8,14 @@ package "moonbitlang/lex/lib/util/bounded_enum"
 // Types and methods
 
 // Type aliases
-pub traitalias BoundedEnum as T
 
 // Traits
+#alias(T)
 pub(open) trait BoundedEnum : Compare {
   pred(Self) -> Self
   succ(Self) -> Self
   lower_bound() -> Self
   upper_bound() -> Self
 }
-impl BoundedEnum for Char
+pub impl BoundedEnum for Char
 

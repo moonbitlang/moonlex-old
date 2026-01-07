@@ -11,8 +11,8 @@ pub(all) struct DotGraph {
   nodes : Map[Int, (NodeType, String?)]
   name : String
 }
-fn DotGraph::add_edge(Self, from~ : Int, to~ : Int, edge_info? : String) -> Unit
-fn DotGraph::new(name? : String) -> Self
+pub fn DotGraph::add_edge(Self, from~ : Int, to~ : Int, edge_info? : String) -> Unit
+pub fn DotGraph::new(name? : String) -> Self
 
 type Edge
 
