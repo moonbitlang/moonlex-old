@@ -21,7 +21,16 @@ fn main {
     fn(rest) { input_file.val = rest },
     usage,
     @sys.get_cli_args(),
-  )
+  ) catch {
+    @ArgParser.ErrorMsg(message) => {
+      println(message)
+      return
+    }
+    e => {
+      println("Unexpected error: \{e}")
+      return
+    }
+  }
   if exit {
     return
   }

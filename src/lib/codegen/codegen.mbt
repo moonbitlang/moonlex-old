@@ -18,7 +18,7 @@ fn rewrite_codeblock(
   let mut last_index = 0
   for item in subst {
     // replace `$startpos(t)`/`$endpos(t)` with `_start_pos_of_t`/`_end_pos_of_t`
-    buf.write_substring(codeblock, last_index, item.start - last_index)
+    buf.write_view(try! codeblock[last_index:item.start])
     match item.desc {
       StartPosOf(name) => buf.write_string("_start_pos_of_\{name}")
       EndPosOf(name) => buf.write_string("_end_pos_of_\{name}")
@@ -26,7 +26,7 @@ fn rewrite_codeblock(
     last_index = item.end
   }
   if last_index < codeblock.length() {
-    buf.write_substring(codeblock, last_index, codeblock.length() - last_index)
+    buf.write_view(try! codeblock[last_index:codeblock.length()])
   }
   buf.to_string()
 }
@@ -53,6 +53,7 @@ fn group_trans(
       let action = tag_action_by_state.get(state).unwrap()
       char_set
       .iter_ranges()
+      .iter()
       .map(fn(it) {
         let (min, max) = it
         (
@@ -66,7 +67,7 @@ fn group_trans(
               Char(c) => c.to_int()
             },
           ),
-          (state, action.inner()),
+          (state, action.0),
         )
       })
     })
@@ -96,11 +97,11 @@ fn codegen_rule(rule : Rule) -> String {
   let mut next_tag_action_id = 0
   let tag_action_dedup = @sorted_map.new()
   fn get_tag_action_id(tag_action : @automaton.TagAction) -> Int {
-    match tag_action_dedup.get(tag_action.inner()) {
+    match tag_action_dedup.get(tag_action.0) {
       Some(id) => id
       None => {
         let id = next_tag_action_id
-        tag_action_dedup[tag_action.inner()] = id
+        tag_action_dedup[tag_action.0] = id
         next_tag_action_id += 1
         id
       }
@@ -177,7 +178,7 @@ fn codegen_rule(rule : Rule) -> String {
     )
   }
   let start_tags : Array[Int] = []
-  for index, action in dfa.start_action.inner() {
+  for index, action in dfa.start_action.0 {
     if not(action.is_empty()) {
       start_tags.push(index)
     }
@@ -198,7 +199,7 @@ fn codegen_rule(rule : Rule) -> String {
     "let \{engine}: LexEngine = { graph: \{graph_code}, end_nodes: \{end_nodes}, start_tags: \{start_tags}, code_blocks_n: \{dfa.code_blocks.length()} }",
     [
       "fn \{rule.name}(",
-      if rule.params.trim(" \t\r\n") == "" {
+      if rule.params.trim() == "" {
         "lexbuf : Lexbuf"
       } else {
         rule.params + ", lexbuf : Lexbuf"

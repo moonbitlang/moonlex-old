@@ -16,9 +16,9 @@ pub(all) struct Lex {
   rules : Array[Rule]
   trailer : String
 }
-fn Lex::eliminate_named(Self) -> Self
-impl Show for Lex
-impl ToJson for Lex
+pub fn Lex::eliminate_named(Self) -> Self
+pub impl Show for Lex
+pub impl ToJson for Lex
 
 pub(all) enum Regex {
   Underscore
@@ -33,11 +33,11 @@ pub(all) enum Regex {
   Capture(Regex, String)
   Named(String)
 }
-fn Regex::check_legal(Self) -> Bool
-fn Regex::get_capture_names(Self) -> Array[String]
-impl Eq for Regex
-impl Show for Regex
-impl ToJson for Regex
+pub fn Regex::check_legal(Self) -> Bool
+pub fn Regex::get_capture_names(Self) -> Array[String]
+pub impl Eq for Regex
+pub impl Show for Regex
+pub impl ToJson for Regex
 
 pub(all) struct Rule {
   name : String
@@ -45,11 +45,11 @@ pub(all) struct Rule {
   params : String
   patterns : Array[(Regex, String)]
 }
-impl Show for Rule
-impl ToJson for Rule
+pub impl Show for Rule
+pub impl ToJson for Rule
 
 // Type aliases
-pub typealias String as CodeBlock
+pub type CodeBlock = String
 
 // Traits
 

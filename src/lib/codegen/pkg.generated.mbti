@@ -6,7 +6,7 @@ import(
 )
 
 // Values
-fn codegen_lex(@type.Lex) -> String
+pub fn codegen_lex(@type.Lex) -> String
 
 // Errors
 

@@ -1,8 +1,8 @@
 ///|
-pub typealias CharSet as T
+pub struct CharSet(@diet.T[Char]) derive(Compare, Eq, Hash)
 
 ///|
-pub struct CharSet(@diet.T[Char]) derive(Compare, Eq, Hash)
+pub type T = CharSet
 
 ///|
 pub let empty : CharSet = @diet.empty()
@@ -26,67 +26,67 @@ pub fn of_array(arr : Array[Char]) -> CharSet {
 }
 
 ///|
-pub fn negated(self : CharSet) -> CharSet {
+pub fn CharSet::negated(self : CharSet) -> CharSet {
   self.complement()
 }
 
 ///|
-pub fn is_empty(self : CharSet) -> Bool {
-  self.inner().is_empty()
+pub fn CharSet::is_empty(self : CharSet) -> Bool {
+  self.0.is_empty()
 }
 
 ///|
-pub fn contains(self : CharSet, x : Char) -> Bool {
-  self.inner().contains(x)
+pub fn CharSet::contains(self : CharSet, x : Char) -> Bool {
+  self.0.contains(x)
 }
 
 ///|
-pub fn slice(self : CharSet, min? : Char, max? : Char) -> CharSet {
-  self.inner().slice(min?, max?)
+pub fn CharSet::slice(self : CharSet, min? : Char, max? : Char) -> CharSet {
+  self.0.slice(min?, max?)
 }
 
 ///|
-pub fn union(self : CharSet, other : CharSet) -> CharSet {
-  @diet.union(self.inner(), other.inner())
+pub fn CharSet::union(self : CharSet, other : CharSet) -> CharSet {
+  @diet.union(self.0, other.0)
 }
 
 ///|
-pub fn intersection(self : CharSet, other : CharSet) -> CharSet {
-  @diet.intersection(self.inner(), other.inner())
+pub fn CharSet::intersection(self : CharSet, other : CharSet) -> CharSet {
+  @diet.intersection(self.0, other.0)
 }
 
 ///|
-pub fn complement(self : CharSet) -> CharSet {
-  self.inner().complement()
+pub fn CharSet::complement(self : CharSet) -> CharSet {
+  self.0.complement()
 }
 
 ///|
-pub fn difference(self : CharSet, other : CharSet) -> CharSet {
-  @diet.difference(self.inner(), other.inner())
+pub fn CharSet::difference(self : CharSet, other : CharSet) -> CharSet {
+  @diet.difference(self.0, other.0)
 }
 
 ///|
-pub fn subset(self : CharSet, other : CharSet) -> Bool {
+pub fn CharSet::subset(self : CharSet, other : CharSet) -> Bool {
   self.difference(other).is_empty()
 }
 
 ///|
-pub fn disjoint(self : CharSet, other : CharSet) -> Bool {
+pub fn CharSet::disjoint(self : CharSet, other : CharSet) -> Bool {
   self.intersection(other).is_empty()
 }
 
 ///|
-pub impl Neg for CharSet with op_neg(self) {
+pub impl Neg for CharSet with neg(self) {
   self.complement()
 }
 
 ///|
-pub impl Add for CharSet with op_add(self, other) {
+pub impl Add for CharSet with add(self, other) {
   self.union(other)
 }
 
 ///|
-pub impl Sub for CharSet with op_sub(self, other) {
+pub impl Sub for CharSet with sub(self, other) {
   self.difference(other)
 }
 
@@ -96,13 +96,13 @@ pub impl BitAnd for CharSet with land(self : CharSet, other : CharSet) -> CharSe
 }
 
 ///|
-pub fn iter_ranges(self : CharSet) -> Iter[(Char, Char)] {
-  self.inner().iter_intervals()
+pub fn CharSet::iter_ranges(self : CharSet) -> Iter[(Char, Char)] {
+  self.0.iter_intervals().iter()
 }
 
 ///|
-pub fn iter(self : CharSet) -> Iter[Char] {
-  self.inner().iter()
+pub fn CharSet::iter(self : CharSet) -> Iter[Char] {
+  self.0.iter()
 }
 
 ///|
@@ -110,6 +110,7 @@ pub impl Show for CharSet with output(self, logger) {
   logger.write_iter(
     self
     .iter_ranges()
+    .iter()
     .map(it => {
       let (min, max) = it
       "@char_set.range(\{repr(min)}, \{repr(max)})"

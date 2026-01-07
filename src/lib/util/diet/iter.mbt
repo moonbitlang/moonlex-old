@@ -1,40 +1,28 @@
 ///|
-pub fn[N] iter_intervals(self : Tree[N]) -> Iter[(N, N)] {
-  Iter::new(fn(yield_) {
-    match self {
-      Empty => IterContinue
-      Node(..) as t => {
-        guard t.left.iter_intervals().run(yield_) is IterContinue else {
-          return IterEnd
-        }
-        guard yield_((t.min, t.max)) is IterContinue else { return IterEnd }
-        guard t.right.iter_intervals().run(yield_) is IterContinue else {
-          return IterEnd
-        }
-        IterContinue
-      }
-    }
-  })
+pub fn[N] Tree::iter_intervals(self : Tree[N]) -> Iter[(N, N)] {
+  let iter = InorderIterator::new(self)
+  Iterator::new(fn() { iter.next() }).iter()
 }
 
 ///|
-pub fn[N : @bounded_enum.T] iter(self : Tree[N]) -> Iter[N] {
+pub fn[N : @bounded_enum.T] Tree::iter(self : Tree[N]) -> Iter[N] {
   self
   .iter_intervals()
   .flat_map(fn(it) {
     let (min, max) = it
-    Iter::new(fn(yield_) {
-      let mut x = min
-      if x <= max {
-        while true {
-          guard yield_(x) is IterContinue else { return IterEnd }
-          if x == max {
-            break
-          }
-          x = N::succ(x)
-        }
+    let mut current = min
+    let mut done = false
+    Iterator::new(fn() {
+      if done || current > max {
+        return None
       }
-      IterContinue
-    })
+      let value = current
+      if current == max {
+        done = true
+      } else {
+        current = N::succ(current)
+      }
+      Some(value)
+    }).iter()
   })
 }

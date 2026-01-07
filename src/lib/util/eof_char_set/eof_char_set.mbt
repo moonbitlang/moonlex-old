@@ -1,8 +1,8 @@
 ///|
-pub typealias EofCharSet as T
+struct EofCharSet(@diet.T[EofChar]) derive(Default, Eq, Compare, Hash)
 
 ///|
-struct EofCharSet(@diet.T[EofChar]) derive(Default, Eq, Compare, Hash)
+pub type T = EofCharSet
 
 ///|
 pub fn from_char_set(cset : @char_set.T) -> EofCharSet {
@@ -21,7 +21,8 @@ pub fn singleton(x : Char) -> EofCharSet {
   @diet.singleton(EofChar::char(x))
 }
 
-///| The pseudo-character indicating the end of the input.
+///|
+/// The pseudo-character indicating the end of the input.
 pub let eof : EofCharSet = @diet.singleton(EofChar::eof())
 
 ///|
@@ -29,7 +30,8 @@ pub fn range(min : Char, max : Char) -> EofCharSet {
   @diet.interval(EofChar::char(min), EofChar::char(max))
 }
 
-///| The set of all characters.
+///|
+/// The set of all characters.
 /// Does not include the EOF character.
 pub let any : EofCharSet = range('\u{0}', '\u{10ffff}')
 
@@ -39,25 +41,27 @@ pub fn of_array(arr : Array[Char]) -> EofCharSet {
 }
 
 ///|
-pub fn negated(self : EofCharSet) -> EofCharSet {
+pub fn EofCharSet::negated(self : EofCharSet) -> EofCharSet {
   self.complement() - eof
 }
 
 ///|
-pub fn is_empty(self : EofCharSet) -> Bool {
-  self.inner().is_empty()
+pub fn EofCharSet::is_empty(self : EofCharSet) -> Bool {
+  self.0.is_empty()
 }
 
 ///|
-pub fn contains(self : EofCharSet, x : Char) -> Bool {
-  self.inner().contains(EofChar::char(x))
+pub fn EofCharSet::contains(self : EofCharSet, x : Char) -> Bool {
+  self.0.contains(EofChar::char(x))
 }
 
 ///|
-pub fn slice(self : EofCharSet, min? : Char, max? : Char) -> EofCharSet {
-  self
-  .inner()
-  .slice(
+pub fn EofCharSet::slice(
+  self : EofCharSet,
+  min? : Char,
+  max? : Char,
+) -> EofCharSet {
+  self.0.slice(
     min?=match min {
       None => None
       Some(c) => Some(EofChar::char(c))
@@ -70,47 +74,53 @@ pub fn slice(self : EofCharSet, min? : Char, max? : Char) -> EofCharSet {
 }
 
 ///|
-pub fn union(self : EofCharSet, other : EofCharSet) -> EofCharSet {
-  @diet.union(self.inner(), other.inner())
+pub fn EofCharSet::union(self : EofCharSet, other : EofCharSet) -> EofCharSet {
+  @diet.union(self.0, other.0)
 }
 
 ///|
-pub fn intersection(self : EofCharSet, other : EofCharSet) -> EofCharSet {
-  @diet.intersection(self.inner(), other.inner())
+pub fn EofCharSet::intersection(
+  self : EofCharSet,
+  other : EofCharSet,
+) -> EofCharSet {
+  @diet.intersection(self.0, other.0)
 }
 
 ///|
-pub fn complement(self : EofCharSet) -> EofCharSet {
-  self.inner().complement()
+pub fn EofCharSet::complement(self : EofCharSet) -> EofCharSet {
+  self.0.complement()
 }
 
 ///|
-pub fn difference(self : EofCharSet, other : EofCharSet) -> EofCharSet {
-  @diet.difference(self.inner(), other.inner())
+pub fn EofCharSet::difference(
+  self : EofCharSet,
+  other : EofCharSet,
+) -> EofCharSet {
+  @diet.difference(self.0, other.0)
 }
 
 ///|
-pub fn subset(self : EofCharSet, other : EofCharSet) -> Bool {
+pub fn EofCharSet::subset(self : EofCharSet, other : EofCharSet) -> Bool {
   self.difference(other).is_empty()
 }
 
 ///|
-pub fn disjoint(self : EofCharSet, other : EofCharSet) -> Bool {
+pub fn EofCharSet::disjoint(self : EofCharSet, other : EofCharSet) -> Bool {
   self.intersection(other).is_empty()
 }
 
 ///|
-pub impl Neg for EofCharSet with op_neg(self) {
+pub impl Neg for EofCharSet with neg(self) {
   self.complement()
 }
 
 ///|
-pub impl Add for EofCharSet with op_add(self, other) {
+pub impl Add for EofCharSet with add(self, other) {
   self.union(other)
 }
 
 ///|
-pub impl Sub for EofCharSet with op_sub(self, other) {
+pub impl Sub for EofCharSet with sub(self, other) {
   self.difference(other)
 }
 
@@ -120,13 +130,15 @@ pub impl BitAnd for EofCharSet with land(self : EofCharSet, other : EofCharSet) 
 }
 
 ///|
-pub fn iter_ranges(self : EofCharSet) -> Iter[(EofChar, EofChar)] {
-  self.inner().iter_intervals()
+pub fn EofCharSet::iter_ranges(
+  self : EofCharSet,
+) -> Iter[(EofChar, EofChar)] {
+  self.0.iter_intervals()
 }
 
 ///|
-pub fn iter(self : EofCharSet) -> Iter[EofChar] {
-  self.inner().iter()
+pub fn EofCharSet::iter(self : EofCharSet) -> Iter[EofChar] {
+  self.0.iter()
 }
 
 ///|
@@ -134,6 +146,7 @@ pub impl Show for EofCharSet with output(self, logger) {
   logger.write_iter(
     self
     .iter_ranges()
+    .iter()
     .map(fn(it) {
       let (min, max) = it
       "@eof_char_set.range(\{repr(min)}, \{repr(max)})"

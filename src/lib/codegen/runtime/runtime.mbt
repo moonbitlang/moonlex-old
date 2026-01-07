@@ -12,7 +12,7 @@ pub fn Lexbuf::from_string(content : String) -> Lexbuf {
 // NOTE: MoonBit do have unboxed Option[Char] optimization
 
 ///|
-fn next(self : Lexbuf) -> Char? {
+fn Lexbuf::next(self : Lexbuf) -> Char? {
   if self.pos < self.content.length() {
     let ch = self.content[self.pos]
     self.pos += 1
@@ -24,17 +24,17 @@ fn next(self : Lexbuf) -> Char? {
 
 ///|
 fn Lexbuf::substring(self : Lexbuf, start : Int, end : Int) -> String {
-  self.content.substring(start~, end~)
+  (try! self.content[start:end]).to_string()
 }
 
 ///|
-typealias Array[Array[Int]] as LexTagAction
+type LexTagAction = Array[Array[Int]]
 
 ///|
-typealias Int as LexState
+type LexState = Int
 
 ///|
-typealias Int as LexInput
+type LexInput = Int
 
 ///|
 pub(all) struct LexEngine {
@@ -45,7 +45,10 @@ pub(all) struct LexEngine {
 }
 
 ///|
-pub fn run(self : LexEngine, lexbuf : Lexbuf) -> (Int, Array[(Int, Int)]) {
+pub fn LexEngine::run(
+  self : LexEngine,
+  lexbuf : Lexbuf,
+) -> (Int, Array[(Int, Int)]) {
   let mut state = 0
   let mut tagState : Array[Array[Int]] = []
   let mut longest_match = None

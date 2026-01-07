@@ -14,7 +14,7 @@ pub(all) enum Regex {
 } derive(Show, Eq, ToJson(style="legacy"))
 
 ///|
-pub fn check_legal(self : Regex) -> Bool {
+pub fn Regex::check_legal(self : Regex) -> Bool {
   // there're two special rules for our regex
   // 1. Capture can't be inside of Option/Repetition/Alter
   // 2. Capture names can't duplicate
@@ -23,7 +23,7 @@ pub fn check_legal(self : Regex) -> Bool {
 }
 
 ///|
-fn check_legal_rec(
+fn Regex::check_legal_rec(
   self : Regex,
   names : Set[String],
   ban_capture : Bool,
@@ -51,7 +51,7 @@ fn check_legal_rec(
 }
 
 ///|
-pub fn get_capture_names(self : Regex) -> Array[String] {
+pub fn Regex::get_capture_names(self : Regex) -> Array[String] {
   let result = self.get_capture_names_rec().collect()
   result.sort()
   for i = 1; i < result.length(); i = i + 1 {
@@ -66,18 +66,19 @@ pub fn get_capture_names(self : Regex) -> Array[String] {
 }
 
 ///|
-fn get_capture_names_rec(self : Regex) -> Iter[String] {
+fn Regex::get_capture_names_rec(self : Regex) -> Iter[String] {
   match self {
-    Capture(re, name) => re.get_capture_names_rec() + Iter::singleton(name)
+    Capture(re, name) =>
+      re.get_capture_names_rec() + Iterator::singleton(name).iter()
     Repetition(re) | Option(re) => re.get_capture_names_rec()
     Alter(re1, re2) | Concat(re1, re2) =>
       re1.get_capture_names_rec().concat(re2.get_capture_names_rec())
-    _ => Iter::empty()
+    _ => Iterator::empty().iter()
   }
 }
 
 ///|
-pub typealias String as CodeBlock
+pub type CodeBlock = String
 
 ///|
 pub(all) struct Rule {
@@ -96,7 +97,7 @@ pub(all) struct Lex {
 } derive(Show, ToJson)
 
 ///|
-pub fn eliminate_named(self : Lex) -> Lex {
+pub fn Lex::eliminate_named(self : Lex) -> Lex {
   guard not(self.named_regexes.is_empty()) else { return self }
   let named_regexes = Map::from_array(self.named_regexes)
   fn eliminate_named_regex(re : Regex) -> Regex {

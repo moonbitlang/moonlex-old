@@ -10,12 +10,12 @@ priv struct TagState(Array[Int?]) derive(Eq) // indexed by tag_id
 
 ///|
 impl Hash for TagState with hash_combine(self, hasher) {
-  self.inner().each(fn(x) { hasher.combine(x) })
+  self.0.each(fn(x) { hasher.combine(x) })
 }
 
 ///|
 impl Compare for TagState with compare(self, other) {
-  self.inner().compare(other.inner())
+  self.0.compare(other.0)
 }
 
 ///|
@@ -24,22 +24,22 @@ fn TagState::new(size : Int) -> TagState {
 }
 
 ///|
-fn copy(self : TagState) -> TagState {
-  self.inner().copy()
+fn TagState::copy(self : TagState) -> TagState {
+  self.0.copy()
 }
 
 ///|
-fn update_by_tag(self : TagState, tag : Tag, rank : Int) -> TagState {
-  let r = self.inner()[tag]
-  if r.is_empty() || r.unwrap() > rank {
-    self.inner()[tag] = Some(rank)
+fn TagState::update_by_tag(self : TagState, tag : Tag, rank : Int) -> TagState {
+  let r = self.0[tag]
+  if r is None || r.unwrap() > rank {
+    self.0[tag] = Some(rank)
   }
   self
 }
 
 ///|
-fn update_by_tags(self : TagState, tags : @bitset.T) -> TagState {
-  for i = 0; i < self.inner().length(); i = i + 1 {
+fn TagState::update_by_tags(self : TagState, tags : @bitset.T) -> TagState {
+  for i = 0; i < self.0.length(); i = i + 1 {
     if tags.get(i) {
       let _ = self.update_by_tag(i, -1)
 
@@ -50,8 +50,8 @@ fn update_by_tags(self : TagState, tags : @bitset.T) -> TagState {
 
 ///|
 fn tagState_min(self_ : TagState, other : TagState) -> TagState {
-  for i = 0; i < self_.inner().length(); i = i + 1 {
-    match (self_.inner()[i], other.inner()[i]) {
+  for i = 0; i < self_.0.length(); i = i + 1 {
+    match (self_.0[i], other.0[i]) {
       (None, _) => break other
       (_, None) => break self_
       (Some(r1), Some(r2)) =>
@@ -111,27 +111,26 @@ fn DFA::add_edge(
 }
 
 ///|
-typealias @immut/hashmap.T[NFANode, TagState] as State
+type State = @immut/hashmap.HashMap[NFANode, TagState]
 
 ///|
 fn state_canonicalize(state : State, tag_count : Int) -> (State, TagAction) {
   let mat = Array::makei(tag_count, fn(_i) { [] })
   for pair in state.iter() {
     let tags = pair.1
-    for tag, rank in tags.inner() {
-      if not(rank.is_empty()) {
-        mat[tag].push(rank.unwrap())
+    for tag, rank in tags.0 {
+      match rank {
+        Some(value) => mat[tag].push(value)
+        None => ()
       }
     }
   }
-  mat.map_inplace(fn(x) { @sorted_set.from_iter(x.iter()).to_array() })
+  mat.map_in_place(fn(x) { @sorted_set.from_iter(x.iter()).to_array() })
   let new_state = state
     .iter()
     .map(fn(pair) {
       let tags = pair.1
-      tags
-      .inner()
-      .mapi_inplace(fn(tag, op) {
+      tags.0.mapi_in_place(fn(tag, op) {
         op.map(fn(x) {
           for index, y in mat[tag] {
             if x == y {
@@ -149,7 +148,7 @@ fn state_canonicalize(state : State, tag_count : Int) -> (State, TagAction) {
 }
 
 ///|
-fn register_node(self : DFA, nfa : NFA, node : Int, os : State) -> Unit {
+fn DFA::register_node(self : DFA, nfa : NFA, node : Int, os : State) -> Unit {
   let code_blocks = os
     .iter()
     .filter_map(fn(x) { nfa.end_nodes.get(x.0.num) })
@@ -167,10 +166,7 @@ fn register_node(self : DFA, nfa : NFA, node : Int, os : State) -> Unit {
   let tagState = end_nodes[0].1
   let min_tags = nfa.captures[min_code_block].map(fn(it) {
     let (_name, (begin, end)) = it
-    (
-      (begin, tagState.inner()[begin].unwrap()),
-      (end, tagState.inner()[end].unwrap()),
-    )
+    ((begin, tagState.0[begin].unwrap()), (end, tagState.0[end].unwrap()))
   })
   self.end_nodes.set(node, (min_code_block, min_tags))
 }
@@ -257,7 +253,7 @@ fn DFA::from_nfa(nfa : NFA) -> DFA {
         let mut state_map = next_states
           .get(cset)
           .unwrap_or_else(fn() { @immut/hashmap.new() })
-        guard tag.is_empty() else {
+        guard tag is None else {
           // only eps-edge has tag
           abort("error")
         }
@@ -266,7 +262,7 @@ fn DFA::from_nfa(nfa : NFA) -> DFA {
           let (eps_node, bits) = pair
           let upd_tagState = step_tagState.copy().update_by_tags(bits)
           let old_tagState = state_map.get(eps_node)
-          let new_tagState = if old_tagState.is_empty() {
+          let new_tagState = if old_tagState is None {
             upd_tagState
           } else {
             tagState_min(upd_tagState, old_tagState.unwrap())

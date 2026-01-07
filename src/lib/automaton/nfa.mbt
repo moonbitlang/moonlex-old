@@ -5,7 +5,7 @@ pub(all) enum Input {
 } derive(Eq, Hash, Show)
 
 ///|
-typealias Int as Tag
+type Tag = Int
 
 ///|
 pub(all) struct NFA {
@@ -20,12 +20,12 @@ pub(all) struct NFA {
 ///|
 pub(all) struct NFANode {
   num : Int
-  mut eps : @immut/sorted_set.T[(NFANode, Tag?)]
+  mut eps : @immut/sorted_set.SortedSet[(NFANode, Tag?)]
   mut trans : Array[(@eof_char_set.T, (NFANode, Tag?))]
 } derive(Show)
 
 ///|
-pub impl Eq for NFANode with op_equal(self, other) {
+pub impl Eq for NFANode with equal(self, other) {
   self.num == other.num
 }
 
@@ -73,7 +73,7 @@ pub fn NFA::from_rule(rule : Rule) -> NFA {
 }
 
 ///|
-fn new_node(self : NFA) -> NFANode {
+fn NFA::new_node(self : NFA) -> NFANode {
   let new_id = self.node_count
   self.node_count += 1
   let node = NFANode::{ num: new_id, eps: @immut/sorted_set.new(), trans: [] }
@@ -83,11 +83,11 @@ fn new_node(self : NFA) -> NFANode {
 }
 
 ///|
-fn add_edge(
+fn NFA::add_edge(
   self : NFA,
   from : NFANode,
   s : Input,
-  tag~ : Tag? = None,
+  tag? : Tag? = None,
   to : NFANode,
 ) -> Unit {
   ignore(self)
@@ -98,7 +98,7 @@ fn add_edge(
 }
 
 ///|
-fn register_regex(
+fn NFA::register_regex(
   self : NFA,
   node : NFANode,
   re : Regex,
@@ -112,7 +112,7 @@ fn register_regex(
 }
 
 ///|
-fn register_regex_rec(
+fn NFA::register_regex_rec(
   self : NFA,
   node : NFANode,
   re : Regex,
@@ -195,7 +195,9 @@ fn register_regex_rec(
 }
 
 ///|
-fn get_eps_closure(self : NFA) -> Array[@immut/hashmap.T[NFANode, @bitset.T]] {
+fn NFA::get_eps_closure(
+  self : NFA,
+) -> Array[@immut/hashmap.HashMap[NFANode, @bitset.T]] {
   Array::map(self.graph, fn(x) {
     let empty_bits = @bitset.new(self.tag_count)
     let result = Map::from_array([(x, empty_bits)])
@@ -210,9 +212,9 @@ fn get_eps_closure(self : NFA) -> Array[@immut/hashmap.T[NFANode, @bitset.T]] {
       for e in o.eps {
         let (u, tag) = e
         let mut new_u_bits = get_bits(u).union(o_bits)
-        if not(tag.is_empty()) {
+        if tag is Some(tag_value) {
           new_u_bits = new_u_bits.copy()
-          new_u_bits.set(tag.unwrap(), true)
+          new_u_bits.set(tag_value, true)
         }
         if Some(new_u_bits) != result.get(u) {
           result.set(u, new_u_bits)

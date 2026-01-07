@@ -1,7 +1,8 @@
 // Generated using `moon info`, DON'T EDIT IT
-package "moonbitlang/lex/tests/wordcountlexer"
+package "moonbitlang/lex/tests/named_regexes"
 
 // Values
+pub fn is_number(String) -> Bool
 
 // Errors
 
@@ -12,10 +13,10 @@ pub(all) struct LexEngine {
   start_tags : Array[Int]
   code_blocks_n : Int
 }
-fn LexEngine::run(Self, Lexbuf) -> (Int, Array[(Int, Int)])
+pub fn LexEngine::run(Self, Lexbuf) -> (Int, Array[(Int, Int)])
 
 type Lexbuf
-fn Lexbuf::from_string(String) -> Self
+pub fn Lexbuf::from_string(String) -> Self
 
 // Type aliases
 

@@ -61,7 +61,7 @@ trailer -> String
   ;
 
 named_regex_list -> @list.List[(String, @type.Regex)]
-  : named_regex named_regex_list        { @list.construct($1, $2) }
+  : named_regex named_regex_list        { @list.cons($1, $2) }
   | { @list.empty() }
   ;
 
@@ -70,8 +70,8 @@ named_regex -> (String, @type.Regex)
   ;
 
 nonempty_rule_list -> @list.List[@type.Rule]
-  : rule                                { @list.construct($1, @list.empty()) }
-  | rule nonempty_rule_list             { @list.construct($1, $2) }
+  : rule                                { @list.cons($1, @list.empty()) }
+  | rule nonempty_rule_list             { @list.cons($1, $2) }
   ;
 
 rule -> @type.Rule
@@ -84,7 +84,7 @@ rule -> @type.Rule
   ;
 
 rule_item_list -> @list.List[(@type.Regex, @type.CodeBlock)]
-  : rule_item rule_item_list            { @list.construct($1, $2) }
+  : rule_item rule_item_list            { @list.cons($1, $2) }
   |                                     { @list.empty() }
   ;
 
