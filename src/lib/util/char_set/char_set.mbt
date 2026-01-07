@@ -96,12 +96,12 @@ pub impl BitAnd for CharSet with land(self : CharSet, other : CharSet) -> CharSe
 }
 
 ///|
-pub fn CharSet::iter_ranges(self : CharSet) -> Iterator[(Char, Char)] {
-  self.0.iter_intervals()
+pub fn CharSet::iter_ranges(self : CharSet) -> Iter[(Char, Char)] {
+  self.0.iter_intervals().iter()
 }
 
 ///|
-pub fn CharSet::iter(self : CharSet) -> Iterator[Char] {
+pub fn CharSet::iter(self : CharSet) -> Iter[Char] {
   self.0.iter()
 }
 

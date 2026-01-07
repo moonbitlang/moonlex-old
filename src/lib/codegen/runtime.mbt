@@ -28,7 +28,7 @@ let runtime : String =
   #|
   #|///|
   #|fn Lexbuf::substring(self : Lexbuf, start : Int, end : Int) -> String {
-  #|  (try? self.content[start:end]).unwrap().to_string()
+  #|  (try! self.content[start:end]).to_string()
   #|}
   #|
   #|///|

@@ -1,11 +1,11 @@
 ///|
-pub fn[N] Tree::iter_intervals(self : Tree[N]) -> Iterator[(N, N)] {
+pub fn[N] Tree::iter_intervals(self : Tree[N]) -> Iter[(N, N)] {
   let iter = InorderIterator::new(self)
-  Iterator::new(fn() { iter.next() })
+  Iterator::new(fn() { iter.next() }).iter()
 }
 
 ///|
-pub fn[N : @bounded_enum.T] Tree::iter(self : Tree[N]) -> Iterator[N] {
+pub fn[N : @bounded_enum.T] Tree::iter(self : Tree[N]) -> Iter[N] {
   self
   .iter_intervals()
   .flat_map(fn(it) {
@@ -23,6 +23,6 @@ pub fn[N : @bounded_enum.T] Tree::iter(self : Tree[N]) -> Iterator[N] {
         current = N::succ(current)
       }
       Some(value)
-    })
+    }).iter()
   })
 }

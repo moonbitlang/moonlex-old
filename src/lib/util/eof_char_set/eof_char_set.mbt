@@ -132,12 +132,12 @@ pub impl BitAnd for EofCharSet with land(self : EofCharSet, other : EofCharSet) 
 ///|
 pub fn EofCharSet::iter_ranges(
   self : EofCharSet,
-) -> Iterator[(EofChar, EofChar)] {
+) -> Iter[(EofChar, EofChar)] {
   self.0.iter_intervals()
 }
 
 ///|
-pub fn EofCharSet::iter(self : EofCharSet) -> Iterator[EofChar] {
+pub fn EofCharSet::iter(self : EofCharSet) -> Iter[EofChar] {
   self.0.iter()
 }
 

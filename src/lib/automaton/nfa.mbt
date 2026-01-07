@@ -212,12 +212,9 @@ fn NFA::get_eps_closure(
       for e in o.eps {
         let (u, tag) = e
         let mut new_u_bits = get_bits(u).union(o_bits)
-        match tag {
-          Some(tag_value) => {
-            new_u_bits = new_u_bits.copy()
-            new_u_bits.set(tag_value, true)
-          }
-          None => ()
+        if tag is Some(tag_value) {
+          new_u_bits = new_u_bits.copy()
+          new_u_bits.set(tag_value, true)
         }
         if Some(new_u_bits) != result.get(u) {
           result.set(u, new_u_bits)

@@ -18,7 +18,7 @@ fn nfa2dots(nfa : @automaton.NFA, name? : String = "nfa") -> DotGraph {
     }
     for edge in node.trans {
       let (cset, target) = edge
-      for ch in cset.iter() {
+      for ch in cset {
         let mut edge_info = match ch.repr() {
           Eof => "$"
           Char(c) => "\{c}"
@@ -87,7 +87,7 @@ fn dfa2dots(dfa : @automaton.DFA, name? : String = "dfa") -> DotGraph {
   for node, edges in dfa.graph {
     for edge in edges {
       let (cset, (target, action)) = edge
-      for ch in cset.iter() {
+      for ch in cset {
         let mut edge_info = match ch.repr() {
           Eof => "$"
           Char(c) => "\{c}"

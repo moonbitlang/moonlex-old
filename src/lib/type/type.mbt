@@ -66,13 +66,14 @@ pub fn Regex::get_capture_names(self : Regex) -> Array[String] {
 }
 
 ///|
-fn Regex::get_capture_names_rec(self : Regex) -> Iterator[String] {
+fn Regex::get_capture_names_rec(self : Regex) -> Iter[String] {
   match self {
-    Capture(re, name) => re.get_capture_names_rec() + Iterator::singleton(name)
+    Capture(re, name) =>
+      re.get_capture_names_rec() + Iterator::singleton(name).iter()
     Repetition(re) | Option(re) => re.get_capture_names_rec()
     Alter(re1, re2) | Concat(re1, re2) =>
       re1.get_capture_names_rec().concat(re2.get_capture_names_rec())
-    _ => Iterator::empty()
+    _ => Iterator::empty().iter()
   }
 }
 
