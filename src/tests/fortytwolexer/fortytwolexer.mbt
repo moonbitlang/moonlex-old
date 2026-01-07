@@ -24,7 +24,7 @@ fn Lexbuf::next(self : Lexbuf) -> Char? {
 
 ///|
 fn Lexbuf::substring(self : Lexbuf, start : Int, end : Int) -> String {
-  (try? self.content[start:end]).unwrap().to_string()
+  (try! self.content[start:end]).to_string()
 }
 
 ///|
@@ -109,11 +109,11 @@ let scan_newline_tag_action_1 : Array[Array[Int]] = [scan_newline_tag_action_row
 
 fn scan_newline_state_0(input : LexInput) -> (LexState, LexTagAction) {
   match input {
-    0..=9 => (3, scan_newline_tag_action_0)
-    10 => (2, scan_newline_tag_action_1)
-    11..=12 => (3, scan_newline_tag_action_0)
+    0..=9 => (2, scan_newline_tag_action_0)
+    10 => (3, scan_newline_tag_action_1)
+    11..=12 => (2, scan_newline_tag_action_0)
     13 => (1, scan_newline_tag_action_1)
-    14..=1114111 => (3, scan_newline_tag_action_0)
+    14..=1114111 => (2, scan_newline_tag_action_0)
     _ => (-1, [])
   }
 }
@@ -139,7 +139,7 @@ fn scan_newline_state_4(input : LexInput) -> (LexState, LexTagAction) {
   }
 }
 
-let __mbtlex_engine_scan_newline: LexEngine = { graph: [scan_newline_state_0, scan_newline_state_1, scan_newline_state_2, scan_newline_state_3, scan_newline_state_4, ], end_nodes: [Some((2, [])), Some((0, [((0, 0), (1, 0))])), Some((0, [((0, 0), (1, 0))])), Some((1, [])), Some((0, [((0, 0), (1, 0))]))], start_tags: [0], code_blocks_n: 3 }
+let __mbtlex_engine_scan_newline: LexEngine = { graph: [scan_newline_state_0, scan_newline_state_1, scan_newline_state_2, scan_newline_state_3, scan_newline_state_4, ], end_nodes: [Some((2, [])), Some((0, [((0, 0), (1, 0))])), Some((1, [])), Some((0, [((0, 0), (1, 0))])), Some((0, [((0, 0), (1, 0))]))], start_tags: [0], code_blocks_n: 3 }
 fn scan_newline( lexbuf : Lexbuf ) -> Int {
   match __mbtlex_engine_scan_newline.run(lexbuf) {
     (0, __mbtlex_captures) => {
